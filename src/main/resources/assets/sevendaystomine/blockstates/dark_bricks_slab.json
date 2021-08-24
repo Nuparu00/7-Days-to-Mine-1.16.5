@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "sevendaystomine:block/dark_bricks_slab_bottom" },
+        "type=top": { "model": "sevendaystomine:block/dark_bricks_slab_upper" },
+        "type=double": { "model": "sevendaystomine:block/dark_bricks" }
+    }
+}

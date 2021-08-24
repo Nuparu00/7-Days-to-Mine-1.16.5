@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "facing=north": { "model": "sevendaystomine:block/corpse_01" },
+        "facing=south": { "model": "sevendaystomine:block/corpse_01", "y": 180 },
+        "facing=west":  { "model": "sevendaystomine:block/corpse_01", "y": 270 },
+        "facing=east":  { "model": "sevendaystomine:block/corpse_01", "y": 90 }
+    }
+}
+

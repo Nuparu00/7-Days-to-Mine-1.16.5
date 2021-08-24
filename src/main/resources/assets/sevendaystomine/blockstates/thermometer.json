@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=down": { "model": "sevendaystomine:block/thermometer", "x": -90 },
+        "facing=up": { "model": "sevendaystomine:block/thermometer", "x": 90 },
+        "facing=south": { "model": "sevendaystomine:block/thermometer" },
+        "facing=east": { "model": "sevendaystomine:block/thermometer", "y": 270 },
+        "facing=west": { "model": "sevendaystomine:block/thermometer", "y": 90 },
+        "facing=north": { "model": "sevendaystomine:block/thermometer", "y": 180 }
+    }
+}

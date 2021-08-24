@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "lit=true": { "model": "sevendaystomine:block/lamp_on" },
+        "lit=false": { "model": "sevendaystomine:block/lamp_off" }
+    }
+}

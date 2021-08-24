@@ -1,0 +1,7 @@
+{
+	"parent": "sevendaystomine:block/berry_7",
+	"textures": {
+		"0": "sevendaystomine:blocks/blueberry_grown",
+		"particle": "sevendaystomine:blocks/blueberry_grown"
+	}
+}

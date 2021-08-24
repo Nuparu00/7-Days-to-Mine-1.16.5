@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=south": { "model": "sevendaystomine:block/empty" },
+        "facing=east": { "model": "sevendaystomine:block/empty"},
+        "facing=west": { "model": "sevendaystomine:block/empty"},
+        "facing=north": { "model": "sevendaystomine:block/empty"}
+    }
+}

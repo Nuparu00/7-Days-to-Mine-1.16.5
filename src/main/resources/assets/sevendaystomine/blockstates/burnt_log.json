@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y": { "model": "sevendaystomine:block/burnt_log" },
+        "axis=z": { "model": "sevendaystomine:block/burnt_log", "x": 90 },
+        "axis=x": { "model": "sevendaystomine:block/burnt_log", "x": 90, "y": 90 }
+    }
+}

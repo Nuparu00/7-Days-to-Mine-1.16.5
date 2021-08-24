@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "sevendaystomine:block/modern_table" },
+        "facing=west": { "model": "sevendaystomine:block/modern_table", "y": 270 },
+        "facing=east": { "model": "sevendaystomine:block/modern_table", "y": 90 },
+        "facing=south": { "model": "sevendaystomine:block/modern_table", "y": 180 }
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": [ {"model": "sevendaystomine:block/basalt", "weight": 1},{"model": "sevendaystomine:block/basalt", "y": 90,"weight": 1},{"model": "sevendaystomine:block/basalt", "y": 180, "weight": 1},{"model": "sevendaystomine:block/basalt", "y": 270,"weight": 1}]
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "nuparu.sevendaystomine.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "sevendaystomine.refmap.json",
+  "mixins": [
+    "MixinWorld",
+    "MixinItem",
+    "MixinIForgeItem",
+    "MixinToolItem",
+    "MixinSwordItem",
+    "MixinArmorItem",
+    "MixinStructureTileEntityRenderer"
+  ],
+  "client":[
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

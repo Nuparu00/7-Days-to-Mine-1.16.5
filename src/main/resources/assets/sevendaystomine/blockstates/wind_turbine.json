@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=south": { "model": "sevendaystomine:block/wind_turbine_base" },
+        "facing=east": { "model": "sevendaystomine:block/wind_turbine_base", "y": 270 },
+        "facing=west": { "model": "sevendaystomine:block/wind_turbine_base", "y": 90 },
+        "facing=north": { "model": "sevendaystomine:block/wind_turbine_base", "y": 180 }
+    }
+}

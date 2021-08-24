@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "": [{
+            "model": "sevendaystomine:block/warped_log_spike",
+            "weight": 1
+        }, {
+            "model": "sevendaystomine:block/warped_log_spike",
+            "y": 90,
+            "weight": 1
+        }, {
+            "model": "sevendaystomine:block/warped_log_spike",
+            "y": 180,
+            "weight": 1
+        }, {
+            "model": "sevendaystomine:block/warped_log_spike",
+            "y": 270,
+            "weight": 1
+        }]
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=south": { "model": "sevendaystomine:block/monitor_winxp" },
+        "facing=east": { "model": "sevendaystomine:block/monitor_winxp", "y": 270 },
+        "facing=west": { "model": "sevendaystomine:block/monitor_winxp", "y": 90 },
+        "facing=north": { "model": "sevendaystomine:block/monitor_winxp", "y": 180 }
+    }
+}

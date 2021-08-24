@@ -1,0 +1,28 @@
+{
+    "variants": {
+        "facing=north,master=true": {
+            "model": "sevendaystomine:block/empty"
+        },
+        "facing=south,master=true": {
+            "model": "sevendaystomine:block/empty"
+        },
+        "facing=west,master=true": {
+            "model": "sevendaystomine:block/empty"
+        },
+        "facing=east,master=true": {
+            "model": "sevendaystomine:block/empty"
+        },
+        "facing=north,master=false": {
+            "model": "sevendaystomine:block/empty"
+        },
+        "facing=south,master=false": {
+            "model": "sevendaystomine:block/empty"
+        },
+        "facing=west,master=false": {
+            "model": "sevendaystomine:block/empty"
+        },
+        "facing=east,master=false": {
+            "model": "sevendaystomine:block/empty"
+        }
+    }
+}

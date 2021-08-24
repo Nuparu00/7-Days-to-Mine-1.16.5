@@ -1,0 +1,25 @@
+{
+    "variants": {
+        "": [
+            {
+                "model": "sevendaystomine:block/wooden_spikes_blooded",
+                "weight": 1
+            },
+            {
+                "model": "sevendaystomine:block/wooden_spikes_blooded",
+                "y": 90,
+                "weight": 1
+            },
+            {
+                "model": "sevendaystomine:block/wooden_spikes_blooded",
+                "y": 180,
+                "weight": 1
+            },
+            {
+                "model": "sevendaystomine:block/wooden_spikes_blooded",
+                "y": 270,
+                "weight": 1
+            }
+        ]
+    }
+}

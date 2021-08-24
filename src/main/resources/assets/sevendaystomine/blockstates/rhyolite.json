@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": [ {"model": "sevendaystomine:block/rhyolite", "weight": 1},{"model": "sevendaystomine:block/rhyolite", "y": 90,"weight": 1},{"model": "sevendaystomine:block/rhyolite", "y": 180, "weight": 1},{"model": "sevendaystomine:block/rhyolite", "y": 270,"weight": 1}]
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "sevendaystomine:block/baneberry_stage0"
+    },
+    "age=1": {
+      "model": "sevendaystomine:block/baneberry_stage1"
+    },
+    "age=2": {
+      "model": "sevendaystomine:block/baneberry_stage2"
+    },
+    "age=3": {
+      "model": "sevendaystomine:block/baneberry_stage3"
+    },
+    "age=4": {
+      "model": "sevendaystomine:block/baneberry_stage4"
+    },
+    "age=5": {
+      "model": "sevendaystomine:block/baneberry_stage5"
+    },
+    "age=6": {
+      "model": "sevendaystomine:block/baneberry_stage6"
+    },
+    "age=7": {
+      "model": "sevendaystomine:block/blueberry_stage7"
+    }
+  }
+}
