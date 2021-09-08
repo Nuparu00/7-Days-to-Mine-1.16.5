@@ -1,10 +1,12 @@
 package nuparu.sevendaystomine.proxy;
 
 import net.minecraft.block.WoodType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,9 +19,13 @@ import nuparu.sevendaystomine.client.animation.AnimationModelRenderers;
 import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.client.gui.inventory.*;
 import nuparu.sevendaystomine.client.renderer.entity.*;
+import nuparu.sevendaystomine.client.renderer.layer.BackpackLayer;
+import nuparu.sevendaystomine.client.renderer.layer.HolsteredLayer;
 import nuparu.sevendaystomine.client.renderer.tileentity.*;
 import nuparu.sevendaystomine.entity.ZombieWolfEntity;
 import nuparu.sevendaystomine.init.*;
+
+import java.util.Map;
 
 public class StartupClient {
 
@@ -40,6 +46,9 @@ public class StartupClient {
         ScreenManager.register(ModContainers.COMPUTER.get(), GuiComputer::new);
         ScreenManager.register(ModContainers.MONITOR.get(), GuiMonitor::new);
         ScreenManager.register(ModContainers.TURRET_ADVANCED.get(), GuiTurretAdvanced::new);
+        ScreenManager.register(ModContainers.PRINTER.get(), GuiPrinter::new);
+        ScreenManager.register(ModContainers.BACKPACK.get(), GuiBackpack::new);
+        ScreenManager.register(ModContainers.CAMERA.get(), GuiCameraContainer::new);
 
 
         RenderTypeLookup.setRenderLayer(ModBlocks.BANEBERRY_PLANT.get(), RenderType.translucent());
@@ -84,6 +93,9 @@ public class StartupClient {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ZOMBIE_WOLF.get(), ZombieWolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ZOMBIE_PIG.get(), ZombiePigRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SURVIVOR.get(), SurvivorRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ROCKET.get(), RocketRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FLAME.get(), FlameRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FRAGMENTATION_GRENADE.get(), FragmentationGrenadeRenderer::new);
 
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SOLAR_PANEL.get(), TileEntitySolarPanelRenderer::new);
@@ -98,6 +110,8 @@ public class StartupClient {
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.CALENDAR.get(), TileEntityCalendarRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.STREET_SIGN.get(), TileEntityStreetSignRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.BIG_SIGN_MASTER.get(), TileEntityBigSignRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.PRINTER.get(), TileEntityPrinterRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.PHOTO.get(), TileEntityPhotoRenderer::new);
 
 
         ItemModelsProperties.register(ModItems.CRUDE_BOW.get(),new ResourceLocation("pull"), (stack, world, entity) -> {
@@ -123,5 +137,16 @@ public class StartupClient {
         event.enqueueWork(() -> {
             Atlases.addWoodType(SevenDaysToMine.STREET_WOOD_TYPE);
         });
+        event.enqueueWork(StartupClient::addLayerRenderers);
+    }
+
+    public static void addLayerRenderers(){
+        final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
+        final PlayerRenderer defaultRenderer = skinMap.get("default");
+        defaultRenderer.addLayer(new HolsteredLayer(defaultRenderer));
+        defaultRenderer.addLayer(new BackpackLayer(defaultRenderer));
+        final PlayerRenderer slimRenderer = skinMap.get("slim");
+        slimRenderer.addLayer(new HolsteredLayer(slimRenderer));
+        slimRenderer.addLayer(new BackpackLayer(slimRenderer));
     }
 }

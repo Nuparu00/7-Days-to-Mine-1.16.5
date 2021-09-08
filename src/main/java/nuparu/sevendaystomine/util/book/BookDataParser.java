@@ -260,6 +260,16 @@ public class BookDataParser {
 		JsonObject json = je.getAsJsonObject();
 		
 		List<Page> pages = new ArrayList<Page>();
+		String title = null;
+		if (json.has("title")) {
+			title = json.get("title").getAsString();
+		}
+
+		String desc = null;
+		if (json.has("desc")) {
+			desc = json.get("desc").getAsString();
+		}
+
 		JsonArray pgs = json.get("pages").getAsJsonArray();
 		for (JsonElement je2 : pgs) {
 			JsonObject page = je2.getAsJsonObject();
@@ -454,6 +464,6 @@ public class BookDataParser {
 
 		}
 
-		return new BookData(pages);
+		return new BookData(pages,title,desc);
 	}
 }

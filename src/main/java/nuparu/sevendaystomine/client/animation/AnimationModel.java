@@ -61,10 +61,7 @@ public class AnimationModel {
         Vector3d position = getPositionForTime(time);
         Vector3d rotation = getRotationForTime(time);
         Vector3d scale = getScaleForTime(time);
-
-        if(points.size() == 4) {
-            System.out.println(rotation.toString());
-        }
+        boolean visible = isVisible(time);
 
         matrixStack.pushPose();
         matrixStack.translate(position.x, position.y, position.z);
@@ -73,7 +70,7 @@ public class AnimationModel {
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees((float)rotation.z()));
         matrixStack.scale((float)scale.x(), (float)scale.y(), (float)scale.z());
         //renderModel(matrixStack,buffer,light);
-        if(renderer != null){
+        if(renderer != null && visible){
             renderer.render(matrixStack,buffer,light);;
         }
         for(AnimationModel child : children){
@@ -206,6 +203,42 @@ public class AnimationModel {
             }
         }
         return duration;
+    }
+
+    public boolean isVisible(long time){
+        if(points.size() == 0) return true;
+        KeyPoint last = points.get(points.size()-1);
+        if(time > last.getTime()){
+            return last.isVisible();
+        }
+        if(points.size() == 1) return points.get(0).isVisible();
+
+        KeyPoint prev = null;
+        for(int i = 0; i < points.size(); i++){
+            KeyPoint point = points.get(i);
+            KeyPoint oldPrev = prev;
+            prev = point;
+
+            if(time == point.getTime()){
+                return point.isVisible();
+            }
+
+            if(oldPrev == null) {
+                continue;
+            }
+
+            if(oldPrev.getTime() < time && point.getTime() > time){
+                long timeFromPast = time-oldPrev.getTime();
+                long totalTime = point.getTime()-oldPrev.getTime();
+
+                double transition = (double)timeFromPast/totalTime;
+
+                return oldPrev.isVisible();
+            }
+
+        }
+
+        return true;
     }
 
 }

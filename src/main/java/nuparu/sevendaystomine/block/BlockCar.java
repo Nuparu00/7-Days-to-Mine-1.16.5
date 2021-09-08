@@ -31,6 +31,7 @@ import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.item.ItemQuality;
 import nuparu.sevendaystomine.tileentity.TileEntityCarMaster;
 import nuparu.sevendaystomine.tileentity.TileEntityCarSlave;
+import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.util.Utils;
 
 import javax.annotation.Nullable;
@@ -219,6 +220,8 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
             if (te instanceof TileEntityCarMaster) {
                 INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, te.getBlockPos());
                 if (namedContainerProvider != null) {
+                    TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+                    tileEntity.unpackLootTable(player);
                     if (!(player instanceof ServerPlayerEntity))
                         return ActionResultType.FAIL;
                     ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

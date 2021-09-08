@@ -47,14 +47,13 @@ public class GuiBook extends Screen implements IGuiEventListener {
 	public GuiBook(ResourceLocation res) {
 		super(new StringTextComponent("gui.book"));
 		this.data = BookDataManager.instance.get(res);
+		System.out.println(data.getPages().size());
 	}
 
 	@Override
 	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
-		if (data == null) {
-			return;
-		}
-		Page page = data.pages.get(pageIndex);
+		if(data == null || data.getPages() == null) return;
+		Page page = data.getPages().get(pageIndex);
 		if (page == null || page.res == null)
 			return;
 		minecraft.getTextureManager().bind(page.res);
@@ -162,7 +161,7 @@ public class GuiBook extends Screen implements IGuiEventListener {
 			buttonPreviousPage.active = pageIndex > 0;
 		}
 		if (buttonNextPage != null && data != null) {
-			buttonNextPage.active = data.pages.size() - 1 > pageIndex;
+			buttonNextPage.active = data.getPages().size() - 1 > pageIndex;
 		}
 	}
 
@@ -192,19 +191,20 @@ public class GuiBook extends Screen implements IGuiEventListener {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
+		boolean def = super.mouseClicked(mouseX, mouseY, mouseButton);
 		
 		for(Widget button : buttons) {
 			button.mouseClicked(mouseX, mouseY, mouseButton);
 		}
-		
-		Page page = data.pages.get(pageIndex);
+
+		if(data == null || data.getPages() == null) return def;
+		Page page = data.getPages().get(pageIndex);
 		int marginHorizontal = (width - xSize) / 2;
 		int marginVertical = (height - ySize) / 2;
 
 		MainWindow sr = minecraft.getWindow();
 		for (TextBlock tb : page.textBlocks) {
-			if (tb.link >= 0 && tb.link < data.pages.size()
+			if (tb.link >= 0 && tb.link < data.getPages().size()
 					&& Utils.isInArea(mouseX, mouseY, marginHorizontal + tb.x - (tb.centered ? tb.width / 2 : 0),
 							marginVertical + tb.y, tb.width, tb.height)) {
 				pageIndex = tb.link;
@@ -214,9 +214,10 @@ public class GuiBook extends Screen implements IGuiEventListener {
 	}
 
 	protected void actionPerformed(Button button) {
-		System.out.println("FFF");
+
+		if(data == null || data.getPages() == null) return;
 		if (button == buttonNextPage) {
-			if (pageIndex < data.pages.size() - 1) {
+			if (pageIndex < data.getPages().size() - 1) {
 				++pageIndex;
 			}
 		} else if (button == buttonPreviousPage) {
@@ -239,10 +240,12 @@ public class GuiBook extends Screen implements IGuiEventListener {
 
 		@Override
 		public void renderButton(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
+
+			if(data == null || data.getPages() == null) return;
 			if (visible && active) {
 				boolean isButtonPressed = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				minecraft.getTextureManager().bind(gui.data.pages.get(gui.pageIndex).res);
+				minecraft.getTextureManager().bind(gui.data.getPages().get(gui.pageIndex).res);
 				int textureX = 0;
 				int textureY = 192;
 

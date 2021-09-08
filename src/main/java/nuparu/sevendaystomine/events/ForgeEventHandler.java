@@ -18,7 +18,7 @@ public class ForgeEventHandler {
 	@SubscribeEvent
 	public static void addReloadListener(AddReloadListenerEvent event) {
 		System.out.println("addReloadListener");
-		event.addListener(BookDataManager.instance);
+		//event.addListener(BookDataManager.instance);
 		event.addListener(DialogueDataManager.instance);
 		event.addListener(CityDataManager.instance);
 		//event.addListener(Animations.instance);

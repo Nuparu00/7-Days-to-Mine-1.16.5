@@ -22,12 +22,14 @@ import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.BlockCalendar;
 import nuparu.sevendaystomine.block.BlockCamera;
 import nuparu.sevendaystomine.block.BlockWoodenLogSpike;
+import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityCalendar;
@@ -73,6 +75,7 @@ public class TileEntityCalendarRenderer extends TileEntityRenderer<TileEntityCal
             matrixStack.scale(0.0625f,0.0625f,0.0625f);
 
             fontrenderer.draw(matrixStack,text,0,0,0x000000);
+
             matrixStack.popPose();
         }
     }

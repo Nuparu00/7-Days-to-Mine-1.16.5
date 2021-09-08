@@ -5,6 +5,7 @@
 		"2": "block/oak_planks",
 		"particle": "block/iron_block"
 	},
+	"gui_light" : "front",
 	"elements": [
 		{
 			"from": [7.75, 14.9, 5.5],

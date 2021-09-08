@@ -20,11 +20,7 @@ import net.minecraft.item.Items;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -193,9 +189,9 @@ public class BlockFruitBush extends BushBlock implements IGrowable, IBlockBase {
 		return f;
 	}
 
-	public boolean canSurvive(BlockState p_196260_1_, IWorldReader p_196260_2_, BlockPos p_196260_3_) {
-		return (p_196260_2_.getRawBrightness(p_196260_3_, 0) >= 8 || p_196260_2_.canSeeSky(p_196260_3_))
-				&& super.canSurvive(p_196260_1_, p_196260_2_, p_196260_3_);
+	public boolean canSurvive(BlockState p_196260_1_, IWorldReader world, BlockPos pos) {
+		return (world.getRawBrightness(pos, 0) >= 8 || world.canSeeSky(pos))
+				&& world.getBlockState(pos.below()).isFaceSturdy(world,pos, Direction.UP) &&  super.canSurvive(p_196260_1_, world, pos);
 	}
 
 	public void entityInside(BlockState p_196262_1_, World p_196262_2_, BlockPos p_196262_3_, Entity p_196262_4_) {
@@ -231,7 +227,6 @@ public class BlockFruitBush extends BushBlock implements IGrowable, IBlockBase {
 
 	@Override
 	public BlockItem createBlockitem() {
-		final Item.Properties properties = new Item.Properties().tab(getItemGroup());
-		return new BlockItem(this, properties);
+		return null;
 	}
 }

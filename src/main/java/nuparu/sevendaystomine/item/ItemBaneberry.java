@@ -12,7 +12,7 @@ import nuparu.sevendaystomine.init.ModFood;
 public class ItemBaneberry extends BlockNamedItem implements net.minecraftforge.common.IPlantable {
 
 	public ItemBaneberry() {
-		super(ModBlocks.BANEBERRY_PLANT.get(),new Item.Properties().stacksTo(64).tab(ItemGroup.TAB_FOOD).food(ModFood.BANEBERRY).tab(ItemGroup.TAB_FOOD));
+		super(ModBlocks.BANEBERRY_PLANT.get(),new Item.Properties().stacksTo(64).food(ModFood.BANEBERRY).tab(ItemGroup.TAB_FOOD));
 	}
 
 	@Override

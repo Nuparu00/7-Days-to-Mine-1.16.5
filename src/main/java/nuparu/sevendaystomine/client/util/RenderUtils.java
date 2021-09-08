@@ -61,7 +61,6 @@ public class RenderUtils {
         BufferBuilder worldrenderer = tessellator.getBuilder();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
         Matrix4f pose = matrix.last().pose();
-        ;
         worldrenderer.vertex(pose, x + scale * (float) width, y + scale * (float) height, zLevel).uv(maxU, maxV).endVertex();
         worldrenderer.vertex(pose, x + scale * (float) width, y, zLevel).uv(maxU, minV).endVertex();
         worldrenderer.vertex(pose, x, y, zLevel).uv(minU, minV).endVertex();
@@ -325,19 +324,15 @@ public class RenderUtils {
 
     }
 
-    public static void drawQuad(Vector3d v1, Vector3d v2, Vector3d v3, Vector3d v4, ResourceLocation res,
+    public static void drawQuad(MatrixStack matrix, IRenderTypeBuffer buffer, Vector3d v1, Vector3d v2, Vector3d v3, Vector3d v4, ResourceLocation res,
                                 double angle) {
-        if (angle % 360 != 0) {
+        /*if (angle % 360 != 0) {
             v1 = rotatePoint(v1, Vector3d.ZERO, angle);
             v2 = rotatePoint(v2, Vector3d.ZERO, angle);
             v3 = rotatePoint(v3, Vector3d.ZERO, angle);
             v4 = rotatePoint(v4, Vector3d.ZERO, angle);
-        }
+        }*/
 
-        RenderSystem.pushMatrix();
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
         Minecraft.getInstance().getTextureManager().bind(res);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldrenderer = tessellator.getBuilder();
@@ -347,9 +342,7 @@ public class RenderUtils {
         worldrenderer.vertex(v3.x, v3.y, v3.z).uv(1.0f, 0.0f).endVertex();
         worldrenderer.vertex(v4.x, v4.y, v4.z).uv(0.0f, 0.0f).endVertex();
         worldrenderer.end();
-        RenderSystem.enableDepthTest();
-        RenderSystem.disableBlend();
-        RenderSystem.popMatrix();
+        WorldVertexBufferUploader.end(worldrenderer);
     }
 
     public static Vector3d rotatePoint(Vector3d point, Vector3d origin, double angle) {

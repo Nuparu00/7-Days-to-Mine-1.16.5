@@ -1,5 +1,7 @@
 package nuparu.sevendaystomine.client.gui;
 
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.util.math.vector.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -52,7 +54,7 @@ public class GuiPlayerUI {
 			if (player == null)
 				return;
 
-			RenderSystem.pushMatrix();
+			matrix.pushPose();
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderSystem.disableLighting();
 			RenderSystem.disableBlend();
@@ -103,43 +105,42 @@ public class GuiPlayerUI {
 			if (stack.isEmpty() || !(stack.getItem() instanceof ItemGun)) {
 				stack = player.getOffhandItem();
 				if (stack.isEmpty() || !(stack.getItem() instanceof ItemGun)) {
-					GL11.glPopMatrix();
+					matrix.popPose();
 					return;
 				}
 			}
 			ItemGun gun = (ItemGun) stack.getItem();
 			float factor = gun.getFOVFactor(stack);
 			if (factor == 1) {
-				GL11.glPopMatrix();
+				matrix.popPose();
 				return;
 			}
 			if (mc.options.keyAttack.isDown() && gun.getScoped()) {
 				int w = resolution.getGuiScaledWidth();
 				int h = resolution.getGuiScaledHeight();
 
+				RenderSystem.enableBlend();
 				RenderSystem.disableDepthTest();
 				RenderSystem.depthMask(false);
-				RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-						GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-						GlStateManager.DestFactor.ZERO);
+				RenderSystem.defaultBlendFunc();
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				RenderSystem.disableAlphaTest();
 				mc.getTextureManager().bind(SCOPE_TEX);
 				Tessellator tessellator = Tessellator.getInstance();
 				BufferBuilder bufferbuilder = tessellator.getBuilder();
 				bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-
-				bufferbuilder.vertex(w / 2 - 2 * h, h, -90D).uv(0.0f, 1.0f).endVertex();
-				bufferbuilder.vertex(w / 2 + 2 * h, h, -90D).uv(1.0f, 1.0f).endVertex();
-				bufferbuilder.vertex(w / 2 + 2 * h, 0.0D, -90D).uv(1.0f, 0.0f).endVertex();
-				bufferbuilder.vertex(w / 2 - 2 * h, 0.0D, -90D).uv(0.0f, 0.0f).endVertex();
-				bufferbuilder.end();
+				bufferbuilder.vertex(w / 2 - 2 * h, h, -90f).uv(0.0f, 1.0f).endVertex();
+				bufferbuilder.vertex(w / 2 + 2 * h, h, -90f).uv(1.0f, 1.0f).endVertex();
+				bufferbuilder.vertex(w / 2 + 2 * h, 0, -90).uv(1.0f, 0.0f).endVertex();
+				bufferbuilder.vertex( w / 2 - 2 * h, 0, -90).uv(0.0f, 0.0f).endVertex();
+				tessellator.end();
 				RenderSystem.depthMask(true);
 				RenderSystem.enableDepthTest();
 				RenderSystem.enableAlphaTest();
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.disableBlend();
 			}
-			GL11.glPopMatrix();
+			matrix.popPose();
 		}
 	}
 }

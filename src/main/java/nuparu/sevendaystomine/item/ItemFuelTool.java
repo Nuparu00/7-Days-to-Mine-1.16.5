@@ -88,7 +88,7 @@ public class ItemFuelTool extends ItemQualityTool implements IReloadable {
 	}
 
 	@Override
-	public void setAmmo(ItemStack stack, PlayerEntity player, int ammo) {
+	public void setAmmo(ItemStack stack, @Nullable PlayerEntity player, int ammo) {
 		stack.getOrCreateTag().putInt("FuelMax", ammo);
 	}
 

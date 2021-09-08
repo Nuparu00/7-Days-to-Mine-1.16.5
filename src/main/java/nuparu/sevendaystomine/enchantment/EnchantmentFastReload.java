@@ -4,14 +4,14 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.item.ItemGun;
 
 public class EnchantmentFastReload extends Enchantment {
 
-	protected EnchantmentFastReload() {
+	public EnchantmentFastReload() {
 		super(Rarity.COMMON, ModEnchantments.GUNS,
 				new EquipmentSlotType[] { EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND });
-		setRegistryName(SevenDaysToMine.MODID, "fast_reload");
 	}
 
 	@Override
@@ -39,6 +39,6 @@ public class EnchantmentFastReload extends Enchantment {
 	@Override
 	protected boolean checkCompatibility(Enchantment ench)
     {
-        return super.checkCompatibility(ench) && ench != ModEnchantments.big_mag;
+        return super.checkCompatibility(ench) && ench != ModEnchantments.BIG_MAG.get();
     }
 }

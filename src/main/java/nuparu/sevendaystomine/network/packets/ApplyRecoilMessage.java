@@ -42,9 +42,9 @@ public class ApplyRecoilMessage{
 			ctx.get().enqueueWork(() -> {
 				ctx.get().setPacketHandled(true);
 				SevenDaysToMine.proxy.addRecoil(msg.recoil, Minecraft.getInstance().player);
+				RenderEventHandler.shotAnimationTimer = System.currentTimeMillis()+150;
 				if (msg.flash) {
 					if (msg.main) {
-						RenderEventHandler.shotAnimationTimer = System.currentTimeMillis()+150;
 						RenderEventHandler.mainMuzzleFlash = 8;
 						RenderEventHandler.mainMuzzleFlashAngle=Minecraft.getInstance().level.random.nextDouble()*360;
 					} else {

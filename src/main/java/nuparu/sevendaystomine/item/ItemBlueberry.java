@@ -12,7 +12,7 @@ import nuparu.sevendaystomine.init.ModFood;
 public class ItemBlueberry extends BlockNamedItem implements net.minecraftforge.common.IPlantable {
 
 	public ItemBlueberry() {
-		super(ModBlocks.BLUEBERRY_PLANT.get(),new Item.Properties().stacksTo(64).tab(ItemGroup.TAB_FOOD).food(ModFood.BLUEBERRY).tab(ItemGroup.TAB_FOOD));
+		super(ModBlocks.BLUEBERRY_PLANT.get(),new Item.Properties().stacksTo(64).food(ModFood.BLUEBERRY).tab(ItemGroup.TAB_FOOD));
 	}
 
 	@Override

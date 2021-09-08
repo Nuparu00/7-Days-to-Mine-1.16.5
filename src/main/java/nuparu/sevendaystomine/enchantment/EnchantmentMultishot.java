@@ -4,15 +4,15 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.item.ItemFlamethrower;
 import nuparu.sevendaystomine.item.ItemGun;
 
 public class EnchantmentMultishot extends Enchantment {
 
-	protected EnchantmentMultishot() {
+	public EnchantmentMultishot() {
 		super(Rarity.UNCOMMON, ModEnchantments.GUNS,
 				new EquipmentSlotType[] { EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND });
-		setRegistryName(SevenDaysToMine.MODID, "multishot");
 	}
 
 	@Override

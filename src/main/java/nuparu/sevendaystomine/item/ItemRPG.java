@@ -6,16 +6,15 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.*;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.entity.RocketEntity;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.enchantment.ModEnchantments;
+import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.ApplyRecoilMessage;
@@ -26,7 +25,7 @@ public class ItemRPG extends ItemGun {
 		super();
 		this.setMaxAmmo(1);
 		this.setFullDamage(50f);
-		this.setSpeed(1f);
+		this.setSpeed(2f);
 		this.setRecoil(14f);
 		this.setCounterDef(0);
 		this.setCross(20);
@@ -35,6 +34,9 @@ public class ItemRPG extends ItemGun {
 		this.setType(EnumGun.LAUNCHER);
 		this.setLength(EnumLength.LONG);
 		this.setWield(EnumWield.TWO_HAND);
+		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_idle"));
+		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rpg_shoot"));
+		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
 	}
 
 	@Override
@@ -97,22 +99,35 @@ public class ItemRPG extends ItemGun {
 		boolean flag = playerIn.isCreative();
 		if (ammo > 0 || flag) {
 			float velocity = getSpeed() * (1f+((float)getQuality(itemstack) / (float)CommonConfig.maxQuality.get()));
-			for (int i = 0; i <  getProjectiles()*(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.multishot, itemstack)+1); i++) {
+			boolean sparking = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SPARKING.get(), itemstack) != 0;
+			for (int i = 0; i <  getProjectiles()*(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.MULTISHOT.get(), itemstack)+1); i++) {
 			/*	EntityRocket shot = new EntityRocket(worldIn, playerIn, velocity, ((float) getSpread(playerIn, handIn) / (playerIn.isCrouching() ? 1.5f : 1f)));
 				if (!worldIn.isClientSide()) {
 					shot.setDamage(getFinalDamage(itemstack));
 					worldIn.addFreshEntity(shot);
 				}*/
+
+				RocketEntity shot = new RocketEntity(playerIn,worldIn);
+				float spread = ((float) getSpread(playerIn, handIn) / (playerIn.isCrouching() ? 1.5f : 1f));
+				shot.shootFromRotation(playerIn, playerIn.xRot, playerIn.yRot, 0.0F, velocity,spread*23.5f);
+				shot.setSparking(sparking);
+				if (!worldIn.isClientSide()) {
+					shot.setDamage(getFinalDamage(itemstack));
+					worldIn.addFreshEntity(shot);
+				}
+				Vector3d lookVector = playerIn.getLookAngle();
+				playerIn.setDeltaMovement(playerIn.getDeltaMovement().subtract(lookVector).multiply(0.1,0.1,0.1));
 			}
 			if(playerIn instanceof ServerPlayerEntity) {
 			itemstack.hurt(1,worldIn.random, (ServerPlayerEntity) playerIn);
 			}
 			worldIn.playSound(null, playerIn.blockPosition(), getShotSound(), SoundCategory.PLAYERS, getShotSoundVolume(),
 					getShotSoundPitch());
-			playerIn.swing(handIn);
+			//playerIn.swing(handIn);
 			if (playerIn instanceof ServerPlayerEntity) {
 				PacketManager.sendTo(PacketManager.applyRecoil,new ApplyRecoilMessage(getRecoil(),handIn==Hand.MAIN_HAND, false), (ServerPlayerEntity) playerIn);
 			}
+
 
 			if (!flag) {
 				itemstack.getOrCreateTag().putInt("Ammo", ammo - 1);

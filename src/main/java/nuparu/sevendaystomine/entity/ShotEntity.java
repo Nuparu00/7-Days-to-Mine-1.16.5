@@ -412,6 +412,9 @@ public class ShotEntity extends ProjectileEntity {
                 }
             }
         }
+        if (explosive && !level.isClientSide()) {
+            level.explode(this, pos.getX(), pos.getY(), pos.getZ(), 1.2f, sparking, Explosion.Mode.DESTROY);
+        }
     }
 
     protected void doPostHurtEffects(LivingEntity p_184548_1_) {

@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.enchantment.ModEnchantments;
 
 public class ModItemGroups {
     // CREATIVE TABS

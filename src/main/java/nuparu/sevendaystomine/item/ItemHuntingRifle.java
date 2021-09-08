@@ -2,8 +2,10 @@ package nuparu.sevendaystomine.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.vector.Vector3d;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModItems;
 
@@ -24,6 +26,9 @@ public class ItemHuntingRifle extends ItemGun {
 		this.setLength(EnumLength.LONG);
 		this.setWield(EnumWield.TWO_HAND);
 		this.setAimPosition(-0.43, 0.1, 0);
+		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"hunting_rifle_idle"));
+		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"hunting_rifle_shoot"));
+		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
 	}
 
 	@Override

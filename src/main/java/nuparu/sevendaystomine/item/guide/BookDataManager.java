@@ -32,9 +32,11 @@ public class BookDataManager extends JsonReloadListener {
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn,
 			IProfiler profilerIn) {
+		System.out.println("BOOK DATA RELOAD");
 		HashMap<ResourceLocation, BookData> bookz = new HashMap<>();
 		for (Map.Entry<ResourceLocation, JsonElement> entry : objectIn.entrySet()) {
 			ResourceLocation key = entry.getKey();
+			System.out.println("BOOK DATA " + key.toString());
 			bookz.put(key, BookDataParser.INSTANCE.getBookDataFromResource(entry.getValue()));
 		}
 		books = bookz;

@@ -24,6 +24,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
+import nuparu.sevendaystomine.tileentity.TileEntityBatteryStation;
 import nuparu.sevendaystomine.tileentity.TileEntityBirdNest;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
@@ -89,6 +90,8 @@ public class BlockBirdNest extends BlockHorizontalBase implements IScrapable {
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
+			TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+			tileEntity.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

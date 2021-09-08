@@ -123,6 +123,8 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IScra
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
+			TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+			tileEntity.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
@@ -141,10 +143,11 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IScra
 
 	@Override
 	public void onRemove(BlockState state, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+		System.out.println(state.getBlock().getRegistryName() + " "  + newState.getBlock().getRegistryName());
 		if (state.getBlock() != newState.getBlock()) {
 			TileEntity tileentity = world.getBlockEntity(blockPos);
-			if (tileentity instanceof TileEntityBookshelf) {
-				TileEntityBookshelf te = (TileEntityBookshelf) tileentity;
+			if (tileentity instanceof TileEntityItemHandler) {
+                TileEntityItemHandler te = (TileEntityItemHandler) tileentity;
 				InventoryHelper.dropContents(world, blockPos, te.getDrops());
 			}
 			super.onRemove(state, world, blockPos, newState, isMoving);

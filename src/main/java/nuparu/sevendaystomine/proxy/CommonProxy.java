@@ -97,6 +97,10 @@ public class CommonProxy {
 
 	}
 
+	public void openPhoto(String path){
+
+	}
+
 	public void startDialogue(EntityHuman human) {
 
 	}

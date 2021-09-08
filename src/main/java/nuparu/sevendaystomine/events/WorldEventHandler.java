@@ -227,13 +227,17 @@ public class WorldEventHandler {
 		event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.largeRockFeature);
 		event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.smallStoneFeature);
 		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.berryBushFeature);
-		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CITY);
+		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_PILLAGER_OUTPOST_RUINED);
+		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_WINDMILL);
+		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_RUINS);
 
 		if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
+			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.MOUNTAIN) && !BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.HILLS)) {
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CITY);
+			}
 			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY)) {
 				event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.stickFeature);
 			}
-			event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.cityFeature);
 		}
 		if(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.PLAINS) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SAVANNA)) {
 			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.cornFeature);
@@ -282,6 +286,9 @@ public class WorldEventHandler {
 			 */
 			Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
 			tempMap.putIfAbsent(ModStructureFeatures.CITY.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.CITY.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.PILLAGER_OUTPOST_RUINED.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.PILLAGER_OUTPOST_RUINED.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.WINDMILL.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.WINDMILL.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.RUINS.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.RUINS.get()));
 			serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
 	}

@@ -25,6 +25,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.IScrapable;
+import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
 import nuparu.sevendaystomine.tileentity.TileEntityBatteryStation;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
@@ -90,6 +91,8 @@ public class BlockBatteryStation extends BlockHorizontalBase implements IScrapab
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
+			TileEntityBatteryStation tileEntity = (TileEntityBatteryStation)namedContainerProvider;
+			tileEntity.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

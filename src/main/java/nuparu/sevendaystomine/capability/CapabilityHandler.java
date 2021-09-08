@@ -3,7 +3,9 @@ package nuparu.sevendaystomine.capability;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -11,6 +13,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.item.ItemAnalogCamera;
+import nuparu.sevendaystomine.item.ItemBackpack;
+
+import javax.annotation.Nonnull;
 
 public class CapabilityHandler {
 
@@ -50,6 +55,11 @@ public class CapabilityHandler {
 			IItemHandlerExtended oldExtendedInv = CapabilityHelper.getExtendedInventory(event.getOriginal());
 			extendedInv.copy(oldExtendedInv);
 		}
+		else if(player.level.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)){
+			IItemHandlerExtended extendedInv = CapabilityHelper.getExtendedInventory(player);
+			IItemHandlerExtended oldExtendedInv = CapabilityHelper.getExtendedInventory(event.getOriginal());
+			extendedInv.copy(oldExtendedInv);
+		}
 	}
 
 	@SubscribeEvent
@@ -63,7 +73,18 @@ public class CapabilityHandler {
 	@SubscribeEvent
 	public void attachCapabilityToStack(AttachCapabilitiesEvent<ItemStack> event) {
 		if(event.getObject().getItem() instanceof ItemAnalogCamera){
-			event.addCapability(EXTENDED_INV_CAP, new ExtendedInventoryProvider().setSize(1));
+			event.addCapability(EXTENDED_INV_CAP, new ExtendedInventoryProvider().setInstance(new ExtendedInventory(){
+				@Override
+				public boolean isItemValid(int slot, @Nonnull ItemStack stack){
+					if(slot == 0){
+						return !stack.isEmpty() && stack.getItem() == Items.PAPER;
+					}
+					return super.isItemValid(slot, stack);
+				}
+			}).setSize(1));
+		}
+		if(event.getObject().getItem() instanceof ItemBackpack){
+			event.addCapability(EXTENDED_INV_CAP, new ExtendedInventoryProvider().setSize(9));
 		}
 	}
 	

@@ -1,0 +1,30 @@
+{
+   "display":{
+      "icon":{
+         "item":"sevendaystomine:reinforced_concrete"
+      },
+      "title":{
+         "translate":"advancements.reinforced_concrete.title"
+      },
+      "description":{
+         "translate":"advancements.reinforced_concrete.description"
+      }
+   },
+   "rewards":{
+      "experience":10
+   },
+   "parent":"sevendaystomine:survival/workbench",
+   "criteria":{
+      "has_block":{
+         "trigger":"sevendaystomine:upgrade_block",
+         "conditions":{
+            "block":"sevendaystomine:reinforced_concrete_wet"
+         }
+      }
+   },
+   "requirements":[
+      [
+         "has_block"
+      ]
+   ]
+}

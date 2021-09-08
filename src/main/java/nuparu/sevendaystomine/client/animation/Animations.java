@@ -32,6 +32,7 @@ public class Animations extends JsonReloadListener {
                          IProfiler profilerIn) {
         AnimationModelRenderers.init();
 
+        currentAnimation = null;
         HashMap<ResourceLocation, Animation> animationz = new HashMap<>();
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : objectIn.entrySet()) {
@@ -73,6 +74,10 @@ public class Animations extends JsonReloadListener {
 
     public HashMap<ResourceLocation, Animation> getAnimations(){
         return (HashMap<ResourceLocation, Animation>) animations.clone();
+    }
+
+    public boolean contains(Animation animation){
+        return this.animations.containsValue(animation);
     }
 
 

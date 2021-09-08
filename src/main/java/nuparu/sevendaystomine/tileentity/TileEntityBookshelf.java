@@ -90,11 +90,13 @@ public class TileEntityBookshelf extends TileEntityItemHandler<ItemHandlerNameab
 	public void updateBlock() {
 		if(level.isClientSide()) return;
 		BlockState blockState = this.level.getBlockState(this.worldPosition);
-		boolean state = blockState.getValue(BlockBookshelfEnhanced.FULL);
-		if (isEmpty() && state) {
-			level.setBlock(worldPosition, blockState.setValue(BlockBookshelfEnhanced.FULL, false),3);
-		} else if (!isEmpty() && !state) {
-			level.setBlock(worldPosition, blockState.setValue(BlockBookshelfEnhanced.FULL, true),3);
+		if(blockState.getBlock() instanceof BlockBookshelfEnhanced) {
+			boolean state = blockState.getValue(BlockBookshelfEnhanced.FULL);
+			if (isEmpty() && state) {
+				level.setBlock(worldPosition, blockState.setValue(BlockBookshelfEnhanced.FULL, false), 3);
+			} else if (!isEmpty() && !state) {
+				level.setBlock(worldPosition, blockState.setValue(BlockBookshelfEnhanced.FULL, true), 3);
+			}
 		}
 	}
 

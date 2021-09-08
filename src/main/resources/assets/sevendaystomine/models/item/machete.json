@@ -5,6 +5,7 @@
 		"1": "sevendaystomine:blocks/stripped_wood",
 		"particle": "block/anvil"
 	},
+	"gui_light" : "front",
 	"elements": [
 		{
 			"from": [7.5, 0, 7],

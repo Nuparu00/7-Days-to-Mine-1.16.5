@@ -4,14 +4,14 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.item.ItemGun;
 
 public class EnchantmentSmallMag extends Enchantment {
 
-	protected EnchantmentSmallMag() {
+	public EnchantmentSmallMag() {
 		super(Rarity.UNCOMMON, ModEnchantments.GUNS,
 				new EquipmentSlotType[] { EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND });
-		setRegistryName(SevenDaysToMine.MODID, "small_mag");
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class EnchantmentSmallMag extends Enchantment {
 
 	@Override
 	protected boolean checkCompatibility(Enchantment ench) {
-		return super.checkCompatibility(ench) && ench != ModEnchantments.big_mag;
+		return super.checkCompatibility(ench) && ench != ModEnchantments.BIG_MAG.get();
 	}
 
 	@Override

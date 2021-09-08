@@ -88,6 +88,8 @@ public class BlockFileCabinet extends BlockHorizontalBase implements IScrapable,
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
+			TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+			tileEntity.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

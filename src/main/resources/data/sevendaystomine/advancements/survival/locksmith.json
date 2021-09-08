@@ -1,0 +1,28 @@
+{
+   "display":{
+      "icon":{
+         "item":"sevendaystomine:code_safe"
+      },
+      "title":{
+         "translate":"advancements.locksmith.title"
+      },
+      "description":{
+         "translate":"advancements.locksmith.description"
+      },
+      "frame": "goal"
+   },
+   "rewards":{
+      "experience": 1
+   },
+   "parent": "sevendaystomine:survival/forge",
+   "criteria":{
+      "has_block":{
+         "trigger":"sevendaystomine:safe_unlock"
+      }
+   },
+   "requirements":[
+      [
+         "has_block"
+      ]
+   ]
+}

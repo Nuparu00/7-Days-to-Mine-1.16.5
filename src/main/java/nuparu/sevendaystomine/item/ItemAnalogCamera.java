@@ -5,7 +5,10 @@ import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -18,13 +21,18 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModItemGroups;
+import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
+import nuparu.sevendaystomine.inventory.item.ContainerCamera;
+import nuparu.sevendaystomine.inventory.item.ItemNamedContainerProvider;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.SchedulePhotoMessage;
 
@@ -51,10 +59,6 @@ public class ItemAnalogCamera extends Item {
 				IItemHandlerExtended inv = stack.getCapability(ExtendedInventoryProvider.EXTENDED_INV_CAP,
 						Direction.UP).orElseGet(null);
 				
-				if (!worldIn.isClientSide()) {
-					PacketManager.sendTo(PacketManager.schedulePhoto, new SchedulePhotoMessage(), (ServerPlayerEntity) player);
-				}
-				
 				if (inv == null)
 					return;
 				ItemStack paper = inv.getStackInSlot(0);
@@ -69,9 +73,21 @@ public class ItemAnalogCamera extends Item {
 					}
 				}
 				paper.shrink(1);
-			} else if (player.isCrouching()) {
-				/*player.openGui(SevenDaysToMine.instance, 27, worldIn, (int) player.getX(), (int) player.getY(),
-						(int) player.getZ());*/
+			} else if (player.isCrouching() && player instanceof ServerPlayerEntity) {
+				INamedContainerProvider namedContainerProvider = new ItemNamedContainerProvider(stack,stack.getHoverName()){
+					@Nullable
+					@Override
+					public Container createMenu(int windowID, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+						return ContainerCamera.createContainerServerSide(windowID, playerInventory, this.stack);
+					}
+				};
+				if (namedContainerProvider != null) {
+					ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
+					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+						packetBuffer.writeItem(stack);
+					});
+				}
+
 			}
 		}
 	}

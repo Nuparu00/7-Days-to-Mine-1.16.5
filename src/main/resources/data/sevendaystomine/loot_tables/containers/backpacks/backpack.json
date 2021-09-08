@@ -1,0 +1,81 @@
+{
+	"type": "minecraft:generic",
+	"pools": [{
+		"rolls": 4,
+		"entries": [{
+				"type": "item",
+				"weight": 10,
+				"name": "sevendaystomine:bottled_water"
+			},
+			{
+				"type": "item",
+				"weight": 8,
+				"name": "sevendaystomine:canned_ham"
+			},
+			{
+				"type": "item",
+				"weight": 2,
+				"name": "sevendaystomine:soda"
+			},
+			{
+				"type": "item",
+				"weight": 1,
+				"name": "sevendaystomine:mre"
+			},
+			{
+				"type": "item",
+				"weight": 1,
+				"name": "sevendaystomine:pistol",
+				"functions": [{
+						"function": "sevendaystomine:random_quality",
+						"quality": {
+							"min": 1,
+							"max": 600
+						}
+					},
+					{
+						"function": "sevendaystomine:random_ammo"
+					}
+				]
+			},
+			{
+				"type": "item",
+				"weight": 3,
+				"name": "sevendaystomine:pistol_bullet",
+				"functions": [{
+					"function": "set_count",
+					"count": {
+						"min": 1,
+						"max": 10
+					}
+				}]
+			},
+			{
+				"type": "item",
+				"weight": 3,
+				"name": "sevendaystomine:rifle_bullet",
+				"functions": [{
+					"function": "set_count",
+					"count": {
+						"min": 1,
+						"max": 10
+					}
+				}]
+			},
+			{
+				"type": "item",
+				"weight": 8,
+				"name": "sevendaystomine:bandage"
+			},
+			{
+				"type": "item",
+				"weight": 3,
+				"name": "sevendaystomine:bandage_advanced"
+			},
+			{
+				"type": "empty",
+				"weight": 60
+			}
+		]
+	}]
+}

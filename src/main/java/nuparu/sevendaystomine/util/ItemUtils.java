@@ -4,20 +4,25 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.*;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.items.IItemHandler;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.EnumQuality;
+import nuparu.sevendaystomine.item.IQuality;
 
 public class ItemUtils {
 
@@ -75,7 +80,40 @@ public class ItemUtils {
 	public static EnumQuality getQualityTierFromInt(int quality) {
 		return EnumQuality.getFromQuality(quality);
 	}
-	
+
+	public static void fill(LootTable lootTable, IItemHandler inventory, LootContext lootContext) {
+		List<ItemStack> list = lootTable.getRandomItems(lootContext);
+		Random random = lootContext.getRandom();
+		List<Integer> list1 = getAvailableSlots(inventory, random);
+		lootTable.shuffleAndSplitItems(list, list1.size(), random);
+
+		for(ItemStack itemstack : list) {
+			if (list1.isEmpty()) {
+				SevenDaysToMine.LOGGER.warn("Tried to over-fill a container");
+				return;
+			}
+
+			if (itemstack.isEmpty()) {
+				inventory.insertItem(list1.remove(list1.size() - 1), ItemStack.EMPTY,false);
+			} else {
+				inventory.insertItem(list1.remove(list1.size() - 1), itemstack,false);
+			}
+		}
+
+	}
+
+	private static List<Integer> getAvailableSlots(IItemHandler inventory, Random random) {
+		List<Integer> list = Lists.newArrayList();
+
+		for(int i = 0; i < inventory.getSlots(); ++i) {
+			if (inventory.getStackInSlot(i).isEmpty()) {
+				list.add(i);
+			}
+		}
+
+		Collections.shuffle(list, random);
+		return list;
+	}
 
 	public static List<Integer> getRandomEmptySlots(IItemHandler inv, Random random){
 		final List<Integer> slots = new ArrayList<Integer>();
@@ -150,7 +188,13 @@ public class ItemUtils {
 	public static double getToughness(ItemStack stack) {
 		if(!(stack.getItem() instanceof ArmorItem)) return 0;
 		ArmorItem armor = (ArmorItem)stack.getItem();
-		return armor.getToughness() / (((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return armor.getToughness() * (((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+	}
+
+	//Returns whether given item is SUITABLE for quality, not whether it actually has a value
+	public static boolean isQualityItem(ItemStack stack){
+		Item item = stack.getItem();
+		return item instanceof IQuality || PlayerUtils.isVanillaItemSuitableForQuality(item);
 	}
 
 

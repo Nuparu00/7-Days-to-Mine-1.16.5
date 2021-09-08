@@ -194,5 +194,6 @@ public class ModTileEntities {
 	public static final RegistryObject<TileEntityType<TileEntityStreetSign>> STREET_SIGN = TILE_ENTITIES.register("street_sign",
 			() -> TileEntityType.Builder.of(TileEntityStreetSign::new, ModBlocks.STREET_SIGN.get(),ModBlocks.STREET_SIGN_WALL.get()).build(null));
 
-
+	public static final RegistryObject<TileEntityType<TileEntityPrinter>> PRINTER = TILE_ENTITIES.register("printer",
+			() -> TileEntityType.Builder.of(TileEntityPrinter::new, ModBlocks.PRINTER.get()).build(null));
 }

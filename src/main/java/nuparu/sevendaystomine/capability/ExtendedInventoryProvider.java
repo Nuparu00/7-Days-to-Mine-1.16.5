@@ -50,4 +50,8 @@ public class ExtendedInventoryProvider implements ICapabilitySerializable<Compou
 		return this;
 	}
 
+	public ExtendedInventoryProvider setInstance(IItemHandlerExtended instance){
+        this.instance = LazyOptional.of(() -> instance);
+        return this;
+    }
 }

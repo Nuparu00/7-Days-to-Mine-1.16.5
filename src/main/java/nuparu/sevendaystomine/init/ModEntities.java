@@ -123,12 +123,31 @@ public class ModEntities {
 			.sized(0.5F, 0.5F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "shot").toString());
 
+	public static final  EntityType<RocketEntity> ROCKET_RAW = EntityType.Builder
+			.of((EntityType.IFactory<RocketEntity>) RocketEntity::new,
+					EntityClassification.MISC)
+			.sized(0.5F, 0.5F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "rocket").toString());
+
+	public static final  EntityType<FlameEntity> FLAME_RAW = EntityType.Builder
+			.of((EntityType.IFactory<FlameEntity>) FlameEntity::new,
+					EntityClassification.MISC)
+			.sized(0.5F, 0.5F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "flame").toString());
+
 	public static final  EntityType<SurvivorEntity> SURVIVOR_RAW = EntityType.Builder
 			.of((EntityType.IFactory<SurvivorEntity>) SurvivorEntity::new,
 					EntityClassification.CREATURE)
 			.sized(0.6F, 1.95F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "survivor").toString());
-	
+
+	public static final  EntityType<FragmentationGrenadeEntity> FRAGMENTATION_GRENADE_RAW = EntityType.Builder
+			.of((EntityType.IFactory<FragmentationGrenadeEntity>) FragmentationGrenadeEntity::new,
+					EntityClassification.MISC)
+			.sized(0.6F, 1.95F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "fragmentation_grenade").toString());
+
+
 
 	
 	public static final RegistryObject<EntityType<ReanimatedCorpseEntity>> REANIMATED_CORPSE = ENTITIES.register(
@@ -203,6 +222,14 @@ public class ModEntities {
 			"shot",
 			() -> SHOT_RAW);
 
+	public static final RegistryObject<EntityType<RocketEntity>> ROCKET = ENTITIES.register(
+			"rocket",
+			() -> ROCKET_RAW);
+
+	public static final RegistryObject<EntityType<FlameEntity>> FLAME = ENTITIES.register(
+			"flame",
+			() -> FLAME_RAW);
+
 	public static final RegistryObject<EntityType<LootableCorpseEntity>> LOOTABLE_CORPSE = ENTITIES.register(
 			"lootable_corpse",
 			() -> EntityType.Builder
@@ -214,4 +241,8 @@ public class ModEntities {
 	public static final RegistryObject<EntityType<SurvivorEntity>> SURVIVOR = ENTITIES.register(
 			"survivor",
 			() -> SURVIVOR_RAW);
+
+	public static final RegistryObject<EntityType<FragmentationGrenadeEntity>> FRAGMENTATION_GRENADE = ENTITIES.register(
+			"fragmentation_grenade",
+			() -> FRAGMENTATION_GRENADE_RAW);
 }

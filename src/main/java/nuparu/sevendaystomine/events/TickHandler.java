@@ -82,9 +82,6 @@ public class TickHandler {
 
 	private long nextTorchCheck = 0l;
 
-	@OnlyIn(Dist.CLIENT)
-	public static Framebuffer fbo;
-
 	@SuppressWarnings("deprecation")
 	public static void init(Dist side) {
 		if (side == Dist.CLIENT) {
@@ -100,8 +97,6 @@ public class TickHandler {
 			bleedShaderRes = new ResourceLocation(SevenDaysToMine.MODID + ":shaders/post/blur_bleed.json");
 			nightShaderRes = new ResourceLocation(SevenDaysToMine.MODID + ":shaders/post/night.json");
 			drunkShaderRes = new ResourceLocation(SevenDaysToMine.MODID + ":shaders/post/drunk.json");
-
-			fbo = new Framebuffer(500, 200, true,true);
 
 		}
 		//f_setSize = ReflectionHelper.findMethod(Entity.class, "setSize", "func_70105_a", float.class, float.class);

@@ -1,12 +1,27 @@
 package nuparu.sevendaystomine.item;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
+import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.init.ModItemGroups;
+import nuparu.sevendaystomine.inventory.block.ContainerSmall;
+import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
+import nuparu.sevendaystomine.inventory.item.ItemNamedContainerProvider;
+
+import javax.annotation.Nullable;
 
 public class ItemBackpack extends Item {
 
@@ -17,10 +32,21 @@ public class ItemBackpack extends Item {
 	@Override
 	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack stack = playerIn.getItemInHand(handIn);
-		if (!playerIn.isCrouching()) {
-			/*NetworkHooks.openGui(playerIn, containerSupplier);
-			playerIn.openGui(SevenDaysToMine.instance, 18, worldIn, (int)playerIn.getX(), (int)playerIn.getY(), (int)playerIn.getZ());
-				return ActionResult.success(stack);*/
+		if (!playerIn.isCrouching() && playerIn instanceof ServerPlayerEntity) {
+			INamedContainerProvider namedContainerProvider = new ItemNamedContainerProvider(stack,stack.getHoverName()){
+				@Nullable
+				@Override
+				public Container createMenu(int windowID, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+					return ContainerBackpack.createContainerServerSide(windowID, playerInventory, this.stack);
+				}
+			};
+			if (namedContainerProvider != null) {
+				ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) playerIn;
+				NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+					packetBuffer.writeItem(stack);
+				});
+				return ActionResult.success(stack);
+			}
 		}
 		return ActionResult.pass(stack);
 	}
@@ -31,4 +57,11 @@ public class ItemBackpack extends Item {
 	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT compound) {
 		return new ExtendedInventoryProvider().setSize(9);
 	}*/
+/*
+	@Nullable
+	public net.minecraftforge.common.capabilities.ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
+	{
+		return new ExtendedInventoryProvider().setSize(9);
+	}*/
+
 }

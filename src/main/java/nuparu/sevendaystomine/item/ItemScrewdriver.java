@@ -19,6 +19,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.block.BlockDoorLocked;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
+import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.util.MathUtils;
 
 public class ItemScrewdriver extends ItemQuality {
@@ -45,6 +46,8 @@ public class ItemScrewdriver extends ItemQuality {
 					}
 					INamedContainerProvider namedContainerProvider = ModBlocks.COMPUTER.get().getMenuProvider(state, worldIn, pos);
 					if (namedContainerProvider != null) {
+						TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+						tileEntity.unpackLootTable(player);
 						if (!(player instanceof ServerPlayerEntity))
 							return ActionResultType.FAIL;
 						ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

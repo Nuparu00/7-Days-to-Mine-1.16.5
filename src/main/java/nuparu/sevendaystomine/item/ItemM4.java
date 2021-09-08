@@ -2,8 +2,10 @@ package nuparu.sevendaystomine.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.vector.Vector3d;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.util.MathUtils;
@@ -25,6 +27,9 @@ public class ItemM4 extends ItemGun {
 		this.setLength(EnumLength.LONG);
 		this.setWield(EnumWield.TWO_HAND);
 		this.setAimPosition(-0.025, -0.025, -0.4);
+		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_idle"));
+		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_shoot"));
+		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
 	}
 	
 	@Override

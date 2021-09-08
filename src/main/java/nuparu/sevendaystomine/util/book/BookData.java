@@ -28,12 +28,31 @@ import nuparu.sevendaystomine.util.Utils;
 
 public class BookData {
 
-	public List<Page> pages;
+	private List<Page> pages;
+	private String title;
+	private String desc;
 
 	public BookData(List<Page> pages) {
 		this.pages = pages;
 	}
 
+	public BookData(List<Page> pages, String title, String desc) {
+		this.pages = pages;
+		this.title = title;
+		this.desc = desc;
+	}
+
+	public List<Page> getPages(){
+		return this.pages;
+	}
+
+	public String getTitle(){
+		return title;
+	}
+
+	public String getDesc(){
+		return desc;
+	}
 	public static class Page {
 		public ResourceLocation res;
 		public List<TextBlock> textBlocks;

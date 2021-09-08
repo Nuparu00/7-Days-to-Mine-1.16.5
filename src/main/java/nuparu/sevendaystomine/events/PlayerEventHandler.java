@@ -29,6 +29,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -192,6 +193,7 @@ public class PlayerEventHandler {
             return;
         final PlayerEntity player = (PlayerEntity) event.getEntityLiving();
         IItemHandlerExtended extendedInv = CapabilityHelper.getExtendedInventory(player);
+        if(player.level.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) return;
         if (extendedInv == null)
             return;
         for (int i = 0; i < extendedInv.getSlots(); i++) {

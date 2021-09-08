@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "sevendaystomine:block/printer" },
+        "facing=west": { "model": "sevendaystomine:block/printer", "y": 270 },
+        "facing=east": { "model": "sevendaystomine:block/printer", "y": 90 },
+        "facing=south": { "model": "sevendaystomine:block/printer", "y": 180 }
+    }
+}

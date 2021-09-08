@@ -531,7 +531,7 @@ public class ModBlocks {
 			() -> new BlockWallStreetSign(AbstractBlock.Properties.of(Material.METAL).noCollission(), SevenDaysToMine.STREET_WOOD_TYPE));
 
 	public static final RegistryObject<Block> PHOTO = BLOCKS.register("photo",
-			() -> new BlockPhoto(AbstractBlock.Properties.of(Material.METAL)));
+			() -> new BlockPhoto(AbstractBlock.Properties.of(Material.WOOL)));
 
 	public static final RegistryObject<Block> SCREEN_PROJECTOR = BLOCKS.register("screen_projector",
 			() -> new BlockScreenProjector(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
@@ -758,6 +758,21 @@ public class ModBlocks {
 
 	public static final RegistryObject<Block> ASPHALT_SLAB = BLOCKS.register("asphalt_slab",
 			() -> new BlockAsphaltSlab());
+
+	public static final RegistryObject<Block> PRINTER = BLOCKS.register("printer",
+			() -> new BlockPrinter(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
+
+	public static final RegistryObject<Block> STRUCTURE_STONE = BLOCKS.register("structure_stone",
+			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.STONE)));
+
+	public static final RegistryObject<Block> STRUCTURE_GRANITE = BLOCKS.register("structure_granite",
+			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.GRANITE)));
+
+	public static final RegistryObject<Block> STRUCTURE_DIORITE = BLOCKS.register("structure_diorite",
+			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.DIORITE)));
+
+	public static final RegistryObject<Block> STRUCTURE_ANDESITE = BLOCKS.register("structure_andesite",
+			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.ANDESITE)));
 
 	public static ToIntFunction<BlockState> litBlockEmission(int p_235420_0_) {
 		return (p_235421_1_) -> {

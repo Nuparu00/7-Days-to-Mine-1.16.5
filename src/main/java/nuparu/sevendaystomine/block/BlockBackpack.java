@@ -43,10 +43,10 @@ import java.util.List;
 
 public class BlockBackpack extends BlockHorizontalBase implements IScrapable {
 	
-	private static final VoxelShape NORTH = Block.box(0.25*16, 0.0F, 1.0F*16, 0.75*16, 0.8125F*16, 0.6875F*16);
-	private static final VoxelShape SOUTH = Block.box(0.25F*16, 0.0F, 0F, 0.75F*16, 0.875F*16, 0.3125F*16);
-	private static final VoxelShape WEST = Block.box(1F*16, 0.0F, 0.25F*16, 0.6875F*16, 0.8125F*16, 0.75F*16);
-	private static final VoxelShape EAST = Block.box(0F, 0.0F, 0.25F*16, 0.3125F*16, 0.8125F*16, 0.75F*16);
+	private static final VoxelShape NORTH = Block.box(4, 0.0F, 16, 12, 13, 10);
+	private static final VoxelShape SOUTH = Block.box(4, 0.0F, 0F, 12, 13, 6);
+	private static final VoxelShape WEST = Block.box(16, 0.0F, 4, 10, 13, 12);
+	private static final VoxelShape EAST = Block.box(0F, 0.0F, 4, 6, 13, 12);
 
 	private EnumMaterial material = EnumMaterial.CLOTH;
 	private int weight = 2;
@@ -112,49 +112,15 @@ public class BlockBackpack extends BlockHorizontalBase implements IScrapable {
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
+			TileEntityBackpack tileEntityBackpack = (TileEntityBackpack)namedContainerProvider;
+			tileEntityBackpack.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
 			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
 				packetBuffer.writeBlockPos(pos);
 			});
-			int maxDst = 128;
-			if(worldIn instanceof ServerWorld) {
-				new Thread() {
-					@Override
-					public void run() {
-						List<ChunkPos> poses = Utils.getClosestCities((ServerWorld) worldIn, 0, 0, maxDst);
-						if (poses.isEmpty()) {
-							((ServerPlayerEntity) player).sendMessage(new StringTextComponent("No city located"), Util.NIL_UUID);
-
-						} else {
-							for (ChunkPos pos : poses) {
-								int x = (pos.x * 16);
-								int z = (pos.z * 16);
-								StringTextComponent component = new StringTextComponent("City is located at " + x + " " + z
-										+ " ("
-										+ Math.round(Math.sqrt(Math.pow(pos.x - 0, 2) + Math.pow(pos.z - 0, 2)))
-										+ " chunks)");
-
-								Style style = component.getStyle().withClickEvent(
-										new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + x + " " + 120 + " " + z) {
-											@Override
-											public Action getAction() {
-												return Action.RUN_COMMAND;
-											}
-										});
-								if (!worldIn.getChunk(pos.x, pos.z).isEmpty()) {
-									style.withColor(TextFormatting.GREEN);
-								}
-								component.setStyle(style);
-								((ServerPlayerEntity) player).sendMessage(component, Util.NIL_UUID);
-							}
-						}
-					}
-
-				}.start();
 			}
-		}
 		return ActionResultType.SUCCESS;
 	}
 

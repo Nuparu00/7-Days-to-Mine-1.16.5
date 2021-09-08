@@ -43,7 +43,7 @@ public class ItemGuide extends Item {
 	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
 			ITooltipFlag flagIn) {
 		TranslationTextComponent title = new TranslationTextComponent(
-				this.getRegistryName().getPath() + ".name");
+				this.getRegistryName().getPath() + ".title");
 		TranslationTextComponent desc = new TranslationTextComponent(
 				this.getRegistryName().getPath() + ".desc");
 		tooltip.add(title);

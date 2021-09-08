@@ -58,7 +58,7 @@ public class ItemPhoto extends Item {
 				return ActionResult.success(stack);
 			}
 		}
-		return ActionResult.pass(stack);
+		return ActionResult.fail(stack);
 	}
 
 	@Override
@@ -69,7 +69,6 @@ public class ItemPhoto extends Item {
 		World worldIn = context.getLevel();
 		Hand hand = context.getHand();
 		BlockPos pos = context.getClickedPos();
-
 		if (facing == Direction.UP) {
 			return ActionResultType.PASS;
 		} else {
@@ -82,11 +81,9 @@ public class ItemPhoto extends Item {
 
 			if (!state.isFaceSturdy(worldIn, pos, facing)) {
 				return ActionResultType.PASS;
-			} else if (!ModBlocks.PHOTO.get().canStickTo(stateToPlace, state)) {
-				return ActionResultType.PASS;
 			} else {
-				worldIn.setBlockAndUpdate(pos, stateToPlace);
-				TileEntity tileEntity = worldIn.getBlockEntity(pos);
+				worldIn.setBlockAndUpdate(pos.relative(facing), stateToPlace);
+				TileEntity tileEntity = worldIn.getBlockEntity(pos.relative(facing));
 				if (tileEntity != null && tileEntity instanceof TileEntityPhoto) {
 					((TileEntityPhoto) tileEntity).setPath(stack.getOrCreateTag().getString("path"));
 				}

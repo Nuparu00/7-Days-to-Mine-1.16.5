@@ -16,7 +16,7 @@
         "y": 1.0,
         "z": 1.0
       },
-      "visible": false,
+      "visible": true,
       "time": 0
     },
       {
@@ -35,7 +35,7 @@
           "y": 1.0,
           "z": 1.0
         },
-        "visible": false,
+        "visible": true,
         "time": 100
       },
       {
@@ -54,7 +54,7 @@
           "y": 1.0,
           "z": 1.0
         },
-        "visible": false,
+        "visible": true,
         "time": 750
       },
       {
@@ -73,7 +73,7 @@
           "y": 1.0,
           "z": 1.0
         },
-        "visible": false,
+        "visible": true,
         "time": 1000
       }
     ],
@@ -94,7 +94,7 @@
           "y": 1.0,
           "z": 1.0
         },
-        "visible": false,
+        "visible": true,
         "time": 0
       },
         {
@@ -113,7 +113,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 400
         },
         {
@@ -132,7 +132,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 500
         },
         {
@@ -151,7 +151,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 600
         }
       ],
@@ -177,7 +177,7 @@
           "y": 1.0,
           "z": 1.0
         },
-        "visible": false,
+        "visible": true,
         "time": 0
       },
         {
@@ -196,7 +196,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 100
         },
         {
@@ -215,7 +215,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 260
         },
         {
@@ -234,7 +234,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 500
         },
         {
@@ -253,7 +253,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 600
         },
         {
@@ -272,7 +272,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 800
         },
         {
@@ -291,7 +291,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 1000
         }
       ],

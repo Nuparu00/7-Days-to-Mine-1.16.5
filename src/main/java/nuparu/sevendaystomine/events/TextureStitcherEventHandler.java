@@ -27,6 +27,7 @@ public class TextureStitcherEventHandler {
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID,"items/empty_paper_slot"));
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID,"entity/particles/muzzle_flash"));
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID,"items/empty_scrap_slot"));
+		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID,"items/empty_ink_slot"));
 
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/solar_panel"));
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/wind_turbine_propeller"));
@@ -59,8 +60,10 @@ public class TextureStitcherEventHandler {
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/sleepingbag/white"));
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/sleepingbag/yellow"));
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/sleepingbag/orange"));
-	  }
+		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/backpack"));
 
+		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "blocks/ink_still"));
+	  }
 
 	@SubscribeEvent
 	public void modelRegistryEvent(ModelRegistryEvent event) {

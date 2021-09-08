@@ -12,6 +12,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.world.gen.structure.CityStructure;
+import nuparu.sevendaystomine.world.gen.structure.PillagerOutpostRuinedStructure;
+import nuparu.sevendaystomine.world.gen.structure.RuinsStructure;
+import nuparu.sevendaystomine.world.gen.structure.WindmillStructure;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +23,9 @@ public class ModStructureFeatures {
 
     public static DeferredRegister<Structure<?>> STRUCTURE_FEATURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, SevenDaysToMine.MODID);
     public static final RegistryObject<Structure<NoFeatureConfig>> CITY = STRUCTURE_FEATURES.register("city", () -> (new CityStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> PILLAGER_OUTPOST_RUINED = STRUCTURE_FEATURES.register("pillager_outpost_ruined", () -> (new PillagerOutpostRuinedStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> WINDMILL = STRUCTURE_FEATURES.register("windmill", () -> (new WindmillStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> RUINS = STRUCTURE_FEATURES.register("ruins", () -> (new RuinsStructure(NoFeatureConfig.CODEC)));
 
     /**
      * This is where we set the rarity of your structures and determine if land conforms to it.
@@ -28,9 +34,30 @@ public class ModStructureFeatures {
     public static void setupStructures() {
         setupMapSpacingAndLand(
                 CITY.get(), /* The instance of the structure */
-                new StructureSeparationSettings(128 /* average distance apart in chunks between spawn attempts */,
-                        64 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(32 /* average distance apart in chunks between spawn attempts */,
+                        16 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1189998819 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                PILLAGER_OUTPOST_RUINED.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        481516234 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                WINDMILL.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        1910776110 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                RUINS.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        310811162 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
     }
 

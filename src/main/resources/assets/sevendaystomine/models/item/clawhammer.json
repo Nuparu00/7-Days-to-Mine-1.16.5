@@ -6,6 +6,7 @@
 		"2": "block/iron_block",
 		"particle": "block/oak_log_top"
 	},
+	"gui_light" : "front",
 	"elements": [
 		{
 			"from": [7.25, 0, 7.25],

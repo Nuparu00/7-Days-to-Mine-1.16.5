@@ -4,8 +4,10 @@ import javax.annotation.Nullable;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.vector.Vector3d;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModItems;
 
@@ -26,6 +28,9 @@ public class ItemSniperRifle extends ItemGun {
 		this.setType(EnumGun.RIFLE);
 		this.setLength(EnumLength.LONG);
 		this.setWield(EnumWield.TWO_HAND);
+		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"sniper_rifle_idle"));
+		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"sniper_rifle_shoot"));
+		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
 	}
 	
 	@Override

@@ -31,7 +31,7 @@ import nuparu.sevendaystomine.client.animation.Animation;
 import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
-import nuparu.sevendaystomine.enchantment.ModEnchantments;
+import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.entity.ShotEntity;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.ApplyRecoilMessage;
@@ -161,7 +161,7 @@ public class ItemGun extends Item implements IQuality, IReloadable {
 
     public int getReloadTime(ItemStack stack) {
         return (int) Math.ceil((float) getReloadTime()
-                * (float) (1f - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.fast_reload, stack) / 10f));
+                * (float) (1f - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FAST_RELOAD.get(), stack) / 10f));
     }
 
     public float getFullDamage() {
@@ -387,8 +387,8 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         if (!nbt.contains("Capacity"))
             return this.getMaxAmmo();
         return (int) Math.ceil((nbt.getInt("Capacity")
-                * (1d + EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.big_mag, stack) / 10d)
-                * (1d - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.small_mag, stack) / 10d)));
+                * (1d + EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BIG_MAG.get(), stack) / 10d)
+                * (1d - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SMALL_MAG.get(), stack) / 10d)));
     }
 
     @Override
@@ -418,18 +418,18 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         int ammo = nbt.getInt("Ammo");
         boolean flag = player.isCreative();
 
-        if ((ammo > 0 || flag) && (!(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.jamming, itemstack) > 0)
+        if ((ammo > 0 || flag) && (!(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.JAMMING.get(), itemstack) > 0)
                 || world.random.nextInt(20) != 0)) {
 
             float velocity = getSpeed() * (1f + ((float) getQuality(itemstack) / (float) CommonConfig.maxQuality.get()));
-            boolean explosive = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.explosive, itemstack) != 0;
-            boolean sparking = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.sparking, itemstack) != 0;
+            boolean explosive = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.EXPLOSIVE.get(), itemstack) != 0;
+            boolean sparking = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SPARKING.get(), itemstack) != 0;
             if (sparking && explosive && (player instanceof ServerPlayerEntity)
                     && itemstack.getItem() instanceof ItemShotgun) {
                 //ModTriggers.GUN_INTERACT.trigger((ServerPlayerEntity) player);
             }
             for (int i = 0; i < projectiles
-                    * (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.multishot, itemstack) + 1); i++) {
+                    * (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.MULTISHOT.get(), itemstack) + 1); i++) {
                 ShotEntity shot = new ShotEntity(player,world);
                 float spread = ((float) getSpread(player, hand) / (player.isCrouching() ? 1.5f : 1f));
                 shot.shootFromRotation(player, player.xRot, player.yRot, 0.0F, velocity,spread*23.5f);
@@ -445,7 +445,7 @@ public class ItemGun extends Item implements IQuality, IReloadable {
             }
             world.playSound(null, player.blockPosition(), getShotSound(), SoundCategory.PLAYERS, getShotSoundVolume(),
                     getShotSoundPitch());
-            player.swing(hand);
+            //player.swing(hand);
 
             // SevenDaysToMine.proxy.addRecoil(getRecoil(), playerIn);
             if (player instanceof ServerPlayerEntity) {
@@ -490,8 +490,8 @@ public class ItemGun extends Item implements IQuality, IReloadable {
                 * (2d - (EnumQualityState.isQualitySystemOn() ? (double) quality / (CommonConfig.maxQuality.get()) : 1));
         return ((spread_local * (((double) (Math.abs(player.getDeltaMovement().x) + Math.abs(player.getDeltaMovement().y)
                 + Math.abs(player.getDeltaMovement().z)))))
-                * (1 - (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.marksman, stack)
-                - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.strabismus, stack)) * 0.2));
+                * (1 - (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.MARKSMAN.get(), stack)
+                - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SHAKING.get(), stack)) * 0.2));
     }
 
     public double getCross(PlayerEntity player, Hand hand) {
@@ -509,8 +509,8 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         return (spread * mult
                 * (1.2d - (EnumQualityState.isQualitySystemOn() ? (double) quality / (CommonConfig.maxQuality.get() + 1) : 1)
                 * 0.9))
-                * (1 - (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.marksman, stack)
-                - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.strabismus, stack)) * 0.2);
+                * (1 - (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.MARKSMAN.get(), stack)
+                - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SHAKING.get(), stack)) * 0.2);
     }
 
     @Override
@@ -720,21 +720,21 @@ public class ItemGun extends Item implements IQuality, IReloadable {
     }
 
     public Animation getIdleAnimation() {
-        if(idleAnimation == null && idleAnimationKey != null){
+        if(idleAnimationKey != null && (idleAnimation == null || !Animations.instance.contains(idleAnimation)) ){
             idleAnimation = Animations.instance.get(idleAnimationKey);
         }
         return idleAnimation;
     }
 
     public Animation getShootAnimation() {
-        if(shootAnimation == null && shootAnimationKey != null){
+        if(shootAnimationKey != null && (shootAnimation == null || !Animations.instance.contains(shootAnimation)) ){
             shootAnimation = Animations.instance.get(shootAnimationKey);
         }
         return shootAnimation;
     }
 
     public Animation getReloadAnimation() {
-        if(reloadAnimation == null && reloadAnimationKey != null){
+        if(reloadAnimationKey != null  && (reloadAnimation == null || !Animations.instance.contains(reloadAnimation)) ){
             reloadAnimation = Animations.instance.get(reloadAnimationKey);
         }
         return reloadAnimation;

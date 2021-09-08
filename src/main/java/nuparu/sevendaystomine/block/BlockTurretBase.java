@@ -94,6 +94,8 @@ public class BlockTurretBase extends BlockHorizontalBase implements IScrapable {
 			} else {
 				INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 				if (namedContainerProvider != null) {
+					TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+					tileEntity.unpackLootTable(player);
 					if (!(player instanceof ServerPlayerEntity))
 						return ActionResultType.FAIL;
 					ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

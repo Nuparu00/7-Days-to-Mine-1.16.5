@@ -6,6 +6,7 @@
 		"3": "sevendaystomine:blocks/rustymetal",
 		"particle": "sevendaystomine:blocks/stripped_wood"
 	},
+	"gui_light" : "front",
 	"elements": [
 		{
 			"from": [6, 22, 6],

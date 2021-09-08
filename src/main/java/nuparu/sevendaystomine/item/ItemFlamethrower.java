@@ -5,11 +5,11 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.entity.FlameEntity;
+import nuparu.sevendaystomine.entity.ShotEntity;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModItems;
@@ -22,7 +22,7 @@ public class ItemFlamethrower extends ItemGun {
 		super();
 		setMaxAmmo(500);
 		setFullDamage(20f);
-		setSpeed(0.18f);
+		setSpeed(0.5f);
 		setRecoil(3f);
 		setCounterDef(0);
 		setCross(22);
@@ -33,6 +33,9 @@ public class ItemFlamethrower extends ItemGun {
 		setType(EnumGun.RIFLE);
 		setLength(EnumLength.LONG);
 		setWield(EnumWield.TWO_HAND);
+		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_idle"));
+		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"flamethrower_shoot"));
+		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
 	}
 
 	@Override
@@ -86,12 +89,13 @@ public class ItemFlamethrower extends ItemGun {
 		if (ammo > 0 || flag) {
 			float velocity = getSpeed() * (1f + ((float) getQuality(itemstack) / (float) CommonConfig.maxQuality.get()));
 			for (int i = 0; i < getProjectiles(); i++) {
-				/*EntityFlame shot = new EntityFlame(worldIn, playerIn, velocity,
-						((float) getSpread(playerIn, handIn) / (playerIn.isCrouching() ? 1.5f : 1f)),
-						(int) Math.ceil(30 * (1f + ((float) getQuality(itemstack) / (float) CommonConfig.maxQuality.get()))));
+				FlameEntity shot = new FlameEntity(playerIn,worldIn);
+				float spread = ((float) getSpread(playerIn, handIn) / (playerIn.isCrouching() ? 1.5f : 1f));
+				shot.shootFromRotation(playerIn, playerIn.xRot, playerIn.yRot, 0.0F, velocity,spread*23.5f);
 				if (!worldIn.isClientSide()) {
+					shot.setDamage(getFinalDamage(itemstack));
 					worldIn.addFreshEntity(shot);
-				}*/
+				}
 			}
 			worldIn.playSound(null, playerIn.blockPosition(), getShotSound(), SoundCategory.PLAYERS, getShotSoundVolume(),
 					getShotSoundPitch());

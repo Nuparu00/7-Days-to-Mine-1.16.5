@@ -1,0 +1,44 @@
+{
+	"parent": "forge:item/default",
+	"loader": "forge:obj",
+	"model": "sevendaystomine:models/block/rpg.obj",
+	"flip-v": true,
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0.05, 0.0, 0.0],
+			"rotation": [0, 180, 0],
+			"scale": [0.33, 0.33, 0.33]
+		},
+		"thirdperson_lefthand": {
+			"translation": [-0.05, 0.0, 0.0],
+			"rotation": [0, 180, 0],
+			"scale": [0.33, 0.33, 0.33]
+		},
+		"firstperson_righthand": {
+			"translation": [1.25, 0, -1],
+			"rotation": [270, 0, 0],
+			"scale": [0.66, 0.66, 0.66]
+		},
+		"firstperson_lefthand": {
+			"translation": [0, 0.3, 0.15],
+			"rotation": [0, 180, 0],
+			"scale": [0.66, 0.66, 0.66]
+		},
+		"gui": {
+			"translation": [-1.05, -2.25, 0],
+			"rotation": [270, 48, 90],
+			"scale": [0.225, 0.225, 0.225]
+		},
+		"fixed": {
+			"translation": [0, 0, 0],
+			"rotation": [270, 300, 270],
+			"scale": [1, 1, 1]
+		},
+		"ground": {
+			"translation": [0, 0.1, 0],
+			"rotation": [0, 0, 0],
+			"scale": [0.35, 0.35, 0.35]
+		}
+
+	}
+}

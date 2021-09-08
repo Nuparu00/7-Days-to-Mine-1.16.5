@@ -5,6 +5,7 @@
 		"1": "block/bone_block_side",
 		"particle": "block/bone_block_top"
 	},
+	"gui_light" : "front",
 	"elements": [
 		{
 			"from": [6, 0, 5],

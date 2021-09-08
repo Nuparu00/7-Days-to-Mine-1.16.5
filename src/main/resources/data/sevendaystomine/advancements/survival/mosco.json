@@ -1,0 +1,27 @@
+{
+   "display":{
+      "icon":{
+         "item":"sevendaystomine:blood_draw_kit"
+      },
+      "title":{
+         "translate":"advancements.mosco.title"
+      },
+      "description":{
+         "translate":"advancements.mosco.description"
+      }
+   },
+   "rewards":{
+      "experience":5
+   },
+   "parent":"sevendaystomine:survival/chemistry_station",
+   "criteria":{
+      "mosco":{
+         "trigger":"sevendaystomine:mosco"
+      }
+   },
+   "requirements":[
+      [
+         "mosco"
+      ]
+   ]
+}

@@ -10,7 +10,12 @@
     "MixinToolItem",
     "MixinSwordItem",
     "MixinArmorItem",
-    "MixinStructureTileEntityRenderer"
+    "MixinStructureTileEntityRenderer",
+    "SingleJigsawPieceAccessor",
+    "StructurePieceAccessor",
+    "JigsawPatternAccessor",
+    "MixinBiomeGenerationSettingsBuilder",
+    "MixinPlayerRenderer"
   ],
   "client":[
   ],

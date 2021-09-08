@@ -24,6 +24,10 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.world.gen.city.City;
+import nuparu.sevendaystomine.world.gen.feature.jigsaw.CityJigsawManager;
+import nuparu.sevendaystomine.world.gen.feature.jigsaw.CityJigsawManagerHybrid;
+import nuparu.sevendaystomine.world.gen.feature.jigsaw.CityJigsawManagerVanilla;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
@@ -191,7 +195,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
                             // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
                             // However, I recommend you keep this a decent value like 10 so people can use datapacks to add additional pieces to your structure easily.
                             // But don't make it too large for recursive structures like villages or you'll crash server due to hundreds of pieces attempting to generate!
-                            7),
+                            100),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,
@@ -203,7 +207,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
                     true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
 
-
+            SevenDaysToMine.LOGGER.warn("CITY GENERARATED AT " + centerPos.toString());
             // **THE FOLLOWING TWO LINES ARE OPTIONAL**
             //
             // Right here, you can do interesting stuff with the pieces in this.pieces such as offset the
@@ -221,8 +225,8 @@ public class CityStructure extends Structure<NoFeatureConfig> {
             //
             // By lifting the house up by 1 and lowering the bounding box, the land at bottom of house will now be
             // flush with the surrounding terrain without blocking off the doorstep.
-            this.pieces.forEach(piece -> piece.move(0, 1, 0));
-            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 1);
+            this.pieces.forEach(piece -> piece.move(0, -1, 0));
+            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 0);
 
             // Since by default, the start piece of a structure spawns with it's corner at centerPos
             // and will randomly rotate around that corner, we will center the piece on centerPos instead.

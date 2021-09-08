@@ -63,11 +63,15 @@ public class CameraHelper {
 			int i = screenWidth * screenHeight;
 
 			NativeImage nativeimage = new NativeImage(screenWidth, screenHeight, false);
+
 			RenderSystem.bindTexture(buffer.getColorTextureId());
 			nativeimage.downloadTexture(0, true);
 			nativeimage.flipY();
 
-			sendFile(nativeimage);
+			NativeImage res = new NativeImage(width, height, false);
+			nativeimage.resizeSubRectTo(x,y,width,height,res);
+
+			sendFile(res);
 
 		} catch (Exception exception) {
 			exception.printStackTrace();

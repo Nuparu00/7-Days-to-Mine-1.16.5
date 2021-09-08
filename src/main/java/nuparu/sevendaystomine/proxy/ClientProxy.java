@@ -44,6 +44,7 @@ import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.events.*;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.ItemGuide;
+import nuparu.sevendaystomine.item.ItemNote;
 import nuparu.sevendaystomine.item.ItemRecipeBook;
 import nuparu.sevendaystomine.item.guide.BookDataManager;
 import nuparu.sevendaystomine.tileentity.TileEntityPhoto;
@@ -178,6 +179,9 @@ public class ClientProxy extends CommonProxy {
             case 3:
                 mc.setScreen(new GuiBook(((ItemGuide) stack.getItem()).data));
                 return;
+            case 4:
+                mc.setScreen(new GuiNote(((ItemNote) stack.getItem()).getData(stack)));
+                return;
         }
 
     }
@@ -188,6 +192,11 @@ public class ClientProxy extends CommonProxy {
         if (te != null && te instanceof TileEntityPhoto && id == 0) {
             mc.setScreen(new GuiPhoto(((TileEntityPhoto) te).getPath()));
         }
+    }
+
+    @Override
+    public void openPhoto(String path){
+        Minecraft.getInstance().setScreen(new GuiPhoto(path));
     }
 
     @Override
@@ -323,9 +332,11 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void onConstruct(FMLConstructModEvent event) {
-        IReloadableResourceManager manager = (IReloadableResourceManager) Minecraft.getInstance().getResourceManager();
-        manager.registerReloadListener(BookDataManager.instance);
-        manager.registerReloadListener(Animations.instance);
+        if (Minecraft.getInstance() != null) {
+            IReloadableResourceManager manager = (IReloadableResourceManager) Minecraft.getInstance().getResourceManager();
+            manager.registerReloadListener(BookDataManager.instance);
+            manager.registerReloadListener(Animations.instance);
+        }
     }
 
     @Override

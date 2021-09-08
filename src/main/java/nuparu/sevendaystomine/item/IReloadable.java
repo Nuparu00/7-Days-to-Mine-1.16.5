@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public interface IReloadable {
 
 	Item getReloadItem(ItemStack stack);
@@ -14,6 +16,6 @@ public interface IReloadable {
 	void onReloadStart(World world, PlayerEntity player, ItemStack stack, int reloadTime);
 	void onReloadEnd(World world,PlayerEntity player, ItemStack stack, ItemStack bullet);
 	int getAmmo(ItemStack stack, PlayerEntity player);
-	void setAmmo(ItemStack stack, PlayerEntity player, int ammo);
-	int getCapacity(ItemStack stack, PlayerEntity player);
+	void setAmmo(ItemStack stack, @Nullable  PlayerEntity player, int ammo);
+	int getCapacity(ItemStack stack, @Nullable PlayerEntity player);
 }

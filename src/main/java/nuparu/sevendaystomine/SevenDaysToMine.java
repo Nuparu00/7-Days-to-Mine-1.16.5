@@ -1,16 +1,11 @@
 package nuparu.sevendaystomine;
 
-import com.google.gson.Gson;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.block.WoodType;
 import net.minecraft.command.CommandSource;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.world.ForgeWorldType;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,6 +17,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.block.repair.RepairManager;
 import nuparu.sevendaystomine.capability.CapabilityHandler;
 import nuparu.sevendaystomine.capability.ChunkDataProvider;
@@ -30,10 +26,10 @@ import nuparu.sevendaystomine.capability.ExtendedPlayerProvider;
 import nuparu.sevendaystomine.command.*;
 import nuparu.sevendaystomine.config.ConfigHelper;
 import nuparu.sevendaystomine.crafting.RecipeManager;
-import nuparu.sevendaystomine.enchantment.ModEnchantments;
 import nuparu.sevendaystomine.events.*;
 import nuparu.sevendaystomine.init.*;
 import nuparu.sevendaystomine.item.guide.BookDataManager;
+import nuparu.sevendaystomine.loot.function.ModLootFunctionManager;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.potions.Potions;
 import nuparu.sevendaystomine.proxy.ClientProxy;
@@ -44,21 +40,11 @@ import nuparu.sevendaystomine.util.VanillaManager;
 import nuparu.sevendaystomine.util.book.BookData;
 import nuparu.sevendaystomine.util.book.BookData.CraftingMatrix;
 import nuparu.sevendaystomine.util.book.BookData.Page;
-import nuparu.sevendaystomine.world.MiscSavedData;
-import nuparu.sevendaystomine.world.WorldTypeOverworld;
-import nuparu.sevendaystomine.world.WorldTypeWasteland;
 import nuparu.sevendaystomine.world.gen.city.CityBuildings;
 import nuparu.sevendaystomine.world.gen.city.CityType;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 import java.util.Map.Entry;
 
 @Mod(SevenDaysToMine.MODID)
@@ -108,8 +94,11 @@ public class SevenDaysToMine {
         ModPaintingTypes.PAINTING_TYPES.register(bus);
         ModFeatures.FEATURES.register(bus);
         ModStructureFeatures.STRUCTURE_FEATURES.register(bus);
+        ModEnchantments.ENCHANTMENTS.register(bus);
 
         new RecipeManager().init();
+        //Registers custom loot functions
+        new ModLootFunctionManager();
 
 
         MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
@@ -137,7 +126,7 @@ public class SevenDaysToMine {
             ModConfiguredStructures.registerConfiguredStructures();
         });
 
-
+        ModTriggers.register();
         PacketManager.setup();
         ExtendedInventoryProvider.register();
         ExtendedPlayerProvider.register();
@@ -188,7 +177,7 @@ public class SevenDaysToMine {
 
         for (Entry<ResourceLocation, BookData> entry : BookDataManager.instance.getBooks().entrySet()) {
             BookData data = entry.getValue();
-            for (Page page : data.pages) {
+            for (Page page : data.getPages()) {
                 for (CraftingMatrix matrix : page.crafting) {
                     matrix.loadRecipe(event.getServer());
                 }
@@ -209,6 +198,7 @@ public class SevenDaysToMine {
         CommandSetBreakData.register(commandDispatcher);
         CommandGenerateCity.register(commandDispatcher);
         CommandPlacePrefab.register(commandDispatcher);
+        CommandGiveNote.register(commandDispatcher);
     }
 
 }

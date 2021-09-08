@@ -157,7 +157,7 @@ public class ItemArmorBase extends ArmorItem implements IQuality {
 	}
 
 	public double getToughness(ItemStack stack) {
-		return this.getToughness() / (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return this.getToughness() * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
 	}
 
 	@Override

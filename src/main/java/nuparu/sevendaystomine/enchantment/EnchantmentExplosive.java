@@ -4,14 +4,14 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.item.ItemGun;
 
 public class EnchantmentExplosive extends Enchantment {
 
-	protected EnchantmentExplosive() {
+	public EnchantmentExplosive() {
 		super(Rarity.VERY_RARE, ModEnchantments.GUNS,
 				new EquipmentSlotType[] { EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND });
-		setRegistryName(SevenDaysToMine.MODID, "explosive");
 	}
 
 	@Override

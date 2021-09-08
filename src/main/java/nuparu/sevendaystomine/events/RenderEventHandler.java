@@ -309,6 +309,13 @@ public class RenderEventHandler {
                 return;
             }
 
+            if(mainGun.getScoped() && mainGun.getFOVFactor(main) != 1 && mc.options.keyAttack.isDown()){
+                scoping = true;
+            }
+            else{
+                scoping = false;
+            }
+
             if (scoping) {
                 return;
             }
@@ -321,7 +328,7 @@ public class RenderEventHandler {
                     }
                 }
             }
-            else if(!Animations.override && Animations.currentAnimation != mainGun.getIdleAnimation() && (Animations.currentAnimation != mainGun.getShootAnimation() || !Animations.currentAnimation.isRunning())){
+            else if(mainGun.getIdleAnimation() != null && mainGun.getShootAnimation() != null && !Animations.override && Animations.currentAnimation != mainGun.getIdleAnimation() && (Animations.currentAnimation != mainGun.getShootAnimation() || !Animations.currentAnimation.isRunning())){
                 Animations.currentAnimation = mainGun.getIdleAnimation();
                 if(Animations.currentAnimation != null){
                     Animations.currentAnimation.unpause();

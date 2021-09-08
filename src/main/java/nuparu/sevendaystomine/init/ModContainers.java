@@ -7,6 +7,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.block.*;
+import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
+import nuparu.sevendaystomine.inventory.item.ContainerCamera;
 
 public class ModContainers {
 	public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS,
@@ -54,4 +56,12 @@ public class ModContainers {
 	public static final RegistryObject<ContainerType<ContainerTurretAdvanced>> TURRET_ADVANCED = CONTAINERS.register("turret_advanced",
 			() -> IForgeContainerType.create(ContainerTurretAdvanced::createContainerClientSide));
 
+	public static final RegistryObject<ContainerType<ContainerPrinter>> PRINTER = CONTAINERS.register("printer",
+			() -> IForgeContainerType.create(ContainerPrinter::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerBackpack>> BACKPACK = CONTAINERS.register("backpack",
+			() -> IForgeContainerType.create(ContainerBackpack::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerCamera>> CAMERA = CONTAINERS.register("camera",
+			() -> IForgeContainerType.create(ContainerCamera::createContainerClientSide));
 }

@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.IScrapable;
+import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityScreenProjector;
 
 public class BlockScreenProjector extends BlockHorizontalBase implements IScrapable {
@@ -85,6 +86,8 @@ public class BlockScreenProjector extends BlockHorizontalBase implements IScrapa
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
+			TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+			tileEntity.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

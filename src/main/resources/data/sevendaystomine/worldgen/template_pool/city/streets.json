@@ -3,10 +3,34 @@
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
-			"weight": 10,
+			"weight": 6,
 			"element": {
-				"location": "sevendaystomine:city/streets/straight_long_01",
-				"processors": "sevendaystomine:mossy_bricks",
+				"location": "sevendaystomine:city/streets/crossroad_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "terrain_matching",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}, {
+			"weight": 20,
+			"element": {
+				"location": "sevendaystomine:city/streets/straight_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "terrain_matching",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}, {
+			"weight": 5,
+			"element": {
+				"location": "sevendaystomine:city/streets/straight_no_building_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "terrain_matching",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}, {
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:city/streets/corner_01",
+				"processors": "sevendaystomine:mossify",
 				"projection": "terrain_matching",
 				"element_type": "minecraft:single_pool_element"
 			}
@@ -15,24 +39,7 @@
 			"weight": 4,
 			"element": {
 				"location": "sevendaystomine:city/streets/roundabout_01",
-				"processors": "sevendaystomine:mossy_bricks",
-				"projection": "terrain_matching",
-				"element_type": "minecraft:single_pool_element"
-			}
-		},
-		{
-			"weight": 4,
-			"element": {
-				"location": "sevendaystomine:city/streets/crossroad_big",
-				"processors": "sevendaystomine:mossy_bricks",
-				"projection": "terrain_matching",
-				"element_type": "minecraft:single_pool_element"
-			}
-		}, {
-			"weight": 2,
-			"element": {
-				"location": "sevendaystomine:city/streets/corner_big_01",
-				"processors": "sevendaystomine:mossy_bricks",
+				"processors": "sevendaystomine:mossify",
 				"projection": "terrain_matching",
 				"element_type": "minecraft:single_pool_element"
 			}

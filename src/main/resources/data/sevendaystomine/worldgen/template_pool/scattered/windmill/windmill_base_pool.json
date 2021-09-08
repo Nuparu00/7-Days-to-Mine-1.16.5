@@ -1,0 +1,15 @@
+{
+	"name": "sevendaystomine:scattered/windmill/windmill_base_pool",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:scattered/windmill/wind_turbine_base",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

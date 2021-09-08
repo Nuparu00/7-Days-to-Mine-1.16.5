@@ -18,7 +18,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 0
         },
         {
@@ -37,7 +37,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 150
         }
       ],
@@ -60,7 +60,7 @@
                 "y": 1.0,
                 "z": 1.0
               },
-              "visible": false,
+              "visible": true,
               "time": 0
             },
             {
@@ -79,7 +79,7 @@
                 "y": 1.0,
                 "z": 1.0
               },
-              "visible": false,
+              "visible": true,
               "time": 150
             }
           ],
@@ -107,7 +107,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 0
         },
         {
@@ -126,7 +126,7 @@
             "y": 1.0,
             "z": 1.0
           },
-          "visible": false,
+          "visible": true,
           "time": 150
         }
       ],

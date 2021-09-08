@@ -45,8 +45,8 @@ public class PlayerInventorySyncHelper {
 							backpack = inv.getStackInSlot(0);
 						}
 
-						if (inventoryCache.containsKey(player.getName())) {
-							InventoryCache cache = inventoryCache.get(player.getName());
+						if (inventoryCache.containsKey(player.getName().getString())) {
+							InventoryCache cache = inventoryCache.get(player.getName().getString());
 							if (areInventoriesEqual(inventory, cache.inventory)
 									&& ItemStack.isSame(selected, cache.selected)
 									&& ItemStack.isSame(backpack, cache.backpack)
@@ -103,9 +103,9 @@ public class PlayerInventorySyncHelper {
 							backpack = inv.getStackInSlot(0);
 						}
 
-						if (inventoryCache.containsKey(player.getName())) {
+						if (inventoryCache.containsKey(player.getName().getString())) {
 
-							InventoryCache cache = inventoryCache.get(player.getName());
+							InventoryCache cache = inventoryCache.get(player.getName().getString());
 
 							if (areInventoriesEqual(inventory, cache.inventory)
 									&& ItemStack.matches(selected, cache.selected)

@@ -1,0 +1,42 @@
+{
+  "title" : "Test Title",
+  "desc" : "Test Desc",
+  "pages": [{
+    "res": "sevendaystomine:textures/gui/books/note.png",
+    "texts": [{
+      "x": 64,
+      "y": 10,
+      "z": 0,
+      "text": "The Ascended Times",
+      "unlocalized": true,
+      "centered": true,
+      "color": "000000",
+      "scale": 1.2,
+      "formatting": [
+        "UNDERLINE"
+      ]
+    },
+      {
+        "x": 64,
+        "y": 25,
+        "z": 0,
+        "text": "Jackson Still Undecided",
+        "unlocalized": true,
+        "centered": true,
+        "color": "000000",
+        "scale": 1
+      },
+      {
+        "x": 10,
+        "y": 43,
+        "z": 0,
+        "text": "ASTRAL PLANE - Decisions, decisions, would appear, at least on the no-brainer, however Dr. Jackson, who has partially ascended in the pest, has retumed to face the same decision again. Life everlasting, truth, pure enlightenment and. absolute knowledge, these are the pros. But what of the cons? Death, losing his friends at the SGC and being unable to achieve the very short-term human goals of saving their dust-speck existence from the wrath of Anubis.",
+        "unlocalized": true,
+        "centered": false,
+        "color": "000000",
+        "width" : 110,
+        "scale": 0.75
+      }
+    ]
+  }]
+}

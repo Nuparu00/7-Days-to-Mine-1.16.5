@@ -46,6 +46,7 @@ import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityCodeSafe;
+import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
 public class BlockCodeSafe extends BlockBase implements IScrapable, IWaterLoggable {
 
@@ -194,6 +195,8 @@ public class BlockCodeSafe extends BlockBase implements IScrapable, IWaterLoggab
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
+			TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+			tileEntity.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;

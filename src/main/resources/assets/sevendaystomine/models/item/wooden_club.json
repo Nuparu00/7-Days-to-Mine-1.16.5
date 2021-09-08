@@ -5,6 +5,7 @@
 		"2": "block/hardened_clay_stained_brown",
 		"particle": "sevendaystomine:blocks/stripped_wood"
 	},
+	"gui_light" : "front",
 	"elements": [
 		{
 			"from": [6, 22, 6],

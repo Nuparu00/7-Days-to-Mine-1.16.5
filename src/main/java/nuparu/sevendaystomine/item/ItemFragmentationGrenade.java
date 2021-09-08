@@ -2,6 +2,8 @@ package nuparu.sevendaystomine.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.SnowballEntity;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.item.UseAction;
 import net.minecraft.item.Item;
@@ -11,6 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.entity.FragmentationGrenadeEntity;
 
 public class ItemFragmentationGrenade extends Item {
 	
@@ -57,10 +60,12 @@ public class ItemFragmentationGrenade extends Item {
 					0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
 			if (!worldIn.isClientSide()) {
-				/*EntityFragmentationGrenade grenade = new EntityFragmentationGrenade(worldIn, player);
-				grenade.shoot(player, player.xRot, player.yRot, 0.0F, 1f*f , 0.5f);
-				worldIn.addFreshEntity(grenade);*/
+				FragmentationGrenadeEntity snowballentity = new FragmentationGrenadeEntity(worldIn, player);
+				snowballentity.setItem(stack);
+				snowballentity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1.5F, 1.0F);
+				worldIn.addFreshEntity(snowballentity);
 			}
+			player.awardStat(Stats.ITEM_USED.get(this));
 
 			//player.addStat(StatList.getObjectUseStats(this));
 		}
