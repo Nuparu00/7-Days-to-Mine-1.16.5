@@ -1,5 +1,6 @@
 package nuparu.sevendaystomine.init;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
@@ -351,7 +352,7 @@ public class ModItems {
 
 	public static final RegistryObject<Item> REANIMATED_CORPSE_SPAWN_EGG = ITEMS.register("reanimated_corpse_spawn_egg", () -> new SpawnEggItem(ModEntities.REANIMATED_CORPSE_RAW, 0x403A34, 0x1D2637, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> PLAGUED_NURSE_SPAWN_EGG = ITEMS.register("plagued_nurse_spawn_egg", () -> new SpawnEggItem(ModEntities.PLAGUED_NURSE_RAW, 0x2C5B50, 0x1D2637, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
-	public static final RegistryObject<Item> FROZEN_LUMBERJACK_SPAWN_EGG = ITEMS.register("frozen_lumberjack_spawn_egg", () -> new SpawnEggItem(ModEntities.FRONZE_LUMBERJACK_RAW, 0x151F36, 0x760504, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
+	public static final RegistryObject<Item> FROZEN_LUMBERJACK_SPAWN_EGG = ITEMS.register("frozen_lumberjack_spawn_egg", () -> new SpawnEggItem(ModEntities.FROZEN_LUMBERJACK_RAW, 0x151F36, 0x760504, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> FRIGID_HUNTER_SPAWN_EGG = ITEMS.register("frigid_hunter_spawn_egg", () -> new SpawnEggItem(ModEntities.FRIGID_HUNTER_RAW, 0x607A88, 0x593616, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> FROSTBITTEN_WORKER_SPAWN_EGG = ITEMS.register("frostbitten_worker_spawn_egg", () -> new SpawnEggItem(ModEntities.FROSTBITTEN_WORKER_RAW, 0x5B1C1C, 0x242A3C, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> MINER_ZOMBIE_SPAWN_EGG = ITEMS.register("miner_zombie_spawn_egg", () -> new SpawnEggItem(ModEntities.MINER_ZOMBIE_RAW, 0x1A1325, 0x211A17, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
@@ -405,6 +406,11 @@ public class ModItems {
 	public static final RegistryObject<Item> STREET_SIGN = ITEMS.register("street_sign", () -> new SignItem((new Item.Properties()).stacksTo(16).tab(ItemGroup.TAB_DECORATIONS), ModBlocks.STREET_SIGN.get(), ModBlocks.STREET_SIGN_WALL.get()));
 	public static final RegistryObject<Item> BIG_SIGN = ITEMS.register("big_sign", () -> new SignItem((new Item.Properties()).stacksTo(16).tab(ItemGroup.TAB_DECORATIONS), ModBlocks.BIG_SIGN_MASTER.get(), ModBlocks.BIG_SIGN_MASTER.get()));
 
+	public static final RegistryObject<Item> TORCH = ITEMS.register("torch",
+			() -> new WallOrFloorItem(ModBlocks.TORCH_LIT.get(), ModBlocks.TORCH_LIT_WALL.get(), (new Item.Properties()).tab(ItemGroup.TAB_DECORATIONS)));
+
+	public static final RegistryObject<Item> TORCH_UNLIT = ITEMS.register("torch_unlit",
+			() -> new WallOrFloorItem(ModBlocks.TORCH_UNLIT.get(), ModBlocks.TORCH_UNLIT_WALL.get(), (new Item.Properties()).tab(ItemGroup.TAB_DECORATIONS)));
 
 	public static final RegistryObject<Item> FRIDGE = ITEMS.register("fridge", () -> new TallBlockItem(ModBlocks.FRIDGE.get(), new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_BUILDING)));
 	public static final RegistryObject<Item> LOCKED_DOOR = ITEMS.register("locked_door", () -> new TallBlockItem(ModBlocks.LOCKED_DOOR.get(), new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_BUILDING)));

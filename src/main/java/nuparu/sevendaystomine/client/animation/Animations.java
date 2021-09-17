@@ -10,6 +10,7 @@ import nuparu.sevendaystomine.client.animation.json.JsonAnimation;
 import nuparu.sevendaystomine.entity.human.dialogue.DialogueDataManager;
 import nuparu.sevendaystomine.util.dialogue.DialogueParser;
 import nuparu.sevendaystomine.util.dialogue.Dialogues;
+import org.lwjgl.system.CallbackI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class Animations extends JsonReloadListener {
 
     public static Animation currentAnimation = null;
     public static boolean override = false;
+    public static Vector3d offset = Vector3d.ZERO;
 
     public Animations() {
         super(GSON,"animations");
@@ -39,7 +41,9 @@ public class Animations extends JsonReloadListener {
             ResourceLocation key = entry.getKey();
             JsonElement je = entry.getValue();
             System.out.println("animations + " + key.toString());
-            JsonAnimation jsonAnimation =  GSON.fromJson(je,JsonAnimation.class);
+            //JsonAnimation jsonAnimation =  GSON.fromJson(je,JsonAnimation.class);
+            JsonAnimation jsonAnimation =  JsonAnimation.from(je.getAsJsonObject());
+            System.out.println(key.toString() + jsonAnimation.toString());
             Animation animation = jsonAnimation.toAnimation();
             animationz.put(key, animation);
 

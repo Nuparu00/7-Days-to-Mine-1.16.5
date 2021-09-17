@@ -13,7 +13,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -31,6 +31,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
@@ -40,7 +42,7 @@ import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
+import net.minecraftforge.common.world.MobSpawnInfoBuilder;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -54,12 +56,10 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.IUpgradeable;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IChunkData;
+import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.IVoltage;
-import nuparu.sevendaystomine.init.ModConfiguredStructures;
-import nuparu.sevendaystomine.init.ModFeatures;
-import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.init.ModStructureFeatures;
+import nuparu.sevendaystomine.init.*;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.network.PacketManager;
@@ -78,6 +78,8 @@ public class WorldEventHandler {
 		Block block = state.getBlock();
 		World world = event.world;
 		BlockPos pos = event.pos;
+
+		//Downgrades upgradeable block
 		if (state.getBlock() instanceof IUpgradeable) {
 			IUpgradeable upgradeable = (IUpgradeable) state.getBlock();
 			world.setBlockAndUpdate(pos, upgradeable.getPrev(world, pos, state));
@@ -91,6 +93,7 @@ public class WorldEventHandler {
 			}
 		}
 
+		//Handles double blocks
 		if (!(block instanceof DoublePlantBlock)) {
 			FluidState fluidstate = world.getFluidState(pos);
 			block.removedByPlayer(state, world, pos, (PlayerEntity) null, true, fluidstate);
@@ -104,6 +107,7 @@ public class WorldEventHandler {
 	public void onBlockBreakEvent(BlockEvent.BreakEvent event) {
 		BlockState oldState = event.getState();
 		IWorld world = event.getWorld();
+		//Makes player bleed when destroying glass with bare hands
 		if (event.getPlayer() instanceof ServerPlayerEntity) {
 			ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
 			if (!player.isCreative() && !player.isSpectator()) {
@@ -116,8 +120,8 @@ public class WorldEventHandler {
 					}
 				}
 			}
-			// BreakSavedData.get(world).removeBreakData(event.getPos(), world);
 		}
+		//Makes sure to disconnect connections between electrical blocks
 		if (world instanceof World) {
 			TileEntity te = world.getBlockEntity(event.getPos());
 			if (te != null && te instanceof IVoltage) {
@@ -132,40 +136,6 @@ public class WorldEventHandler {
 					from.disconnect(voltage);
 				}
 			}
-		}
-	}
-
-	/*
-	 * CALLED ON WORLD LOAD - HANDLES INIIAL LOADING OF WORLD SAVED DATA
-	 */
-	@SubscribeEvent
-	public void loadWorld(WorldEvent.Load event) {
-
-	}
-
-	/*
-	 * Syncs block damage
-	 */
-	@SubscribeEvent
-	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
-		World world = event.getPlayer().level;
-		if (event.getPlayer() instanceof ServerPlayerEntity && !world.isClientSide()) {
-			ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-			// BreakSavedData.get(world).sync(player);
-		}
-	}
-
-	@SubscribeEvent
-	public void onPlayLoundSoundAtEntity(LoudSoundEvent event) {
-		if (event.pos != null) {
-			float range = event.volume * 6.4f;
-			AxisAlignedBB aabb = new AxisAlignedBB(event.pos).inflate(range, range / 2, range);
-			List<Entity> entities = event.world.getEntitiesOfClass(Entity.class, aabb);
-			/*
-			 * for (Entity e : entities) { if (e instanceof INoiseListener) { INoiseListener
-			 * noiseListener = (INoiseListener) e; noiseListener.addNoise(new Noise(null,
-			 * event.pos, event.world, event.volume, 1)); } }
-			 */
 		}
 	}
 
@@ -209,6 +179,7 @@ public class WorldEventHandler {
 		ServerWorld world = event.getWorld();
 		BlockPos pos = event.getPos().getWorldPosition();
 		Chunk chunk = world.getChunkAt(pos);
+		//Sync damage blocks to the client
 		if (chunk != null) {
 			IChunkData data = CapabilityHelper.getChunkData(chunk);
 			if (data != null) {
@@ -224,16 +195,50 @@ public class WorldEventHandler {
 				Objects.requireNonNull(event.getName(),
 						"Non existing biome detected!"));
 
+		//Entity part
+		MobSpawnInfoBuilder spawns = event.getSpawns();
+		List<MobSpawnInfo.Spawners> monsterSpawner = spawns.getSpawner(EntityClassification.MONSTER);
+
+		if(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.NETHER)) {
+			if (Biomes.SOUL_SAND_VALLEY == biomeKey) {
+				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.SOUL_BURNT_ZOMBIE.get(), CommonConfig.spawnWeightSoulBurntZombie.get(), CommonConfig.spawnMinSoulBurntZombie.get(), CommonConfig.spawnMaxSoulBurntZombie.get()));
+			}
+			else{
+				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.BURNT_ZOMBIE.get(), CommonConfig.spawnWeightBurntZombie.get(), CommonConfig.spawnMinBurntZombie.get(), CommonConfig.spawnMaxBurntZombie.get()));
+			}
+		}
+		else {
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.REANIMATED_CORPSE.get(), CommonConfig.spawnWeightReanimatedCorpse.get(), CommonConfig.spawnMinReanimatedCorpse.get(), CommonConfig.spawnMaxReanimatedCorpse.get()));
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.PLAGUED_NURSE.get(), CommonConfig.spawnWeightPlaguedNurse.get(), CommonConfig.spawnMinPlaguedNurse.get(), CommonConfig.spawnMaxPlaguedNurse.get()));
+
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.MINER_ZOMBIE.get(), CommonConfig.spawnWeightZombieMiner.get(), CommonConfig.spawnMinZombieMiner.get(), CommonConfig.spawnMaxZombieMiner.get()));
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.SPIDER_ZOMBIE.get(), CommonConfig.spawnWeightSpiderZombie.get(), CommonConfig.spawnMinSpiderZombie.get(), CommonConfig.spawnMaxSpiderZombie.get()));
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.CRAWLER_ZOMBIE.get(), CommonConfig.spawnWeightZombieCrawler.get(), CommonConfig.spawnMinZombieCrawler.get(), CommonConfig.spawnMaxZombieCrawler.get()));
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.INFECTED_SURVIVOR.get(), CommonConfig.spawnWeightInfectedSurvivor.get(), CommonConfig.spawnMinInfectedSurvivor.get(), CommonConfig.spawnMaxInfectedSurvivor.get()));
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.ZOMBIE_WOLF.get(), CommonConfig.spawnWeightZombieWolf.get(), CommonConfig.spawnMinZombieWolf.get(), CommonConfig.spawnMaxZombieWolf.get()));
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.ZOMBIE_PIG.get(), CommonConfig.spawnWeightZombiePig.get(), CommonConfig.spawnMinZombiePig.get(), CommonConfig.spawnMaxZombiePig.get()));
+
+			if (BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SNOWY) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.COLD)) {
+				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.FROZEN_LUMBERJACK.get(), CommonConfig.spawnWeightFrozenLumberjack.get(), CommonConfig.spawnMinFrozenLumberjack.get(), CommonConfig.spawnMaxFrozenLumberjack.get()));
+				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.FRIGID_HUNTER.get(), CommonConfig.spawnWeightFrigidHunter.get(), CommonConfig.spawnMinFrigidHunter.get(), CommonConfig.spawnMaxFrigidHunter.get()));
+				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.FROSTBITTEN_WORKER.get(), CommonConfig.spawnWeightFrostbittenWorker.get(), CommonConfig.spawnMinFrostbittenWorker.get(), CommonConfig.spawnMaxFrostbittenWorker.get()));
+			}
+		}
+		//World generation part
 		event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.largeRockFeature);
 		event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.smallStoneFeature);
 		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.berryBushFeature);
 		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_PILLAGER_OUTPOST_RUINED);
 		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_WINDMILL);
 		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_RUINS);
+		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_OBSERVATORY);
 
 		if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
 			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.MOUNTAIN) && !BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.HILLS)) {
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CITY);
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_MILITARY_BASE);
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRPLANE);
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_HELICOPTER);
 			}
 			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY)) {
 				event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.stickFeature);
@@ -289,6 +294,10 @@ public class WorldEventHandler {
 			tempMap.putIfAbsent(ModStructureFeatures.PILLAGER_OUTPOST_RUINED.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.PILLAGER_OUTPOST_RUINED.get()));
 			tempMap.putIfAbsent(ModStructureFeatures.WINDMILL.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.WINDMILL.get()));
 			tempMap.putIfAbsent(ModStructureFeatures.RUINS.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.RUINS.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.OBSERVATORY.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.OBSERVATORY.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.AIRPLANE.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.AIRPLANE.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.MILITARY_BASE.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.MILITARY_BASE.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.HELICOPTER.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.HELICOPTER.get()));
 			serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
 	}

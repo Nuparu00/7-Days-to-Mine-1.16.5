@@ -42,6 +42,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.IScrapable;
+import nuparu.sevendaystomine.util.Utils;
 
 public class BlockSofa extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
@@ -258,5 +259,15 @@ public class BlockSofa extends BlockHorizontalBase implements IScrapable, IWater
 	@Override
 	public boolean canBeScraped() {
 		return true;
+	}
+
+	@Override
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos,
+								PlayerEntity playerIn, Hand hand, BlockRayTraceResult result) {
+		if (!playerIn.isCrouching() && !worldIn.isClientSide()) {
+			Utils.mountBlock(worldIn, pos, playerIn,0.15f);
+			return ActionResultType.SUCCESS;
+		}
+		return ActionResultType.FAIL;
 	}
 }

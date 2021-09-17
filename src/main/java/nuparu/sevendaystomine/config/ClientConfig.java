@@ -3,10 +3,15 @@ package nuparu.sevendaystomine.config;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.EnumValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import nuparu.sevendaystomine.client.gui.EnumHudPosition;
 
 public class ClientConfig {
-    public static BooleanValue customSky;
+    public static BooleanValue bloodmoonSky;
+    public static DoubleValue blodmoonColorR;
+    public static DoubleValue blodmoonColorG;
+    public static DoubleValue blodmoonColorB;
     public static BooleanValue customMenu;
     public static BooleanValue customPlayerRenderer;
     public static BooleanValue customGunHands;
@@ -22,7 +27,10 @@ public class ClientConfig {
 	
 
     public static void init(ForgeConfigSpec.Builder server) {
-    	customSky=server.comment("Should use custom sky (for bloodmons,etc..)?").define("render.custom_sky",true);
+    	bloodmoonSky=server.comment("Should colorize sky during bloodmoons?").define("render.bloodmoonSky",true);
+        blodmoonColorR=server.comment("The red channel of the bloodmoon color").defineInRange("render.blodmoonColorR",1d,0d,1);
+        blodmoonColorG=server.comment("The green channel of the bloodmoon color").defineInRange("render.blodmoonColorG",0d,0d,1);
+        blodmoonColorB=server.comment("The blue channel of the bloodmoon color").defineInRange("render.blodmoonColorB",0d,0d,1);
     	customMenu=server.comment("\"Should use the custom menu?").define("gui.custom_menu",true);
     	customPlayerRenderer=server.comment("Should use the custom player renderer (used for aiming in 3rd person, rotating the player while riding the minibike, etc..)?").define("render.player_renderer",true);
     	customGunHands=server.comment("Should use custom hand rendeing in first person (with guns)? Not recommended to turn off, as results might be questionable. Could be useful with mods that affect hand rendering (maybe something like Vivecraft)").define("render.custom_gun_hands",true);

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuScreen;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -13,11 +14,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,10 +41,12 @@ import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.client.gui.GuiMainMenuEnhanced;
 import nuparu.sevendaystomine.client.gui.GuiPlayerUI;
+import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.*;
+import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.PlayerUtils;
 import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.util.VanillaManager;
@@ -139,9 +144,51 @@ public class ClientEventHandler {
     }
 
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent()
+    @SubscribeEvent
     public void onFogColors(FogColors event) {
 
+        if(ClientConfig.bloodmoonSky.get()) {
+            int sunsetStart = 12610;
+            int sunsestEnd = 13702;
+            int sunsetDarkEnd = 13000;
+            int sunsetRedStart = 13000;
+
+            World world = event.getInfo().getEntity().level;
+            float partialTicks = (float) event.getRenderPartialTicks();
+            double angle = world.getTimeOfDay(partialTicks);
+            long time = world.getDayTime() - 24000 * (Utils.getDay(world) - 1);
+            //12610 = sunset start
+            if (time > sunsetStart) {
+                double mult = MathUtils.clamp(Math.abs(angle - 0.54), 0, 0.30);
+                double lightMult = 0;
+
+                //22300 = sunrise start
+                if (time > 22300) {
+                    lightMult = (time - 22300) / 1700d;
+                }
+
+                float rNew = (float) (mult * 0.1f);
+
+                float r = rNew;
+
+                if (time > 22300) {
+                    r = (float) MathUtils.lerp(rNew, event.getRed(), (float) ((time - 22300) / 1700d));
+                } else if (time < sunsestEnd) {
+                    double rOld = MathUtils.lerp(event.getRed(), event.getRed() - 0.2f, (float) ((MathUtils.clamp(time, 0, sunsetDarkEnd) - sunsetStart) / 390));
+                    mult *= ((time - sunsetStart) / (sunsestEnd - sunsetStart));
+                    lightMult = 1 - ((time - sunsetStart) / (sunsestEnd - sunsetStart));
+                    System.out.println(lightMult);
+                    rNew = (float) (mult * 0.1f);
+                    if (time > sunsetRedStart) {
+                        r = (float) MathUtils.lerp(rOld, rNew, (float) ((time - 12610) / 1092d));
+                    }
+                    r = (float) event.getRed();
+                }
+                event.setRed(r);
+                event.setGreen((float) (lightMult * event.getGreen()));
+                event.setBlue((float) (lightMult * event.getBlue()));
+            }
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

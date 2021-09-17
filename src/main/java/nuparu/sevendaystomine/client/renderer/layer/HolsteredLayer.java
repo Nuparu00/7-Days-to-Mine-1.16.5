@@ -78,17 +78,16 @@ public class HolsteredLayer extends LayerRenderer<AbstractClientPlayerEntity, Pl
                     if (player.isCrouching()){
                         matrixStack.translate(0, 0.05, 0.25);
                     }
+
+                    matrixStack.mulPose(Vector3f.XP.rotationDegrees((float)Math.toDegrees(getParentModel().leftLeg.xRot)));
+                    matrixStack.mulPose(Vector3f.YP.rotationDegrees((float)Math.toDegrees(getParentModel().leftLeg.zRot)));
+                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees((float)Math.toDegrees(getParentModel().leftLeg.zRot)));
+
                     matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90));
                     matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
                     matrixStack.mulPose(Vector3f.XP.rotationDegrees(90));
-                    if (player.isCrouching()){
-                        /*matrixStack.mulPose(Vector3f.XP.rotationDegrees(28.6479f));
-                        matrixStack.translate(0,0.147, 0.104);*/
-                    }
 
-                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees((float)Math.toDegrees(getParentModel().leftLeg.xRot)));
-                    matrixStack.mulPose(Vector3f.YP.rotationDegrees((float)Math.toDegrees(getParentModel().leftLeg.zRot)));
-                    matrixStack.mulPose(Vector3f.XP.rotationDegrees((float)Math.toDegrees(getParentModel().leftLeg.yRot)));
+
                     matrixStack.scale(0.475f,0.475f,0.475f);
                     IBakedModel upperModel = itemRenderer.getModel(leftStack, world, null);
                     itemRenderer.render(leftStack, ItemCameraTransforms.TransformType.GUI, true, matrixStack, buffer, p_225628_3_,  OverlayTexture.NO_OVERLAY, upperModel);
@@ -105,17 +104,15 @@ public class HolsteredLayer extends LayerRenderer<AbstractClientPlayerEntity, Pl
                 if (player.isCrouching()){
                     matrixStack.translate(0, 0.05, 0.25);
                 }
+                matrixStack.mulPose(Vector3f.XP.rotationDegrees((float)Math.toDegrees(getParentModel().rightLeg.xRot)));
+                matrixStack.mulPose(Vector3f.YP.rotationDegrees((float)Math.toDegrees(getParentModel().rightLeg.zRot)));
+                matrixStack.mulPose(Vector3f.ZP.rotationDegrees((float)Math.toDegrees(getParentModel().rightLeg.zRot)));
+
                 matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90));
                 matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
                 matrixStack.mulPose(Vector3f.XP.rotationDegrees(90));
-                if (player.isCrouching()){
-                        /*matrixStack.mulPose(Vector3f.XP.rotationDegrees(28.6479f));
-                        matrixStack.translate(0,0.147, 0.104);*/
-                }
 
-                matrixStack.mulPose(Vector3f.ZP.rotationDegrees((float)Math.toDegrees(getParentModel().rightLeg.xRot)));
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees((float)Math.toDegrees(getParentModel().rightLeg.zRot)));
-                matrixStack.mulPose(Vector3f.XP.rotationDegrees((float)Math.toDegrees(getParentModel().rightLeg.yRot)));
+
                 matrixStack.scale(0.475f,0.475f,0.475f);
                 IBakedModel upperModel = itemRenderer.getModel(leftStack, world, null);
                 itemRenderer.render(leftStack, ItemCameraTransforms.TransformType.GUI, true, matrixStack, buffer,  p_225628_3_,  OverlayTexture.NO_OVERLAY, upperModel);

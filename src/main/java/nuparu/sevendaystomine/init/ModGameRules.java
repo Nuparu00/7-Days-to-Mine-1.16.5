@@ -20,6 +20,7 @@ public class ModGameRules {
 	public static GameRules.RuleKey<IntegerValue> hordeGlow;
 	
 	public static void register() {
+		System.out.println("GAME RULEZ");
 		handleThirst = GameRules.register("handleThirst", Category.PLAYER, createBoolean(true));
 		damageDecayRate = GameRules.register("damageDecayRate", Category.MISC, createInt(-1));
 		hordeGlow = GameRules.register("hordeGlow", Category.MOBS, createInt(0));	
@@ -27,10 +28,12 @@ public class ModGameRules {
 	
 
 	public static GameRules.RuleType<GameRules.BooleanValue> createBoolean(boolean defaultValue){
+		System.out.println("createBoolean");
 		if(m_create_boolean == null) {
-			m_create_boolean = ObfuscationReflectionHelper.findMethod(GameRules.BooleanValue.class, "create", boolean.class);
+			m_create_boolean = ObfuscationReflectionHelper.findMethod(GameRules.BooleanValue.class, "func_223568_b", boolean.class);
 		}
 		try {
+			System.out.println("createBoolean try");
 			return (RuleType<BooleanValue>) m_create_boolean.invoke(null, defaultValue);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -39,8 +42,10 @@ public class ModGameRules {
 	}
 	
 	public static GameRules.RuleType<GameRules.IntegerValue> createInt(int defaultValue){
+		System.out.println("createInt");
 		if(m_create_int == null) {
-			m_create_int = ObfuscationReflectionHelper.findMethod(GameRules.IntegerValue.class, "create", int.class);
+			System.out.println("createInt try");
+			m_create_int = ObfuscationReflectionHelper.findMethod(GameRules.IntegerValue.class, "func_223559_b", int.class);
 		}
 		try {
 			return (RuleType<IntegerValue>) m_create_int.invoke(null, defaultValue);

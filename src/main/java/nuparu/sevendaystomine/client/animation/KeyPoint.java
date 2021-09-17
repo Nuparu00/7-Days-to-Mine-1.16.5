@@ -69,4 +69,9 @@ public class KeyPoint {
         return time;
     }
 
+    @Override
+    public String toString() {
+        return this.position.toString() +  " " + this.rotation.toString() + " " + this.scale.toString() + " " + this.scale +  " " + this.visible;
+    }
+
 }

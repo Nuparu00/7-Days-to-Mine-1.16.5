@@ -10,7 +10,10 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
@@ -23,6 +26,7 @@ import nuparu.sevendaystomine.capability.CapabilityHandler;
 import nuparu.sevendaystomine.capability.ChunkDataProvider;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.ExtendedPlayerProvider;
+import nuparu.sevendaystomine.client.gui.ConfigScreen;
 import nuparu.sevendaystomine.command.*;
 import nuparu.sevendaystomine.config.ConfigHelper;
 import nuparu.sevendaystomine.crafting.RecipeManager;
@@ -67,13 +71,21 @@ public class SevenDaysToMine {
         bus.addListener(this::setup);
         bus.addListener(this::onConstruct);
 
-        ConfigHelper.loadConfig(ConfigHelper.commonConfig,
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHelper.commonConfig);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHelper.clientConfig);
+        /*ConfigHelper.loadConfig(ConfigHelper.commonConfig,
                 FMLPaths.CONFIGDIR.get().resolve("sevendaystomine-common.toml").toString());
 
         ConfigHelper.loadConfig(ConfigHelper.clientConfig,
-                FMLPaths.CONFIGDIR.get().resolve("sevendaystomine-client.toml").toString());
+                FMLPaths.CONFIGDIR.get().resolve("sevendaystomine-client.toml").toString());*/
 
-        // bus.addListener(this::doClientStuff);
+        // Register the configuration GUI factory
+        /*ModLoadingContext.get().registerExtensionPoint(
+                ExtensionPoint.CONFIGGUIFACTORY,
+                () -> (mc, screen) -> new ConfigScreen()
+        );*/
+
+
         MinecraftForge.EVENT_BUS.register(this);
         bus.register(ModTileEntities.class);
         bus.register(StartupCommon.class);
@@ -101,8 +113,8 @@ public class SevenDaysToMine {
         new ModLootFunctionManager();
 
 
-        MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
         // Event Handlers
+        MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
         MinecraftForge.EVENT_BUS.register(new LivingEventHandler());
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
         MinecraftForge.EVENT_BUS.register(new WorldEventHandler());
@@ -194,9 +206,7 @@ public class SevenDaysToMine {
         CommandCure.register(commandDispatcher);
         CommandHorde.register(commandDispatcher);
         CommandHydrate.register(commandDispatcher);
-        CommandLocateModded.register(commandDispatcher);
         CommandSetBreakData.register(commandDispatcher);
-        CommandGenerateCity.register(commandDispatcher);
         CommandPlacePrefab.register(commandDispatcher);
         CommandGiveNote.register(commandDispatcher);
     }

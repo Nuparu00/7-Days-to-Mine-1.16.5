@@ -15,7 +15,8 @@
     "StructurePieceAccessor",
     "JigsawPatternAccessor",
     "MixinBiomeGenerationSettingsBuilder",
-    "MixinPlayerRenderer"
+    "MixinPlayerRenderer",
+    "MixinWorldRenderer"
   ],
   "client":[
   ],

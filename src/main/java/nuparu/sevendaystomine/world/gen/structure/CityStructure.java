@@ -129,7 +129,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
-
+        System.out.println("isFeatureChunk");
         // Grab height of land. Will stop at first non-air block.
         int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
@@ -156,7 +156,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
-
+            System.out.println("generatePieces");
             // Turns the chunk coordinates into actual coordinates we can use
             int x = chunkX * 16;
             int z = chunkZ * 16;
@@ -195,7 +195,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
                             // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
                             // However, I recommend you keep this a decent value like 10 so people can use datapacks to add additional pieces to your structure easily.
                             // But don't make it too large for recursive structures like villages or you'll crash server due to hundreds of pieces attempting to generate!
-                            100),
+                            20),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,

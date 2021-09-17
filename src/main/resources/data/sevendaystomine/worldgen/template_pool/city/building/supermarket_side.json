@@ -1,0 +1,15 @@
+{
+	"name": "sevendaystomine:city/building/supermarket_side",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:city/buildings/supermarket_left",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

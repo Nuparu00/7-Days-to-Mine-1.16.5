@@ -1,6 +1,5 @@
 package nuparu.sevendaystomine.proxy;
 
-import net.minecraft.block.WoodType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.Atlases;
@@ -14,15 +13,11 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.client.animation.AnimationModel;
-import nuparu.sevendaystomine.client.animation.AnimationModelRenderers;
-import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.client.gui.inventory.*;
 import nuparu.sevendaystomine.client.renderer.entity.*;
 import nuparu.sevendaystomine.client.renderer.layer.BackpackLayer;
 import nuparu.sevendaystomine.client.renderer.layer.HolsteredLayer;
 import nuparu.sevendaystomine.client.renderer.tileentity.*;
-import nuparu.sevendaystomine.entity.ZombieWolfEntity;
 import nuparu.sevendaystomine.init.*;
 
 import java.util.Map;
@@ -49,6 +44,8 @@ public class StartupClient {
         ScreenManager.register(ModContainers.PRINTER.get(), GuiPrinter::new);
         ScreenManager.register(ModContainers.BACKPACK.get(), GuiBackpack::new);
         ScreenManager.register(ModContainers.CAMERA.get(), GuiCameraContainer::new);
+        ScreenManager.register(ModContainers.LOOTABLE_COPRSE.get(), GuiLootableCorpse::new);
+        ScreenManager.register(ModContainers.AIRDROP.get(), GuiAirdrop::new);
 
 
         RenderTypeLookup.setRenderLayer(ModBlocks.BANEBERRY_PLANT.get(), RenderType.translucent());
@@ -72,12 +69,13 @@ public class StartupClient {
         RenderTypeLookup.setRenderLayer(ModBlocks.METAL_LADDER.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.SKELETON.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.SKELETON_SITTING.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.SKELETON_TORSO.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.SEPARATOR.get(), RenderType.translucent());
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.REANIMATED_CORPSE.get(), ReanimatedCorpseRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.LOOTABLE_CORPSE.get(), LootableCorpseRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.PLAGUED_NURSE.get(), PlaguedNurseRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FRONZE_LUMBERJACK.get(), FrozenLumberjackRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROZEN_LUMBERJACK.get(), FrozenLumberjackRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.FRIGID_HUNTER.get(), FrigidHunterRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.FROSTBITTEN_WORKER.get(), FrostbittenWorkerRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.MINER_ZOMBIE.get(), MinerZombieRenderer::new);
@@ -96,6 +94,8 @@ public class StartupClient {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ROCKET.get(), RocketRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.FLAME.get(), FlameRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.FRAGMENTATION_GRENADE.get(), FragmentationGrenadeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.MOUNTABLE_BLOCK.get(), MountableBlockRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.AIRDROP.get(), AirdropRenderer::new);
 
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SOLAR_PANEL.get(), TileEntitySolarPanelRenderer::new);

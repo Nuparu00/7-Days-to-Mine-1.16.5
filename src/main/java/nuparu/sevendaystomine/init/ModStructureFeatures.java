@@ -11,10 +11,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.world.gen.structure.CityStructure;
-import nuparu.sevendaystomine.world.gen.structure.PillagerOutpostRuinedStructure;
-import nuparu.sevendaystomine.world.gen.structure.RuinsStructure;
-import nuparu.sevendaystomine.world.gen.structure.WindmillStructure;
+import nuparu.sevendaystomine.world.gen.structure.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +23,10 @@ public class ModStructureFeatures {
     public static final RegistryObject<Structure<NoFeatureConfig>> PILLAGER_OUTPOST_RUINED = STRUCTURE_FEATURES.register("pillager_outpost_ruined", () -> (new PillagerOutpostRuinedStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> WINDMILL = STRUCTURE_FEATURES.register("windmill", () -> (new WindmillStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> RUINS = STRUCTURE_FEATURES.register("ruins", () -> (new RuinsStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> OBSERVATORY = STRUCTURE_FEATURES.register("observatory", () -> (new ObservatoryStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> AIRPLANE = STRUCTURE_FEATURES.register("airplane", () -> (new AirplaneStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> MILITARY_BASE = STRUCTURE_FEATURES.register("military_base", () -> (new MilitaryBaseStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> HELICOPTER = STRUCTURE_FEATURES.register("helicopter", () -> (new HelicopterStructure(NoFeatureConfig.CODEC)));
 
     /**
      * This is where we set the rarity of your structures and determine if land conforms to it.
@@ -58,6 +59,34 @@ public class ModStructureFeatures {
                 new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
                         32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         310811162 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                OBSERVATORY.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        1729202114 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                AIRPLANE.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        888544688 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                MILITARY_BASE.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        1734202115 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                HELICOPTER.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        2039152021 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
     }
 

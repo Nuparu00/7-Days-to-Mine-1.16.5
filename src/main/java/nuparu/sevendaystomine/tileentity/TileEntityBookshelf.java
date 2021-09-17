@@ -18,7 +18,7 @@ import nuparu.sevendaystomine.inventory.block.ContainerForge;
 import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
-public class TileEntityBookshelf extends TileEntityItemHandler<ItemHandlerNameable> {
+public class TileEntityBookshelf extends TileEntityItemHandler<ItemHandlerNameable> implements ITickableTileEntity{
 
 	private static final int INVENTORY_SIZE = 9;
 	private static final ITextComponent DEFAULT_NAME = new TranslationTextComponent("container.bookshelf");
@@ -100,4 +100,14 @@ public class TileEntityBookshelf extends TileEntityItemHandler<ItemHandlerNameab
 		}
 	}
 
+	/*
+	We have to unpack the loot table before opening the inventory, as the contents affect the model, there might be some place to Mixin, that could solve this without having to tick
+	 */
+	@Override
+	public void tick() {
+		if(level.isClientSide()) return;
+		if(this.lootTable != null){
+			this.unpackLootTable(null);
+		}
+	}
 }

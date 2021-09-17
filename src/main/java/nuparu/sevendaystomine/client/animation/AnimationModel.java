@@ -1,7 +1,13 @@
 package nuparu.sevendaystomine.client.animation;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3d;
@@ -64,14 +70,16 @@ public class AnimationModel {
         boolean visible = isVisible(time);
 
         matrixStack.pushPose();
+
         matrixStack.translate(position.x, position.y, position.z);
         matrixStack.mulPose(Vector3f.XP.rotationDegrees((float)rotation.x()));
         matrixStack.mulPose(Vector3f.YP.rotationDegrees((float)rotation.y()));
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees((float)rotation.z()));
         matrixStack.scale((float)scale.x(), (float)scale.y(), (float)scale.z());
-        //renderModel(matrixStack,buffer,light);
+
         if(renderer != null && visible){
-            renderer.render(matrixStack,buffer,light);;
+
+            renderer.render(matrixStack,buffer,light);
         }
         for(AnimationModel child : children){
             child.render(matrixStack,buffer,light,time);

@@ -15,7 +15,7 @@ public class SpiderZombieRenderer<T extends SpiderZombieEntity, M extends Spider
 	private static final ResourceLocation ZOMBIE_LOCATION = new ResourceLocation(SevenDaysToMine.MODID,
 			"textures/entity/spider_zombie.png");
 	private static final ResourceLocation EYES = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/entity/zombie_policeman_eyes.png");
+			"textures/entity/spider_zombie_eyes.png");
 	
 	public RedEyesLayer redEyesLayer;
 	

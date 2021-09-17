@@ -22,7 +22,7 @@ import nuparu.sevendaystomine.item.IScrapable;
 
 public class BlockCinder extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	private static final VoxelShape SHAPE = Block.box(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.25D, 0.9375D);
+	private static final VoxelShape SHAPE = Block.box(1D, 0.0D, 1D, 15D, 4D, 15D);
 	
 	private EnumMaterial material = EnumMaterial.CONCRETE;
 	private int weight = 6;

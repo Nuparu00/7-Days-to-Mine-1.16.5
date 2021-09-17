@@ -32,7 +32,7 @@ public class BlockChair extends BlockHorizontalBase implements IScrapable, IWate
 	private static final VoxelShape WEST = Block.box(0.0625F * 16, 0.0F, 0.1875F * 16, 0.6875F * 16, 0.6875F * 16, 0.8125F * 16);
 	private static final VoxelShape EAST = Block.box(0.3125F * 16, 0.0F, 0.1875F * 16, 0.9375F * 16, 0.6875F * 16, 0.8125F * 16);
 
-	private EnumMaterial material = EnumMaterial.WOOD;
+	protected EnumMaterial material = EnumMaterial.WOOD;
 	private int weight = 2;
 	
 	
@@ -63,7 +63,7 @@ public class BlockChair extends BlockHorizontalBase implements IScrapable, IWate
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos,
 			PlayerEntity playerIn, Hand hand, BlockRayTraceResult result) {
 		if (!playerIn.isCrouching()) {
-			Utils.mountBlock(worldIn, pos, playerIn,0.25);
+			Utils.mountBlock(worldIn, pos, playerIn,0.45f);
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.FAIL;

@@ -26,7 +26,7 @@ public class ModEntities {
 			.sized(0.6F, 1.95F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "plagued_nurse").toString());
 	
-	public static final  EntityType<FrozenLumberjackEntity> FRONZE_LUMBERJACK_RAW = EntityType.Builder
+	public static final  EntityType<FrozenLumberjackEntity> FROZEN_LUMBERJACK_RAW = EntityType.Builder
 			.of((EntityType.IFactory<FrozenLumberjackEntity>) FrozenLumberjackEntity::new,
 					EntityClassification.MONSTER)
 			.sized(0.6F, 1.95F)
@@ -147,7 +147,11 @@ public class ModEntities {
 			.sized(0.6F, 1.95F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "fragmentation_grenade").toString());
 
-
+	public static final  EntityType<MountableBlockEntity> MOUNTABLE_BLOCK_RAW = EntityType.Builder
+			.of((EntityType.IFactory<MountableBlockEntity>) MountableBlockEntity::new,
+					EntityClassification.MISC)
+			.sized(0.01F, 0.01F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "mountable_block").toString());
 
 	
 	public static final RegistryObject<EntityType<ReanimatedCorpseEntity>> REANIMATED_CORPSE = ENTITIES.register(
@@ -158,9 +162,9 @@ public class ModEntities {
 			"plagued_nurse",
 			() -> PLAGUED_NURSE_RAW);
 	
-	public static final RegistryObject<EntityType<FrozenLumberjackEntity>> FRONZE_LUMBERJACK = ENTITIES.register(
+	public static final RegistryObject<EntityType<FrozenLumberjackEntity>> FROZEN_LUMBERJACK = ENTITIES.register(
 			"frozen_lumberjack",
-			() -> FRONZE_LUMBERJACK_RAW);
+			() -> FROZEN_LUMBERJACK_RAW);
 	
 	public static final RegistryObject<EntityType<FrigidHunterEntity>> FRIGID_HUNTER = ENTITIES.register(
 			"frigid_hunter",
@@ -235,8 +239,17 @@ public class ModEntities {
 			() -> EntityType.Builder
 			.of((EntityType.IFactory<LootableCorpseEntity>) LootableCorpseEntity::new,
 					EntityClassification.MISC)
-			.sized(1.5f, 0.45f).fireImmune()
+			.sized(1.5f, 0.45f).fireImmune().setTrackingRange(128).setShouldReceiveVelocityUpdates(true).setUpdateInterval(2)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "lootable_corpse").toString()));
+
+
+	public static final RegistryObject<EntityType<AirdropEntity>> AIRDROP = ENTITIES.register(
+			"airdrop",
+			() -> EntityType.Builder
+					.of((EntityType.IFactory<AirdropEntity>) AirdropEntity::new,
+							EntityClassification.MISC)
+					.sized(1f, 1f).fireImmune()
+					.build(new ResourceLocation(SevenDaysToMine.MODID, "airdorp").toString()));
 
 	public static final RegistryObject<EntityType<SurvivorEntity>> SURVIVOR = ENTITIES.register(
 			"survivor",
@@ -245,4 +258,8 @@ public class ModEntities {
 	public static final RegistryObject<EntityType<FragmentationGrenadeEntity>> FRAGMENTATION_GRENADE = ENTITIES.register(
 			"fragmentation_grenade",
 			() -> FRAGMENTATION_GRENADE_RAW);
+
+	public static final RegistryObject<EntityType<MountableBlockEntity>> MOUNTABLE_BLOCK = ENTITIES.register(
+			"mountable_block",
+			() -> MOUNTABLE_BLOCK_RAW);
 }

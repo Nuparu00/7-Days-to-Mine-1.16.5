@@ -1,0 +1,15 @@
+{
+	"name": "sevendaystomine:city/building/hospital/hospital_side_pool",
+	"fallback": "sevendaystomine:city/building/hospital/hospital_side_pool",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:city/buildings/hospital_side",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

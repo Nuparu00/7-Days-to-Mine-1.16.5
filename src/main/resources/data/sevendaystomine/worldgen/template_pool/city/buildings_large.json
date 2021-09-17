@@ -1,0 +1,24 @@
+{
+	"name": "sevendaystomine:city/city_buildings",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 6,
+			"element": {
+				"location": "sevendaystomine:city/buildings/school_left",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 6,
+			"element": {
+				"location": "sevendaystomine:city/buildings/hospital_front",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

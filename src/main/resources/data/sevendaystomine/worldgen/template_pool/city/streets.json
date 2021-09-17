@@ -1,6 +1,6 @@
 {
 	"name": "sevendaystomine:city/streets",
-	"fallback": "minecraft:empty",
+	"fallback": "sevendaystomine:city/city_limit",
 	"elements": [
 		{
 			"weight": 6,
@@ -19,15 +19,7 @@
 				"element_type": "minecraft:single_pool_element"
 			}
 		}, {
-			"weight": 5,
-			"element": {
-				"location": "sevendaystomine:city/streets/straight_no_building_01",
-				"processors": "sevendaystomine:mossify",
-				"projection": "terrain_matching",
-				"element_type": "minecraft:single_pool_element"
-			}
-		}, {
-			"weight": 1,
+			"weight": 2,
 			"element": {
 				"location": "sevendaystomine:city/streets/corner_01",
 				"processors": "sevendaystomine:mossify",
@@ -36,9 +28,27 @@
 			}
 		},
 		{
-			"weight": 4,
+			"weight": 3,
 			"element": {
 				"location": "sevendaystomine:city/streets/roundabout_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "terrain_matching",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 3,
+			"element": {
+				"location": "sevendaystomine:city/streets/crossroad_t_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "terrain_matching",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 10,
+			"element": {
+				"location": "sevendaystomine:city/streets/straight_long_edge",
 				"processors": "sevendaystomine:mossify",
 				"projection": "terrain_matching",
 				"element_type": "minecraft:single_pool_element"

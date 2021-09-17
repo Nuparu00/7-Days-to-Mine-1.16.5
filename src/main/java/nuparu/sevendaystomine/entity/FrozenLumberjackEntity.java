@@ -1,11 +1,7 @@
 package nuparu.sevendaystomine.entity;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
@@ -17,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -32,7 +27,7 @@ public class FrozenLumberjackEntity<T extends FrozenLumberjackEntity> extends Zo
 	}
 
 	public FrozenLumberjackEntity(World world) {
-		this(ModEntities.FRONZE_LUMBERJACK.get(), world);
+		this(ModEntities.FROZEN_LUMBERJACK.get(), world);
 	}
 
 	@Override

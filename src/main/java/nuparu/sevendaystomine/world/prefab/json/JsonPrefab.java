@@ -32,6 +32,12 @@ public class JsonPrefab {
         remapMap.put(new RemapEntry("sevendaystomine:medicalcabinet",-1),new RemapResult("sevendaystomine:medical_cabinet"));
         remapMap.put(new RemapEntry("sevendaystomine:marblebricks",-1),new RemapResult("sevendaystomine:marble_bricks"));
         remapMap.put(new RemapEntry("sevendaystomine:granitebricks",-1),new RemapResult("sevendaystomine:granite_bricks"));
+        remapMap.put(new RemapEntry("sevendaystomine:dioritebricks",-1),new RemapResult("sevendaystomine:diorite_bricks"));
+        remapMap.put(new RemapEntry("minecraft:fence",-1),new RemapResult("minecraft:oak_fence"));
+        remapMap.put(new RemapEntry("sevendaystomine:razor_wire",0),new RemapResult("sevendaystomine:razor_wire","{Properties:{facing:\"south\"},waterlogged:\"false\",Name:\"sevendaystomine:razor_wire\"}"));
+        remapMap.put(new RemapEntry("sevendaystomine:razor_wire",1),new RemapResult("sevendaystomine:razor_wire","{Properties:{facing:\"west\"},waterlogged:\"false\",Name:\"sevendaystomine:razor_wire\"}"));
+        remapMap.put(new RemapEntry("sevendaystomine:razor_wire",2),new RemapResult("sevendaystomine:razor_wire","{Properties:{facing:\"north\"},waterlogged:\"false\",Name:\"sevendaystomine:razor_wire\"}"));
+        remapMap.put(new RemapEntry("sevendaystomine:razor_wire",3),new RemapResult("sevendaystomine:razor_wire","{Properties:{facing:\"east\"},waterlogged:\"false\",Name:\"sevendaystomine:razor_wire\"}"));
 
         remapMap.put(new RemapEntry("minecraft:dirt",1),new RemapResult("minecraft:coarse_dirt"));
         remapMap.put(new RemapEntry("minecraft:dirt",2),new RemapResult("minecraft:podzol"));
@@ -46,13 +52,16 @@ public class JsonPrefab {
 
         remapMap.put(new RemapEntry("minecraft:stained_hardened_clay",4),new RemapResult("minecraft:yellow_terracotta"));
         remapMap.put(new RemapEntry("minecraft:stained_hardened_clay",3),new RemapResult("minecraft:light_blue_terracotta"));
+        remapMap.put(new RemapEntry("minecraft:stained_hardened_clay",5),new RemapResult("minecraft:lime_terracotta"));
         remapMap.put(new RemapEntry("minecraft:stained_hardened_clay",9),new RemapResult("minecraft:cyan_terracotta"));
         remapMap.put(new RemapEntry("minecraft:stained_hardened_clay",11),new RemapResult("minecraft:blue_terracotta"));
+        remapMap.put(new RemapEntry("minecraft:stained_hardened_clay",13),new RemapResult("minecraft:green_terracotta"));
         remapMap.put(new RemapEntry("minecraft:stained_hardened_clay",14),new RemapResult("minecraft:red_terracotta"));
 
         remapMap.put(new RemapEntry("minecraft:concrete",0),new RemapResult("minecraft:white_concrete"));
         remapMap.put(new RemapEntry("minecraft:concrete",14),new RemapResult("minecraft:red_concrete"));
         remapMap.put(new RemapEntry("minecraft:concrete",4),new RemapResult("minecraft:yellow_concrete"));
+        remapMap.put(new RemapEntry("minecraft:concrete",8),new RemapResult("minecraft:light_gray_concrete"));
 
         remapMap.put(new RemapEntry("minecraft:stained_glass_pane",8),new RemapResult("minecraft:light_gray_stained_glass_pane"));
 
@@ -85,6 +94,8 @@ public class JsonPrefab {
         remapMap.put(new RemapEntry("minecraft:planks",3),new RemapResult("minecraft:jungle_planks"));
         remapMap.put(new RemapEntry("minecraft:planks",4),new RemapResult("minecraft:acacia_planks"));
         remapMap.put(new RemapEntry("minecraft:planks",5),new RemapResult("minecraft:dark_oak_planks"));
+
+        remapMap.put(new RemapEntry("sevendaystomine:reinforcedconcrete",-1),new RemapResult("sevendaystomine:reinforced_concrete"));
 
 
         remapMap.put(new RemapEntry("sevendaystomine:oakplanksframe",-1),new RemapResult("sevendaystomine:oak_planks_frame"));

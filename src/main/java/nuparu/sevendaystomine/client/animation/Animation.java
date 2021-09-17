@@ -3,7 +3,13 @@ package nuparu.sevendaystomine.client.animation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.client.animation.json.JsonAnimation;
 import nuparu.sevendaystomine.client.animation.json.JsonAnimationModel;
@@ -52,6 +58,8 @@ public class Animation {
 
     public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light){
         long now = System.currentTimeMillis();
+
+
        if(running) {
            if (startTime == -1) {
                startTime = now;

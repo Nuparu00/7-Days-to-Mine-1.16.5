@@ -1,5 +1,8 @@
 package nuparu.sevendaystomine.client.animation.json;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.animation.AnimationModel;
@@ -38,6 +41,30 @@ public class JsonAnimationModel {
         return jsonAnimationModel;
     }
 
+    public static JsonAnimationModel from(JsonObject object) {
+        JsonAnimationModel jsonAnimationModel = new JsonAnimationModel();
+        List<JsonKeyPoint> pointList = new ArrayList<>();
+        if(object.has("points")){
+            JsonArray pointz = object.getAsJsonArray("points");
+            for(JsonElement modelElement : pointz){
+                pointList.add(JsonKeyPoint.from(modelElement.getAsJsonObject()));
+            }
+        }
+        List<JsonAnimationModel> childrenList = new ArrayList<>();
+        if(object.has("children")){
+            JsonArray modelz = object.getAsJsonArray("children");
+            for(JsonElement modelElement : modelz){
+                childrenList.add(JsonAnimationModel.from(modelElement.getAsJsonObject()));
+            }
+        }
+        JsonAnimationModel jsonAnimationModel1 = new JsonAnimationModel();
+        jsonAnimationModel.points = pointList;
+        jsonAnimationModel.children = childrenList;
+        jsonAnimationModel.renderer = object.has("renderer") ? object.get("renderer").getAsString() : "minecraft:empty";
+
+        return jsonAnimationModel;
+    }
+
     public AnimationModel toAnimationModel(){
         AnimationModel animationModel = new AnimationModel(new ResourceLocation(renderer));
         for(JsonKeyPoint jsonKeyPoint : points){
@@ -47,5 +74,23 @@ public class JsonAnimationModel {
             animationModel.addChild(child.toAnimationModel());
         }
         return animationModel;
+    }
+
+    @Override
+    public String toString() {
+        String s = "{";
+        s += " Renderer: " + renderer;
+        s += " Models: [";
+        for(JsonAnimationModel model : children){
+            s+= model.toString() + " ";
+        }
+        s += "]";
+        s += "Models: [";
+        for(JsonKeyPoint point : points){
+            s+= point.toString() + " ";
+        }
+        s += "]";
+        s += "}";
+        return s;
     }
 }

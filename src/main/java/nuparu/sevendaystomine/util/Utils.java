@@ -30,9 +30,12 @@ import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.WorldGenRegion;
+import nuparu.sevendaystomine.entity.MountableBlockEntity;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -118,13 +121,13 @@ public class Utils {
 		return mountBlock(world, pos, player, 0);
 	}
 
-	public static boolean mountBlock(World world, BlockPos pos, PlayerEntity player, double deltaY) {
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
-		/*List<EntityMountableBlock> list = world.getEntitiesOfClass(EntityMountableBlock.class,
+	public static boolean mountBlock(World world, BlockPos pos, PlayerEntity player, float deltaY) {
+		double x = pos.getX()+0.5;
+		double y = pos.getY();
+		double z = pos.getZ()+0.5;
+		List<MountableBlockEntity> list = world.getEntitiesOfClass(MountableBlockEntity.class,
 				new AxisAlignedBB(x, y, z, x + 1.0D, y + 1.0D, z + 1.0D).inflate(1D));
-		for (EntityMountableBlock mount : list) {
+		for (MountableBlockEntity mount : list) {
 			if (mount.getBlockPos() == pos) {
 				if (!mount.isVehicle()) {
 					player.startRiding(mount);
@@ -133,11 +136,12 @@ public class Utils {
 			}
 		}
 		if (list.size() == 0) {
-			EntityMountableBlock mount = new EntityMountableBlock(world, x, y + deltaY, z);
+			MountableBlockEntity mount = new MountableBlockEntity(world, x, y, z);
+			mount.setDeltaY(deltaY);
 			world.addFreshEntity(mount);
 			player.startRiding(mount);
 			return true;
-		}*/
+		}
 		return false;
 	}
 
@@ -966,21 +970,7 @@ public class Utils {
 	}
 
 	public static boolean canCityBeGeneratedHere(ISeedReader world, int chunkX, int chunkZ) {
-		if (chunkX % CommonConfig.citySpacing.get() != 0 || chunkZ % CommonConfig.citySpacing.get() != 0)
-			return false;
-		Random random = new Random(world.getSeed());
-		long k = random.nextLong() / 2L * 2L + 1L;
-		long l = random.nextLong() / 2L * 2L + 1L;
-		random.setSeed((long) chunkX * k + (long) chunkZ * l ^ world.getSeed());
-/*
-		Biome biome = world.getBiome(new BlockPos(16 * chunkX + 8, 255, 16 * chunkZ + 8));
-		int id = ((net.minecraftforge.registries.ForgeRegistry<Biome>) net.minecraftforge.registries.ForgeRegistries.BIOMES)
-				.getID(biome);
-		RegistryKey<Biome> key = BiomeRegistry.byId(id);
-
-		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.OCEAN))
-			return false;*/
-		return random.nextInt(16) == 0;
+		return false;
 	}
 
 	public static List<ChunkPos> getClosestCities(ServerWorld world, int chunkX, int chunkZ, int dst) {
@@ -1232,4 +1222,6 @@ public class Utils {
 		return worldIn
 				.clip(new RayTraceContext(vec3, vector3d1, RayTraceContext.BlockMode.OUTLINE, fluidMode, playerIn));
 	}
+
+
 }

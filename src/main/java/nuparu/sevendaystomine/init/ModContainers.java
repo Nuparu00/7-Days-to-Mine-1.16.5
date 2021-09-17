@@ -7,6 +7,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.block.*;
+import nuparu.sevendaystomine.inventory.entity.ContainerAirdrop;
+import nuparu.sevendaystomine.inventory.entity.ContainerLootableCorpse;
 import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
 import nuparu.sevendaystomine.inventory.item.ContainerCamera;
 
@@ -64,4 +66,10 @@ public class ModContainers {
 
 	public static final RegistryObject<ContainerType<ContainerCamera>> CAMERA = CONTAINERS.register("camera",
 			() -> IForgeContainerType.create(ContainerCamera::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerLootableCorpse>> LOOTABLE_COPRSE = CONTAINERS.register("lootable_corpse",
+			() -> IForgeContainerType.create(ContainerLootableCorpse::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerAirdrop>> AIRDROP = CONTAINERS.register("airdrop",
+			() -> IForgeContainerType.create(ContainerAirdrop::createContainerClientSide));
 }

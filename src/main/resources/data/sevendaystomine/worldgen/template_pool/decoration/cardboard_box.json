@@ -1,0 +1,24 @@
+{
+	"name": "sevendaystomine:decoration/cardboard_box",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:city/buildings/decoration/cardboard_box",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 4,
+			"element": {
+				"location": "sevendaystomine:city/buildings/decoration/cardboard_box_empty",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

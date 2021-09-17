@@ -11,12 +11,15 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.multiplayer.ClientChunkProvider;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.settings.GraphicsFanciness;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -69,213 +72,10 @@ public class RenderEventHandler {
     public static double mainMuzzleFlashAngle = 0;
     public static int sideMuzzleFlash = 0;
     public static double sideMuzzleFlashAngle = 0;
-    Field f_storage;
-    Field f_chunks;
-    Field f_renderBuffers;
     private EnumHandPos handPos = EnumHandPos.NONE;
     private boolean aiming = false;
     private boolean scoping = false;
     private ItemGun gun = null;
-
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void renderBlockDamage(RenderWorldLastEvent event) {
-        Minecraft minecraft = Minecraft.getInstance();
-        World world = minecraft.level;
-        ClientChunkProvider provider = (ClientChunkProvider) world.getChunkSource();
-        MatrixStack matrix = event.getMatrixStack();
-
-        double partialTicks = event.getPartialTicks();
-
-        if (f_storage == null) {
-            f_storage = ObfuscationReflectionHelper.findField(ClientChunkProvider.class, "field_217256_d");
-        }
-
-        try {
-            ClientChunkProvider.ChunkArray storage = (ClientChunkProvider.ChunkArray) f_storage.get(provider);
-
-            if (f_chunks == null) {
-                f_chunks = ObfuscationReflectionHelper.findField(ClientChunkProvider.ChunkArray.class, "field_217195_b");
-            }
-            AtomicReferenceArray<Chunk> chunks = (AtomicReferenceArray<Chunk>) f_chunks.get(storage);
-            if (f_renderBuffers == null) {
-                f_renderBuffers = ObfuscationReflectionHelper.findField(Minecraft.class, "field_228006_P_");
-            }
-            RenderTypeBuffers renderBuffers = (RenderTypeBuffers) f_renderBuffers.get(minecraft);
-
-
-            Vector3d vec = minecraft.gameRenderer.getMainCamera().getPosition();
-
-            double d0 = vec.x();
-            double d1 = vec.y();
-            double d2 = vec.z();
-
-            for (int i = 0; i < chunks.length(); i++) {
-                Chunk chunk = chunks.get(i);
-                if (chunk == null)
-                    continue;
-                IChunkData data = CapabilityHelper.getChunkData(chunk);
-                if (data == null)
-                    continue;
-                Iterator<Entry<BlockPos, BreakData>> it = data.getData().entrySet().iterator();
-                while (it.hasNext()) {
-                    Entry<BlockPos, BreakData> pair = it.next();
-                    BlockPos blockpos1 = pair.getKey();
-                    double d3 = (double) blockpos1.getX() - d0;
-                    double d4 = (double) blockpos1.getY() - d1;
-                    double d5 = (double) blockpos1.getZ() - d2;
-                    if (!(d3 * d3 + d4 * d4 + d5 * d5 > 1024.0D)) {
-                        BreakData breakData = pair.getValue();
-                        if (breakData != null) {
-
-                            int k3 = Math.min(Math.round(breakData.getState() * 9), 9);
-                            matrix.pushPose();
-                            matrix.translate((double) blockpos1.getX() - d0, (double) blockpos1.getY() - d1,
-                                    (double) blockpos1.getZ() - d2);
-                            RenderSystem.disableDepthTest();
-                            MatrixStack.Entry matrixstack$entry1 = matrix.last();
-                            IVertexBuilder ivertexbuilder1 = new MatrixApplyingVertexBuilder(
-                                    renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(k3)),
-                                    matrixstack$entry1.pose(), matrixstack$entry1.normal());
-                            minecraft.getBlockRenderer().renderBreakingTexture(world.getBlockState(blockpos1),
-                                    blockpos1, world, matrix, ivertexbuilder1);
-                            matrix.popPose();
-                            renderBuffers.crumblingBufferSource().endBatch();
-                            RenderSystem.enableDepthTest();
-                        }
-                    }
-                }
-
-            }
-
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /*
-    HAND START
-     */
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void renderWorldLastEvent(RenderWorldLastEvent event) {
-        if (!ClientConfig.customGunHands.get())
-            return;
-       /* Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
-
-        //Resets current state
-        aiming = false;
-        scoping = false;
-        gun = null;
-
-        if (player == null) {
-            handPos = EnumHandPos.NONE;
-            return;
-        }
-        ItemStack main = player.getMainHandItem();
-        ItemStack sec = player.getOffhandItem();
-        if ((main == null || main.isEmpty()) && (sec == null || sec.isEmpty())) {
-            handPos = EnumHandPos.NONE;
-            return;
-        }
-        Item item_main = main.getItem();
-        Item item_sec = sec.getItem();
-        if (item_main == null && item_sec == null) {
-            handPos = EnumHandPos.NONE;
-            return;
-        }
-
-        ItemGun gun_main = null;
-        ItemGun gun_sec = null;
-
-        if (item_main instanceof ItemGun) {
-            gun_main = (ItemGun) item_main;
-        } else if (item_main == ModItems.ANALOG_CAMERA.get() && player.getUseItemRemainingTicks() > 0
-                || ClientEventHandler.takingPhoto) {
-            return;
-
-        }
-        if (item_sec instanceof ItemGun) {
-            gun_sec = (ItemGun) item_sec;
-        }
-
-        if (gun_main == null && gun_sec == null) {
-            handPos = EnumHandPos.NONE;
-            return;
-        }
-
-        if (gun_main != null && gun_main.getWield() == EnumWield.DUAL) {
-            if (gun_sec == null) {
-                aiming = (mc.options.keyAttack.isDown() && !gun_main.getScoped()
-                        && gun_main.getFOVFactor(main) != 1);
-                scoping = (mc.options.keyAttack.isDown() && gun_main.getScoped()
-                        && gun_main.getFOVFactor(main) != 1);
-                gun = gun_main;
-                handPos = EnumHandPos.PISTOL_ONE;
-                return;
-            }
-            if (gun_sec.getWield() == EnumWield.DUAL) {
-                handPos = EnumHandPos.PISTOL_DUAL;
-                return;
-            }
-        }
-        if (gun_sec != null && gun_sec.getWield() == EnumWield.DUAL) {
-            aiming = (mc.options.keyAttack.isDown() && !gun_sec.getScoped()
-                    && gun_sec.getFOVFactor(sec) != 1);
-            scoping = (mc.options.keyAttack.isDown() && gun_sec.getScoped()
-                    && gun_sec.getFOVFactor(sec) != 1);
-            gun = gun_sec;
-            handPos = EnumHandPos.PISTOL_ONE;
-            return;
-        }
-        if (gun_main != null) {
-            EnumWield wield = gun_main.getWield();
-            if (wield == EnumWield.ONE_HAND) {
-                aiming = (mc.options.keyAttack.isDown() && !gun_main.getScoped()
-                        && gun_main.getFOVFactor(main) != 1);
-                scoping = (mc.options.keyAttack.isDown() && gun_main.getScoped()
-                        && gun_main.getFOVFactor(main) != 1);
-                gun = gun_main;
-                handPos = EnumHandPos.LONG_ONE;
-                return;
-            }
-            if (wield == EnumWield.TWO_HAND) {
-                aiming = (mc.options.keyAttack.isDown() && !gun_main.getScoped()
-                        && gun_main.getFOVFactor(main) != 1);
-                scoping = (mc.options.keyAttack.isDown() && gun_main.getScoped()
-                        && gun_main.getFOVFactor(main) != 1);
-                gun = gun_main;
-                handPos = EnumHandPos.LONG_ONE;
-                return;
-            }
-        }
-
-        if (gun_sec != null) {
-            EnumWield wield = gun_sec.getWield();
-            if (wield == EnumWield.ONE_HAND) {
-                aiming = gun_main == null && (mc.options.keyAttack.isDown() && !gun_sec.getScoped()
-                        && gun_sec.getFOVFactor(sec) != 1);
-                scoping = gun_main == null && (mc.options.keyAttack.isDown() && gun_sec.getScoped()
-                        && gun_sec.getFOVFactor(sec) != 1);
-                gun = gun_sec;
-                handPos = EnumHandPos.LONG_ONE;
-                return;
-            }
-            if (wield == EnumWield.TWO_HAND) {
-                aiming = gun_main == null && (mc.options.keyAttack.isDown() && !gun_sec.getScoped()
-                        && gun_sec.getFOVFactor(sec) != 1);
-                scoping = gun_main == null && (mc.options.keyAttack.isDown() && gun_sec.getScoped()
-                        && gun_sec.getFOVFactor(sec) != 1);
-                gun = gun_sec;
-                handPos = EnumHandPos.LONG_ONE;
-                return;
-            }
-        }
-
-        handPos = EnumHandPos.NONE;
-*/
-    }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderHandEvent(RenderHandEvent event) {
@@ -294,7 +94,6 @@ public class RenderEventHandler {
         if (player == null) {
             return;
         }
-
 
 
 
@@ -335,7 +134,17 @@ public class RenderEventHandler {
                     Animations.currentAnimation.setRepeat(true);
                 }
             }
-            this.renderHandsWithItems(mc, event.getPartialTicks(), event.getMatrixStack(), mc.renderBuffers().bufferSource(), player, mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()), event.getHand());
+            if(Animations.offset != null) {
+                event.getMatrixStack().translate(Animations.offset.x, Animations.offset.y, Animations.offset.z);
+            }
+
+           /* ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+            IBakedModel upperModel = itemRenderer.getModel(new ItemStack(Items.DIAMOND), mc.level, null);
+            itemRenderer.render(new ItemStack(Items.DIAMOND), ItemCameraTransforms.TransformType.FIXED, true, event.getMatrixStack(), mc.renderBuffers().bufferSource(), mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()), mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()), upperModel);
+
+
+            RenderEventHandler.renderArmWithItem(mc, player, 0, 0, Hand.MAIN_HAND, 0, player.getMainHandItem(), 0, event.getMatrixStack(), mc.renderBuffers().bufferSource(), mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()));
+            */this.renderHandsWithItems(mc, event.getPartialTicks(), event.getMatrixStack(), mc.renderBuffers().bufferSource(), player, mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()), event.getHand());
 
             //}
         }
@@ -349,8 +158,7 @@ public class RenderEventHandler {
         float f4 = MathHelper.lerp(p_228396_1_, player.yBobO, player.yBob);
         matrixStack.mulPose(Vector3f.XP.rotationDegrees((player.getViewXRot(p_228396_1_) - f3) * 0.1F));
         matrixStack.mulPose(Vector3f.YP.rotationDegrees((player.getViewYRot(p_228396_1_) - f4) * 0.1F));
-
-        if (hand == Hand.MAIN_HAND) {
+         if (hand == Hand.MAIN_HAND) {
             //Right hand and item
             //float oMainHandHeight = ObfuscationReflectionHelper.getPrivateValue(FirstPersonRenderer.class, minecraft.getItemInHandRenderer(), "field_187470_g");
             //float mainHandHeight = ObfuscationReflectionHelper.getPrivateValue(FirstPersonRenderer.class, minecraft.getItemInHandRenderer(), "field_187469_f");
@@ -362,7 +170,7 @@ public class RenderEventHandler {
             //float f2 = 1.0F - MathHelper.lerp(p_228396_1_, oMainHandHeight, mainHandHeight);
 
             //this.renderArmWithItem(minecraft, player, p_228396_1_, f1, Hand.MAIN_HAND, 0, mainHandItem, 0, matrixStack, impl, light);
-            this.renderPlayerArm(minecraft, matrixStack, impl, light, 0f, 0f, HandSide.RIGHT,player, mainHandItem, p_228396_1_, f1);
+             this.renderPlayerArm(minecraft, matrixStack, impl, light, 0f, 0f, HandSide.RIGHT,player, mainHandItem, p_228396_1_, f1);
         } else {
             //Left hand and item
             //float oOffHandHeight = ObfuscationReflectionHelper.getPrivateValue(FirstPersonRenderer.class, minecraft.getItemInHandRenderer(), "field_187472_i");

@@ -7,8 +7,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import nuparu.sevendaystomine.item.EnumMaterial;
 
-public class BlockThrottle extends BlockArmchair {
+public class BlockThrottle extends BlockChair {
 
 	private static final VoxelShape SOUTH = Block.box(0F, 0.0F, 0F, 1F*16, 0.75F*16, 0.9375F*16);
 	private static final VoxelShape NORTH = Block.box(0F, 0.0F, 0.0625F*16, 1F*16, 0.75F*16, 1F*16);
@@ -17,6 +18,7 @@ public class BlockThrottle extends BlockArmchair {
 	
 	public BlockThrottle(Properties properties) {
 		super(properties);
+		this.material= EnumMaterial.CLOTH;
 	}
 	
 	@Override

@@ -46,7 +46,7 @@
     "material.gasoline": "Gasoline",
     "material.gold": "Gold",
     "material.sand": "Sand",
-    "material.paper": "Papert",
+    "material.paper": "Paper",
 
     "_comment": "Colors",
     "color.red": "Red",
@@ -170,7 +170,7 @@
     "enchantment.level.11": "XI",
     "enchantment.level.12": "XII",
     "enchantment.level.13": "XIII",
-    "enchantment.level.14": "XIIV",
+    "enchantment.level.14": "XIV",
     "enchantment.level.15": "XV",
     "enchantment.level.16": "XVI",
     "enchantment.level.17": "XVII",
@@ -232,6 +232,7 @@
     "container.safe": "Safe",
     "container.battery_station": "Battery Station",
     "container.computer": "Computer",
+    "container.printer": "Printer",
 
     "gui.warning": "WARNING",
     "mod.new.update": "Your 7 Days to Mine version is outdated!",
@@ -250,13 +251,10 @@
     "gui.electricity.stored": "Stored: %1$s/%2$s J",
     "toast.unlocked": "Recipes Unlocked!",
 
-    "horde.bloodmoon": "Bloodmoon Horde",
-    "horde.wolf": "Wolf Horde",
-    "horde.generic": "Horde",
+    "horde.bloodmoon.name": "Bloodmoon Horde",
+    "horde.wolf.name": "Wolf Horde",
+    "horde.generic.name": "Horde",
 
-
-    "generator.SEVENDAYS": "Default (7D2M)",
-    "generator.default": "Default (Vanilla)",
     "generator.WASTELAND": "Wasteland (7D2M)",
 
     "book_forging.title": "Forge Ahead",
@@ -986,6 +984,7 @@
     "block.sevendaystomine.photo": "Photo",
     "block.sevendaystomine.screen_projector": "Screen Projector",
     "block.sevendaystomine.skeleton_sitting": "Skeleton",
+    "block.sevendaystomine.skeleton_torso": "Skeleton",
     "block.sevendaystomine.dresser": "Dresser",
     "block.sevendaystomine.big_sign": "Big Sign",
 

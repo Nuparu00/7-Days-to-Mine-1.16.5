@@ -84,6 +84,15 @@ public class CommonConfig {
 	public static IntValue spawnMaxBurntZombie;
 	public static IntValue spawnMaxZombieMiner;
 	public static IntValue spawnMaxFeralZombie;
+
+	public static IntValue spawnWeightInfectedSurvivor;
+	public static IntValue spawnMinInfectedSurvivor;
+	public static IntValue spawnMaxInfectedSurvivor;
+
+	public static IntValue spawnWeightSoulBurntZombie;
+	public static IntValue spawnMinSoulBurntZombie;
+	public static IntValue spawnMaxSoulBurntZombie;
+
 	public static DoubleValue zombieKnockbackResistance;
 	public static BooleanValue monstersAttackHumanNPCs;
 
@@ -112,8 +121,6 @@ public class CommonConfig {
 
 	// World gen
 
-	public static IntValue maxCitySize;
-	public static IntValue citySpacing;
 	public static BooleanValue generateRoads;
 	public static IntValue roadMinY;
 	public static IntValue roadMaxY;
@@ -166,7 +173,7 @@ public class CommonConfig {
 		// Players
 
 		renderPlayerInventory = server.comment(
-				"Cotrols rendering of player's items (weapons, tools). If false on a server, no one will be able to see the items regardless of their settings")
+				"Controls rendering of player's items (weapons, tools). If false on a server, no one will be able to see the items regardless of their settings")
 				.define("player.renderPlayerInventory", true);
 		allowPhotos = server.comment("Can players take photos with the Analog Camera item?")
 				.define("player.allowPhotos", true);
@@ -253,7 +260,7 @@ public class CommonConfig {
 				Integer.MAX_VALUE);
 		torchRainExtinguish = server.comment("Does rain extinguish burning torches?")
 				.define("mobs.torchRainExtinguish", true);
-		airdropFrequency = server.comment("How many days between individual airdrops (0 = disabled)").defineInRange("mobs.airdropFrequency", 3,
+		airdropFrequency = server.comment("How many days between individual airdrops (0 = disabled)").defineInRange("mobs.airdropFrequency", 1,
 				0, Integer.MAX_VALUE);
 		removeVanillaZommbies = server.comment("Should remove vanilla zombies (and skeletons, husks)?")
 				.define("mobs.removeVanillaZommbies", true);
@@ -269,9 +276,6 @@ public class CommonConfig {
 		/*
 		WORLD GEN
 		 */
-
-		maxCitySize = server.comment("How many streets can a city have").defineInRange("gen.maxCitySize", 14, 1,
-				Integer.MAX_VALUE);
 
 		largeRockGenerationChance = server.comment("The chance of a chunk being suitable for Large Rocks. Larger numbers makes them less likely").defineInRange("gen.largeRockGenerationChance", 3, 0,
 				Integer.MAX_VALUE);
@@ -301,10 +305,103 @@ public class CommonConfig {
 		stickGenerationRateMax = server.comment("The maximal number of sticks in a chunk").defineInRange("gen.stickGenerationRateMax", 5, 0,
 				Integer.MAX_VALUE);
 
-		citySpacing = server.comment("How many chunks between potential City locations").defineInRange("gen.citySpacing", 32, 1,
+		//Mobs
+		spawnWeightReanimatedCorpse = server.comment("The spawn weight of the Reanimated Corpse").defineInRange("mobs.spawnWeightReanimatedCorpse", 70, 0,
 				Integer.MAX_VALUE);
-		maxCitySize = server.comment("How many streets can a city have").defineInRange("gen.maxCitySize", 14, 0,
+		spawnMinReanimatedCorpse = server.comment("The minimal amount of Reanimated Corpses").defineInRange("mobs.spawnMinReanimatedCorpse", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxReanimatedCorpse = server.comment("The maximal amount of Reanimated Corpses").defineInRange("mobs.spawnMaxReanimatedCorpse", 7, 0,
 				Integer.MAX_VALUE);
 
+		spawnWeightPlaguedNurse = server.comment("The spawn weight of the Plagued Nurse").defineInRange("mobs.spawnWeightPlaguedNurse", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinPlaguedNurse = server.comment("The minimal amount of Plagued Nurses").defineInRange("mobs.spawnMinPlaguedNurse", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxPlaguedNurse = server.comment("The maximal amount of Plagued Nurses").defineInRange("mobs.spawnMaxPlaguedNurse", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightFrozenLumberjack = server.comment("The spawn weight of the Frozen Lumberjack").defineInRange("mobs.spawnWeightFrozenLumberjack", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinFrozenLumberjack = server.comment("The minimal amount of Frozen Lumberjacks").defineInRange("mobs.spawnMinFrozenLumberjack", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxFrozenLumberjack = server.comment("The maximal amount of Frozen Lumberjacks").defineInRange("mobs.spawnMaxFrozenLumberjack", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightFrigidHunter = server.comment("The spawn weight of the Frigid Hunter").defineInRange("mobs.spawnWeightFrigidHunter", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinFrigidHunter = server.comment("The minimal amount of Frigid Hunters").defineInRange("mobs.spawnMinFrigidHunter", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxFrigidHunter = server.comment("The maximal amount of Frigid Hunters").defineInRange("mobs.spawnMaxFrigidHunter", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightFrostbittenWorker = server.comment("The spawn weight of the Frostbitten Worker").defineInRange("mobs.spawnWeightFrostbittenWorker", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinFrostbittenWorker = server.comment("The minimal amount of Frostbitten Workers").defineInRange("mobs.spawnMinFrostbittenWorker", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxFrostbittenWorker = server.comment("The maximal amount of Frostbitten Workers").defineInRange("mobs.spawnMaxFrostbittenWorker", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightZombieMiner = server.comment("The spawn weight of the Zombie Miner").defineInRange("mobs.spawnWeightZombieMiner", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinZombieMiner = server.comment("The minimal amount of Zombie Miners").defineInRange("mobs.spawnMinZombieMiner", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxZombieMiner = server.comment("The maximal amount of Zombie Miners").defineInRange("mobs.spawnMaxZombieMiner", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightSpiderZombie = server.comment("The spawn weight of the Spider Zombie").defineInRange("mobs.spawnWeightSpiderZombie", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinSpiderZombie = server.comment("The minimal amount of Spider Zombies").defineInRange("mobs.spawnMinSpiderZombie", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxSpiderZombie = server.comment("The maximal amount of Spider Zombies").defineInRange("mobs.spawnMaxSpiderZombie", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightZombieCrawler = server.comment("The spawn weight of the Crawler Zombie").defineInRange("mobs.spawnWeightZombieCrawler", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinZombieCrawler = server.comment("The minimal amount of Crawler Zombies").defineInRange("mobs.spawnMinZombieCrawler", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxZombieCrawler = server.comment("The maximal amount of Crawler Zombies").defineInRange("mobs.spawnMaxZombieCrawler", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightBurntZombie = server.comment("The spawn weight of the Burnt Zombie").defineInRange("mobs.spawnWeightBurntZombie", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinBurntZombie = server.comment("The minimal amount of Burnt Zombies").defineInRange("mobs.spawnMinBurntZombie", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxBurntZombie = server.comment("The maximal amount of Burnt Zombies").defineInRange("mobs.spawnMaxBurntZombie", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightSoulBurntZombie = server.comment("The spawn weight of the Soul Burnt Zombie").defineInRange("mobs.spawnWeightSoulBurntZombie", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinSoulBurntZombie = server.comment("The minimal amount of Soul Burnt Zombies").defineInRange("mobs.spawnMinSoulBurntZombie", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxSoulBurntZombie = server.comment("The maximal amount of Soul Burnt Zombies").defineInRange("mobs.spawnMaxSoulBurntZombie", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightBloatedZombie = server.comment("The spawn weight of the Bloated Zombie").defineInRange("mobs.spawnWeightBloatedZombie", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinBloatedZombie = server.comment("The minimal amount of Bloated Zombies").defineInRange("mobs.spawnMinBloatedZombie", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxBloatedZombie = server.comment("The maximal amount of Bloated Zombies").defineInRange("mobs.spawnMaxBloatedZombie", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightInfectedSurvivor = server.comment("The spawn weight of the Infected Survivor").defineInRange("mobs.spawnWeightInfectedSurvivor", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinInfectedSurvivor = server.comment("The minimal amount of Infected Survivors").defineInRange("mobs.spawnMinInfectedSurvivor", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxInfectedSurvivor = server.comment("The maximal amount of Infected Survivors").defineInRange("mobs.spawnMaxInfectedSurvivor", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightZombieWolf = server.comment("The spawn weight of the Zombie Wolf").defineInRange("mobs.spawnWeightZombieWolf", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinZombieWolf = server.comment("The minimal amount of Zombie Wolfs").defineInRange("mobs.spawnMinZombieWolf", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxZombieWolf = server.comment("The maximal amount of Zombie Wolfs").defineInRange("mobs.spawnMaxZombieWolf", 7, 0,
+				Integer.MAX_VALUE);
+
+		spawnWeightZombiePig = server.comment("The spawn weight of the Zombie Pig").defineInRange("mobs.spawnWeightZombiePig", 70, 0,
+				Integer.MAX_VALUE);
+		spawnMinZombiePig = server.comment("The minimal amount of Zombie Pigs").defineInRange("mobs.spawnMinZombiePig", 3, 0,
+				Integer.MAX_VALUE);
+		spawnMaxZombiePig = server.comment("The maximal amount of Zombie Pigs").defineInRange("mobs.spawnMaxZombiePig", 7, 0,
+				Integer.MAX_VALUE);
 	}
 }

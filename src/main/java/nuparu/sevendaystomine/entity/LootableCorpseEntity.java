@@ -8,8 +8,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
@@ -17,11 +20,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -30,16 +29,20 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import nuparu.sevendaystomine.capability.ExtendedInventory;
+import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
+import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModEntities;
+import nuparu.sevendaystomine.inventory.entity.ContainerLootableCorpse;
 import nuparu.sevendaystomine.item.ItemFuelTool;
 import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.util.EnumModParticleType;
 import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.SevenDaysToMine;
 
-public class LootableCorpseEntity extends Entity {
+public class LootableCorpseEntity extends Entity implements INamedContainerProvider {
 
-	protected final LazyOptional<ItemStackHandler> inventory = LazyOptional.of(this::initInventory);
+	protected final LazyOptional<ExtendedInventory> inventory = LazyOptional.of(this::initInventory);
 
 	public int health = 40;
 	public long age = 0;
@@ -51,7 +54,6 @@ public class LootableCorpseEntity extends Entity {
 
 	public LootableCorpseEntity(EntityType<LootableCorpseEntity> type, World world) {
 		super(type, world);
-		initInventory();
 	}
 
 	public LootableCorpseEntity(World world) {
@@ -143,6 +145,23 @@ public class LootableCorpseEntity extends Entity {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
+
+	@Override
+	public ActionResultType interact(PlayerEntity playerEntity, Hand hand) {
+		if(!playerEntity.isCrouching() && hand == Hand.MAIN_HAND) {
+			if(playerEntity instanceof ServerPlayerEntity) {
+				ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) playerEntity;
+				NetworkHooks.openGui(serverPlayerEntity, this, (packetBuffer) -> {
+					packetBuffer.writeInt(this.getId());
+				});
+			}
+			return ActionResultType.SUCCESS;
+		}
+
+		return ActionResultType.PASS;
+	}
+
+
 	@Override
 	public void tick() {
 		super.tick();
@@ -154,7 +173,7 @@ public class LootableCorpseEntity extends Entity {
 		this.age++;
 		if (!level.isClientSide()) {
 			// ModConfig.world.corpseLifespan
-			if (this.age >= 20000) {
+			if (this.age >= CommonConfig.corpseLifespan.get()) {
 				this.kill();
 				return;
 			}
@@ -211,18 +230,20 @@ public class LootableCorpseEntity extends Entity {
 			}
 		}
 		if (source.getDirectEntity() instanceof ServerPlayerEntity) {
-			ServerPlayerEntity player = (ServerPlayerEntity) source.getDirectEntity();
-			ItemStack s = player.getMainHandItem();
-			if (s.getMaxDamage() > 0) {
-				s.hurt(1, this.random, player);
-				if (s.getDamageValue() >= s.getMaxDamage()) {
-					s.setCount(0);
+				ServerPlayerEntity player = (ServerPlayerEntity) source.getDirectEntity();
+			if (!player.isCreative()) {
+				ItemStack s = player.getMainHandItem();
+				if (s.getMaxDamage() > 0) {
+					s.hurt(1, this.random, player);
+					if (s.getDamageValue() >= s.getMaxDamage()) {
+						s.setCount(0);
+					}
 				}
-			}
-			if (s.getItem() instanceof ItemFuelTool) {
-				CompoundNBT nbt = s.getOrCreateTag();
-				if (nbt != null && nbt.contains("FuelCurrent") && nbt.getInt("FuelCurrent") > 0) {
-					nbt.putInt("FuelCurrent", Math.max(0, nbt.getInt("FuelCurrent") - 1));
+				if (s.getItem() instanceof ItemFuelTool) {
+					CompoundNBT nbt = s.getOrCreateTag();
+					if (nbt != null && nbt.contains("FuelCurrent") && nbt.getInt("FuelCurrent") > 0) {
+						nbt.putInt("FuelCurrent", Math.max(0, nbt.getInt("FuelCurrent") - 1));
+					}
 				}
 			}
 		}
@@ -250,7 +271,7 @@ public class LootableCorpseEntity extends Entity {
 		return true;
 	}
 
-	public ItemStackHandler getInventory() {
+	public ExtendedInventory getInventory() {
 		return this.inventory.orElse(null);
 	}
 
@@ -258,8 +279,8 @@ public class LootableCorpseEntity extends Entity {
 		return 9;
 	}
 
-	protected ItemStackHandler initInventory() {
-		return new ItemStackHandler(getInventorySize());
+	protected ExtendedInventory initInventory() {
+		return new ExtendedInventory(getInventorySize());
 	}
 
 	public boolean replaceItemInInventory(int inventorySlot, ItemStack itemStackIn) {
@@ -270,7 +291,7 @@ public class LootableCorpseEntity extends Entity {
 	@Override
 	@Nonnull
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (cap == ExtendedInventoryProvider.EXTENDED_INV_CAP) {
 			return inventory.cast();
 		}
 		return super.getCapability(cap, side);
@@ -280,5 +301,10 @@ public class LootableCorpseEntity extends Entity {
 	public void kill() {
 		this.inventory.invalidate();
 		super.kill();
+	}
+
+	@Override
+	public Container createMenu(int windowiD, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+		return ContainerLootableCorpse.createContainerServerSide(windowiD,playerInventory,this);
 	}
 }

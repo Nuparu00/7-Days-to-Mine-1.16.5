@@ -6,11 +6,13 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractSlider;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -38,6 +40,10 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
     Button save;
     Button select;
     AbstractSlider speedSlider;
+    TextFieldWidget xWidget;
+    TextFieldWidget yWidget;
+    TextFieldWidget zWidget;
+    Button setOffset;
     public GuiAnimationDebug() {
         super(new StringTextComponent("screen.animation_debug"));
     }
@@ -76,6 +82,17 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
             override();
         });
 
+        xWidget = new TextFieldWidget(font,11,150,47,20,new StringTextComponent("0"));
+        yWidget = new TextFieldWidget(font,11,180,47,20,new StringTextComponent("0"));
+        zWidget = new TextFieldWidget(font,11,210,47,20,new StringTextComponent("0"));
+
+        xWidget.setValue(String.valueOf(Animations.offset.x));
+        yWidget.setValue(String.valueOf(Animations.offset.y));
+        zWidget.setValue(String.valueOf(Animations.offset.z));
+
+        setOffset = new Button(65, 210, 60, 20, new StringTextComponent("Set Offset"), (button) -> {
+            setOffset();
+        });
         if (!selection) {
             this.addButton(pause);
             this.addButton(reset);
@@ -84,6 +101,10 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
             this.addButton(save);
             this.addButton(select);
             this.addButton(override);
+            this.addButton(xWidget);
+            this.addButton(yWidget);
+            this.addButton(zWidget);
+            this.addButton(setOffset);
         } else {
             this.addButton(doneButton);
         }
@@ -151,6 +172,26 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
         Animations.override = !Animations.override;
     }
 
+    public void setOffset(){
+        String xValue = xWidget.getValue();
+        String yValue = yWidget.getValue();
+        String zValue = zWidget.getValue();
+
+        try {
+            double x = Double.parseDouble(xValue);
+            double y = Double.parseDouble(yValue);
+            double z = Double.parseDouble(zValue);
+            Animations.offset = new Vector3d(x,y,z);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            xWidget.setValue(String.valueOf(Animations.offset.x));
+            yWidget.setValue(String.valueOf(Animations.offset.y));
+            zWidget.setValue(String.valueOf(Animations.offset.z));
+
+        }
+    }
+
     public void select() {
         selection = true;
         this.children.add(animationList);
@@ -161,6 +202,10 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
         removeButton(save);
         removeButton(select);
         removeButton(override);
+        removeButton(xWidget);
+        removeButton(yWidget);
+        removeButton(zWidget);
+        removeButton(setOffset);
         addButton(doneButton);
 
     }
@@ -176,6 +221,10 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
         addButton(save);
         addButton(select);
         addButton(override);
+        addButton(xWidget);
+        addButton(yWidget);
+        addButton(zWidget);
+        addButton(setOffset);
         removeButton(doneButton);
     }
 

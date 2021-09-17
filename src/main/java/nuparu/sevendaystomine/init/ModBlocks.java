@@ -461,6 +461,7 @@ public class ModBlocks {
 	public static final RegistryObject<Block> SKELETON = BLOCKS.register("skeleton", () -> new BlockSkeleton());
 	public static final RegistryObject<Block> SKELETON_SITTING = BLOCKS.register("skeleton_sitting",
 			() -> new BlockSkeleton());
+	public static final RegistryObject<Block> SKELETON_TORSO = BLOCKS.register("skeleton_torso", () -> new BlockSkeleton());
 
 	public static final RegistryObject<Block> WORKBENCH = BLOCKS.register("workbench",
 			() -> new BlockWorkbench(AbstractBlock.Properties.of(Material.WOOD).noOcclusion()));

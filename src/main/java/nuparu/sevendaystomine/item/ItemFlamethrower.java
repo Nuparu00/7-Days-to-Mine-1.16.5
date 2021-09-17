@@ -99,7 +99,7 @@ public class ItemFlamethrower extends ItemGun {
 			}
 			worldIn.playSound(null, playerIn.blockPosition(), getShotSound(), SoundCategory.PLAYERS, getShotSoundVolume(),
 					getShotSoundPitch());
-			playerIn.swing(handIn);
+			//playerIn.swing(handIn);
 			if (playerIn instanceof ServerPlayerEntity) {
 				PacketManager.sendTo(PacketManager.applyRecoil, new ApplyRecoilMessage(getRecoil(),handIn==Hand.MAIN_HAND, false), (ServerPlayerEntity) playerIn);
 				itemstack.hurt(1, random, (ServerPlayerEntity) playerIn);

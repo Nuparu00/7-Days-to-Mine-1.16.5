@@ -9,37 +9,28 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.model.entity.BloatedZombieModel;
 import nuparu.sevendaystomine.client.renderer.layer.RedEyesLayer;
 import nuparu.sevendaystomine.entity.BloatedZombieEntity;
+import nuparu.sevendaystomine.entity.RocketEntity;
+import nuparu.sevendaystomine.entity.ShotEntity;
 
-public class ShotRenderer<T extends BloatedZombieEntity, M extends BloatedZombieModel<T>>
-		extends MobRenderer<T, M> {
-	private static final ResourceLocation ZOMBIE_LOCATION = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/entity/bloated_zombie.png");
-	private static final ResourceLocation EYES = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/entity/bloated_zombie_eyes.png");
-
-	public RedEyesLayer redEyesLayer;
+public class ShotRenderer<T extends ShotEntity> extends EntityRenderer<T> {
 
 	public ShotRenderer(EntityRendererManager manager) {
-		super(manager, (M) new BloatedZombieModel<T>(), 0.5F);
-		this.addLayer(redEyesLayer = new RedEyesLayer<T, M, M>(this,EYES));
+		super(manager);
 	}
 
+	@Override
 	public ResourceLocation getTextureLocation(T p_110775_1_) {
-		return ZOMBIE_LOCATION;
+		return null;
 	}
 
-	protected boolean isShaking(T p_230495_1_) {
-		return false;
-	}
-
-	public static class RenderFactory implements IRenderFactory<BloatedZombieEntity> {
+	public static class RenderFactory implements IRenderFactory<ShotEntity> {
 
 		public RenderFactory(EntityRendererManager manager) {
 
 		}
 
 		@Override
-		public EntityRenderer<? super BloatedZombieEntity> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super ShotEntity> createRenderFor(EntityRendererManager manager) {
 			return new ShotRenderer(manager);
 		}
 	}

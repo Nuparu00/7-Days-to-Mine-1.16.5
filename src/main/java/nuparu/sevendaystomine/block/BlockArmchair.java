@@ -60,8 +60,8 @@ public class BlockArmchair extends BlockHorizontalBase implements IScrapable, IW
 	@Override
 	public ActionResultType use(BlockState state, World worldIn, BlockPos pos,
 			PlayerEntity playerIn, Hand hand, BlockRayTraceResult result) {
-		if (!playerIn.isCrouching()) {
-			Utils.mountBlock(worldIn, pos, playerIn,0.25);
+		if (!playerIn.isCrouching() && !worldIn.isClientSide()) {
+			Utils.mountBlock(worldIn, pos, playerIn,0.15f);
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.FAIL;

@@ -3,6 +3,7 @@ package nuparu.sevendaystomine.item;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -25,6 +26,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
@@ -48,6 +50,11 @@ public class ItemAnalogCamera extends Item {
 
 		playerIn.startUsingItem(handIn);
 		return ActionResult.success(itemstack);
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+
 	}
 
 	@Override
@@ -130,21 +137,21 @@ public class ItemAnalogCamera extends Item {
 	}
 
 	public static double getWidth(ItemStack stack, @Nullable PlayerEntity player) {
-		if (stack.getOrCreateTag() == null) {
+		if (stack.getOrCreateTag() == null || !stack.getOrCreateTag().contains("width",Constants.NBT.TAG_DOUBLE)) {
 			setupDimensions(stack, player);
 		}
 		return stack.getOrCreateTag().getDouble("width");
 	}
 
 	public static double getHeight(ItemStack stack, @Nullable PlayerEntity player) {
-		if (stack.getOrCreateTag() == null) {
+		if (stack.getOrCreateTag() == null || !stack.getOrCreateTag().contains("height",Constants.NBT.TAG_DOUBLE)) {
 			setupDimensions(stack, player);
 		}
 		return stack.getOrCreateTag().getDouble("height");
 	}
 
 	public static double getZoom(ItemStack stack, @Nullable PlayerEntity player) {
-		if (stack.getOrCreateTag() == null) {
+		if (stack.getOrCreateTag() == null || !stack.getOrCreateTag().contains("zoom",Constants.NBT.TAG_DOUBLE)) {
 			setupDimensions(stack, player);
 		}
 		return stack.getOrCreateTag().getDouble("zoom");
