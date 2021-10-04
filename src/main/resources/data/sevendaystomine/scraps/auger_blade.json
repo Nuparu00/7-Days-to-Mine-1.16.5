@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:auger_blade",
+  "material" : "iron",
+  "weight" : 2,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

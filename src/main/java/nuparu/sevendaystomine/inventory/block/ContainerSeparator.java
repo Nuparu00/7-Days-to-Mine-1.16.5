@@ -13,10 +13,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import nuparu.sevendaystomine.crafting.forge.ForgeRecipeManager;
 import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.init.ModContainers;
-import nuparu.sevendaystomine.item.ItemScrap;
 import nuparu.sevendaystomine.tileentity.TileEntitySeparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -141,26 +139,11 @@ public class ContainerSeparator extends Container {
     }
 
     public boolean isMold(Item item) {
-        for (IForgeRecipe recipe : ForgeRecipeManager.getInstance().getRecipes()) {
-            if (recipe.getMold() != null && !recipe.getMold().isEmpty() && recipe.getMold().getItem() == item) {
-                return true;
-            }
-        }
         return false;
     }
 
     public boolean isIngredient(Item item) {
-        if (item instanceof ItemScrap)
-            return true;
-        for (IForgeRecipe recipe : ForgeRecipeManager.getInstance().getRecipes()) {
-            if (recipe.getIngredients() != null) {
-                for (ItemStack stack : recipe.getIngredients()) {
-                    if (!stack.isEmpty() && stack.getItem() == item) {
-                        return true;
-                    }
-                }
-            }
-        }
+
         return false;
     }
 

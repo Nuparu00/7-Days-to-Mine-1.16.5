@@ -1,9 +1,12 @@
 package nuparu.sevendaystomine.item;
 
-public class ItemCarChassis extends ItemScrapable {
+import net.minecraft.item.Item;
+import nuparu.sevendaystomine.init.ModItemGroups;
+
+public class ItemCarChassis extends Item {
 
 	public ItemCarChassis() {
-		super(EnumMaterial.IRON, 46);
+		super(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS));
 	}
 /*
 	@Override

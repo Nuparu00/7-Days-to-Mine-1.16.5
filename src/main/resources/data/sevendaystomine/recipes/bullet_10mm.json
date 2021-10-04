@@ -1,0 +1,23 @@
+{
+   "type":"sevendaystomine:locked_shaped",
+  "pattern": [
+    "T ",
+    "GG",
+    "C "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "T": {
+      "item": "sevendaystomine:bullet_tip"
+    },
+    "C": {
+      "item": "sevendaystomine:bullet_casing"
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:smg_bullet"
+  },
+  "recipe": "ammo"
+}

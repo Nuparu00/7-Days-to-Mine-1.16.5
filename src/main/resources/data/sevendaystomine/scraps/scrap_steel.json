@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:scrap_steel",
+  "material" : "steel",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}

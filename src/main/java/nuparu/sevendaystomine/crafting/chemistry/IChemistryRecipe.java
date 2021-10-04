@@ -4,14 +4,12 @@ import java.util.List;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.tileentity.TileEntityChemistryStation;
+import nuparu.sevendaystomine.tileentity.TileEntityForge;
 
-public interface IChemistryRecipe {
-	 boolean matches(TileEntityChemistryStation inv, World worldIn);
-	 ItemStack getResult();
-	 public ItemStack getOutput(TileEntityChemistryStation tileEntity);
-	 public List<ItemStack> getIngredients();
-	 public void consumeInput(TileEntityChemistryStation tileEntity);
-	 public int intGetXP(PlayerEntity player);
+public interface IChemistryRecipe<T extends TileEntityChemistryStation> extends IRecipe<T> {
+	float getExperience();
+	int getCookingTime();
 }

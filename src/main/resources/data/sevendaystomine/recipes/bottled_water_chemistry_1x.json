@@ -1,0 +1,14 @@
+{
+   "type":"sevendaystomine:chemistry_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:bottled_murky_water"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:bottled_water",
+      "count":1
+   },
+   "experience" : 0.25,
+   "cookingtime" : 200
+}

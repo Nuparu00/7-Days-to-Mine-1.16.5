@@ -1,6 +1,7 @@
 package nuparu.sevendaystomine.init;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
@@ -15,18 +16,24 @@ public class ModItems {
 
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SevenDaysToMine.MODID);
 
-	public static final RegistryObject<Item> IRON_SCRAP = ITEMS.register("scrap_iron", () -> new ItemScrap(EnumMaterial.IRON));
-	public static final RegistryObject<Item> BRASS_SCRAP = ITEMS.register("scrap_brass", () -> new ItemScrap(EnumMaterial.BRASS));
-	public static final RegistryObject<Item> LEAD_SCRAP = ITEMS.register("scrap_lead", () -> new ItemScrap(EnumMaterial.LEAD));
+	public static final RegistryObject<Item> IRON_SCRAP = ITEMS.register("scrap_iron", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> BRASS_SCRAP = ITEMS.register("scrap_brass", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> LEAD_SCRAP = ITEMS.register("scrap_lead", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> COPPER_SCRAP = ITEMS.register("scrap_copper", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> TIN_SCRAP = ITEMS.register("scrap_tin", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> GOLD_SCRAP = ITEMS.register("scrap_gold", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> STEEL_SCRAP = ITEMS.register("scrap_steel", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> ZINC_SCRAP = ITEMS.register("scrap_zinc", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> BRONZE_SCRAP = ITEMS.register("scrap_bronze", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> EMPTY_CAN = ITEMS.register("empty_can", () -> new ItemEmptyCan());
-	public static final RegistryObject<Item> PLANK_WOOD = ITEMS.register("plank_wood", () -> new ItemScrap(EnumMaterial.WOOD));
-	public static final RegistryObject<Item> SMALL_STONE = ITEMS.register("small_stone", () -> new ItemScrap(EnumMaterial.STONE));
-	public static final RegistryObject<Item> PLANT_FIBER = ITEMS.register("plant_fiber", () -> new ItemScrap(EnumMaterial.PLANT_FIBER));
+	public static final RegistryObject<Item> PLANK_WOOD = ITEMS.register("plank_wood", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> SMALL_STONE = ITEMS.register("small_stone", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> PLANT_FIBER = ITEMS.register("plant_fiber", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> EMPTY_JAR = ITEMS.register("empty_jar", () -> new ItemEmptyJar());
-	public static final RegistryObject<Item> GLASS_SCRAP = ITEMS.register("scrap_glass", () -> new ItemScrap(EnumMaterial.GLASS));
+	public static final RegistryObject<Item> GLASS_SCRAP = ITEMS.register("scrap_glass", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> COFFEE_BERRY = ITEMS.register("coffee_berry", () -> new ItemCoffeeBerry());
 	public static final RegistryObject<Item> COFFEE_BEANS = ITEMS.register("coffee_beans", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
-	public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth", () -> new ItemScrap(EnumMaterial.CLOTH));
+	public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> STONE_AXE = ITEMS.register("stone_axe", () -> new ItemStoneAxe(ModItemTier.STONE_TOOLS, 0, -2, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> STONE_SHOVEL = ITEMS.register("stone_shovel", () -> new ItemQualitySpade(ModItemTier.STONE_TOOLS, -1f, 8f, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> BONE_SHIV = ITEMS.register("bone_shiv", () -> new ItemQualitySword(ModItemTier.BONE_TOOLS, 0, 8f, new Item.Properties().stacksTo(1), EnumLength.SHORT));
@@ -50,7 +57,6 @@ public class ModItems {
 	public static final RegistryObject<Item> MP5 = ITEMS.register("mp5", () -> new ItemMP5());
 	public static final RegistryObject<Item> RPG = ITEMS.register("rpg", () -> new ItemRPG());
 	public static final RegistryObject<Item> M4 = ITEMS.register("m4", () -> new ItemM4());
-	public static final RegistryObject<Item> COOKING_GRILL = ITEMS.register("cooking_grill", () -> new ItemScrapable(new Item.Properties().stacksTo(1), EnumMaterial.IRON));
 	public static final RegistryObject<Item> BOTTLED_MURKY_WATER = ITEMS.register("bottled_murky_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.MURKY_WATER).craftRemainder(EMPTY_JAR.get()), 250, 20));
 	public static final RegistryObject<Item> BOTTLED_WATER = ITEMS.register("bottled_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 75));
 	public static final RegistryObject<Item> BOTTLED_BEER = ITEMS.register("bottled_beer", () -> new ItemAlcoholDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 75));
@@ -83,21 +89,21 @@ public class ModItems {
 	public static final RegistryObject<Item> BLOOD_BAG = ITEMS.register("blood_bag", () -> new ItemBloodBag());
 	public static final RegistryObject<Item> BLOOD_DRAW_KIT = ITEMS.register("blood_draw_kit", () -> new ItemBloodDrawKit());
 	public static final RegistryObject<Item> ANTIBIOTICS = ITEMS.register("antibiotics", () -> new ItemAntibiotics());
-	public static final RegistryObject<Item> INGOT_LEAD = ITEMS.register("lead_ingot", () -> new ItemScrapable(EnumMaterial.LEAD, 6));
-	public static final RegistryObject<Item> INGOT_BRASS = ITEMS.register("brass_ingot", () -> new ItemScrapable(EnumMaterial.BRASS, 6));
-	public static final RegistryObject<Item> INGOT_STEEL = ITEMS.register("steel_ingot", () -> new ItemScrapable(EnumMaterial.STEEL, 6).setSmallestBit());
-	public static final RegistryObject<Item> INGOT_COPPER = ITEMS.register("copper_ingot", () -> new ItemScrapable(EnumMaterial.COPPER, 6).setSmallestBit());
-	public static final RegistryObject<Item> INGOT_TIN = ITEMS.register("tin_ingot", () -> new ItemScrapable(EnumMaterial.TIN, 6).setSmallestBit());
-	public static final RegistryObject<Item> INGOT_ZINC = ITEMS.register("zinc_ingot", () -> new ItemScrapable(EnumMaterial.ZINC, 6).setSmallestBit());
-	public static final RegistryObject<Item> INGOT_BRONZE = ITEMS.register("bronze_ingot", () -> new ItemScrapable(EnumMaterial.BRONZE, 6).setSmallestBit());
-	public static final RegistryObject<Item> CENT = ITEMS.register("cent", () -> new ItemScrapable(EnumMaterial.BRASS, 2));
+	public static final RegistryObject<Item> INGOT_LEAD = ITEMS.register("lead_ingot", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> INGOT_BRASS = ITEMS.register("brass_ingot", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> INGOT_STEEL = ITEMS.register("steel_ingot", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> INGOT_COPPER = ITEMS.register("copper_ingot", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> INGOT_TIN = ITEMS.register("tin_ingot", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> INGOT_ZINC = ITEMS.register("zinc_ingot", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> INGOT_BRONZE = ITEMS.register("bronze_ingot", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> CENT = ITEMS.register("cent", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> BACKPACK = ITEMS.register("backpack", () -> new ItemBackpack());
 	public static final RegistryObject<Item> MOLD_INGOT = ITEMS.register("ingot_mold", () -> new ItemMold());
 	public static final RegistryObject<Item> BULLET_TIP_MOLD = ITEMS.register("bullet_tip_mold", () -> new ItemMold());
 	public static final RegistryObject<Item> BULLET_CASING_MOLD = ITEMS.register("bullet_casing_mold", () -> new ItemMold());
 	public static final RegistryObject<Item> CEMENT_MOLD = ITEMS.register("cement_mold", () -> new ItemMold());
 	public static final RegistryObject<Item> CONCRETE_MIX = ITEMS.register("concrete_mix", () -> new Item(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_MATERIALS).craftRemainder(Items.BUCKET)));
-	public static final RegistryObject<Item> CEMENT = ITEMS.register("cement", () -> new ItemScrap(EnumMaterial.CONCRETE));
+	public static final RegistryObject<Item> CEMENT = ITEMS.register("cement", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> NINE_MM_BULLET = ITEMS.register("pistol_bullet", () -> new ItemBullet(new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
 	public static final RegistryObject<Item> SEVEN_MM_BULLET = ITEMS.register("rifle_bullet", () -> new ItemBullet(new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
 	public static final RegistryObject<Item> TEN_MM_BULLET = ITEMS.register("smg_bullet", () -> new ItemBullet(new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
@@ -178,10 +184,10 @@ public class ModItems {
 	public static final RegistryObject<Item> T_SHIRT_0 = ITEMS.register("t_shirt_0", () -> new ItemClothingChest(true, false, "t_shirt_0"));
 	public static final RegistryObject<Item> T_SHIRT_1 = ITEMS.register("t_shirt_1", () -> new ItemClothingChest(true, false, "t_shirt_1"));
 	public static final RegistryObject<Item> COAT = ITEMS.register("coat", () -> new ItemClothingChest(true, false, "coat"));
-	public static final RegistryObject<Item> CAR_BATTERY = ITEMS.register("car_battery", () -> new ItemBattery(EnumMaterial.LEAD, 9));
-	public static final RegistryObject<Item> SMALL_ENGINE = ITEMS.register("small_engine", () -> new ItemQualityScrapable(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY), EnumMaterial.IRON, 5));
-	public static final RegistryObject<Item> MINIBIKE_SEAT = ITEMS.register("minibike_seat", () -> new ItemQualityScrapable(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY), EnumMaterial.LEATHER, 5));
-	public static final RegistryObject<Item> MINIBIKE_HANDLES = ITEMS.register("minibike_handles", () -> new ItemQualityScrapable(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY), EnumMaterial.IRON, 4));
+	public static final RegistryObject<Item> CAR_BATTERY = ITEMS.register("car_battery", () -> new ItemBattery());
+	public static final RegistryObject<Item> SMALL_ENGINE = ITEMS.register("small_engine", () -> new ItemQuality(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY)));
+	public static final RegistryObject<Item> MINIBIKE_SEAT = ITEMS.register("minibike_seat", () -> new ItemQuality(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY)));
+	public static final RegistryObject<Item> MINIBIKE_HANDLES = ITEMS.register("minibike_handles", () -> new ItemQuality(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY)));
 	public static final RegistryObject<Item> MINIBIKE_CHASSIS = ITEMS.register("minibike_chassis", () -> new ItemMinibikeChassis());
 	public static final RegistryObject<Item> CAR_CHASSIS = ITEMS.register("car_chassis", () -> new ItemCarChassis());
 
@@ -228,7 +234,7 @@ public class ModItems {
 	public static final RegistryObject<Item> STEEL_SHOVEL = ITEMS.register("steel_shovel", () -> new ItemQualitySpade(ModItemTier.STEEL_TOOLS, 0, -2.8f, new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> VOLTMETER = ITEMS.register("voltmeter", () -> new ItemVoltmeter());
-	public static final RegistryObject<Item> IRON_PIPE = ITEMS.register("iron_pipe", () -> new ItemScrapable(EnumMaterial.IRON, 1));
+	public static final RegistryObject<Item> IRON_PIPE = ITEMS.register("iron_pipe", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> CIRCUIT = ITEMS.register("circuit", () -> new ItemCircuit());
 	public static final RegistryObject<Item> LINK_TOOL = ITEMS.register("link_tool", () -> new ItemLinkTool());
 
@@ -249,40 +255,40 @@ public class ModItems {
 	public static final RegistryObject<Item> HUNTING_RIFLE_SCHEMATICS = ITEMS.register("book_hunting_rifle", () -> new ItemBlueprint(new ResourceLocation(SevenDaysToMine.MODID, "hunting_rifle"), "hunting_rifle", new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_BOOKS).rarity(Rarity.UNCOMMON)));
 	public static final RegistryObject<Item> AUGER_SCHEMATICS = ITEMS.register("book_auger", () -> new ItemBlueprint(new ResourceLocation(SevenDaysToMine.MODID, "auger"), "auger", new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_BOOKS).rarity(Rarity.UNCOMMON)));
 	public static final RegistryObject<Item> ROCKET_SCHEMATICS = ITEMS.register("book_rocket", () -> new ItemBlueprint(new ResourceLocation(SevenDaysToMine.MODID, "rocket"), "rocket", new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_BOOKS).rarity(Rarity.UNCOMMON)));
-	public static final RegistryObject<Item> BULLET_TIP = ITEMS.register("bullet_tip", () -> new ItemScrapable(new Item.Properties().tab(ModItemGroups.TAB_FORGING), EnumMaterial.LEAD, 1));
-	public static final RegistryObject<Item> BULLET_CASING = ITEMS.register("bullet_casing", () -> new ItemScrapable(new Item.Properties().tab(ModItemGroups.TAB_FORGING), EnumMaterial.BRASS, 1));
+	public static final RegistryObject<Item> BULLET_TIP = ITEMS.register("bullet_tip", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> BULLET_CASING = ITEMS.register("bullet_casing", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 
 	public static final RegistryObject<Item> MOLDY_BREAD = ITEMS.register("moldy_bread", () -> new Item(new Item.Properties().tab(ItemGroup.TAB_FOOD).food(ModFood.MOLDY_BREAD).stacksTo(1)));
 	public static final RegistryObject<Item> SLEDGEHAMMER = ITEMS.register("sledgehammer", () -> new ItemQualitySword(ModItemTier.SLEDGEHAMMER, 0, -3.6f, new Item.Properties().stacksTo(1), EnumLength.LONG));
 
 
-	public static final RegistryObject<Item> PISTOL_SLIDE = ITEMS.register("pistol_slide", () -> new ItemGunPart(EnumMaterial.IRON, 2));
-	public static final RegistryObject<Item> PISTOL_TRIGGER = ITEMS.register("pistol_trigger", () -> new ItemGunPart(EnumMaterial.IRON, 4));
-	public static final RegistryObject<Item> PISTOL_GRIP = ITEMS.register("pistol_grip", () -> new ItemGunPart(EnumMaterial.IRON, 3));
-	public static final RegistryObject<Item> SNIPER_RIFLE_BARREL = ITEMS.register("sniper_rifle_barrel", () -> new ItemGunPart(EnumMaterial.IRON, 3));
-	public static final RegistryObject<Item> SNIPER_RIFLE_TRIGGER = ITEMS.register("sniper_rifle_trigger", () -> new ItemGunPart(EnumMaterial.IRON, 6));
-	public static final RegistryObject<Item> SNIPER_RIFLE_SCOPE = ITEMS.register("sniper_rifle_scope", () -> new ItemGunPart(EnumMaterial.IRON, 4));
-	public static final RegistryObject<Item> SNIPER_RIFLE_STOCK = ITEMS.register("sniper_rifle_stock", () -> new ItemGunPart(EnumMaterial.IRON, 6));
+	public static final RegistryObject<Item> PISTOL_SLIDE = ITEMS.register("pistol_slide", () -> new ItemGunPart());
+	public static final RegistryObject<Item> PISTOL_TRIGGER = ITEMS.register("pistol_trigger", () -> new ItemGunPart());
+	public static final RegistryObject<Item> PISTOL_GRIP = ITEMS.register("pistol_grip", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SNIPER_RIFLE_BARREL = ITEMS.register("sniper_rifle_barrel", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SNIPER_RIFLE_TRIGGER = ITEMS.register("sniper_rifle_trigger", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SNIPER_RIFLE_SCOPE = ITEMS.register("sniper_rifle_scope", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SNIPER_RIFLE_STOCK = ITEMS.register("sniper_rifle_stock", () -> new ItemGunPart());
 
-	public static final RegistryObject<Item> SHOTGUN_RECEIVER = ITEMS.register("shotgun_receiver", () -> new ItemGunPart(EnumMaterial.IRON, 4));
-	public static final RegistryObject<Item> SHOTGUN_STOCK = ITEMS.register("shotgun_stock", () -> new ItemGunPart(EnumMaterial.WOOD, 3));
-	public static final RegistryObject<Item> SHOTGUN_STOCK_SHORT = ITEMS.register("shotgun_stock_short", () -> new ItemGunPart(EnumMaterial.WOOD, 2));
-	public static final RegistryObject<Item> SHOTGUN_PARTS = ITEMS.register("shotgun_parts", () -> new ItemGunPart(EnumMaterial.IRON, 2));
-	public static final RegistryObject<Item> SHOTGUN_BARREL = ITEMS.register("shotgun_barrel", () -> new ItemGunPart(EnumMaterial.IRON, 3));
-	public static final RegistryObject<Item> SHOTGUN_BARREL_SHORT = ITEMS.register("shotgun_barrel_short", () -> new ItemGunPart(EnumMaterial.IRON, 2));
+	public static final RegistryObject<Item> SHOTGUN_RECEIVER = ITEMS.register("shotgun_receiver", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SHOTGUN_STOCK = ITEMS.register("shotgun_stock", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SHOTGUN_STOCK_SHORT = ITEMS.register("shotgun_stock_short", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SHOTGUN_PARTS = ITEMS.register("shotgun_parts", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SHOTGUN_BARREL = ITEMS.register("shotgun_barrel", () -> new ItemGunPart());
+	public static final RegistryObject<Item> SHOTGUN_BARREL_SHORT = ITEMS.register("shotgun_barrel_short", () -> new ItemGunPart());
 
-	public static final RegistryObject<Item> MAGNUM_FRAME = ITEMS.register("magnum_frame", () -> new ItemGunPart(EnumMaterial.IRON, 4));
-	public static final RegistryObject<Item> MAGNUM_CYLINDER = ITEMS.register("magnum_cylinder", () -> new ItemGunPart(EnumMaterial.IRON, 4));
-	public static final RegistryObject<Item> MAGNUM_GRIP = ITEMS.register("magnum_grip", () -> new ItemGunPart(EnumMaterial.IRON, 2));
+	public static final RegistryObject<Item> MAGNUM_FRAME = ITEMS.register("magnum_frame", () -> new ItemGunPart());
+	public static final RegistryObject<Item> MAGNUM_CYLINDER = ITEMS.register("magnum_cylinder", () -> new ItemGunPart());
+	public static final RegistryObject<Item> MAGNUM_GRIP = ITEMS.register("magnum_grip", () -> new ItemGunPart());
 
-	public static final RegistryObject<Item> MP5_BARREL = ITEMS.register("mp5_barrel", () -> new ItemGunPart(EnumMaterial.IRON, 4));
-	public static final RegistryObject<Item> MP5_TRIGGER = ITEMS.register("mp5_trigger", () -> new ItemGunPart(EnumMaterial.IRON, 6));
-	public static final RegistryObject<Item> MP5_STOCK = ITEMS.register("mp5_stock", () -> new ItemGunPart(EnumMaterial.IRON, 4));
+	public static final RegistryObject<Item> MP5_BARREL = ITEMS.register("mp5_barrel", () -> new ItemGunPart());
+	public static final RegistryObject<Item> MP5_TRIGGER = ITEMS.register("mp5_trigger", () -> new ItemGunPart());
+	public static final RegistryObject<Item> MP5_STOCK = ITEMS.register("mp5_stock", () -> new ItemGunPart());
 
-	public static final RegistryObject<Item> HUNTING_RIFLE_BARREL = ITEMS.register("hunting_rifle_barrel", () -> new ItemGunPart(EnumMaterial.IRON, 3));
-	public static final RegistryObject<Item> HUNTING_RIFLE_STOCK = ITEMS.register("hunting_rifle_stock", () -> new ItemGunPart(EnumMaterial.IRON, 4));
-	public static final RegistryObject<Item> HUNTING_RIFLE_PARTS = ITEMS.register("hunting_rifle_parts", () -> new ItemGunPart(EnumMaterial.IRON, 2));
-	public static final RegistryObject<Item> HUNTING_RIFLE_BOLT = ITEMS.register("hunting_rifle_bolt", () -> new ItemGunPart(EnumMaterial.IRON, 4));
+	public static final RegistryObject<Item> HUNTING_RIFLE_BARREL = ITEMS.register("hunting_rifle_barrel", () -> new ItemGunPart());
+	public static final RegistryObject<Item> HUNTING_RIFLE_STOCK = ITEMS.register("hunting_rifle_stock", () -> new ItemGunPart());
+	public static final RegistryObject<Item> RIFLE_PARTS = ITEMS.register("rifle_parts", () -> new ItemGunPart());
+	public static final RegistryObject<Item> HUNTING_RIFLE_BOLT = ITEMS.register("hunting_rifle_bolt", () -> new ItemGunPart());
 
 	public static final RegistryObject<Item> SCRAP_CHESTPLATE = ITEMS.register("scrap_chestplate", () -> new ItemArmorBase(ModArmorMaterial.SCRAP, EquipmentSlotType.CHEST, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
 	public static final RegistryObject<Item> SCRAP_LEGGINGS = ITEMS.register("scrap_leggings", () -> new ItemArmorBase(ModArmorMaterial.SCRAP, EquipmentSlotType.LEGS, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
@@ -297,8 +303,8 @@ public class ModItems {
 	public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new Item(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY)));
 	public static final RegistryObject<Item> PHOTO_CELL = ITEMS.register("photo_cell", () -> new Item(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY)));
 
-	public static final RegistryObject<Item> POTASSIUM = ITEMS.register("potassium", () -> new ItemScrap(EnumMaterial.POTASSIUM));
-	public static final RegistryObject<Item> GAS_CANISTER = ITEMS.register("gas_canister", () -> new ItemScrap(EnumMaterial.GASOLINE));
+	public static final RegistryObject<Item> POTASSIUM = ITEMS.register("potassium", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> GAS_CANISTER = ITEMS.register("gas_canister", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 
 	public static final RegistryObject<Item> AUGER_BLADE = ITEMS.register("auger_blade", () -> new ItemQuality(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_FORGING)));
 	public static final RegistryObject<Item> NIGHT_VISION_DEVICE = ITEMS.register("night_vision_device", () -> new ItemNightVisionDevice(ModArmorMaterial.SCRAP, EquipmentSlotType.HEAD, new Item.Properties().stacksTo(1).tab(ItemGroup.TAB_COMBAT)));
@@ -314,7 +320,7 @@ public class ModItems {
 	public static final RegistryObject<Item> STEEL_HOE = ITEMS.register("steel_hoe", () -> new ItemQualityHoe(ModItemTier.STEEL_TOOLS, 0, -2.8f, new Item.Properties().stacksTo(1)));
 
 
-	public static final RegistryObject<Item> AUGER_HANDLES = ITEMS.register("auger_handles", () -> new ItemQualityScrapable(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_FORGING), EnumMaterial.IRON, 4));
+	public static final RegistryObject<Item> AUGER_HANDLES = ITEMS.register("auger_handles", () -> new ItemQuality(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_FORGING)));
 
 	public static final RegistryObject<Item> EMPTY_JAR_MOLD = ITEMS.register("empty_jar_mold", () -> new ItemMold());
 	public static final RegistryObject<Item> HUNTING_RIFLE_BARREL_MOLD = ITEMS.register("hunting_rifle_barrel_mold", () -> new ItemMold());
@@ -343,7 +349,7 @@ public class ModItems {
 	public static final RegistryObject<Item> CRUDE_BOW = ITEMS.register("crude_bow", () -> new ItemQualityBow(new Item.Properties().durability(384).tab(ItemGroup.TAB_COMBAT), 1.45, 1f));
 	public static final RegistryObject<Item> COMPOUND_BOW = ITEMS.register("compound_bow", () -> new ItemQualityBow(new Item.Properties().durability(384).tab(ItemGroup.TAB_COMBAT), 2.4, 1.33f));
 
-	public static final RegistryObject<Item> SAND_DUST = ITEMS.register("sand_dust", () -> new ItemScrap(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS), EnumMaterial.SAND));
+	public static final RegistryObject<Item> SAND_DUST = ITEMS.register("sand_dust", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> VOMIT = ITEMS.register("vomit", () -> new Item(new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> FLARE = ITEMS.register("flare", () -> new ItemFlare());
 
@@ -415,4 +421,6 @@ public class ModItems {
 	public static final RegistryObject<Item> FRIDGE = ITEMS.register("fridge", () -> new TallBlockItem(ModBlocks.FRIDGE.get(), new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_BUILDING)));
 	public static final RegistryObject<Item> LOCKED_DOOR = ITEMS.register("locked_door", () -> new TallBlockItem(ModBlocks.LOCKED_DOOR.get(), new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_BUILDING)));
 
+	public static final RegistryObject<Item> GASOLINE_BUCKET = ITEMS.register("gasoline_bucket", () -> new BucketItem(ModFluids.GASOLINE, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1).tab(ItemGroup.TAB_MISC)));
+	public static final RegistryObject<Item> MERCURY_BUCKET = ITEMS.register("mercury_bucket", () -> new BucketItem(ModFluids.MERCURY, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1).tab(ItemGroup.TAB_MISC)));
 }

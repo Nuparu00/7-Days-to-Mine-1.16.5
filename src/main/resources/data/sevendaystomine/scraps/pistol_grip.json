@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:pistol_grip",
+  "material" : "iron",
+  "weight" : 2,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

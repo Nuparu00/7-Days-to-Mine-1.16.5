@@ -20,13 +20,11 @@ public class VanillaManager {
 
 	public static ArrayList<VanillaBlockUpgrade> vanillaUpgrades = new ArrayList<VanillaBlockUpgrade>();
 
-	public static ArrayList<VanillaScrapableItem> vanillaScrapables = new ArrayList<VanillaScrapableItem>();
 
 	public static void modifyVanilla() {
 		editVanillaBlockProperties();
 		//removeVanillaRecipes();
 		addVanillaBlockUpgrades();
-		addVanillaScrapables();
 
 	}
 
@@ -225,53 +223,6 @@ public class VanillaManager {
 		return null;
 	}
 
-	public static void addVanillaScrapables() {
-		/*vanillaScrapables.add(new VanillaScrapableItem(Items.IRON_INGOT, EnumMaterial.IRON).setWeight(6));
-		vanillaScrapables.add(new VanillaScrapableItem(Items.GOLD_INGOT, EnumMaterial.GOLD).setWeight(6));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.IRON_ORE, EnumMaterial.IRON).setWeight(12));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.GOLD_ORE, EnumMaterial.GOLD).setWeight(12));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.IRON_BLOCK, EnumMaterial.IRON).setWeight(54));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.GOLD_BLOCK, EnumMaterial.GOLD).setWeight(54));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.STONE, EnumMaterial.STONE).setWeight(9));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.GRAVEL, EnumMaterial.STONE).setWeight(4));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.COBBLESTONE, EnumMaterial.STONE).setWeight(6));
-		vanillaScrapables.add(new VanillaScrapableItem(Items.FLINT, EnumMaterial.STONE).setWeight(2));
-		vanillaScrapables.add(new VanillaScrapableItem(Items.COAL, EnumMaterial.CARBON).setWeight(1));
-		vanillaScrapables.add(new VanillaScrapableItem(Items.IRON_NUGGET, EnumMaterial.IRON).setWeight(0));
-		vanillaScrapables.add(new VanillaScrapableItem(Items.GOLD_NUGGET, EnumMaterial.GOLD).setWeight(0));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.GLASS, EnumMaterial.GLASS).setWeight(12));
-		vanillaScrapables.add(
-				new VanillaScrapableItem(net.minecraft.init.Blocks.STAINED_GLASS, EnumMaterial.GLASS).setWeight(12));
-		vanillaScrapables
-				.add(new VanillaScrapableItem(net.minecraft.init.Blocks.GLASS_PANE, EnumMaterial.GLASS).setWeight(6));
-		vanillaScrapables.add(new VanillaScrapableItem(net.minecraft.init.Blocks.STAINED_GLASS_PANE, EnumMaterial.GLASS)
-				.setWeight(6));
-		vanillaScrapables.add(new VanillaScrapableItem(Blocks.IRON_BARS, EnumMaterial.IRON).setWeight(1));
-		vanillaScrapables.add(new VanillaScrapableItem(Blocks.IRON_DOOR, EnumMaterial.IRON).setWeight(6));
-		vanillaScrapables.add(new VanillaScrapableItem(Blocks.IRON_TRAPDOOR, EnumMaterial.IRON).setWeight(4));
-		vanillaScrapables.add(new VanillaScrapableItem(Blocks.COAL_BLOCK, EnumMaterial.CARBON).setWeight(9));
-		vanillaScrapables.add(new VanillaScrapableItem(Blocks.SAND, EnumMaterial.SAND).setWeight(9));
-
-		ItemUtils.INSTANCE.addSmallestBit(EnumMaterial.CARBON, Items.COAL);
-		ItemUtils.INSTANCE.addSmallestBit(EnumMaterial.MERCURY, ModBlocks.ORE_CINNABAR);*/
-	}
-
-	public static VanillaScrapableItem getVanillaScrapable(Item item) {
-		for (VanillaScrapableItem vanillaScrapable : vanillaScrapables) {
-			if (vanillaScrapable.getItem() == item) {
-				return vanillaScrapable;
-			}
-		}
-		return null;
-	}
 
 	public static class VanillaBlockUpgrade {
 
@@ -311,58 +262,5 @@ public class VanillaManager {
 		}
 	}
 
-	public static class VanillaScrapableItem {
-
-		private Item item = null;
-		private EnumMaterial mat = EnumMaterial.NONE;
-		private int weight = 1;
-		private boolean canBeScraped = true;
-
-		public VanillaScrapableItem(Block block, EnumMaterial mat) {
-			this(Item.byBlock(block), mat);
-		}
-
-		public VanillaScrapableItem(Item item, EnumMaterial mat) {
-			this.item = item;
-			this.mat = mat;
-		}
-
-		public VanillaScrapableItem setMaterial(EnumMaterial mat) {
-			this.mat = mat;
-			return this;
-		}
-
-		public VanillaScrapableItem setScrap() {
-			ItemUtils.INSTANCE.addScrapResult(mat, item);
-			return this;
-		}
-
-		public EnumMaterial getMaterial() {
-			return mat;
-		}
-
-		public VanillaScrapableItem setWeight(int newWeight) {
-			this.weight = newWeight;
-			return this;
-		}
-
-		public int getWeight() {
-			return weight;
-		}
-
-		public VanillaScrapableItem setCanBeScraped(boolean canBeScraped) {
-			this.canBeScraped = canBeScraped;
-			return this;
-		}
-
-		public boolean canBeScraped() {
-			return this.canBeScraped;
-		}
-
-		public Item getItem() {
-			return this.item;
-		}
-
-	}
 
 }

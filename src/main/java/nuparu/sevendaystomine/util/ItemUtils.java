@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.items.IItemHandler;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.EnumQuality;
 import nuparu.sevendaystomine.item.IQuality;
@@ -27,41 +28,18 @@ import nuparu.sevendaystomine.item.IQuality;
 public class ItemUtils {
 
 	public static ItemUtils INSTANCE = new ItemUtils();
-	public HashMap<EnumMaterial, Item> scrapResults = new HashMap<EnumMaterial, Item>();
-	public HashMap<EnumMaterial, Item> smallestBit = new HashMap<EnumMaterial, Item>();
-
 	public static HashMap<SwordItem, Float> swordSpeedCached = new HashMap<SwordItem, Float>();
 
-	public void addScrapResult(EnumMaterial mat, Item item) {
-		scrapResults.put(mat, item);
-		addSmallestBit(mat,item);
-	}
-	
-	public void addSmallestBit(EnumMaterial mat, Block block) {
-		addSmallestBit(mat,Item.byBlock(block));
-	}
-	
-	public void addSmallestBit(EnumMaterial mat, Item item) {
-		smallestBit.put(mat, item);
-	}
 
 	public Item getScrapResult(EnumMaterial mat) {
-		for (Map.Entry<EnumMaterial, Item> entry : scrapResults.entrySet()) {
-			if (mat == entry.getKey()) {
-				return entry.getValue();
-			}
+		ScrapDataManager.ScrapEntry scrapEntry = ScrapDataManager.instance.getScrapResult(mat);
+		if(scrapEntry != null){
+			return scrapEntry.item;
 		}
 		return null;
 	}
 	
-	public Item getSmallestBit(EnumMaterial mat) {
-		for (Map.Entry<EnumMaterial, Item> entry : smallestBit.entrySet()) {
-			if (mat == entry.getKey()) {
-				return entry.getValue();
-			}
-		}
-		return null;
-	}
+
 	
 	public static int getQuality(ItemStack stack) {
 		CompoundNBT nbt = stack.getOrCreateTag();

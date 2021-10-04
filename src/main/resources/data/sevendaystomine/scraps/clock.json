@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:clock",
+  "material" : "gold",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

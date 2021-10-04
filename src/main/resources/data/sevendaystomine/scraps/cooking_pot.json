@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:cooking_pot",
+  "material" : "iron",
+  "weight" : 30,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

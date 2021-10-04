@@ -1,0 +1,21 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"copper",
+         "weight" : 4
+      },
+      {
+         "material":"zinc",
+         "weight" : 2
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:brass_ingot"
+   },
+   "mold":{
+      "item":"sevendaystomine:ingot_mold"
+   },
+   "experience" : 3,
+   "cookingtime" : 500
+}

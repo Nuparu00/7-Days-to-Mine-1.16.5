@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:car_battery",
+  "material" : "lead",
+  "weight" : 16,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

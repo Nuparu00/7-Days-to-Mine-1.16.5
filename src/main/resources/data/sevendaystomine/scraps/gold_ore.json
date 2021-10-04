@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:gold_ore",
+  "material" : "gold",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

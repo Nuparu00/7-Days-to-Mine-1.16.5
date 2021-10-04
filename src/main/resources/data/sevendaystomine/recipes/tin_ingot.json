@@ -1,0 +1,17 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"tin",
+         "weight" : 6
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:tin_ingot"
+   },
+   "mold":{
+      "item":"sevendaystomine:ingot_mold"
+   },
+   "experience" : 1,
+   "cookingtime" : 300
+}

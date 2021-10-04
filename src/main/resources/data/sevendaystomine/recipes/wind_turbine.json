@@ -1,0 +1,28 @@
+{
+  "type": "sevendaystomine:workbench_shaped",
+  "pattern": [
+    "  P  ",
+    " WIW ",
+    "PMMMP",
+    " WIW ",
+    "P P P"
+  ],
+  "key": {
+    "P": {
+      "item": "sevendaystomine:plank_wood"
+    },
+    "W": {
+      "item": "sevendaystomine:wire"
+    },
+    "I": {
+      "item": "sevendaystomine:iron_pipe"
+    },
+    "M": {
+      "item": "sevendaystomine:magnet"
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:wind_turbine"
+  },
+  "recipe": "electricity"
+}

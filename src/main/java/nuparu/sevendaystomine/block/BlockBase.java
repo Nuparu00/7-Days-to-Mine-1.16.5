@@ -14,7 +14,7 @@ public class BlockBase extends Block implements IBlockBase {
     }
 
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		 final Item.Properties properties = new Item.Properties().tab(getItemGroup());
 		 return new BlockItem(this, properties);
 	}

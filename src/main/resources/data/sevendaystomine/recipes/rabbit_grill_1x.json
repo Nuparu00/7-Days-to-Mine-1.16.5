@@ -1,0 +1,12 @@
+{
+   "type":"sevendaystomine:grill_shapeless",
+   "ingredients":[
+      {
+         "item":"minecraft:rabbit"
+      }
+   ],
+   "result":{
+      "item":"minecraft:cooked_rabbit",
+      "count":1
+   }
+}

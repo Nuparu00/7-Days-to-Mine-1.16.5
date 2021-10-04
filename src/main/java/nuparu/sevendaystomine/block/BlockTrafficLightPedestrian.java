@@ -17,10 +17,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockTrafficLightPedestrian extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
+public class BlockTrafficLightPedestrian extends BlockHorizontalBase implements  IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	public VoxelShape NORTH = Block.box(5, 0, 0.5625D*16, 11, 0.75D*16, 1D*16);
@@ -28,37 +26,9 @@ public class BlockTrafficLightPedestrian extends BlockHorizontalBase implements 
 	public VoxelShape WEST = Block.box(0.5625D*16, 0.0D, 5, 1*16, 0.75D*16, 11);
 	public VoxelShape EAST = Block.box(0D, 0.0D, 5, 0.4375D*16, 0.75D*16, 11);
 
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 3;
-
 	public BlockTrafficLightPedestrian() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(1.5f, 1));
 		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

@@ -16,10 +16,10 @@ import net.minecraftforge.common.util.Constants;
 import nuparu.sevendaystomine.electricity.network.INetwork;
 import nuparu.sevendaystomine.init.ModItemGroups;
 
-public class ItemLinkTool extends ItemScrapable {
+public class ItemLinkTool extends Item {
 
 	public ItemLinkTool() {
-		super(new Item.Properties().tab(ModItemGroups.TAB_ELECTRICITY).stacksTo(1), EnumMaterial.COPPER, 1);
+		super(new Item.Properties().tab(ModItemGroups.TAB_ELECTRICITY).stacksTo(1));
 	}
 
 	@Override

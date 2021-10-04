@@ -57,11 +57,14 @@ import nuparu.sevendaystomine.client.sound.MovingSoundChainsawCut;
 import nuparu.sevendaystomine.client.sound.MovingSoundChainsawIdle;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.IVoltage;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.ItemBackpack;
 import nuparu.sevendaystomine.item.ItemQuality;
+import nuparu.sevendaystomine.network.PacketManager;
+import nuparu.sevendaystomine.network.packets.SyncScrapsMessage;
 import nuparu.sevendaystomine.util.PlayerUtils;
 import nuparu.sevendaystomine.util.Utils;
 
@@ -317,9 +320,12 @@ public class PlayerEventHandler {
 
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
+        final PlayerEntity player = event.getPlayer();
+        if(player instanceof ServerPlayerEntity){
+            PacketManager.sendTo(PacketManager.syncScrapsData,new SyncScrapsMessage(ScrapDataManager.instance.save(new CompoundNBT())), (ServerPlayerEntity) player);
+        }
         if (!CommonConfig.survivalGuide.get())
             return;
-        final PlayerEntity player = event.getPlayer();
         final ItemStack stack = new ItemStack(ModItems.SURVIVAL_GUIDE.get());
         final CompoundNBT entityData = player.getPersistentData();
         final CompoundNBT persistedData = entityData.getCompound(PlayerEntity.PERSISTED_NBT_TAG);

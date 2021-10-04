@@ -531,7 +531,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 	public enum EnumSystem {
 		NONE("none", ""), MAC("mac", "Mac OS X"), LINUX("linux", "Linux"), WIN98("win98", "Windows 98"),
 		WINXP("winXp", "Windows XP"), WIN7("win7", "Windows 7"), WIN8("win8", "Windows 8"),
-		WIN10("win10", "Windows 10");
+		WIN10("win10", "Windows 10"), TERMINAL("terminal", "Terminal");
 
 		private String name;
 		private String readable;

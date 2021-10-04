@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.init.ModRecipes;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
 
 public class RecipeQualityShapeless extends ShapelessRecipe {
 
@@ -36,10 +36,10 @@ public class RecipeQualityShapeless extends ShapelessRecipe {
 		if (stack != null) {
 			Container c = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory.class, inv, "field_70465_c");
 			PlayerEntity player = null;
-			/*if (c instanceof nuparu.sevendaystomine.inventory.ContainerWorkbench) {
-			nuparu.sevendaystomine.inventory.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.ContainerWorkbench) c;
+			if (c instanceof nuparu.sevendaystomine.inventory.block.ContainerWorkbench) {
+			nuparu.sevendaystomine.inventory.block.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.block.ContainerWorkbench) c;
 			player = container.player;
-		} else*/ if (c instanceof WorkbenchContainer) {
+		} else if (c instanceof WorkbenchContainer) {
 				WorkbenchContainer container = (WorkbenchContainer) (c);
 				CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
 				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
@@ -61,7 +61,7 @@ public class RecipeQualityShapeless extends ShapelessRecipe {
 	
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipes.QUALITY_SHAPELESS.get();
+		return ModRecipeSerializers.QUALITY_SHAPELESS.get();
 	}
 
 	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>>

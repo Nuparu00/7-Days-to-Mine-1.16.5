@@ -23,6 +23,10 @@ public class ModBlockLootTables extends BlockLootTables {
         }
         //Generates specific case loot tables
         this.add(ModBlocks.ORE_POTASSIUM.get(),createSingleItemTableWithSilkTouch(ModBlocks.ORE_POTASSIUM.get(), ModItems.POTASSIUM.get(), new RandomValueRange(1,5)));
+        this.add(ModBlocks.SMALL_ROCK_STONE.get(),createSingleItemTable(ModItems.SMALL_STONE.get()));
+        this.add(ModBlocks.SMALL_ROCK_ANDESITE.get(),createSingleItemTable(ModItems.SMALL_STONE.get()));
+        this.add(ModBlocks.SMALL_ROCK_DIORITE.get(),createSingleItemTable(ModItems.SMALL_STONE.get()));
+        this.add(ModBlocks.SMALL_ROCK_GRANITE.get(),createSingleItemTable(ModItems.SMALL_STONE.get()));
     }
 
     @Override

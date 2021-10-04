@@ -4,6 +4,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.block.WoodType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -40,6 +43,7 @@ import nuparu.sevendaystomine.proxy.ClientProxy;
 import nuparu.sevendaystomine.proxy.CommonProxy;
 import nuparu.sevendaystomine.proxy.StartupClient;
 import nuparu.sevendaystomine.proxy.StartupCommon;
+import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.util.VanillaManager;
 import nuparu.sevendaystomine.util.book.BookData;
 import nuparu.sevendaystomine.util.book.BookData.CraftingMatrix;
@@ -49,6 +53,8 @@ import nuparu.sevendaystomine.world.gen.city.CityType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 @Mod(SevenDaysToMine.MODID)
@@ -96,9 +102,10 @@ public class SevenDaysToMine {
         ModItems.ITEMS.register(bus);
         Potions.EFFECTS.register(bus);
         ModDataSerializers.SERIALIZERS.register(bus);
+        ModRecipeSerializers.SERIALIZERS.register(bus);
 
         ModFluids.FLUIDS.register(bus);
-        ModRecipes.RECIPES.register(bus);
+        //ModRecipes.RECIPES.register(bus);
 
         ModTileEntities.TILE_ENTITIES.register(bus);
         ModContainers.CONTAINERS.register(bus);
@@ -119,7 +126,6 @@ public class SevenDaysToMine {
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
         MinecraftForge.EVENT_BUS.register(new WorldEventHandler());
         MinecraftForge.EVENT_BUS.register(new TickHandler());
-        MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
         // Alters Vanilla
         VanillaManager.modifyVanilla();
 
@@ -186,15 +192,24 @@ public class SevenDaysToMine {
 
     @SubscribeEvent
     public void onServerStarted(FMLServerStartedEvent event) {
+            Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> recipes = event.getServer().getRecipeManager().recipes;
+        Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> newRecipez = new HashMap<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>>();
+            for (IRecipeType<?> key : recipes.keySet()) {
+                Map<ResourceLocation, IRecipe<?>> original = recipes.get(key);
+                HashMap<ResourceLocation, IRecipe<?>> newMap = new HashMap<ResourceLocation, IRecipe<?>>();
+                if(original != null){
+                    for(Entry<ResourceLocation, IRecipe<?>> recipe : original.entrySet()){
+                        ResourceLocation location = recipe.getKey();
+                        IRecipe<?> value = recipe.getValue();
 
-        for (Entry<ResourceLocation, BookData> entry : BookDataManager.instance.getBooks().entrySet()) {
-            BookData data = entry.getValue();
-            for (Page page : data.getPages()) {
-                for (CraftingMatrix matrix : page.crafting) {
-                    matrix.loadRecipe(event.getServer());
+                        if(!location.toString().equals("minecraft:furnace")){
+                            newMap.put(location,value);
+                        }
+                    }
                 }
+                newRecipez.put(key,newMap);
             }
-        }
+        event.getServer().getRecipeManager().recipes = newRecipez;
     }
 
     @SubscribeEvent

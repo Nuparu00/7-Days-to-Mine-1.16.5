@@ -18,14 +18,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockCinder extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
+public class BlockCinder extends BlockHorizontalBase implements IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	private static final VoxelShape SHAPE = Block.box(1D, 0.0D, 1D, 15D, 4D, 15D);
-	
-	private EnumMaterial material = EnumMaterial.CONCRETE;
-	private int weight = 6;
 
 	public BlockCinder() {
 		super(AbstractBlock.Properties.of(Material.STONE).strength(1,1.3f));
@@ -36,31 +32,6 @@ public class BlockCinder extends BlockHorizontalBase implements IScrapable, IWat
 	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
 		return SHAPE;
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return false;
 	}
 
 	@Override

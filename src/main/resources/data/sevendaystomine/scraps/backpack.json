@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:backpack",
+  "material" : "leather",
+  "weight" : 8,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

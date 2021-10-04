@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:cinnabar_ore",
+  "material" : "mercury",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

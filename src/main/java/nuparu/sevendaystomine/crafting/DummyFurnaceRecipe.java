@@ -12,7 +12,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.init.ModRecipes;
 
 public class DummyFurnaceRecipe extends AbstractCookingRecipe {
 
@@ -34,7 +33,7 @@ public class DummyFurnaceRecipe extends AbstractCookingRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipes.DUMMY_FURNACE.get();
+		return null;
 	}
 
 	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>>

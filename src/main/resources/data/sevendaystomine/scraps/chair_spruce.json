@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:chair_spruce",
+  "material" : "wood",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

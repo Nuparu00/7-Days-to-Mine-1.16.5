@@ -22,14 +22,10 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityWoodenSpikes;
 
-public class BlockWoodenSpikes extends BlockBase implements IScrapable, IWaterLoggable {
+public class BlockWoodenSpikes extends BlockBase implements IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
-	private EnumMaterial material = EnumMaterial.WOOD;
-	private int weight = 2;
 
 	public BlockWoodenSpikes(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion().noCollission());
@@ -93,31 +89,6 @@ public class BlockWoodenSpikes extends BlockBase implements IScrapable, IWaterLo
 		} else if (block == ModBlocks.WOODEN_SPIKES_BROKEN.get()) {
 			world.destroyBlock(pos, false);
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		this.material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		this.weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

@@ -4,32 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.AbstractCookingRecipe;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
-import nuparu.sevendaystomine.crafting.forge.ForgeRecipeManager;
-import nuparu.sevendaystomine.crafting.forge.ForgeResult;
 import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.IContainerCallbacks;
 import nuparu.sevendaystomine.inventory.block.ContainerForge;
@@ -37,14 +47,18 @@ import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.item.ItemMold;
 
 public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
-		implements INamedContainerProvider, IContainerCallbacks, ITickableTileEntity {
+		implements INamedContainerProvider, IContainerCallbacks, ITickableTileEntity, IInventory {
 
 	public static final ITextComponent DEFAULT_NAME = new TranslationTextComponent("container.forge");
+	private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
 
 	public int burnTime;
 	public int currentItemBurnTime;
 	public int cookTime;
 	public int totalCookTime;
+
+	IForgeRecipe<TileEntityForge> currentRecipe;
+
 
 	public enum EnumSlots {
 		INPUT_SLOT, INPUT_SLOT2, INPUT_SLOT3, INPUT_SLOT4, OUTPUT_SLOT, FUEL_SLOT, MOLD_SLOT
@@ -92,10 +106,6 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 			return 4;
 		}
 	};
-
-	private IForgeRecipe currentRecipe = null;
-	private ForgeResult currentResult = null;
-
 
 
 	public TileEntityForge() {
@@ -175,104 +185,62 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 	}
 
 	private boolean canSmelt() {
+		IForgeRecipe<TileEntityForge> irecipe = this.level.getRecipeManager().getRecipeFor(ModRecipeSerializers.FORGE_RECIPE_TYPE, this, this.level).orElse(null);
 
-		if (!getOutputSlot().isEmpty()
-				&& getOutputSlot().getCount() > Math.min(getOutputSlot().getItem().getItemStackLimit(getOutputSlot()),
-						this.getInventory().getStackInSlot(EnumSlots.OUTPUT_SLOT.ordinal()).getMaxStackSize()))
-			return false;
-		if (isInputEmpty() || !hasMold())
-			return false;
-
-		for (IForgeRecipe recipe : ForgeRecipeManager.getInstance().getRecipes()) {
-			ForgeResult result = recipe.matches(this, this.level);
-			if (result.matches) {
-				ItemStack output = recipe.getOutput(this);
-				if (!getOutputSlot().isEmpty() && !ItemStack.isSame(getOutputSlot(), output)) {
-					continue;
-				}
-				if (!ItemStack.isSameIgnoreDurability(getMoldSlot(), recipe.getMold())) {
-					continue;
-				}
-
-				if (getOutputSlot().getCount() + output.getCount() <= Math.min(
-						getOutputSlot().getItem().getItemStackLimit(getOutputSlot()),
-						this.getInventory().getStackInSlot(EnumSlots.OUTPUT_SLOT.ordinal()).getMaxStackSize())) {
-					currentRecipe = recipe;
-					currentResult = result;
-					return true;
-				}
-			}
+		if(irecipe != null){
+			this.currentRecipe = irecipe;
+			return true;
 		}
 		return false;
 	}
 
 	public void smeltItem() {
-		IForgeRecipe recipeToUse = null;
-		ForgeResult resultToUse = null;
-		for (IForgeRecipe recipe : ForgeRecipeManager.getInstance().getRecipes()) {
-			ForgeResult result = recipe.matches(this, this.level);
-			if (result.matches) {
-				if (ItemStack.isSameIgnoreDurability(getMoldSlot(), recipe.getMold())) {
-					recipeToUse = recipe;
-					resultToUse = result;
-					break;
-				}
-			}
-		}
-		if (recipeToUse != null) {
-
+		if(currentRecipe != null){
+			ItemStack result = currentRecipe.assemble(this);
 			ItemStack currentOutput = getOutputSlot();
-			if (ItemStack.isSameIgnoreDurability(getMoldSlot(), recipeToUse.getMold())) {
-				ItemStack mold = getMoldSlot();
-				if (currentOutput.isEmpty()) {
-					this.getInventory().setStackInSlot(EnumSlots.OUTPUT_SLOT.ordinal(), recipeToUse.getOutput(this));
-
-				} else {
-					if (ItemStack.isSame(currentOutput, recipeToUse.getOutput(this))
-							&& currentOutput.getCount() + recipeToUse.getOutput(this).getCount() <= Math.min(
-									getOutputSlot().getItem().getItemStackLimit(getOutputSlot()),
-							this.getInventory().getStackInSlot(EnumSlots.OUTPUT_SLOT.ordinal()).getMaxStackSize())) {
-
-						currentOutput.grow(recipeToUse.getOutput(this).getCount());
-						mold.hurt(1, level.random, null);
-
-						this.getInventory().setStackInSlot(EnumSlots.OUTPUT_SLOT.ordinal(), currentOutput);
-					}
-				}
-				mold.hurt(1, level.random, null);
-				if (mold.getDamageValue() >= mold.getMaxDamage()) {
-					if (mold.getCount() > 0) {
-						mold.shrink(1);
-					} else {
-						this.getInventory().setStackInSlot(EnumSlots.MOLD_SLOT.ordinal(),  ItemStack.EMPTY);
-					}
-				}
-				consumeInput(recipeToUse);
+			if (currentOutput.isEmpty()) {
+				this.getInventory().setStackInSlot(TileEntityForge.EnumSlots.OUTPUT_SLOT.ordinal(), result);
 			}
+			else if (ItemStack.isSame(currentOutput, result)
+					&& currentOutput.getCount() + result.getCount() <= Math.min(
+					getOutputSlot().getItem().getItemStackLimit(getOutputSlot()),
+					this.getInventory().getStackInSlot(TileEntityForge.EnumSlots.OUTPUT_SLOT.ordinal()).getMaxStackSize())) {
+				currentOutput.grow(result.getCount());
+				this.getInventory().setStackInSlot(TileEntityForge.EnumSlots.OUTPUT_SLOT.ordinal(), currentOutput);
+			}
+			ResourceLocation resourcelocation = currentRecipe.getId();
+			this.recipesUsed.addTo(resourcelocation, 1);
+			consumeInput();
 		}
 	}
 
-	public void consumeInput(IForgeRecipe recipe) {
-		List<ItemStack> left = recipe.consumeInput(this);
-		if (left != null && !left.isEmpty()) {
-			for (ItemStack stack : left) {
-				for (int i = EnumSlots.INPUT_SLOT.ordinal(); i < EnumSlots.INPUT_SLOT4.ordinal(); i++) {
-					ItemStack slot = getIntputSlot(i);
-					if (slot.isEmpty()) {
-						this.getInventory().setStackInSlot(i, stack.copy());
-						stack = ItemStack.EMPTY;
-						break;
-					}
-					if (ItemStack.isSame(stack, slot) && slot.getCount() < slot.getMaxStackSize()) {
-						int delta = Math.min(slot.getMaxStackSize() - slot.getCount(), stack.getCount());
-						slot.grow(delta);
-						stack.shrink(delta);
-					}
+	public void consumeInput() {
+
+		ItemStack mold = this.getMoldSlot();
+		if(mold.getItem() == Items.BUCKET){
+			mold.shrink(1);
+			if(mold.getCount() <= 0){
+				this.getInventory().setStackInSlot(EnumSlots.MOLD_SLOT.ordinal(), ItemStack.EMPTY);
+			}
+		}
+		else {
+			mold.hurt(1, level.random, null);
+			if (mold.getDamageValue() >= mold.getMaxDamage()) {
+				if (mold.getCount() > 0) {
+					mold.shrink(1);
+				} else {
+					this.getInventory().setStackInSlot(EnumSlots.MOLD_SLOT.ordinal(), ItemStack.EMPTY);
 				}
-				if (!stack.isEmpty()) {
-					InventoryHelper.dropItemStack(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1,
-							worldPosition.getZ() + 0.5, stack);
-				}
+			}
+		}
+
+		if(currentRecipe.consume(this)) return;
+		//Generic consume implementation - move to ForgeRecipeShapeless later
+		for(int i = 0; i < 4; i++){
+			ItemStack stack = this.getInventory().getStackInSlot(i);
+			stack.shrink(1);
+			if(stack.isEmpty()){
+				getInventory().setStackInSlot(i,ItemStack.EMPTY);
 			}
 		}
 	}
@@ -317,6 +285,12 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 		this.cookTime = compound.getInt("CookTime");
 		this.totalCookTime = compound.getInt("CookTimeTotal");
 		this.currentItemBurnTime = ForgeHooks.getBurnTime(getFuelSlot());
+
+		CompoundNBT compoundnbt = compound.getCompound("RecipesUsed");
+
+		for(String s : compoundnbt.getAllKeys()) {
+			this.recipesUsed.put(new ResourceLocation(s), compoundnbt.getInt(s));
+		}
 	}
 
 	@Override
@@ -327,11 +301,60 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 		compound.putInt("CookTime", (short) this.cookTime);
 		compound.putInt("CookTimeTotal", (short) this.totalCookTime);
 
+		CompoundNBT compoundnbt = new CompoundNBT();
+		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> {
+			compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_);
+		});
+		compound.put("RecipesUsed", compoundnbt);
+
 		return compound;
 	}
 
+	public void setRecipeUsed(@Nullable IRecipe<?> p_193056_1_) {
+		if (p_193056_1_ != null) {
+			ResourceLocation resourcelocation = p_193056_1_.getId();
+			this.recipesUsed.addTo(resourcelocation, 1);
+		}
+
+	}
+
+
+	public void awardUsedRecipesAndPopExperience(PlayerEntity p_235645_1_) {
+		List<IRecipe<?>> list = this.getRecipesToAwardAndPopExperience(p_235645_1_.level, p_235645_1_.position());
+		p_235645_1_.awardRecipes(list);
+		this.recipesUsed.clear();
+	}
+
+	public List<IRecipe<?>> getRecipesToAwardAndPopExperience(World p_235640_1_, Vector3d p_235640_2_) {
+		List<IRecipe<?>> list = Lists.newArrayList();
+
+		for(Object2IntMap.Entry<ResourceLocation> entry : this.recipesUsed.object2IntEntrySet()) {
+			p_235640_1_.getRecipeManager().byKey(entry.getKey()).ifPresent((p_235642_4_) -> {
+				list.add(p_235642_4_);
+				createExperience(p_235640_1_, p_235640_2_, entry.getIntValue(), ((IForgeRecipe)p_235642_4_).getExperience());
+			});
+		}
+
+		return list;
+	}
+
+	private static void createExperience(World p_235641_0_, Vector3d p_235641_1_, int p_235641_2_, float p_235641_3_) {
+		int i = MathHelper.floor((float)p_235641_2_ * p_235641_3_);
+		float f = MathHelper.frac((float)p_235641_2_ * p_235641_3_);
+		if (f != 0.0F && Math.random() < (double)f) {
+			++i;
+		}
+
+		while(i > 0) {
+			int j = ExperienceOrbEntity.getExperienceValue(i);
+			i -= j;
+			p_235641_0_.addFreshEntity(new ExperienceOrbEntity(p_235641_0_, p_235641_1_.x, p_235641_1_.y, p_235641_1_.z, j));
+		}
+
+	}
+
 	public int getCookTime(ItemStack stack) {
-		return 600;
+		return currentRecipe == null ? 600 : currentRecipe.getCookingTime();
 	}
 
 	public List<ItemStack> getActiveInventory() {
@@ -352,10 +375,6 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 		array[1][1] = getInventory().getStackInSlot(EnumSlots.INPUT_SLOT4.ordinal());
 
 		return array;
-	}
-
-	public IForgeRecipe getCurrentRecipe() {
-		return this.currentRecipe;
 	}
 
 	public boolean isUsableByPlayer(PlayerEntity player) {
@@ -433,12 +452,51 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 		return 4;
 	}
 
-	public ForgeResult getCurrentResult() {
-		return currentResult;
-	}
-
 	@Override
 	public Container createMenu(int windowID, PlayerInventory playerInventory, PlayerEntity playerEntity) {
 		return ContainerForge.createContainerServerSide(windowID, playerInventory, this);
+	}
+
+	/*
+	Present only because of IRecipe implementation, do not use!
+	 */
+	@Override
+	public int getContainerSize() {
+		return 4;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
+	public ItemStack getItem(int i) {
+		return getInventory().getStackInSlot(i);
+	}
+
+	@Override
+	public ItemStack removeItem(int p_70298_1_, int p_70298_2_) {
+		return null;
+	}
+
+	@Override
+	public ItemStack removeItemNoUpdate(int p_70304_1_) {
+		return null;
+	}
+
+	@Override
+	public void setItem(int p_70299_1_, ItemStack p_70299_2_) {
+
+	}
+
+	@Override
+	public boolean stillValid(PlayerEntity p_70300_1_) {
+		return false;
+	}
+
+	@Override
+	public void clearContent() {
+
 	}
 }

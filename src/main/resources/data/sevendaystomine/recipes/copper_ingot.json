@@ -1,0 +1,17 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"copper",
+         "weight" : 6
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:copper_ingot"
+   },
+   "mold":{
+      "item":"sevendaystomine:ingot_mold"
+   },
+   "experience" : 2,
+   "cookingtime" : 400
+}

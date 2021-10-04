@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:copper_ore",
+  "material" : "copper",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

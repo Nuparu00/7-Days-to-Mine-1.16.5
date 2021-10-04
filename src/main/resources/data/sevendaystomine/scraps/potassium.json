@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:potassium",
+  "material" : "potassium",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}

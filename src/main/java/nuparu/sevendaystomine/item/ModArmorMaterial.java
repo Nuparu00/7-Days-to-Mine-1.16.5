@@ -13,21 +13,21 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public enum ModArmorMaterial implements IArmorMaterial {
-	LEATHER("leather", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+	LEATHER("sevendaystomine:leather", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
 		return Ingredient.of(Items.LEATHER);
-	}), CLOTHING("clothing", 6, new int[] { 1, 2, 2, 1 }, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+	}), CLOTHING("sevendaystomine:clothing", 6, new int[] { 1, 2, 2, 1 }, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
 		return Ingredient.of(Items.IRON_INGOT);
-	}), IRON("iron", 15, new int[] { 2, 5, 6, 2 }, 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> {
+	}), IRON("sevendaystomine:iron", 15, new int[] { 2, 5, 6, 2 }, 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> {
 		return Ingredient.of(Items.IRON_INGOT);
-	}), FIBER("fiber", 2, new int[] { 1, 1, 1, 1 }, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+	}), FIBER("sevendaystomine:fiber", 2, new int[] { 1, 1, 1, 1 }, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
 		return Ingredient.of(Items.IRON_INGOT);
-	}), STEEL("steel", 25, new int[] { 3, 4, 3, 3 }, 0, SoundEvents.ARMOR_EQUIP_GOLD, 0.0F, 0.0F, () -> {
+	}), STEEL("sevendaystomine:steel", 25, new int[] { 3, 4, 3, 3 }, 0, SoundEvents.ARMOR_EQUIP_GOLD, 0.0F, 0.0F, () -> {
 		return Ingredient.of(Items.GOLD_INGOT);
-	}), LEATHER_IRON("leather_iron", 12, new int[] { 2, 3, 2, 1 }, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 2.0F, 0.0F, () -> {
+	}), LEATHER_IRON("sevendaystomine:leather_iron", 12, new int[] { 2, 3, 2, 1 }, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 2.0F, 0.0F, () -> {
 		return Ingredient.of(Items.DIAMOND);
-	}), SCRAP("scrap", 10, new int[] { 2, 2, 2, 1 }, 0, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> {
+	}), SCRAP("sevendaystomine:scrap", 10, new int[] { 2, 2, 2, 1 }, 0, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> {
 		return Ingredient.of(Items.SCUTE);
-	}), MILITARY("military", 30, new int[] { 5, 6, 4, 4 }, 2, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
+	}), MILITARY("sevendaystomine:military", 30, new int[] { 5, 6, 4, 4 }, 2, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
 		return Ingredient.of(Items.NETHERITE_INGOT);
 	});
 	

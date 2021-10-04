@@ -24,8 +24,6 @@ import nuparu.sevendaystomine.computer.application.ApplicationRegistry;
 import nuparu.sevendaystomine.computer.process.ProcessRegistry;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.crafting.campfire.CampfireRecipeManager;
-import nuparu.sevendaystomine.crafting.chemistry.ChemistryRecipeManager;
-import nuparu.sevendaystomine.crafting.forge.ForgeRecipeManager;
 import nuparu.sevendaystomine.crafting.separator.SeparatorRecipeManager;
 import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.events.LoudSoundEvent;
@@ -56,11 +54,7 @@ public class CommonProxy {
 		ProcessRegistry.INSTANCE.register();
 		ApplicationRegistry.INSTANCE.register();
 		DialoguesRegistry.INSTANCE.register();
-		
 
-		new CampfireRecipeManager();
-		new ForgeRecipeManager();
-		new ChemistryRecipeManager();
 		new SeparatorRecipeManager();
 
 	}

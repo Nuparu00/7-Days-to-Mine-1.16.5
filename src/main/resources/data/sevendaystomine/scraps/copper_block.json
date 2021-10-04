@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:copper_block",
+  "material" : "copper",
+  "weight" : 54,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

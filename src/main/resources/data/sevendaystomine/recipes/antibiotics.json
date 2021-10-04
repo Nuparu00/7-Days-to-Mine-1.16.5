@@ -1,0 +1,18 @@
+{
+   "type":"sevendaystomine:beaker_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:moldy_bread"
+      },
+      {
+         "item":"sevendaystomine:potassium"
+      },
+      {
+         "item":"sevendaystomine:bottled_water"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:antibiotics",
+      "count":1
+   }
+}

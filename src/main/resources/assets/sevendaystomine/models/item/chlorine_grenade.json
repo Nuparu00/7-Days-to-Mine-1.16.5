@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "block/anvil",
-		"1": "block/concrete_yellow",
+		"1": "block/yellow_concrete",
 		"2": "block/black_wool",
 		"3": "block/black_wool",
 		"4": "block/stone",

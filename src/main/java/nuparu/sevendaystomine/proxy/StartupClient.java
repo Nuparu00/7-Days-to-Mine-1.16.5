@@ -46,11 +46,16 @@ public class StartupClient {
         ScreenManager.register(ModContainers.CAMERA.get(), GuiCameraContainer::new);
         ScreenManager.register(ModContainers.LOOTABLE_COPRSE.get(), GuiLootableCorpse::new);
         ScreenManager.register(ModContainers.AIRDROP.get(), GuiAirdrop::new);
+        ScreenManager.register(ModContainers.COOKING_GRILL.get(), GuiGrill::new);
+        ScreenManager.register(ModContainers.COOKING_POT.get(), GuiCookingPot::new);
+        ScreenManager.register(ModContainers.BEAKER.get(), GuiBeaker::new);
+        ScreenManager.register(ModContainers.WORKBENCH_UNCRAFTING.get(), GuiWorkbenchUncrafting::new);
 
 
         RenderTypeLookup.setRenderLayer(ModBlocks.BANEBERRY_PLANT.get(), RenderType.translucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.BLUEBERRY_PLANT.get(), RenderType.translucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.BEAKER.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.COOKING_GRILL_BEAKER.get(), RenderType.translucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.GARBAGE.get(), RenderType.translucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.TORCH_LIT.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.TORCH_LIT_WALL.get(), RenderType.cutout());

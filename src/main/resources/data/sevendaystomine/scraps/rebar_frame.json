@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:rebar_frame",
+  "material" : "iron",
+  "weight" : 8,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

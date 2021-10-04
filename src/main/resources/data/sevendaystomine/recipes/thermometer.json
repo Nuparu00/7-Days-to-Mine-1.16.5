@@ -1,0 +1,31 @@
+{
+  "type": "sevendaystomine:locked_shaped",
+  "pattern": [
+    "SCS",
+    "SMS",
+    "SRS"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:ingots/copper"
+    },
+    "S": {
+      "tag": "forge:ingots/steel"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "M": {
+     "type": "minecraft:item_nbt",
+     "item": "forge:bucketFilled",
+     "nbt": {
+       "FluidName": "mercury",
+       "Amount": 1000
+        }
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:thermometer"
+  },
+  "recipe": "electricity"
+}

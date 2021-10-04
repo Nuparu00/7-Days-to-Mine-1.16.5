@@ -32,7 +32,7 @@ import nuparu.sevendaystomine.util.ItemUtils;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class ItemClothing extends DyeableArmorItem implements IScrapable, IQuality {
+public abstract class ItemClothing extends DyeableArmorItem implements IQuality {
 
     public ResourceLocation texture;
     public ResourceLocation overlay;

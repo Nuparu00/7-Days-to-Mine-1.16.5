@@ -27,17 +27,13 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityMetalSpikes;
 
 import javax.annotation.Nullable;
 
-public class BlockMetalSpikes extends HorizontalFaceBlock implements IScrapable, IBlockBase, IWaterLoggable {
+public class BlockMetalSpikes extends HorizontalFaceBlock implements  IBlockBase, IWaterLoggable {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
-    private EnumMaterial material = EnumMaterial.IRON;
-    private int weight = 6;
 
     public static final VoxelShape AABB_DOWN = Block.box(0, 15, 0, 16, 16, 16);
     public static final VoxelShape AABB_UP = Block.box(0, 0, 0, 16, 1, 16);
@@ -126,31 +122,6 @@ public class BlockMetalSpikes extends HorizontalFaceBlock implements IScrapable,
     }
 
     @Override
-    public void setMaterial(EnumMaterial mat) {
-        this.material = mat;
-    }
-
-    @Override
-    public EnumMaterial getItemMaterial() {
-        return material;
-    }
-
-    @Override
-    public void setWeight(int newWeight) {
-        this.weight = newWeight;
-    }
-
-    @Override
-    public int getWeight() {
-        return weight;
-    }
-
-    @Override
-    public boolean canBeScraped() {
-        return true;
-    }
-
-    @Override
     public void onRemove(BlockState state, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
         if (!(state.getBlock() instanceof BlockMetalSpikes)) {
             super.onRemove(state, world, blockPos, newState, isMoving);
@@ -192,7 +163,7 @@ public class BlockMetalSpikes extends HorizontalFaceBlock implements IScrapable,
     }
 
     @Override
-    public BlockItem createBlockitem() {
+    public BlockItem createBlockItem() {
         if (this == ModBlocks.METAL_SPIKES_EXTENDED.get()) {
             return null;
         }

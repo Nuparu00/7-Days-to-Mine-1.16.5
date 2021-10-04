@@ -1,0 +1,17 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"glass",
+         "weight" : 3
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:empty_jar"
+   },
+   "mold":{
+      "item":"sevendaystomine:empty_jar_mold"
+   },
+   "experience" : 0,
+   "cookingtime" : 300
+}

@@ -1,0 +1,21 @@
+{
+   "type":"sevendaystomine:grill_shapeless",
+   "ingredients":[
+      {
+         "item":"minecraft:potato"
+      },
+      {
+         "item":"minecraft:potato"
+      },
+      {
+         "item":"minecraft:potato"
+      },
+      {
+         "item":"minecraft:potato"
+      }
+   ],
+   "result":{
+      "item":"minecraft:baked_potato",
+      "count":4
+   }
+}

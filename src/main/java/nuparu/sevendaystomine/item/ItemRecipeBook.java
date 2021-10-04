@@ -92,8 +92,8 @@ public class ItemRecipeBook extends ItemGuide {
 		if(Minecraft.getInstance().player == null) return;
 		boolean known = CapabilityHelper.getExtendedPlayer(Minecraft.getInstance().player).hasRecipe(recipe);
 		boolean read = isRead(stack);
-		TranslationTextComponent knownText = new TranslationTextComponent(known ? "stat.known.name" : "stat.unknown.name");
-		TranslationTextComponent readText = new TranslationTextComponent(read ? "stat.used.name" : "stat.unused.name");
+		TranslationTextComponent knownText = new TranslationTextComponent(known ? "stat.known" : "stat.unknown");
+		TranslationTextComponent readText = new TranslationTextComponent(read ? "stat.used" : "stat.unused");
 		Style knownStyle = knownText.getStyle().withColor(known ? TextFormatting.GREEN : TextFormatting.RED);
 		knownText.setStyle(knownStyle);
 

@@ -20,16 +20,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityScreenProjector;
 
-public class BlockScreenProjector extends BlockHorizontalBase implements IScrapable {
+public class BlockScreenProjector extends BlockHorizontalBase {
 	
 	private static final VoxelShape SHAPE = Block.box(0.0625F*16, 0.0F, 0.0625F*16, 0.9375F*16, 0.4375F*16, 0.9375F*16);
-
-	private EnumMaterial material = EnumMaterial.CLOTH;
-	private int weight = 2;
 
 	public BlockScreenProjector(AbstractBlock.Properties properties) {
 		super(properties);
@@ -39,32 +35,6 @@ public class BlockScreenProjector extends BlockHorizontalBase implements IScrapa
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
 		return SHAPE;
-	}
-
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

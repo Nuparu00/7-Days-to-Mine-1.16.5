@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "sevendaystomine:bottled_murky_water"
+  },
+  "result": "sevendaystomine:bottled_water",
+  "experience": 0.3,
+  "cookingtime": 200
+}

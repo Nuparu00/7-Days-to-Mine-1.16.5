@@ -1,9 +1,6 @@
 package nuparu.sevendaystomine.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -19,23 +16,18 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockCookware extends BlockPickable implements IScrapable, IWaterLoggable {
+public class BlockCookware extends BlockPickable implements  IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	public static final BooleanProperty CAMPFIRE = BooleanProperty.create("campfire");
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public final VoxelShape shape;
+	public boolean placeableOnCampfires = true;
 
-	public EnumMaterial enumMat;
-	public int weight;
-
-	public BlockCookware(AbstractBlock.Properties properties, VoxelShape shape, EnumMaterial enumMat, int weight) {
+	public BlockCookware(AbstractBlock.Properties properties, VoxelShape shape) {
 		super(properties);
 		this.shape = shape;
-		this.enumMat = enumMat;
-		this.weight = weight;
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(CAMPFIRE, Boolean.valueOf(false)));
 	}
 
 	public BlockState rotate(BlockState p_185499_1_, Rotation p_185499_2_) {
@@ -47,30 +39,15 @@ public class BlockCookware extends BlockPickable implements IScrapable, IWaterLo
 	}
 
 	@Override
-	public void setMaterial(EnumMaterial mat) {
-		this.enumMat = mat;
+	public boolean canSurviveOn(IBlockReader world, BlockPos pos, BlockState state) {
+		return super.canSurviveOn(world, pos, state) || (placeableOnCampfires && state.getBlock() instanceof CampfireBlock);
 	}
 
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return enumMat;
+	public BlockCookware setPlaceableOnCampfires(boolean placeable){
+		this.placeableOnCampfires = placeable;
+		return this;
 	}
 
-	@Override
-	public void setWeight(int newWeight) {
-	this.weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
-	}
-	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
@@ -80,7 +57,7 @@ public class BlockCookware extends BlockPickable implements IScrapable, IWaterLo
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER)).setValue(CAMPFIRE,context.getLevel().getBlockState(context.getClickedPos().below()).getBlock() instanceof  CampfireBlock);
 	}
 
 	@Override
@@ -94,7 +71,7 @@ public class BlockCookware extends BlockPickable implements IScrapable, IWaterLo
 
 	@Override
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, WATERLOGGED);
+		builder.add(FACING, WATERLOGGED, CAMPFIRE);
 	}
 
 	@Override

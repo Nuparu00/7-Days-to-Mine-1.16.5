@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:red_sand",
+  "material" : "sand",
+  "weight" : 9,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

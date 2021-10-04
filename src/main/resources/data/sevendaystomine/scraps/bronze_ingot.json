@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:bronze_ingot",
+  "material" : "bronze",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

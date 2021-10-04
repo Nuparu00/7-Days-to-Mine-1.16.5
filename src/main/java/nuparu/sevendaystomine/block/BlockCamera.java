@@ -9,18 +9,14 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityCamera;
 
-public class BlockCamera extends BlockHorizontalBase implements IScrapable {
+public class BlockCamera extends BlockHorizontalBase {
 
 	private static final VoxelShape NORTH = Block.box(0.25F*16, 0.375F*16, 0.7F*16, 0.75F*16, 0.6875F*16, 1F*16);
 	private static final VoxelShape SOUTH = Block.box(0.25F*16, 0.375F*16, 0.0F*16, 0.75F*16, 0.6875F*16, 0.3F*16);
 	private static final VoxelShape WEST = Block.box(0.7F*16, 0.375F*16, 0.25F*16, 1F*16, 0.6875F*16, 0.75F*16);
 	private static final VoxelShape EAST = Block.box(0.0F*16, 0.375F*16, 0.25F*16, 0.3F*16, 0.6875F*16, 0.75F*16);
-
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
 
 	public BlockCamera(AbstractBlock.Properties properties) {
 		super(properties);
@@ -40,31 +36,6 @@ public class BlockCamera extends BlockHorizontalBase implements IScrapable {
 		case EAST:
 			return EAST;
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

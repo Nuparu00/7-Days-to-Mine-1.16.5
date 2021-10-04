@@ -4,9 +4,8 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockMetal extends BlockBase implements IScrapable {
+public class BlockMetal extends BlockBase {
 
 	private EnumMaterial enumMat = null;
 	private int weight = 12;
@@ -27,31 +26,6 @@ public class BlockMetal extends BlockBase implements IScrapable {
 
 	public BlockMetal(EnumMaterial mat) {
 		this(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL), mat);
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		enumMat = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return enumMat;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 }

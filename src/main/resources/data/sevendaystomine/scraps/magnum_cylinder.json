@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:magnum_cylinder",
+  "material" : "iron",
+  "weight" : 2,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

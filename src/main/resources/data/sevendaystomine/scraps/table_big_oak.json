@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:table_big_oak",
+  "material" : "wood",
+  "weight" : 8,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

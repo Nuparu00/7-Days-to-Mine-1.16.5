@@ -1,0 +1,17 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"stone",
+         "weight" : 4
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:cement"
+   },
+   "mold":{
+      "item":"sevendaystomine:cement_mold"
+   },
+   "experience" : 1,
+   "cookingtime" : 650
+}

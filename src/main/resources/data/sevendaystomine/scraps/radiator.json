@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:radiator",
+  "material" : "iron",
+  "weight" : 24,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

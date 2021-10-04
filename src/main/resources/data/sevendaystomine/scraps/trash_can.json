@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:trash_can",
+  "material" : "iron",
+  "weight" : 32,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

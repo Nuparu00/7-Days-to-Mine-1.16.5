@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.events;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,7 +21,7 @@ public class RegistryEventHandler {
         final IForgeRegistry<Item> registry = event.getRegistry();
         ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
             if (block instanceof IBlockBase) {
-                BlockItem blockItem = ((IBlockBase) block).createBlockitem();
+                BlockItem blockItem = ((IBlockBase) block).createBlockItem();
                 if (blockItem != null) {
                     blockItem.setRegistryName(block.getRegistryName());
                     registry.register(blockItem);

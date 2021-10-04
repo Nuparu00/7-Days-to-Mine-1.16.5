@@ -49,6 +49,9 @@ public class ModContainers {
 	public static final RegistryObject<ContainerType<ContainerWorkbench>> WORKBENCH = CONTAINERS.register("workbench",
 			() -> IForgeContainerType.create(ContainerWorkbench::createContainerClientSide));
 
+	public static final RegistryObject<ContainerType<ContainerWorkbenchUncrafting>> WORKBENCH_UNCRAFTING = CONTAINERS.register("workbench_uncrafting",
+			() -> IForgeContainerType.create(ContainerWorkbenchUncrafting::createContainerClientSide));
+
 	public static final RegistryObject<ContainerType<ContainerComputer>> COMPUTER = CONTAINERS.register("computer",
 			() -> IForgeContainerType.create(ContainerComputer::createContainerClientSide));
 
@@ -72,4 +75,13 @@ public class ModContainers {
 
 	public static final RegistryObject<ContainerType<ContainerAirdrop>> AIRDROP = CONTAINERS.register("airdrop",
 			() -> IForgeContainerType.create(ContainerAirdrop::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerGrill>> COOKING_GRILL = CONTAINERS.register("cooking_grill",
+			() -> IForgeContainerType.create(ContainerGrill::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerCookingPot>> COOKING_POT = CONTAINERS.register("cooking_pot",
+			() -> IForgeContainerType.create(ContainerCookingPot::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerBeaker>> BEAKER = CONTAINERS.register("beaker",
+			() -> IForgeContainerType.create(ContainerBeaker::createContainerClientSide));
 }

@@ -23,9 +23,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockFakeAnvil extends BlockFallingBase implements IScrapable {
+public class BlockFakeAnvil extends BlockFallingBase {
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 	private static final VoxelShape BASE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 4.0D, 14.0D);
 	private static final VoxelShape X_LEG1 = Block.box(3.0D, 4.0D, 4.0D, 13.0D, 5.0D, 12.0D);
@@ -37,9 +36,6 @@ public class BlockFakeAnvil extends BlockFallingBase implements IScrapable {
 	private static final VoxelShape X_AXIS_AABB = VoxelShapes.or(BASE, X_LEG1, X_LEG2, X_TOP);
 	private static final VoxelShape Z_AXIS_AABB = VoxelShapes.or(BASE, Z_LEG1, Z_LEG2, Z_TOP);
 
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 30;
-
 	public BlockFakeAnvil(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
@@ -47,31 +43,6 @@ public class BlockFakeAnvil extends BlockFallingBase implements IScrapable {
 
 	public BlockState getStateForPlacement(BlockItemUseContext p_196258_1_) {
 		return this.defaultBlockState().setValue(FACING, p_196258_1_.getHorizontalDirection().getClockWise());
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_,

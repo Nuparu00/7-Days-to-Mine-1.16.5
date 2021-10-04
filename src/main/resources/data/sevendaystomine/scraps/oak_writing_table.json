@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:oak_writing_table",
+  "material" : "wood",
+  "weight" : 16,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

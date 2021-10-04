@@ -1,3 +1,4 @@
 {
-    "parent": "sevendaystomine:block/boards"
+    "parent": "sevendaystomine:block/boards",
+    "gui_light" : "front"
 }

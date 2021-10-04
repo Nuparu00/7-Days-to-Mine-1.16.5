@@ -62,7 +62,7 @@
           "z": 0,
           "width": 96,
           "height": 96,
-          "res": "minecraft:textures/items/iron_ingot.png"
+          "res": "minecraft:textures/item/iron_ingot.png"
         }
       ]
     },

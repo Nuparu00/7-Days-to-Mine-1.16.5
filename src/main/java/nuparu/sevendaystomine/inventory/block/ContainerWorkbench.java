@@ -28,7 +28,7 @@ public class ContainerWorkbench extends Container {
 
     private final CraftingInventory craftSlots = new CraftingInventory(this,5,5);
     private final CraftResultInventory resultSlots = new CraftResultInventory();
-    private final PlayerEntity player;
+    public final PlayerEntity player;
     private final IWorldPosCallable access;
 
     private final World world;

@@ -1,0 +1,20 @@
+{
+   "type":"sevendaystomine:chemistry_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:natrium_tank"
+      },
+      {
+         "item":"sevendaystomine:chlorine_tank"
+      },
+      {
+         "item":"sevendaystomine:bottled_water"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:salt",
+      "count":1
+   },
+   "experience" : 0.2,
+   "cookingtime" : 150
+}

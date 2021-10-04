@@ -25,18 +25,18 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
-import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.client.gui.GuiMainMenuEnhanced;
@@ -44,28 +44,25 @@ import nuparu.sevendaystomine.client.gui.GuiPlayerUI;
 import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.*;
+import nuparu.sevendaystomine.item.guide.BookDataManager;
 import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.PlayerUtils;
 import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.util.VanillaManager;
-import nuparu.sevendaystomine.util.VanillaManager.VanillaScrapableItem;
 
 import java.util.HashMap;
 
+@Mod.EventBusSubscriber(modid = SevenDaysToMine.MODID, value=Dist.CLIENT)
 public class ClientEventHandler {
 
     public static boolean takingPhoto;
     public static HashMap<BlockPos, CompoundNBT> cachedChunks = new HashMap<BlockPos, CompoundNBT>();
 
-    public static void init() {
-
-    }
-
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void renderScopeOverlayPre(RenderGameOverlayEvent.Pre event) {
+    public static void renderScopeOverlayPre(RenderGameOverlayEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
         if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
             // if (mc.options.thirdPersonView == 0) {
@@ -76,9 +73,15 @@ public class ClientEventHandler {
         }
     }
 
+    /*@SubscribeEvent
+    public static void onPlayerConnected(ClientPlayerNetworkEvent.LoggedInEvent event) {
+        if(event.getPlayer()==Minecraft.getInstance().player) {
+            BookDataManager.instance.reloadRecipes();
+        }
+    }*/
+
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    @OnlyIn(Dist.CLIENT)
-    public void onRenderGameOverlayEvent(RenderGameOverlayEvent.Pre event) {
+    public static void onRenderGameOverlayEvent(RenderGameOverlayEvent.Pre event) {
         if (event.isCancelable() && event.getType() == ElementType.ALL) {
             Minecraft mc = Minecraft.getInstance();
             PlayerEntity player = mc.player;
@@ -127,7 +130,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public void onGuiOpen(GuiOpenEvent e) {
+    public static void onGuiOpen(GuiOpenEvent e) {
         if (e.getGui() instanceof MainMenuScreen && !(e.getGui() instanceof GuiMainMenuEnhanced)) {
             e.setGui(new GuiMainMenuEnhanced());
         }
@@ -139,13 +142,11 @@ public class ClientEventHandler {
      */
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onPlaySoundEvent(PlaySoundEvent event) {
+    public static void onPlaySoundEvent(PlaySoundEvent event) {
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onFogColors(FogColors event) {
+    public static void onFogColors(FogColors event) {
 
         if(ClientConfig.bloodmoonSky.get()) {
             int sunsetStart = 12610;
@@ -177,7 +178,6 @@ public class ClientEventHandler {
                     double rOld = MathUtils.lerp(event.getRed(), event.getRed() - 0.2f, (float) ((MathUtils.clamp(time, 0, sunsetDarkEnd) - sunsetStart) / 390));
                     mult *= ((time - sunsetStart) / (sunsestEnd - sunsetStart));
                     lightMult = 1 - ((time - sunsetStart) / (sunsestEnd - sunsetStart));
-                    System.out.println(lightMult);
                     rNew = (float) (mult * 0.1f);
                     if (time > sunsetRedStart) {
                         r = (float) MathUtils.lerp(rOld, rNew, (float) ((time - 12610) / 1092d));
@@ -191,15 +191,13 @@ public class ClientEventHandler {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent()
-    public void onFogDensity(FogDensity event) {
+    public static void onFogDensity(FogDensity event) {
 
     }
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void updateFOVEvent(FOVUpdateEvent event) {
+    public static void updateFOVEvent(FOVUpdateEvent event) {
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity player = mc.player;
         if (player == null)
@@ -225,8 +223,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onItmemTooltip(ItemTooltipEvent event) {
+    public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         if (stack.isEmpty())
             return;
@@ -234,19 +231,11 @@ public class ClientEventHandler {
 
         EnumMaterial mat = EnumMaterial.NONE;
         int weight = 0;
-        if (item instanceof IScrapable) {
-            IScrapable scrapable = (IScrapable) stack.getItem();
-            mat = scrapable.getItemMaterial();
-            weight = scrapable.getWeight();
+        if(ScrapDataManager.instance.hasEntry(item)){
+            ScrapDataManager.ScrapEntry entry = ScrapDataManager.instance.getEntry(item);
 
-        } else if (item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof IScrapable) {
-            IScrapable scrapable = (IScrapable) ((BlockItem) item).getBlock();
-            mat = scrapable.getItemMaterial();
-            weight = scrapable.getWeight();
-        } else if (VanillaManager.getVanillaScrapable(item) != null) {
-            VanillaScrapableItem scrapable = VanillaManager.getVanillaScrapable(item);
-            mat = scrapable.getMaterial();
-            weight = scrapable.getWeight();
+            mat = entry.material;
+            weight = entry.weight;
         }
 
         if (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)) {
@@ -269,8 +258,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onCameraSetup(EntityViewRenderEvent.CameraSetup event) {
+    public static void onCameraSetup(EntityViewRenderEvent.CameraSetup event) {
         /*
          * if(!ModConfig.client.minibikeCameraRoll) return; PlayerEntity player =
          * Minecraft.getInstance().player; if(player == null) return; Entity riding =
@@ -284,7 +272,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onChunkLoad(ChunkEvent.Load event) {
+    public static void onChunkLoad(ChunkEvent.Load event) {
         IWorld world = event.getWorld();
         if (world.isClientSide()) {
             IChunk ichunk = event.getChunk();

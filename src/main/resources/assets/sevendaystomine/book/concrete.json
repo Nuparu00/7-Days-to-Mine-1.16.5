@@ -291,7 +291,7 @@
           "x": 16,
           "y": 85,
           "z": 0,
-          "recipe": "sevendaystomine:white_concrete"
+          "recipe": "minecraft:white_concrete_powder"
         }
       ]
     },

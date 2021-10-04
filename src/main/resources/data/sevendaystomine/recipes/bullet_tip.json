@@ -1,0 +1,17 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"lead",
+         "weight" : 1
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:bullet_tip"
+   },
+   "mold":{
+      "item":"sevendaystomine:bullet_tip"
+   },
+   "experience" : 0,
+   "cookingtime" : 300
+}

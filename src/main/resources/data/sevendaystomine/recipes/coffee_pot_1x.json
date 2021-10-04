@@ -1,0 +1,15 @@
+{
+   "type":"sevendaystomine:cooking_pot_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:bottled_water"
+      },
+      {
+         "item":"sevendaystomine:coffee_beans"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:bottled_coffee",
+      "count":1
+   }
+}

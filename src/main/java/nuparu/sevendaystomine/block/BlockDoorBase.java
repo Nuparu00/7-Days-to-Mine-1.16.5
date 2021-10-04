@@ -12,7 +12,7 @@ public abstract class BlockDoorBase extends DoorBlock implements IBlockBase {
 	}
 	
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		 return null;
 	}
 	

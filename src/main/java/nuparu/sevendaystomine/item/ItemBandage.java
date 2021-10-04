@@ -12,9 +12,7 @@ import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.potions.Potions;
 
-public class ItemBandage extends Item implements IScrapable {
-	private EnumMaterial material = EnumMaterial.CLOTH;
-	private int weight = 1;
+public class ItemBandage extends Item {
 
 	public ItemBandage() {
 		super(new Item.Properties().stacksTo(8).tab(ModItemGroups.TAB_MEDICINE));
@@ -57,33 +55,4 @@ public class ItemBandage extends Item implements IScrapable {
         return ActionResultType.PASS;
     }
 
-	@Override
-	public int getUseDuration(ItemStack itemStack) {
-		return 82000;
-	}
-
-	@Override
-	public UseAction getUseAnimation(ItemStack itemStack) {
-		return UseAction.BOW;
-	}
-
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	public int getWeight() {
-		return weight;
-	}
-
-	public boolean canBeScraped() {
-		return true;
-	}
 }

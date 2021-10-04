@@ -27,11 +27,11 @@ import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.init.ModRecipes;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.ItemRecipeBook;
 
 @SuppressWarnings("deprecation")
-public class RecipeLockedShaped extends ShapedRecipe {
+public class RecipeLockedShaped extends ShapedRecipe implements IRecipeLocked{
 
 	public String recipe;
 	boolean quality;
@@ -58,10 +58,10 @@ public class RecipeLockedShaped extends ShapedRecipe {
 			Container c = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory.class, inv, "field_70465_c");
 
 			PlayerEntity player = null;
-			/*if (c instanceof nuparu.sevendaystomine.inventory.ContainerWorkbench) {
-			nuparu.sevendaystomine.inventory.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.ContainerWorkbench) c;
+			if (c instanceof nuparu.sevendaystomine.inventory.block.ContainerWorkbench) {
+			nuparu.sevendaystomine.inventory.block.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.block.ContainerWorkbench) c;
 			player = container.player;
-		} else*/ if (c instanceof WorkbenchContainer) {
+		} else if (c instanceof WorkbenchContainer) {
 				WorkbenchContainer container = (WorkbenchContainer) (c);
 				CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
 				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
@@ -83,10 +83,10 @@ public class RecipeLockedShaped extends ShapedRecipe {
 	public boolean matches(CraftingInventory inv, World worldIn) {
 		PlayerEntity player = null;
 		Container c = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory.class, inv, "field_70465_c");
-		/*if (c instanceof nuparu.sevendaystomine.inventory.ContainerWorkbench) {
-		nuparu.sevendaystomine.inventory.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.ContainerWorkbench) c;
+		if (c instanceof nuparu.sevendaystomine.inventory.block.ContainerWorkbench) {
+		nuparu.sevendaystomine.inventory.block.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.block.ContainerWorkbench) c;
 		player = container.player;
-	} else*/  if (c instanceof WorkbenchContainer) {
+	} else if (c instanceof WorkbenchContainer) {
 			WorkbenchContainer container = (WorkbenchContainer) (c);
 			CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
 			player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
@@ -124,7 +124,12 @@ public class RecipeLockedShaped extends ShapedRecipe {
 	
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipes.LOCKED_SHAPED.get();
+		return ModRecipeSerializers.LOCKED_SHAPED.get();
+	}
+
+	@Override
+	public String getRecipe() {
+		return this.recipe;
 	}
 
 	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>>

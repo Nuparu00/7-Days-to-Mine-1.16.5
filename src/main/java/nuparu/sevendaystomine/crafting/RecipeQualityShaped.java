@@ -1,5 +1,6 @@
 package nuparu.sevendaystomine.crafting;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -32,7 +33,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.init.ModRecipes;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
 
 @SuppressWarnings("deprecation")
 public class RecipeQualityShaped extends ShapedRecipe {
@@ -47,10 +48,10 @@ public class RecipeQualityShaped extends ShapedRecipe {
 		if (stack != null) {
 			Container c = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory.class, inv, "field_70465_c");
 			PlayerEntity player = null;
-			/*if (c instanceof nuparu.sevendaystomine.inventory.ContainerWorkbench) {
-				nuparu.sevendaystomine.inventory.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.ContainerWorkbench) c;
+			if (c instanceof nuparu.sevendaystomine.inventory.block.ContainerWorkbench) {
+				nuparu.sevendaystomine.inventory.block.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.block.ContainerWorkbench) c;
 				player = container.player;
-			} else*/ if (c instanceof WorkbenchContainer) {
+			} else if (c instanceof WorkbenchContainer) {
 				WorkbenchContainer container = (WorkbenchContainer) (c);
 				CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
 				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
@@ -71,7 +72,7 @@ public class RecipeQualityShaped extends ShapedRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipes.QUALITY_SHAPED.get();
+		return ModRecipeSerializers.QUALITY_SHAPED.get();
 	}
 
 	public static NonNullList<Ingredient> dissolvePattern(String[] p_192402_0_, Map<String, Ingredient> p_192402_1_,
@@ -153,11 +154,42 @@ public class RecipeQualityShaped extends ShapedRecipe {
 		return i;
 	}
 
+	static Field f_MAX_HEIGHT;
+	static Field f_MAX_WIDTH;
+
 	public static String[] patternFromJson(JsonArray p_192407_0_) {
 		String[] astring = new String[p_192407_0_.size()];
 
-		int MAX_HEIGHT = ObfuscationReflectionHelper.getPrivateValue(RecipeQualityShaped.class, null, "MAX_HEIGHT");
-		int MAX_WIDTH = ObfuscationReflectionHelper.getPrivateValue(RecipeQualityShaped.class, null, "MAX_WIDTH");
+		if(f_MAX_HEIGHT == null){
+			try {
+				f_MAX_HEIGHT = ShapedRecipe.class.getDeclaredField("MAX_HEIGHT");
+				f_MAX_HEIGHT.setAccessible(true);
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if(f_MAX_WIDTH == null){
+			try {
+				f_MAX_WIDTH = ShapedRecipe.class.getDeclaredField("MAX_WIDTH");
+				f_MAX_WIDTH.setAccessible(true);
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			}
+		}
+
+		int MAX_HEIGHT = 0;
+		try {
+			MAX_HEIGHT = (int) f_MAX_HEIGHT.get(null);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		int MAX_WIDTH = 0;
+		try {
+			MAX_WIDTH = (int) f_MAX_WIDTH.get(null);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 
 		if (astring.length > MAX_HEIGHT) {
 			throw new JsonSyntaxException("Invalid pattern: too many rows, " + MAX_HEIGHT + " is maximum");

@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:sand_dust",
+  "material" : "sand",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}

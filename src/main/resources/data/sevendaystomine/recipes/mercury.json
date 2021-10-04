@@ -1,0 +1,17 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"mercury",
+         "weight" : 48
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:mercury_bucket"
+   },
+   "mold":{
+      "item":"minecraft:bucket"
+   },
+   "experience" : 5,
+   "cookingtime" : 1200
+}

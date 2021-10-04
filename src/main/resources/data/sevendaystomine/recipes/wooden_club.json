@@ -1,0 +1,19 @@
+{
+  "type": "sevendaystomine:quality_shaped",
+  "pattern": [
+    " WS",
+    " SW",
+    "S  "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "item": "sevendaystomine:plank_wood"
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:wooden_club"
+  }
+}

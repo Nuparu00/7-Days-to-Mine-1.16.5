@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "sevendaystomine:small_rock_andesite"
+          "name": "sevendaystomine:small_stone"
         }
       ],
       "conditions": [

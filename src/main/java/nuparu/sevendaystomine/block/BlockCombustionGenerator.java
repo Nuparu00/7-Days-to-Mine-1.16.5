@@ -25,11 +25,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityCombustionGenerator;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
-public class BlockCombustionGenerator extends BlockHorizontalBase implements IScrapable {
+public class BlockCombustionGenerator extends BlockHorizontalBase {
 
 	private static final VoxelShape X_BASE = Block.box(2.0D, 0.0D, 0.0D, 14.0D, 12.0D, 16.0D);
 	private static final VoxelShape Z_BASE = Block.box(0.0D, 0.0D, 2.0D, 16.0D, 12.0D, 14.0D);
@@ -40,36 +39,8 @@ public class BlockCombustionGenerator extends BlockHorizontalBase implements ISc
 	private static final VoxelShape X_AXIS_AABB = VoxelShapes.or(X_BASE, X_TOP);
 	private static final VoxelShape Z_AXIS_AABB = VoxelShapes.or(Z_BASE, Z_TOP);
 
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
-
 	public BlockCombustionGenerator(AbstractBlock.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

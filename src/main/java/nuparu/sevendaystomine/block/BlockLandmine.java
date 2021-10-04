@@ -18,12 +18,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockLandmine extends BlockBase implements IScrapable {
-
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
+public class BlockLandmine extends BlockBase {
 
 	private static final VoxelShape SHAPE = Block.box(0.25D*16, 0.0D, 0.25D*16, 0.75D*16, 0.1875D*16, 0.75D*16);
 
@@ -80,30 +76,4 @@ public class BlockLandmine extends BlockBase implements IScrapable {
 
 		}
 	}
-	
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
-	}
-
 }

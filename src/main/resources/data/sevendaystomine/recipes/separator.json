@@ -1,0 +1,23 @@
+{
+  "type": "sevendaystomine:locked_shaped",
+  "pattern": [
+    " C ",
+    "WBW"
+  ],
+  "key": {
+    "C": {
+      "item": "sevendaystomine:car_battery",
+      "data": 32767
+    },
+    "B": {
+      "item": "sevendaystomine:bottled_water"
+    },
+    "W": {
+      "item": "sevendaystomine:wire"
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:separator"
+  },
+  "recipe": "chemistry"
+}

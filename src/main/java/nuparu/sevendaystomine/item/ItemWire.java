@@ -20,10 +20,10 @@ import nuparu.sevendaystomine.electricity.IVoltage;
 import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.util.ModConstants;
 
-public class ItemWire extends ItemScrapable {
+public class ItemWire extends Item {
 
 	public ItemWire() {
-		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY), EnumMaterial.COPPER, 1);
+		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY));
 	}
 
 	@Override

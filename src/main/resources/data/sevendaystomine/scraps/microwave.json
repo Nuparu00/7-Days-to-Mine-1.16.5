@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:microwave",
+  "material" : "iron",
+  "weight" : 16,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

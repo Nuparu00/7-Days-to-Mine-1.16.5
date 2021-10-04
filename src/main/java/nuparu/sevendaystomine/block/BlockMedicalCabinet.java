@@ -31,17 +31,13 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityMedicalCabinet;
 
-public class BlockMedicalCabinet extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
+public class BlockMedicalCabinet extends BlockHorizontalBase implements IWaterLoggable {
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
 	
 	private static final VoxelShape SOUTH = Block.box(2, 1, 0, 14, 15, 5);
 	private static final VoxelShape NORTH = Block.box(2, 1, 11, 14, 15, 16);
@@ -67,31 +63,6 @@ public class BlockMedicalCabinet extends BlockHorizontalBase implements IScrapab
 		case EAST:
 			return EAST;
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

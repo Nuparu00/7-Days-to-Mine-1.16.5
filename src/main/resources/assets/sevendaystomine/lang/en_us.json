@@ -47,6 +47,7 @@
     "material.gold": "Gold",
     "material.sand": "Sand",
     "material.paper": "Paper",
+    "material.string": "String",
 
     "_comment": "Colors",
     "color.red": "Red",
@@ -476,6 +477,12 @@
     "item.sevendaystomine.scrap_iron": "Scrap Iron",
     "item.sevendaystomine.scrap_brass": "Scrap Brass",
     "item.sevendaystomine.scrap_lead": "Scrap Lead",
+    "item.sevendaystomine.scrap_copper": "Scrap Copper",
+    "item.sevendaystomine.scrap_tin": "Scrap Tin",
+    "item.sevendaystomine.scrap_gold": "Scrap Gold",
+    "item.sevendaystomine.scrap_steel": "Scrap Steel",
+    "item.sevendaystomine.scrap_zinc": "Scrap Zinc",
+    "item.sevendaystomine.scrap_bronze": "Scrap Bronze",
     "item.sevendaystomine.empty_can": "Empty Can",
     "item.sevendaystomine.stone_axe": "Stone Axe",
     "item.sevendaystomine.stone_shovel": "Stone Shovel",
@@ -704,7 +711,7 @@
     "item.sevendaystomine.bloodmoon": "Bloodmoon Icon",
     "item.sevendaystomine.hunting_rifle_barrel": "Hunting Rifle Barrel",
     "item.sevendaystomine.hunting_rifle_bolt": "Hunting Rifle Bolt",
-    "item.sevendaystomine.hunting_rifle_parts": "Hunting Rifle Parts",
+    "item.sevendaystomine.rifle_parts": "Rifle Parts",
     "item.sevendaystomine.hunting_rifle_stock": "Hunting Rifle Stock",
     "item.sevendaystomine.empty_jar_mold": "Empty Jar Mold",
     "item.sevendaystomine.hunting_rifle_barrel_mold": "Hunting Rifle Barrel Mold",
@@ -766,6 +773,8 @@
     "item.sevendaystomine.zombie_wolf_spawn_egg": "Zombie Wolf Spawn Egg",
     "item.sevendaystomine.zombie_pig_spawn_egg": "Zombie Pig Spawn Egg",
     "item.sevendaystomine.note": "Note",
+    "item.sevendaystomine.mercury_bucket": "Mercury Bucket",
+    "item.sevendaystomine.gasoline_bucket": "Gasoline Bucket",
 
 
     "filled_map.sevendaystomine:city": "City Map",
@@ -1174,8 +1183,8 @@
     "advancements.bow.description": "Craft a Crude Bow and an Arrow!",
     "advancements.pistol.title": "Small Arms",
     "advancements.pistol.description": "Get a pistol",
-    "advancements.rifle.title": "Military Issue",
-    "advancements.rifle.description": "Get a rifle",
+    "advancements.rifle.title": "AK-47s for everyone!",
+    "advancements.rifle.description": "Get AK-47",
     "advancements.wooden_club.title": "Right Off the Bat",
     "advancements.wooden_club.description": "Make a Wooden Club out of a wood",
     "advancements.spiked_club.title": "Illegal Modification",
@@ -1278,7 +1287,7 @@
 
 
     "_comment": "JEI",
-    "jei.information.workbench": "Workbench is a more advanced version of Crafting Table, that offers 5x5 crafting grid. Requires the \"Metalworking\" recipe book. Shidt-click to open the \"decreafting grid\" instead.",
+    "jei.information.workbench": "Workbench is a more advanced version of Crafting Table, that offers 5x5 crafting grid. Requires the \"Metalworking\" recipe book. Shidt-click to open the \"decrafting grid\" instead.",
     "jei.information.separator": "Electrolytic cell is a device that breaks down complex substances into simpler substances.",
     "jei.information.stone_axe": "Stone Axe is a basic universal tool. Used not only as a mining tool but also as a block upgrade and repair tool.",
     "jei.information.wind_turbine": "Converts wind's energy into electricity. The higher it is placed, the more electricity is generated. Provides extra electricity during rain and storms. Must not be obstructed.",
@@ -1292,6 +1301,7 @@
     "jei.information.stethoscope": "An item, that was originally intended for medical use. Can be used to find the correct combination of a code safe.",
     "jei.information.blood_draw_kit": "An item, that can be used to extract your (or someone else's) blood.",
     "jei.information.thermometer": "Fires a Redstone signal when a block is about to reach a critical temperature.",
+    "jei.tooltip.locked.recipe" : "Requires: %1$s",
 
     "_comment": "DIALOGUES",
 

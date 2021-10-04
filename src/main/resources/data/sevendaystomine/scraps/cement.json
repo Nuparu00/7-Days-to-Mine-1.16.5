@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:cement",
+  "material" : "concrete",
+  "weight" : 4,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

@@ -20,9 +20,8 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockTable extends BlockBase implements IScrapable, IWaterLoggable {
+public class BlockTable extends BlockBase implements IWaterLoggable {
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -52,13 +51,8 @@ public class BlockTable extends BlockBase implements IScrapable, IWaterLoggable 
 				p_203421_0_.put(Direction.WEST, WEST);
 			});
 
-	private EnumMaterial material = null;
-	private int weight = 3;
-
-	public BlockTable(AbstractBlock.Properties properties, EnumMaterial mat, int weight) {
+	public BlockTable(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
-		this.material = mat;
-		this.weight = weight;
 		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false))
 				.setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false))
 				.setValue(WEST, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
@@ -92,31 +86,6 @@ public class BlockTable extends BlockBase implements IScrapable, IWaterLoggable 
 			}
 		}
 		return result;
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return (material != null);
 	}
 
 	public boolean connectsTo(BlockState p_220111_1_, boolean p_220111_2_, Direction p_220111_3_) {

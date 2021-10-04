@@ -1,0 +1,15 @@
+{
+   "type":"sevendaystomine:cooking_pot_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:coffee_berry"
+      },
+      {
+         "item":"sevendaystomine:coffee_berry"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:coffee_beans",
+      "count":2
+   }
+}

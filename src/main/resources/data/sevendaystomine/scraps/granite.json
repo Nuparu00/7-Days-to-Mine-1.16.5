@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:granite",
+  "material" : "stone",
+  "weight" : 9,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

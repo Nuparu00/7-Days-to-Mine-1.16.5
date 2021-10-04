@@ -1,0 +1,15 @@
+{
+   "type":"sevendaystomine:cooking_pot_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:bottled_water"
+      },
+      {
+         "item":"sevendaystomine:goldenrod"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:goldenrod_tea",
+      "count":1
+   }
+}

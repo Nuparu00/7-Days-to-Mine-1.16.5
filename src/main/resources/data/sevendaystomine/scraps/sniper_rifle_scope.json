@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:sniper_rifle_scope",
+  "material" : "iron",
+  "weight" : 2,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

@@ -12,6 +12,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -176,8 +177,10 @@ public class BookData {
 			this.recipe = p_192685_1_;
 		}
 
-		public void loadRecipe(MinecraftServer server) {
-			Optional<? extends IRecipe<?>> optional = server.getRecipeManager().byKey(res);
+		public void loadRecipe() {
+			ClientPlayNetHandler connection = Minecraft.getInstance().getConnection();
+			if(connection == null) return;
+			Optional<? extends IRecipe<?>> optional = connection.getRecipeManager().byKey(res);
 			if (optional.isPresent()) {
 				IRecipe rec = optional.get();
 				if (rec != null) {

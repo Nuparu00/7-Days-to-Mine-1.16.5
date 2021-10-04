@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:zinc_ore",
+  "material" : "zinc",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

@@ -12,18 +12,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityCalendar;
 
-public class BlockCalendar extends BlockHorizontalBase implements IScrapable {
+public class BlockCalendar extends BlockHorizontalBase {
 
 	private static final VoxelShape NORTH = Block.box(5, 7, 15, 11, 16, 16);
 	private static final VoxelShape SOUTH = Block.box(5, 7, 0.0F, 11, 16, 1);
 	private static final VoxelShape WEST = Block.box(15, 7, 5, 16, 16, 11);
 	private static final VoxelShape EAST = Block.box(0.0F, 7, 5, 1, 16, 11);
-
-	private EnumMaterial material = EnumMaterial.PAPER;
-	private int weight = 2;
 
 	public BlockCalendar(AbstractBlock.Properties properties) {
 		super(properties);
@@ -43,31 +39,6 @@ public class BlockCalendar extends BlockHorizontalBase implements IScrapable {
 		case EAST:
 			return EAST;
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

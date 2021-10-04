@@ -10,41 +10,12 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityWindTurbine;
 
-public class BlockWindTurbine extends BlockHorizontalBase implements IScrapable {
-
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
+public class BlockWindTurbine extends BlockHorizontalBase {
 
 	public BlockWindTurbine(AbstractBlock.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 	
 	@Override

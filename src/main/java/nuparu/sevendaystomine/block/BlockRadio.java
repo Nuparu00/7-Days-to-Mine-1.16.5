@@ -18,18 +18,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityRadio;
 
-public class BlockRadio extends BlockHorizontalBase implements IScrapable {
+public class BlockRadio extends BlockHorizontalBase {
 
 	private static final VoxelShape NORTH = Block.box(2, 0.0F, 5, 14, 7.5F, 11);
 	private static final VoxelShape SOUTH = Block.box(2, 0.0F, 5F, 14, 7.5F, 11);
 	private static final VoxelShape WEST = Block.box(5F, 0.0F, 2, 11, 7.5F, 14);
 	private static final VoxelShape EAST = Block.box(5, 0.0F, 2, 11, 7.5F, 14);
-	
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
 
 	public BlockRadio(AbstractBlock.Properties properties) {
 		super(properties);
@@ -49,31 +45,6 @@ public class BlockRadio extends BlockHorizontalBase implements IScrapable {
 		case EAST:
 			return EAST;
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

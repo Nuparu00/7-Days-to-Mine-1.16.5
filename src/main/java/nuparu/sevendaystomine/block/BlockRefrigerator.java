@@ -30,46 +30,17 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityRefrigerator;
 
-public class BlockRefrigerator extends BlockHorizontalBase implements IScrapable {
+public class BlockRefrigerator extends BlockHorizontalBase {
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
-	   
-	private EnumMaterial material = EnumMaterial.WOOD;
-	private int weight = 2;
 
 	public BlockRefrigerator(AbstractBlock.Properties properties) {
 		super(properties);
 	    this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(HALF, DoubleBlockHalf.LOWER));
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override
@@ -142,7 +113,7 @@ public class BlockRefrigerator extends BlockHorizontalBase implements IScrapable
 	}
 
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		return null;
 	}
 

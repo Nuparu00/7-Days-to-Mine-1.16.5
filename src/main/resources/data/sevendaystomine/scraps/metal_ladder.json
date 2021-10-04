@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:metal_ladder",
+  "material" : "iron",
+  "weight" : 8,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

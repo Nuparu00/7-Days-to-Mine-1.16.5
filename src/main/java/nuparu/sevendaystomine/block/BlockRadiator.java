@@ -15,9 +15,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockRadiator extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
+public class BlockRadiator extends BlockHorizontalBase implements IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	public VoxelShape NORTH = Block.box(0.0F, 0.0F, 11.2F, 16.0F, 12F, 16.0F);
@@ -25,37 +24,9 @@ public class BlockRadiator extends BlockHorizontalBase implements IScrapable, IW
 	public VoxelShape WEST = Block.box(11.2F, 0.0F, 0F, 16.0F, 12F, 16.0F);
 	public VoxelShape EAST = Block.box(0.0F, 0.0F, 0.0F, 4.8F, 12F, 16.0F);
 
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 3;
-
 	public BlockRadiator() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(1.5f, 1).noOcclusion());
 		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

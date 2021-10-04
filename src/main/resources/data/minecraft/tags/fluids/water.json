@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "sevendaystomine:gasoline",
+    "sevendaystomine:flowing_gasoline",
+	"sevendaystomine:mercury",
+    "sevendaystomine:flowing_mercury"
+  ]
+}

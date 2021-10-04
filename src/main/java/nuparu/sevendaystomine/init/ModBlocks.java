@@ -6,7 +6,6 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -129,7 +128,7 @@ public class ModBlocks {
 	public static final RegistryObject<Block> COFFEE_PLANT = BLOCKS.register("coffee_plant",
 			() -> new BlockCoffeePlant());
 	public static final RegistryObject<Block> GOLDENROD = BLOCKS.register("goldenrod",
-			() -> new FlowerBlock(Effects.SATURATION, 7,
+			() -> new BlockFlower(Effects.SATURATION, 7,
 					AbstractBlock.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> BUSH = BLOCKS.register("bush", () -> new BlockBush(
 			AbstractBlock.Properties.of(Material.PLANT).noCollission().strength(0.75f, 0.75f).sound(SoundType.GRASS)));
@@ -138,33 +137,34 @@ public class ModBlocks {
 					.strength(3.5F).lightLevel(litBlockEmission(13))));
 
 	public static final RegistryObject<Block> COOKING_POT = BLOCKS.register("cooking_pot",
-			() -> new BlockCookware(AbstractBlock.Properties.of(Material.METAL).noOcclusion(),
-					Block.box(0.25D * 16, 0.0D, 0.25D * 16, 0.75D * 16, 0.5D * 16, 0.75D * 16), EnumMaterial.IRON, 12));
+			() -> new BlockCookingPot(AbstractBlock.Properties.of(Material.METAL).noOcclusion(),
+					Block.box(0.25D * 16, 0.0D, 0.25D * 16, 0.75D * 16, 0.5D * 16, 0.75D * 16)));
 	public static final RegistryObject<Block> BEAKER = BLOCKS.register("beaker",
 			() -> new BlockCookware(AbstractBlock.Properties.of(Material.GLASS).sound(SoundType.GLASS).noOcclusion(),
-					Block.box(0.375D *16, 0.0D, 0.375D *16, 0.625D * 16, 0.5D * 16, 0.625D * 16), EnumMaterial.IRON, 12));
+					Block.box(0.375D *16, 0.0D, 0.375D *16, 0.625D * 16, 0.5D * 16, 0.625D * 16)).setPlaceableOnCampfires(false));
+	public static final RegistryObject<Block> COOKING_GRILL = BLOCKS.register("cooking_grill",
+			() -> new BlockCookingGrill(AbstractBlock.Properties.of(Material.METAL).noOcclusion(),
+					Block.box(2,0,2,14,1,14)));
+	public static final RegistryObject<Block> COOKING_GRILL_BEAKER = BLOCKS.register("cooking_grill_beaker",
+			() -> new BlockCookingGrillBeaker(AbstractBlock.Properties.of(Material.METAL).noOcclusion(),
+					Block.box(2,0,2,14,1,14)));
 
 	public static final RegistryObject<Block> ORE_COPPER = BLOCKS.register("copper_ore", () -> new BlockOre(
-			AbstractBlock.Properties.of(Material.STONE).strength(2, 5).harvestTool(ToolType.PICKAXE).harvestLevel(0),
-			EnumMaterial.COPPER));
+			AbstractBlock.Properties.of(Material.STONE).strength(2, 5).harvestTool(ToolType.PICKAXE).harvestLevel(0)));
 
 	public static final RegistryObject<Block> ORE_TIN = BLOCKS.register("tin_ore", () -> new BlockOre(
-			AbstractBlock.Properties.of(Material.STONE).strength(1.8f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(1),
-			EnumMaterial.TIN));
+			AbstractBlock.Properties.of(Material.STONE).strength(1.8f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(1)));
 
 	public static final RegistryObject<Block> ORE_ZINC = BLOCKS.register("zinc_ore", () -> new BlockOre(
-			AbstractBlock.Properties.of(Material.STONE).strength(2.2f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(1),
-			EnumMaterial.ZINC));
+			AbstractBlock.Properties.of(Material.STONE).strength(2.2f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(1)));
 
 	public static final RegistryObject<Block> ORE_LEAD = BLOCKS.register("lead_ore", () -> new BlockOre(
-			AbstractBlock.Properties.of(Material.STONE).strength(3f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(2),
-			EnumMaterial.LEAD));
+			AbstractBlock.Properties.of(Material.STONE).strength(3f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
 
 	public static final RegistryObject<Block> ORE_POTASSIUM = BLOCKS.register("potassium_ore",
 			() -> new BlockPotassiumOre());
 	public static final RegistryObject<Block> ORE_CINNABAR = BLOCKS.register("cinnabar_ore", () -> new BlockOre(
-			AbstractBlock.Properties.of(Material.STONE).strength(2.5f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(2),
-			EnumMaterial.MERCURY));
+			AbstractBlock.Properties.of(Material.STONE).strength(2.5f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
 
 	public static final RegistryObject<BlockRebarFrame> REBAR_FRAME = BLOCKS.register("rebar_frame", () -> new BlockRebarFrame());
 	public static final RegistryObject<BlockRebarFrameWood> REBAR_FRAME_WOOD = BLOCKS.register("rebar_frame_wood",
@@ -486,23 +486,23 @@ public class ModBlocks {
 			() -> new BlockChair(AbstractBlock.Properties.of(Material.WOOD)));
 
 	public static final RegistryObject<Block> TABLE_OAK = BLOCKS.register("table_oak",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD) ));
 	public static final RegistryObject<Block> TABLE_BIRCH = BLOCKS.register("table_birch",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TABLE_SPRUCE = BLOCKS.register("table_spruce",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TABLE_JUNGLE = BLOCKS.register("table_jungle",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TABLE_ACACIA = BLOCKS.register("table_acacia",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TABLE_BIG_OAK = BLOCKS.register("table_big_oak",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TABLE_CRIMSON = BLOCKS.register("table_crimson",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TABLE_WARPED = BLOCKS.register("table_warped",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 	public static final RegistryObject<Block> TABLE_BURNT = BLOCKS.register("table_burnt",
-			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD), EnumMaterial.WOOD, 6));
+			() -> new BlockTable(AbstractBlock.Properties.of(Material.WOOD)));
 
 	public static final RegistryObject<Block> GENERATOR_GAS = BLOCKS.register("generator_gas",
 			() -> new BlockGenerator(AbstractBlock.Properties.of(Material.WOOD).noOcclusion()));
@@ -511,6 +511,10 @@ public class ModBlocks {
 
 	public static final RegistryObject<Block> GASOLINE = BLOCKS.register("gasoline",
 			() -> new FlowingFluidBlock(() -> (FlowingFluid) ModFluids.GASOLINE_FLOWING.get(),
+					AbstractBlock.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
+
+	public static final RegistryObject<Block> MERCURY = BLOCKS.register("mercury",
+			() -> new FlowingFluidBlock(() -> (FlowingFluid) ModFluids.MERCURY_FLOWING.get(),
 					AbstractBlock.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
 
 	public static final RegistryObject<Block> ENERGY_POLE = BLOCKS.register("energy_pole",

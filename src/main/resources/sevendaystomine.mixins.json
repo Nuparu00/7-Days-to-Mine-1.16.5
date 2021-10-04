@@ -16,7 +16,8 @@
     "JigsawPatternAccessor",
     "MixinBiomeGenerationSettingsBuilder",
     "MixinPlayerRenderer",
-    "MixinWorldRenderer"
+    "MixinWorldRenderer",
+    "MixinClientPlayNetHandler"
   ],
   "client":[
   ],

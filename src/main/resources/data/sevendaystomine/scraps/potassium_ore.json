@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:potassium_ore",
+  "material" : "potassium",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

@@ -18,7 +18,6 @@ public class BlockThrottle extends BlockChair {
 	
 	public BlockThrottle(Properties properties) {
 		super(properties);
-		this.material= EnumMaterial.CLOTH;
 	}
 	
 	@Override

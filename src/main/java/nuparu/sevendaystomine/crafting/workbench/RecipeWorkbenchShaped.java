@@ -28,11 +28,12 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
 import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.crafting.IRecipeLocked;
 import nuparu.sevendaystomine.crafting.RecipeQualityShaped;
-import nuparu.sevendaystomine.init.ModRecipes;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.ItemRecipeBook;
 
-public class RecipeWorkbenchShaped extends ShapedRecipe {
+public class RecipeWorkbenchShaped extends ShapedRecipe implements IRecipeLocked{
 
 	public static final List<RecipeWorkbenchShaped> RECIPES = new ArrayList<RecipeWorkbenchShaped>();
 	
@@ -61,10 +62,10 @@ public class RecipeWorkbenchShaped extends ShapedRecipe {
 			Container c = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory.class, inv, "field_70465_c");
 
 			PlayerEntity player = null;
-			/*if (c instanceof nuparu.sevendaystomine.inventory.ContainerWorkbench) {
-			nuparu.sevendaystomine.inventory.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.ContainerWorkbench) c;
+			if (c instanceof nuparu.sevendaystomine.inventory.block.ContainerWorkbench) {
+			nuparu.sevendaystomine.inventory.block.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.block.ContainerWorkbench) c;
 			player = container.player;
-		} else*/  if (c instanceof WorkbenchContainer) {
+		} else  if (c instanceof WorkbenchContainer) {
 				WorkbenchContainer container = (WorkbenchContainer) (c);
 				CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
 				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
@@ -93,10 +94,10 @@ public class RecipeWorkbenchShaped extends ShapedRecipe {
 		PlayerEntity player = null;
 		Container c = ObfuscationReflectionHelper.getPrivateValue(CraftingInventory.class, inv, "field_70465_c");
 
-		/*if (c instanceof nuparu.sevendaystomine.inventory.ContainerWorkbench) {
-		nuparu.sevendaystomine.inventory.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.ContainerWorkbench) c;
+		if (c instanceof nuparu.sevendaystomine.inventory.block.ContainerWorkbench) {
+		nuparu.sevendaystomine.inventory.block.ContainerWorkbench container = (nuparu.sevendaystomine.inventory.block.ContainerWorkbench) c;
 		player = container.player;
-	} else*/  if (c instanceof WorkbenchContainer) {
+	} else  if (c instanceof WorkbenchContainer) {
 			WorkbenchContainer container = (WorkbenchContainer) (c);
 			CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
 			player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
@@ -116,7 +117,12 @@ public class RecipeWorkbenchShaped extends ShapedRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipes.WORKBENCH_SHAPED.get();
+		return ModRecipeSerializers.WORKBENCH_SHAPED.get();
+	}
+
+	@Override
+	public String getRecipe() {
+		return this.recipe;
 	}
 
 	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>>
@@ -124,6 +130,7 @@ public class RecipeWorkbenchShaped extends ShapedRecipe {
 		private static final ResourceLocation NAME = new ResourceLocation(SevenDaysToMine.MODID, "workbench_shaped");
 
 		public RecipeWorkbenchShaped fromJson(ResourceLocation p_199425_1_, JsonObject json) {
+			ShapedRecipe.setCraftingSize(5,5);
 			String s = JSONUtils.getAsString(json, "group", "");
 			Map<String, Ingredient> map = RecipeQualityShaped
 					.keyFromJson(JSONUtils.getAsJsonObject(json, "key"));
@@ -134,10 +141,10 @@ public class RecipeWorkbenchShaped extends ShapedRecipe {
 			NonNullList<Ingredient> nonnulllist = RecipeQualityShaped.dissolvePattern(astring, map, i, j);
 			ItemStack itemstack = RecipeQualityShaped.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
 
-			if (!json.has("recipe"))
-				throw new JsonSyntaxException("Property recipe not specified");
-			String recipe = json.get("recipe").getAsString();
-
+			String recipe = "";
+			if (json.has("recipe")) {
+				recipe = json.get("recipe").getAsString();
+			}
 			boolean quality = false;
 
 			if (json.has("quality")) {

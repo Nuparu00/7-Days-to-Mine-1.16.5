@@ -44,11 +44,10 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityCodeSafe;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
-public class BlockCodeSafe extends BlockBase implements IScrapable, IWaterLoggable {
+public class BlockCodeSafe extends BlockBase implements IWaterLoggable {
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final DirectionProperty FACING = DirectionalBlock.FACING;
@@ -60,31 +59,6 @@ public class BlockCodeSafe extends BlockBase implements IScrapable, IWaterLoggab
 	public BlockCodeSafe(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(LOCKED, true).setValue(WATERLOGGED, Boolean.valueOf(false)));
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

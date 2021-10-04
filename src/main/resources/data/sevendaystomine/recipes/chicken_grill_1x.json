@@ -1,0 +1,12 @@
+{
+   "type":"sevendaystomine:grill_shapeless",
+   "ingredients":[
+      {
+         "item":"minecraft:chicken"
+      }
+   ],
+   "result":{
+      "item":"minecraft:cooked_chicken",
+      "count":1
+   }
+}

@@ -11,7 +11,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.init.ModRecipes;
 
 public class DummyRecipe implements ICraftingRecipe {
 	private final ItemStack output;
@@ -59,7 +58,8 @@ public class DummyRecipe implements ICraftingRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipes.DUMMY_CRAFTING.get();
+
+		return null;
 	}
 
 	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>>

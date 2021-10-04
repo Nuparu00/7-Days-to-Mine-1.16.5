@@ -1,0 +1,12 @@
+{
+   "type":"sevendaystomine:cooking_pot_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:canned_murky_water"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:canned_water",
+      "count":1
+   }
+}

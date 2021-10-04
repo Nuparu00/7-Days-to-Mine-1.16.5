@@ -16,8 +16,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.init.ModRecipes;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.IQuality;
+
+import java.lang.reflect.Field;
 
 @SuppressWarnings("deprecation")
 public class RecipeGunShapeless extends RecipeLockedShapeless {
@@ -59,18 +61,49 @@ public class RecipeGunShapeless extends RecipeLockedShapeless {
 	
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipes.GUN.get();
+		return ModRecipeSerializers.GUN_SHAPELESS.get();
 	}
 
 
 	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>>
 			implements IRecipeSerializer<RecipeGunShapeless> {
-		private static final ResourceLocation NAME = new ResourceLocation(SevenDaysToMine.MODID, "gun");
+		private static final ResourceLocation NAME = new ResourceLocation(SevenDaysToMine.MODID, "gun_shapeless");
+
+		static Field f_MAX_HEIGHT;
+		static Field f_MAX_WIDTH;
 
 		public RecipeGunShapeless fromJson(ResourceLocation p_199425_1_, JsonObject json) {
 
-			int MAX_HEIGHT = ObfuscationReflectionHelper.getPrivateValue(RecipeQualityShaped.class, null, "MAX_HEIGHT");
-			int MAX_WIDTH = ObfuscationReflectionHelper.getPrivateValue(RecipeQualityShaped.class, null, "MAX_WIDTH");
+			if (f_MAX_HEIGHT == null) {
+				try {
+					f_MAX_HEIGHT = ShapedRecipe.class.getDeclaredField("MAX_HEIGHT");
+					f_MAX_HEIGHT.setAccessible(true);
+				} catch (NoSuchFieldException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (f_MAX_WIDTH == null) {
+				try {
+					f_MAX_WIDTH = ShapedRecipe.class.getDeclaredField("MAX_WIDTH");
+					f_MAX_WIDTH.setAccessible(true);
+				} catch (NoSuchFieldException e) {
+					e.printStackTrace();
+				}
+			}
+
+			int MAX_HEIGHT = 0;
+			try {
+				MAX_HEIGHT = (int) f_MAX_HEIGHT.get(null);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			int MAX_WIDTH = 0;
+			try {
+				MAX_WIDTH = (int) f_MAX_WIDTH.get(null);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
 
 			String s = JSONUtils.getAsString(json, "group", "");
 			NonNullList<Ingredient> nonnulllist = itemsFromJson(JSONUtils.getAsJsonArray(json, "ingredients"));

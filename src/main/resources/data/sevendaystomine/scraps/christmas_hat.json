@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:christmas_hat",
+  "material" : "cloth",
+  "weight" : 3,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

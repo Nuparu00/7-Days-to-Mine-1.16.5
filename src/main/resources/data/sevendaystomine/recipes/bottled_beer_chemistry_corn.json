@@ -1,0 +1,20 @@
+{
+   "type":"sevendaystomine:chemistry_shapeless",
+   "ingredients":[
+      {
+         "item":"sevendaystomine:bottled_water"
+      },
+      {
+         "item":"sevendaystomine:corn"
+      },
+      {
+         "item":"minecraft:sugar"
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:bottled_beer",
+      "count":1
+   },
+   "experience" : 2,
+   "cookingtime" : 1200
+}

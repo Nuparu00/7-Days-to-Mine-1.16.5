@@ -1,0 +1,18 @@
+{
+   "type":"sevendaystomine:grill_shapeless",
+   "ingredients":[
+      {
+         "item":"minecraft:porkchop"
+      },
+      {
+         "item":"minecraft:porkchop"
+      },
+      {
+         "item":"minecraft:porkchop"
+      }
+   ],
+   "result":{
+      "item":"minecraft:cooked_porkchop",
+      "count":3
+   }
+}

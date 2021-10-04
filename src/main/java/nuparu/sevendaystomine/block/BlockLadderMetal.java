@@ -12,9 +12,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockLadderMetal extends LadderBlock implements IBlockBase, IScrapable {
+public class BlockLadderMetal extends LadderBlock implements IBlockBase {
 
 	public BlockLadderMetal() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).noOcclusion());
@@ -24,32 +23,7 @@ public class BlockLadderMetal extends LadderBlock implements IBlockBase, IScrapa
 	private int weight = 3;
 
 	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
-	}
-
-	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		 final Item.Properties properties = new Item.Properties().tab(getItemGroup());
 		 return new BlockItem(this, properties);
 	}

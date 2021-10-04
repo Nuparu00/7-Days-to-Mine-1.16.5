@@ -23,19 +23,15 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntitySeparator;
 
-public class BlockSeparator extends BlockHorizontalBase implements IScrapable {
+public class BlockSeparator extends BlockHorizontalBase {
 	
 	private static final VoxelShape NORTH = Block.box(0.125F*16, 0.0F*16, 0.25F*16, 0.875F*16, 0.46875F*16, 0.6875F*16);
 	private static final VoxelShape SOUTH = Block.box(0.125F*16, 0.0F*16, 0.3125F*16, 0.875F*16, 0.46875F*16, 0.75);
 	private static final VoxelShape WEST = Block.box(0.3125F*16, 0.0F*16, 0.125F*16, 0.75F*16, 0.46875F*16, 0.875F*16);
 	private static final VoxelShape EAST = Block.box(0.25F*16, 0.0F*16, 0.125F*16, 0.6875F*16, 0.46875F*16, 0.875F*16);
-	
-	private EnumMaterial material = EnumMaterial.GLASS;
-	private int weight = 2;
 
 	public BlockSeparator(AbstractBlock.Properties properties) {
 		super(properties);
@@ -51,32 +47,6 @@ public class BlockSeparator extends BlockHorizontalBase implements IScrapable {
 		case WEST : return WEST;
 		case EAST : return EAST;
 		}
-	}
-
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

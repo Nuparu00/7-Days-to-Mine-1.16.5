@@ -1,0 +1,17 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"brass",
+         "weight" : 1
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:bullet_casing"
+   },
+   "mold":{
+      "item":"sevendaystomine:bullet_casing_mold"
+   },
+   "experience" : 0,
+   "cookingtime" : 300
+}

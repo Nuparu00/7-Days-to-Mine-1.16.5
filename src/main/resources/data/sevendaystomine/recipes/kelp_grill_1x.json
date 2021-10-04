@@ -1,0 +1,12 @@
+{
+   "type":"sevendaystomine:grill_shapeless",
+   "ingredients":[
+      {
+         "item":"minecraft:kelp"
+      }
+   ],
+   "result":{
+      "item":"minecraft:dried_kelp",
+      "count":1
+   }
+}

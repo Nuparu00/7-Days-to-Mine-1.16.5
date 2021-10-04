@@ -26,10 +26,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityPhoto;
 
-public class BlockPhoto extends BlockHorizontalBase implements IScrapable {
+public class BlockPhoto extends BlockHorizontalBase {
 	
 	private static final VoxelShape NORTH = Block.box(0.0F, 0.0F, 15.4, 16.0F, 16, 16);
 	private static final VoxelShape SOUTH = Block.box(0.0F, 0.0F, 0.0F, 16.0F, 16, 0.6);
@@ -53,31 +52,6 @@ public class BlockPhoto extends BlockHorizontalBase implements IScrapable {
 		case WEST: return WEST;
 		case EAST: return EAST;
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override
@@ -110,7 +84,7 @@ public class BlockPhoto extends BlockHorizontalBase implements IScrapable {
 	}
 	
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		 return null;
 	}
 

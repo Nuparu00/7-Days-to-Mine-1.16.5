@@ -69,7 +69,7 @@ public class BlockTorchUnlit extends TorchBlock implements IBlockBase {
 				2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F, false);
 	}
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		 return null;
 	}
 }

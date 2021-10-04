@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:hunting_rifle_stock",
+  "material" : "iron",
+  "weight" : 2,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

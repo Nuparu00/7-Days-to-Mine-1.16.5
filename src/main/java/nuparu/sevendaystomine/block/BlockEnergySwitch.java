@@ -31,11 +31,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.item.ItemWire;
 import nuparu.sevendaystomine.tileentity.TileEntityEnergySwitch;
 
-public class BlockEnergySwitch extends BlockHorizontalBase implements IScrapable {
+public class BlockEnergySwitch extends BlockHorizontalBase {
 
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
@@ -55,31 +54,6 @@ public class BlockEnergySwitch extends BlockHorizontalBase implements IScrapable
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
 		return UP;
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	public BlockState rotate(BlockState p_185499_1_, Rotation p_185499_2_) {

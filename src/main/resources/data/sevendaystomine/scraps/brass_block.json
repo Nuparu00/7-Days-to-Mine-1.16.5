@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:brass_block",
+  "material" : "brass",
+  "weight" : 54,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

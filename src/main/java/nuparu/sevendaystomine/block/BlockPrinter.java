@@ -19,14 +19,13 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityPrinter;
 import nuparu.sevendaystomine.tileentity.TileEntityScreenProjector;
 
 import javax.annotation.Nullable;
 
-public class BlockPrinter extends BlockHorizontalBase implements IScrapable {
+public class BlockPrinter extends BlockHorizontalBase {
 
 	private static final VoxelShape CENTER = Block.box(4,0,4,12,5,12);
 
@@ -48,9 +47,6 @@ public class BlockPrinter extends BlockHorizontalBase implements IScrapable {
 	private static final VoxelShape SHAPE_WEST  = VoxelShapes.or(CENTER,SIDE_SHAPE_X_RIGHT_SHORT,SIDE_SHAPE_X_LEFT_TALL);
 	private static final VoxelShape SHAPE_EAST = VoxelShapes.or(CENTER,SIDE_SHAPE_X_LEFT_SHORT,SIDE_SHAPE_X_RIGHT_TALL);
 
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
-
 	public BlockPrinter(Properties properties) {
 		super(properties);
 	}
@@ -66,32 +62,6 @@ public class BlockPrinter extends BlockHorizontalBase implements IScrapable {
 			case WEST: return SHAPE_WEST;
 			case EAST: return SHAPE_EAST;
 		}
-	}
-
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

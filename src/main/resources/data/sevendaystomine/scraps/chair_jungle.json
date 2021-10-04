@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:chair_jungle",
+  "material" : "wood",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

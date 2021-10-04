@@ -31,20 +31,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityBookshelf;
 import nuparu.sevendaystomine.tileentity.TileEntityForge;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
-public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
+public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IWaterLoggable {
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final BooleanProperty FULL = BooleanProperty.create("full");
-
-	private EnumMaterial material = EnumMaterial.WOOD;
-	private int weight = 2;
-
 
 	public VoxelShape BOTTOM = Block.box(0,0,0,16,1,16);
 	public VoxelShape TOP = Block.box(0,15,0,16,16,16);
@@ -65,31 +59,6 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IScra
 	public BlockBookshelfEnhanced(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
 		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(FULL, false).setValue(WATERLOGGED, Boolean.valueOf(false)));
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

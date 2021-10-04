@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:charcoal",
+  "material" : "carbon",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : false
+}

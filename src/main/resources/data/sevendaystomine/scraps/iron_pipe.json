@@ -1,0 +1,8 @@
+{
+  "item" : "sevendaystomine:iron_pipe",
+  "material" : "iron",
+  "weight" : 1,
+  "canBeScrapped" : true,
+  "isScrapBit" : false,
+  "excludeFromMin" : true
+}

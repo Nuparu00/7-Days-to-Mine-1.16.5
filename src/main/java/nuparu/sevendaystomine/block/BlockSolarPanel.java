@@ -12,43 +12,14 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntitySolarPanel;
 
-public class BlockSolarPanel extends BlockHorizontalBase implements IScrapable {
+public class BlockSolarPanel extends BlockHorizontalBase {
 
 	private final VoxelShape SHAPE = Block.box(0.0F, 0F, 0F, 16F, 14, 16F);
-	
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 2;
 
 	public BlockSolarPanel(AbstractBlock.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 	
 	@Override

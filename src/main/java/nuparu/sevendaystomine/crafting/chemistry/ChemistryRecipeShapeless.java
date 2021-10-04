@@ -1,100 +1,194 @@
 package nuparu.sevendaystomine.crafting.chemistry;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import it.unimi.dsi.fastutil.ints.IntList;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.*;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.RecipeMatcher;
+import net.minecraftforge.registries.ForgeRegistryEntry;
+import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
+import nuparu.sevendaystomine.tileentity.TileEntityChemistryStation;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import nuparu.sevendaystomine.crafting.ItemStackWrapper;
-import nuparu.sevendaystomine.tileentity.TileEntityChemistryStation;
+public class ChemistryRecipeShapeless implements IChemistryRecipe<TileEntityChemistryStation> {
+    private final ResourceLocation id;
+    private final String group;
+    private final ItemStack result;
+    private final NonNullList<Ingredient> ingredients;
+    private final boolean isSimple;
+    protected final float experience;
+    protected final int cookingTime;
 
-public class ChemistryRecipeShapeless implements IChemistryRecipe{
-	private ItemStack result;
-	private ArrayList<ItemStack> ingredients;
-	private int xp = 5;
+    public ChemistryRecipeShapeless(ResourceLocation resourceLocation, String group, ItemStack result, NonNullList<Ingredient> ingredients, float experience, int cookingTime) {
+        this.id = resourceLocation;
+        this.group = group;
+        this.result = result;
+        this.ingredients = ingredients;
+        this.isSimple = ingredients.stream().allMatch(Ingredient::isSimple);
+        this.experience = experience;
+        this.cookingTime = cookingTime;
+    }
 
-	public ChemistryRecipeShapeless(ItemStack result,ArrayList<ItemStack> ingredients) {
-		this(result,ingredients,5);
-	}
-	
-	public ChemistryRecipeShapeless(ItemStack result,ArrayList<ItemStack> ingredients, int xp) {
-		this.result = result;
-		this.ingredients = ingredients;
-		this.xp = xp;
-	}
+    @Override
+    public boolean matches(TileEntityChemistryStation grillInventory, World world) {
+        RecipeItemHelper recipeitemhelper = new RecipeItemHelper();
+        List<ItemStack> inputs = new ArrayList();
+        int i = 0;
 
-	@Override
-	public boolean matches(TileEntityChemistryStation inv, World worldIn) {
-		List<ItemStackWrapper> listInv = ItemStackWrapper.wrapList(inv.getActiveInventory(), false);
-		List<ItemStackWrapper> listIng = ItemStackWrapper.wrapList(ingredients, false);
+        for(int j = 0; j < grillInventory.getContainerSize(); ++j) {
+            ItemStack itemstack = grillInventory.getItem(j);
+            if (!itemstack.isEmpty()) {
+                ++i;
+                if (this.isSimple) {
+                    recipeitemhelper.accountStack(itemstack, 1);
+                } else {
+                    inputs.add(itemstack);
+                }
+            }
+        }
 
-		if(listInv.size() != listIng.size()) return false;
-		
-		Iterator<ItemStackWrapper> itInv = listInv.iterator();
-		Iterator<ItemStackWrapper> itIng = listIng.iterator();
-		
-		while(itInv.hasNext()) {
-			ItemStackWrapper invWrapper = itInv.next();
-			while(itIng.hasNext()) {
-				ItemStackWrapper ingWrapper = itIng.next();
-				if(invWrapper.equals(ingWrapper)) {
-					if(invWrapper.getStackSize() >= ingWrapper.getStackSize()) {
-						itIng.remove();
-						itInv.remove();
-						break;
-					}
-				}
-			}
-		}
-		if(listInv.size() != 0 || listIng.size() != 0) {
-			return false;
-		}
-		
-		
-		return true;
-		
-	}
+        label43: {
+            if (i == this.ingredients.size()) {
+                if (this.isSimple) {
+                    if (recipeitemhelper.canCraft(this, (IntList)null)) {
+                        break label43;
+                    }
+                } else if (RecipeMatcher.findMatches(inputs, this.ingredients) != null) {
+                    break label43;
+                }
+            }
 
-	@Override
-	public ItemStack getResult() {
-		return result.copy();
-	}
+            return false;
+        }
 
-	@Override
-	public ItemStack getOutput(TileEntityChemistryStation tileEntity) {
-		return getResult();
-	}
+        return true;
+    }
 
-	@Override
-	public List<ItemStack> getIngredients() {
-		return ingredients;
-	}
-	
-	@Override
-	public int intGetXP(PlayerEntity player) {
-		return xp;
-	}
+    @Override
+    public ItemStack assemble(TileEntityChemistryStation grillInventory) {
+        return this.result.copy();
+    }
 
-	@Override
-	public void consumeInput(TileEntityChemistryStation inv) {
-		List<ItemStackWrapper> listInv = ItemStackWrapper.wrapList(inv.getActiveInventory(),false);
-        List<ItemStackWrapper> listIng = ItemStackWrapper.wrapList(ingredients,false);
-		ListIterator<ItemStackWrapper> iteratorInv = listInv.listIterator();
-		ListIterator<ItemStackWrapper> iteratorIng = listIng.listIterator();
-		while (iteratorInv.hasNext()) {
-			while (iteratorIng.hasNext()) {
-				ItemStack itemStack = iteratorInv.next().getItemStack();
-				ItemStack stack = iteratorIng.next().getItemStack();
-				if (ItemStack.isSame(stack, itemStack)) {
-					itemStack.shrink(stack.getCount());
-					iteratorInv.remove();
-					iteratorIng.remove();
-				}
-			}
-		}
-	}
+    @Override
+    public boolean canCraftInDimensions(int i, int i1) {
+        return i * i1 >= this.ingredients.size();
+    }
 
+    @Override
+    public ResourceLocation getId() {
+        return this.id;
+    }
+
+    @Override
+    public String getGroup() {
+        return this.group;
+    }
+
+    @Override
+    public ItemStack getResultItem() {
+        return this.result.copy();
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return this.ingredients;
+    }
+
+    @Override
+    public IRecipeSerializer<?> getSerializer() {
+        return ModRecipeSerializers.CHEMISTRY_SHAPELESS.get();
+    }
+
+    @Override
+    public IRecipeType<?> getType() {
+        return ModRecipeSerializers.CHEMISTRY_RECIPE_TYPE;
+    }
+
+    @Override
+    public float getExperience() {
+        return this.experience;
+    }
+
+    @Override
+    public int getCookingTime() {
+        return this.cookingTime;
+    }
+
+    public static class Factory extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ChemistryRecipeShapeless> {
+        int defaultCookingTime = 600;
+
+        @Override
+        public ChemistryRecipeShapeless fromJson(ResourceLocation recipeId, JsonObject json) {
+            String s = JSONUtils.getAsString(json, "group", "");
+            NonNullList<Ingredient> nonnulllist = itemsFromJson(JSONUtils.getAsJsonArray(json, "ingredients"));
+            if (nonnulllist.isEmpty()) {
+                throw new JsonParseException("No ingredients for shapeless recipe");
+            } else if (nonnulllist.size() > 2 * 2) {
+                throw new JsonParseException("Too many ingredients for shapeless recipe the max is " + 2 * 2);
+            } else {
+                ItemStack itemstack = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
+                float experience = JSONUtils.getAsFloat(json, "experience", 0.0F);
+                int cookingTime = JSONUtils.getAsInt(json, "cookingtime", this.defaultCookingTime);
+                return new ChemistryRecipeShapeless(recipeId, s, itemstack, nonnulllist,experience,cookingTime);
+            }
+        }
+
+        private static NonNullList<Ingredient> itemsFromJson(JsonArray p_199568_0_) {
+            NonNullList<Ingredient> nonnulllist = NonNullList.create();
+
+            for(int i = 0; i < p_199568_0_.size(); ++i) {
+                Ingredient ingredient = Ingredient.fromJson(p_199568_0_.get(i));
+                if (!ingredient.isEmpty()) {
+                    nonnulllist.add(ingredient);
+                }
+            }
+
+            return nonnulllist;
+        }
+
+        @Nullable
+        @Override
+        public ChemistryRecipeShapeless fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+            String s = buffer.readUtf(32767);
+            int i = buffer.readVarInt();
+            NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i, Ingredient.EMPTY);
+
+            for(int j = 0; j < nonnulllist.size(); ++j) {
+                nonnulllist.set(j, Ingredient.fromNetwork(buffer));
+            }
+
+            ItemStack itemstack = buffer.readItem();
+            float experience = buffer.readFloat();
+            int cookingTime = buffer.readVarInt();
+            return new ChemistryRecipeShapeless(recipeId, s, itemstack, nonnulllist,experience,cookingTime);
+        }
+
+        @Override
+        public void toNetwork(PacketBuffer buffer, ChemistryRecipeShapeless recipe) {
+            buffer.writeUtf(recipe.group);
+            buffer.writeVarInt(recipe.ingredients.size());
+            Iterator var3 = recipe.ingredients.iterator();
+
+            while(var3.hasNext()) {
+                Ingredient ingredient = (Ingredient)var3.next();
+                ingredient.toNetwork(buffer);
+            }
+
+            buffer.writeItem(recipe.result);
+            buffer.writeFloat(recipe.experience);
+            buffer.writeVarInt(recipe.cookingTime);
+        }
+    }
 }

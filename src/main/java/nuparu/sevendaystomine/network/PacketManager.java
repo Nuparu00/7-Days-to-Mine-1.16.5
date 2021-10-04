@@ -187,6 +187,12 @@ public class PacketManager {
 			.serverAcceptedVersions(PROTOCOL_VERSION::equals)
 			.networkProtocolVersion(() -> PROTOCOL_VERSION)
 			.simpleChannel();
+	public static SimpleChannel syncScrapsData = NetworkRegistry.ChannelBuilder
+			.named(new ResourceLocation(SevenDaysToMine.MODID, "sync_scraps_data"))
+			.clientAcceptedVersions(PROTOCOL_VERSION::equals)
+			.serverAcceptedVersions(PROTOCOL_VERSION::equals)
+			.networkProtocolVersion(() -> PROTOCOL_VERSION)
+			.simpleChannel();
 
 	private static int discriminator = 0;
 
@@ -223,6 +229,7 @@ public class PacketManager {
 		 PacketManager.blockBreakSyncTracking.registerMessage(PacketManager.discriminator++, BreakSyncTrackingMessage.class, BreakSyncTrackingMessage::encode, BreakSyncTrackingMessage::decode, BreakSyncTrackingMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 		 PacketManager.startProcess.registerMessage(PacketManager.discriminator++, StartProcessMessage.class, StartProcessMessage::encode, StartProcessMessage::decode, StartProcessMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
 		 PacketManager.turretShot.registerMessage(PacketManager.discriminator++, TurretShotMessage.class, TurretShotMessage::encode, TurretShotMessage::decode, TurretShotMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		 PacketManager.syncScrapsData.registerMessage(PacketManager.discriminator++, SyncScrapsMessage.class, SyncScrapsMessage::encode, SyncScrapsMessage::decode, SyncScrapsMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 
 	}
 	

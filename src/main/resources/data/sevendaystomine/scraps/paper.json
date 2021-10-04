@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:paper",
+  "material" : "paper",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}

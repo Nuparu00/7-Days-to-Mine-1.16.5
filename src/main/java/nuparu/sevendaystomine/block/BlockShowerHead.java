@@ -16,18 +16,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockShowerHead extends BlockHorizontalBase implements IScrapable , IWaterLoggable {
+public class BlockShowerHead extends BlockHorizontalBase implements  IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	public VoxelShape NORTH = Block.box(5, 8, 6, 13, 14, 16);
 	public VoxelShape SOUTH = Block.box(5, 8, 0.0F, 13, 14, 10);
 	public VoxelShape WEST = Block.box(6, 8, 5, 16, 14, 13);
 	public VoxelShape EAST = Block.box(0.0F, 8, 5, 10, 14, 13);
-
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 3;
 
 	public BlockShowerHead() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(16, 2).noOcclusion());
@@ -49,31 +45,6 @@ public class BlockShowerHead extends BlockHorizontalBase implements IScrapable ,
 			return EAST;
 		}
 
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

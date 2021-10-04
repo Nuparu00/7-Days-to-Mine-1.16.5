@@ -9,6 +9,6 @@ import nuparu.sevendaystomine.item.EnumMaterial;
 public class BlockPotassiumOre extends BlockOre {
 
 	public BlockPotassiumOre() {
-		super(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).strength(1.8f,5),EnumMaterial.POTASSIUM);
+		super(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).strength(1.8f,5));
 	}
 }

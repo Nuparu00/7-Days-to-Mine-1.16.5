@@ -13,42 +13,13 @@ import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockRebarFrame extends BlockUpgradeable implements IScrapable {
-
-	private EnumMaterial material = EnumMaterial.IRON;
-	private int weight = 4;
+public class BlockRebarFrame extends BlockUpgradeable {
 
 	public BlockRebarFrame() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(2, 10)
 				.harvestTool(ToolType.PICKAXE).harvestLevel(1).noOcclusion());
 
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

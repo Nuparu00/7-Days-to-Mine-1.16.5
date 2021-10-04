@@ -26,22 +26,18 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.item.ItemLinkTool;
 import nuparu.sevendaystomine.item.ItemScrewdriver;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer.EnumSystem;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
-public class BlockComputer extends BlockHorizontalBase implements IScrapable {
+public class BlockComputer extends BlockHorizontalBase {
 	
 	private static final VoxelShape NORTH = Block.box(0.3125F*16, 0.0F, 0.0625F*16, 0.6875F*16, 16F, 0.875F*16);
 	private static final VoxelShape SOUTH = Block.box(0.3125F*16, 0.0F, 0.125F*16, 0.6875F*16, 16F, 0.9375*16);
 	private static final VoxelShape WEST = Block.box(0.0625F*16, 0.0F, 0.3125F*16, 0.875F*16, 16F, 0.6875F*16);
 	private static final VoxelShape EAST = Block.box(0.125F*16, 0.0F, 0.3125F*16, 0.9375*16, 16F, 0.6875F*16);
-
-	private EnumMaterial material = EnumMaterial.CLOTH;
-	private int weight = 2;
 
 	public BlockComputer(AbstractBlock.Properties properties) {
 		super(properties);
@@ -57,32 +53,6 @@ public class BlockComputer extends BlockHorizontalBase implements IScrapable {
 		case WEST : return WEST;
 		case EAST : return EAST;
 		}
-	}
-
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

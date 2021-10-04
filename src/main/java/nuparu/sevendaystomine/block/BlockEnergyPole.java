@@ -19,11 +19,10 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityDresser;
 import nuparu.sevendaystomine.tileentity.TileEntityEnergyPole;
 
-public class BlockEnergyPole extends BlockBase implements IScrapable {
+public class BlockEnergyPole extends BlockBase {
 
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
@@ -33,9 +32,6 @@ public class BlockEnergyPole extends BlockBase implements IScrapable {
 	private static final VoxelShape EAST = Block.box(0F, 0.25F*16, 0.25F*16, 0.5F*16, 0.75F*16, 0.75F*16);
 	private static final VoxelShape UP = Block.box(0.375F*16, 0.0F, 0.375F*16, 0.625F*16, 1F*16, 0.625F*16);
 	private static final VoxelShape DOWN = Block.box(0.25F*16, 0.5F*16, 0.25F*16, 0.75F*16, 1F*16, 0.75F*16);
-
-	private EnumMaterial material = EnumMaterial.WOOD;
-	private int weight = 2;
 
 	public BlockEnergyPole(AbstractBlock.Properties properties) {
 		super(properties);
@@ -60,31 +56,6 @@ public class BlockEnergyPole extends BlockBase implements IScrapable {
 		case DOWN:
 			return DOWN;
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	public BlockState rotate(BlockState p_185499_1_, Rotation p_185499_2_) {

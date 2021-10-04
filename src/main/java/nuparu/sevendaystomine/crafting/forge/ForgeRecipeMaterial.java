@@ -1,266 +1,349 @@
 package nuparu.sevendaystomine.crafting.forge;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import it.unimi.dsi.fastutil.ints.IntList;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.*;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.RecipeMatcher;
+import net.minecraftforge.registries.ForgeRegistryEntry;
+import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
+import nuparu.sevendaystomine.init.ModItems;
+import nuparu.sevendaystomine.init.ModRecipeSerializers;
+import nuparu.sevendaystomine.item.EnumMaterial;
+import nuparu.sevendaystomine.tileentity.TileEntityForge;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
-import nuparu.sevendaystomine.tileentity.TileEntityForge;
-import nuparu.sevendaystomine.util.ItemUtils;
-import nuparu.sevendaystomine.util.VanillaManager;
-import nuparu.sevendaystomine.util.VanillaManager.VanillaScrapableItem;
+public class ForgeRecipeMaterial implements IForgeRecipe<TileEntityForge> {
+    private final ResourceLocation id;
+    private final String group;
+    private final ItemStack result;
+    private final ItemStack mold;
+    private final NonNullList<MaterialStack> ingredients;
+    protected final float experience;
+    protected final int cookingTime;
 
-public class ForgeRecipeMaterial implements IForgeRecipe {
+    public ForgeRecipeMaterial(ResourceLocation resourceLocation, String group, ItemStack result, ItemStack mold, NonNullList<MaterialStack> ingredients, float experience, int cookingTime) {
+        this.id = resourceLocation;
+        this.group = group;
+        this.result = result;
+        this.mold = mold;
+        this.ingredients = ingredients;
+        this.experience = experience;
+        this.cookingTime = cookingTime;
+    }
 
-	private ItemStack result;
-	private ItemStack mold;
-	HashMap<EnumMaterial, Integer> ingredients;
+    @Override
+    public boolean matches(TileEntityForge forge, World world) {
+        if(!ItemStack.isSameIgnoreDurability(forge.getMoldSlot(),mold)) return false;
 
-	private int xp = 5;
+        HashMap<EnumMaterial,Integer> invMap = new HashMap<>();
+        int i = 0;
+        for(ItemStack stack : forge.getActiveInventory()){
+            if(stack.isEmpty()) continue;
+            if(!ScrapDataManager.instance.hasEntry(stack)) return false;
+            MaterialStack materialStack = ScrapDataManager.instance.getEntry(stack).toMaterialStack();
+            int weight = materialStack.weight* stack.getCount();
+            if(invMap.containsKey(materialStack.material)){
+                weight+=invMap.get(materialStack.material);
+            }
+            invMap.put(materialStack.material,weight);
+        }
 
-	public ForgeRecipeMaterial(ItemStack result, ItemStack mold, HashMap<EnumMaterial, Integer> ingredients) {
-		this(result, mold, ingredients, 5);
-	}
+        if(invMap.size() != ingredients.size()) return false;
 
-	public ForgeRecipeMaterial(ItemStack result, ItemStack mold, HashMap<EnumMaterial, Integer> ingredients, int xp) {
-		this.result = result;
-		this.mold = mold;
-		this.ingredients = ingredients;
-		this.xp = xp;
-		if (ingredients.size() > 4) {
-			throw new IllegalArgumentException(
-					"Number of ingredients of a forge recipe for ItemStack " + result.getItem().getRegistryName().toString()
-							+ " must be less or equal to 4! Report this to the mod author.");
+        double ratio = -1;
+        for(MaterialStack materialStack : ingredients){
+            EnumMaterial material = materialStack.material;
+            if(!invMap.containsKey(material)) return false;
+            if(invMap.get(material) < materialStack.weight) return false;
+            double r = (double)invMap.get(material)/materialStack.weight;
+            //System.out.println(invMap.get(material) + " "  + materialStack.weight + " " + r);
+            if(ratio == -1){
+                ratio = r;
+                continue;
+            }
+            if(ratio != r) return false;
+        }
 
-		}
-	}
+        return true;
+    }
 
-	@Override
-	public ForgeResult matches(TileEntityForge inv, World worldIn) {
-		HashMap<EnumMaterial, Integer> invMats = getMaterials(inv);
-		if (invMats == null)
-			return new ForgeResult(false, null);
-		List<MaterialStackWrapper> listInv = MaterialStackWrapper.wrapList(invMats, false);
-		List<MaterialStackWrapper> listIng = MaterialStackWrapper.wrapList(ingredients, false);
-		if (listInv.size() != listIng.size())
-			return new ForgeResult(false, null);
+    @Override
+    public int getRatio(TileEntityForge forge){
+        HashMap<EnumMaterial,Integer> invMap = new HashMap<>();
+        for(ItemStack stack : forge.getActiveInventory()){
+            if(stack.isEmpty()) continue;
+            if(!ScrapDataManager.instance.hasEntry(stack)) return -1;
+            MaterialStack materialStack = ScrapDataManager.instance.getEntry(stack).toMaterialStack();
+            int weight = materialStack.weight* stack.getCount();
+            if(invMap.containsKey(materialStack.material)){
+                weight+=invMap.get(materialStack.material);
+            }
+            invMap.put(materialStack.material,weight);
+        }
 
-		Iterator<MaterialStackWrapper> itInv = listInv.iterator();
-		Iterator<MaterialStackWrapper> itIng = listIng.iterator();
+        double ratio = -1;
+        for(MaterialStack materialStack : ingredients){
+            EnumMaterial material = materialStack.material;
+            if(!invMap.containsKey(material)) return -1;
+            if(invMap.get(material) < materialStack.weight) return -1;
+            double r = (double)invMap.get(material)/materialStack.weight;
+            if(ratio == -1){
+                ratio = r;
+                continue;
+            }
+            if(ratio != r) return -1;
+        }
 
-		HashMap<EnumMaterial, Integer> items = new HashMap<EnumMaterial, Integer>();
+        if(ratio % 1 == 0){
+            ratio = 1;
+        }
 
-		double lastRatio = -1;
-		while (itInv.hasNext()) {
-			MaterialStackWrapper invWrapper = itInv.next();
-			while (itIng.hasNext()) {
-				MaterialStackWrapper ingWrapper = itIng.next();
-				if (invWrapper.equals(ingWrapper)) {
-					if (ingWrapper.getWeight() > invWrapper.getWeight()) {
-						return new ForgeResult(false, null);
-					} /*
-						 * weightsInv.put(invWrapper.mat,invWrapper.weight);
-						 * weightsIng.put(ingWrapper.mat,ingWrapper.weight);
-						 */
+        return (int) Math.floor(ratio);
+    }
 
-					double ratio = (double) invWrapper.weight / (double) ingWrapper.weight;
-					if (lastRatio != -1 && lastRatio != ratio) {
-						//
-						return new ForgeResult(false, null);
-					}
-					items.put(invWrapper.mat, (int) Math.ceil(ingWrapper.weight * ratio));
-					lastRatio = ratio;
-					itIng.remove();
-					itInv.remove();
-					break;
-				}
-			}
-		}
-		if (listInv.size() != 0 || listIng.size() != 0) {
-			return new ForgeResult(false, null);
-		}
-		ForgeResult result = new ForgeResult(true, items, (int) Math.ceil(lastRatio));
-		result.simplify(this);
-		return result;
-	}
+    @Override
+    public ItemStack assemble(TileEntityForge forge) {
 
-	public HashMap<EnumMaterial, Integer> getMaterials(TileEntityForge inv) {
-		HashMap<EnumMaterial, Integer> map = new HashMap<EnumMaterial, Integer>();
-		List<ItemStack> items = inv.getActiveInventory();
-		for (ItemStack itemStack : items) {
-			if (itemStack == null | itemStack.isEmpty())
-				continue;
-			Item item = itemStack.getItem();
-			if (item instanceof IScrapable) {
-				IScrapable scrapable = (IScrapable) item;
-				EnumMaterial mat = scrapable.getItemMaterial();
-				int weight = scrapable.getWeight() * itemStack.getCount();
-				for (Map.Entry<EnumMaterial, Integer> entry : map.entrySet()) {
-					EnumMaterial enumMat = entry.getKey();
-					if (enumMat == mat) {
-						weight += entry.getValue();
-					}
-				}
-				map.put(mat, weight);
-			} else if (item instanceof BlockItem && ((BlockItem) item).getBlock() != null
-					&& ((BlockItem) item).getBlock() instanceof IScrapable) {
+        int ratio = this.getRatio(forge);
+        if(ratio <= 0) return ItemStack.EMPTY;
+        ItemStack stack = this.result.copy();
+        stack.setCount(stack.getCount()*ratio);
+        return stack;
+    }
 
-				IScrapable scrapable = (IScrapable) ((BlockItem) item).getBlock();
-				EnumMaterial mat = scrapable.getItemMaterial();
-				int weight = scrapable.getWeight() * itemStack.getCount();
-				for (Map.Entry<EnumMaterial, Integer> entry : map.entrySet()) {
-					EnumMaterial enumMat = entry.getKey();
-					if (enumMat == mat) {
-						weight += entry.getValue();
-					}
-				}
-				map.put(mat, weight);
-			} else if (VanillaManager.getVanillaScrapable(item) != null) {
-				VanillaManager.VanillaScrapableItem scrapable = VanillaManager.getVanillaScrapable(item);
-				EnumMaterial mat = scrapable.getMaterial();
-				int weight = scrapable.getWeight() * itemStack.getCount();
-				for (Map.Entry<EnumMaterial, Integer> entry : map.entrySet()) {
-					EnumMaterial enumMat = entry.getKey();
-					if (enumMat == mat) {
-						weight += entry.getValue();
-					}
-				}
-				map.put(mat, weight);
-			} else {
-				return null;
-			}
-		}
-		return map;
-	}
+    @Override
+    public boolean consume(TileEntityForge forge){
+        ArrayList<ItemStack> rest = new ArrayList<ItemStack>();
+        int ratio = this.getRatio(forge);
+        if(ratio <= 0) return true;
+        for(MaterialStack materialStack : ingredients){
+            EnumMaterial material = materialStack.material;
+            int weightToConsume = materialStack.weight*ratio;
+            ItemStack stack = consumeWeight(forge,material,weightToConsume);
+            if(!stack.isEmpty()) {
+                rest.add(stack);
+            }
+        }
 
-	@Override
-	public ItemStack getResult() {
-		return result.copy();
-	}
+        //Puts the leftovers to the inventory and drops them if there is no room left for them
+        for(ItemStack stack : rest){
+            for(int i = TileEntityForge.EnumSlots.INPUT_SLOT.ordinal();i < TileEntityForge.EnumSlots.INPUT_SLOT4.ordinal(); i++){
+                ItemStack slotStack = forge.getInventory().getStackInSlot(i);
+                if(slotStack.isEmpty()){
+                    int countToAdd = Math.min(Math.min(stack.getCount(),forge.getMaxStackSize()),stack.getMaxStackSize());
+                    ItemStack stackToAdd = stack.copy();
+                    stackToAdd.setCount(countToAdd);
+                    forge.getInventory().setStackInSlot(i,stackToAdd);
+                    stack.shrink(countToAdd);
+                }
+                else if(ItemStack.isSame(stack,slotStack) && slotStack.getCount() < slotStack.getMaxStackSize()){
+                    int delta = Math.min(slotStack.getMaxStackSize() - slotStack.getCount(), stack.getCount());
+                    slotStack.grow(delta);
+                    stack.shrink(delta);
+                }
 
-	@Override
-	public ItemStack getMold() {
-		return mold;
-	}
+                if(stack.isEmpty()) break;
+            }
+            if (!stack.isEmpty()) {
+                InventoryHelper.dropItemStack(forge.getLevel(), forge.getBlockPos().getX() + 0.5, forge.getBlockPos().getY() + 1, forge.getBlockPos().getZ() + 0.5, stack);
+            }
+        }
 
-	@Override
-	public ItemStack getOutput(TileEntityForge tileEntity) {
-		ItemStack result = getResult();
-		result.setCount(result.getCount() * getOutputMultiplier(tileEntity));
-		return result;
-	}
+        return true;
+    }
 
-	@Override
-	public List<ItemStack> getIngredients() {
-		List<ItemStack> ingredients = new ArrayList<ItemStack>();
 
-		List<MaterialStackWrapper> listIng = MaterialStackWrapper.wrapList(this.ingredients, false);
-		Iterator<MaterialStackWrapper> itIng = listIng.iterator();
+    public ItemStack consumeWeight(TileEntityForge forge, EnumMaterial material, int weightToConsume){
+        if(weightToConsume == 0) return ItemStack.EMPTY;
+        List<ItemStack> inv = forge.getActiveInventory();
+        for(int i = 0; i < inv.size(); i++){
+            ItemStack stack = inv.get(i);
+            if(!ScrapDataManager.instance.hasEntry(stack)) continue;
+            MaterialStack materialStack = ScrapDataManager.instance.getEntry(stack).toMaterialStack();
+            if(materialStack.material!=material) continue;
+            int weight = materialStack.weight * stack.getCount();
 
-		HashMap<Item, Integer> weights = new HashMap<Item, Integer>();
-		float biggestRatio = -1;
-		while (itIng.hasNext()) {
-			MaterialStackWrapper ingWrapper = itIng.next();
-			EnumMaterial mat = ingWrapper.mat;
-			int weight = ingWrapper.weight;
-			Item scrap = ItemUtils.INSTANCE.getSmallestBit(mat);
+            int currentConsume = Math.min(weight,weightToConsume);
+            int itemCount = (int) Math.ceil((double)currentConsume/materialStack.weight);
+            int consumedWeight = itemCount*materialStack.weight;
+            System.out.println(material + " " + consumedWeight + " " + currentConsume + " " + weight + " " + weightToConsume);
 
-			if (scrap == null)
-				continue;
-			int scrapWeight = 1;
-			if (scrap instanceof IScrapable) {
-				scrapWeight = ((IScrapable) scrap).getWeight();
-			} else {
-				VanillaScrapableItem vsi = VanillaManager.getVanillaScrapable(scrap);
-				if (vsi != null) {
-					scrapWeight = vsi.getWeight();
-				}
-			}
-			float ratio = (float) weight / (float) scrapWeight;
-			weights.put(scrap, weight);
-			ingredients.add(new ItemStack(scrap, (int) weight));
-		}
+            weightToConsume-=consumedWeight;
 
-		return ingredients;
-	}
+            stack.shrink(itemCount);
+            if(stack.isEmpty()){
+                forge.getInventory().setStackInSlot(i,ItemStack.EMPTY);
+                inv.set(i,ItemStack.EMPTY);
+            }
 
-	@Override
-	public int intGetXP(PlayerEntity player) {
-		return xp;
-	}
+            if(weightToConsume <= 0){
+                break;
+            }
+        }
 
-	public int getOutputMultiplier(TileEntityForge tileEntity) {
-		if (tileEntity == null || tileEntity.getCurrentResult() == null)
-			return 1;
-		return tileEntity.getCurrentResult().outputAmount;
-	}
+        //Gets leftover stack
+        if(weightToConsume < 0){
+            ScrapDataManager.ScrapEntry entry = ScrapDataManager.instance.getSmallestItem(material);
+            ItemStack rest = new ItemStack(entry.item, (int) Math.ceil(-(double)weightToConsume/entry.weight));
+            return rest;
+        }
 
-	@Override
-	public List<ItemStack> consumeInput(TileEntityForge tileEntity) {
-		List<ItemStack> leftovers = new ArrayList<ItemStack>();
-		if (tileEntity.getCurrentResult() == null || tileEntity.getCurrentResult().usedItems == null)
-			return leftovers;
+        return ItemStack.EMPTY;
+    }
 
-		List<ItemStack> inventory = tileEntity.getActiveInventory();
 
-		Iterator<Entry<EnumMaterial, Integer>> it = tileEntity.getCurrentResult().usedItems.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<EnumMaterial, Integer> pair = it.next();
-			EnumMaterial mat = pair.getKey();
-			int weight = pair.getValue();
+    @Override
+    public boolean canCraftInDimensions(int i, int i1) {
+        return i * i1 >= this.ingredients.size();
+    }
 
-			for (ItemStack stack : inventory) {
-				if (weight <= 0)
-					break;
+    @Override
+    public ResourceLocation getId() {
+        return this.id;
+    }
 
-				if (stack.isEmpty())
-					continue;
-				Item item = stack.getItem();
+    @Override
+    public String getGroup() {
+        return this.group;
+    }
 
-				IScrapable scrapable = null;
-				if (item instanceof IScrapable) {
-					scrapable = (IScrapable) item;
-				} else if (item instanceof BlockItem && ((BlockItem) item).getBlock() != null
-						&& ((BlockItem) item).getBlock() instanceof IScrapable) {
-					scrapable = (IScrapable) ((BlockItem) item).getBlock();
-				}
+    @Override
+    public ItemStack getResultItem() {
+        return this.result.copy();
+    }
 
-				if (scrapable != null) {
-					if (scrapable.getItemMaterial() != mat) continue; 
-					int count = Math.min(stack.getCount(),(int) Math.ceil((double)weight/scrapable.getWeight()));
+    public ItemStack getMoldItem() {
+        return this.mold.copy();
+    }
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return NonNullList.create();
+    }
 
-						stack.shrink(count);
-						weight-=count*scrapable.getWeight();
-					
-				} else if (VanillaManager.getVanillaScrapable(item) != null) {
-					VanillaManager.VanillaScrapableItem vanllaScrapable = VanillaManager.getVanillaScrapable(item);
-					if(vanllaScrapable.getMaterial() != mat) continue;
-					int count = Math.min(stack.getCount(),(int) Math.ceil((double)weight/vanllaScrapable.getWeight()));
+    public NonNullList<MaterialStack> getMaterialIngredients() {
+        return this.ingredients;
+    }
 
-					stack.shrink(count);
-					weight-=count*vanllaScrapable.getWeight();
-				}
+    @Override
+    public IRecipeSerializer<?> getSerializer() {
+        return ModRecipeSerializers.FORGE_MATERIAL.get();
+    }
 
-			}
-			if(weight < 0) {
-				Item scrap = ItemUtils.INSTANCE.getScrapResult(mat);
-				if(scrap != null) {
-					leftovers.add(new ItemStack(scrap,-weight));
-				}
-			}
+    @Override
+    public IRecipeType<?> getType() {
+        return ModRecipeSerializers.FORGE_RECIPE_TYPE;
+    }
 
-		}
+    public float getExperience() {
+        return this.experience;
+    }
 
-		return leftovers;
-	}
+    public int getCookingTime() {
+        return this.cookingTime;
+    }
 
+    public static class Factory extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ForgeRecipeMaterial> {
+        int defaultCookingTime = 600;
+
+        @Override
+        public ForgeRecipeMaterial fromJson(ResourceLocation recipeId, JsonObject json) {
+            String s = JSONUtils.getAsString(json, "group", "");
+            NonNullList<MaterialStack> nonnulllist = materialsFromJson(JSONUtils.getAsJsonArray(json, "ingredients"),recipeId);
+            if (nonnulllist.isEmpty()) {
+                throw new JsonParseException("No ingredients for shapeless recipe");
+            } else if (nonnulllist.size() > 2 * 2) {
+                throw new JsonParseException("Too many ingredients for shapeless recipe the max is " + 2 * 2);
+            } else {
+                ItemStack itemstack = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
+                ItemStack mold = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "mold"));
+                float experience = JSONUtils.getAsFloat(json, "experience", 0.0F);
+                int cookingTime = JSONUtils.getAsInt(json, "cookingtime", this.defaultCookingTime);
+                return new ForgeRecipeMaterial(recipeId, s, itemstack ,mold, nonnulllist,experience,cookingTime);
+            }
+        }
+
+        private static NonNullList<Ingredient> itemsFromJson(JsonArray p_199568_0_) {
+            NonNullList<Ingredient> nonnulllist = NonNullList.create();
+
+            for(int i = 0; i < p_199568_0_.size(); ++i) {
+                Ingredient ingredient = Ingredient.fromJson(p_199568_0_.get(i));
+                if (!ingredient.isEmpty()) {
+                    nonnulllist.add(ingredient);
+                }
+            }
+
+            return nonnulllist;
+        }
+
+        private static NonNullList<MaterialStack> materialsFromJson(JsonArray p_199568_0_, ResourceLocation recipeId) {
+            NonNullList<MaterialStack> nonnulllist = NonNullList.create();
+
+            for(int i = 0; i < p_199568_0_.size(); ++i) {
+                JsonElement element = p_199568_0_.get(i);
+                JsonObject object = element.getAsJsonObject();
+                if(!object.has("material")){
+                    throw new JsonParseException("No materialstack material for forge material recipe " + recipeId.toString());
+                }
+                EnumMaterial material = EnumMaterial.byName(object.get("material").getAsString());
+                int weight = 1;
+                if(object.has("weight")){
+                    weight = object.get("weight").getAsInt();
+                }
+                nonnulllist.add(new MaterialStack(material,weight));
+            }
+
+            return nonnulllist;
+        }
+
+        @Nullable
+        @Override
+        public ForgeRecipeMaterial fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+            String s = buffer.readUtf(32767);
+            int i = buffer.readVarInt();
+            NonNullList<MaterialStack> nonnulllist = NonNullList.withSize(i, MaterialStack.EMPTY);
+
+            for(int j = 0; j < nonnulllist.size(); ++j) {
+                nonnulllist.set(j, MaterialStack.fromNetwork(buffer));
+            }
+
+            ItemStack itemstack = buffer.readItem();
+            ItemStack mold = buffer.readItem();
+            float experience = buffer.readFloat();
+            int cookingTime = buffer.readVarInt();
+            return new ForgeRecipeMaterial(recipeId, s, itemstack, mold, nonnulllist,experience,cookingTime);
+        }
+
+        @Override
+        public void toNetwork(PacketBuffer buffer, ForgeRecipeMaterial recipe) {
+            buffer.writeUtf(recipe.group);
+            buffer.writeVarInt(recipe.ingredients.size());
+            Iterator var3 = recipe.ingredients.iterator();
+
+            while(var3.hasNext()) {
+                MaterialStack ingredient = (MaterialStack)var3.next();
+                ingredient.toNetwork(buffer);
+            }
+
+            buffer.writeItem(recipe.result);
+            buffer.writeItem(recipe.mold);
+            buffer.writeFloat(recipe.experience);
+            buffer.writeVarInt(recipe.cookingTime);
+        }
+    }
 }

@@ -23,14 +23,26 @@ public class ModFluids {
 	public static final RegistryObject<Fluid> GASOLINE = FLUIDS.register("gasoline",
 			() -> new ForgeFlowingFluid.Source(gasoline()));
 	
-	public static final RegistryObject<Fluid> GASOLINE_FLOWING = FLUIDS.register("gasoline_flowing",
+	public static final RegistryObject<Fluid> GASOLINE_FLOWING = FLUIDS.register("flowing_gasoline",
 			() -> new ForgeFlowingFluid.Flowing(gasoline()));
 
+	public static final RegistryObject<Fluid> MERCURY = FLUIDS.register("mercury",
+			() -> new ForgeFlowingFluid.Source(mercury()));
+
+	public static final RegistryObject<Fluid> MERCURY_FLOWING = FLUIDS.register("flowing_mercury",
+			() -> new ForgeFlowingFluid.Flowing(mercury()));
 
 	private static ForgeFlowingFluid.Properties gasoline() {
 		return new ForgeFlowingFluid.Properties(GASOLINE, GASOLINE_FLOWING,
 				FluidAttributes.builder(new ResourceLocation(SevenDaysToMine.MODID, "blocks/gasoline_still"),
-						new ResourceLocation(SevenDaysToMine.MODID, "blocks/gasoline_flow")).color(0x3F1080FF))
-								.block(() -> (FlowingFluidBlock)(ModBlocks.GASOLINE.get()));
+						new ResourceLocation(SevenDaysToMine.MODID, "blocks/gasoline_flow")))
+								.block(() -> (FlowingFluidBlock)(ModBlocks.GASOLINE.get())).bucket(() -> ModItems.GASOLINE_BUCKET.get());
+	}
+
+	private static ForgeFlowingFluid.Properties mercury() {
+		return new ForgeFlowingFluid.Properties(MERCURY, MERCURY_FLOWING,
+				FluidAttributes.builder(new ResourceLocation(SevenDaysToMine.MODID, "blocks/mercury_still"),
+						new ResourceLocation(SevenDaysToMine.MODID, "blocks/mercury_flow")))
+				.block(() -> (FlowingFluidBlock)(ModBlocks.MERCURY.get())).bucket(() -> ModItems.MERCURY_BUCKET.get());
 	}
 }

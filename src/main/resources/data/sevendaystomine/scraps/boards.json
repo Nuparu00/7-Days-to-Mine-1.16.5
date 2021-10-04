@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:boards",
+  "material" : "wood",
+  "weight" : 4,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

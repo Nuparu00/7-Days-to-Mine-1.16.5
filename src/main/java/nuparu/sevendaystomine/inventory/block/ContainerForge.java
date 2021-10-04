@@ -7,6 +7,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.minecraft.util.math.BlockPos;
@@ -15,11 +16,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import nuparu.sevendaystomine.crafting.forge.ForgeRecipeManager;
 import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.init.ModContainers;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
-import nuparu.sevendaystomine.item.ItemScrap;
 import nuparu.sevendaystomine.tileentity.ItemZoneContents;
 import nuparu.sevendaystomine.tileentity.TileEntityForge;
 import org.apache.logging.log4j.LogManager;
@@ -46,14 +45,15 @@ public class ContainerForge extends Container {
         addDataSlots(intArray); // tell vanilla to keep the IIntArray synchronised between client and
         // server Containers
         if(forge != null) {
-            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT.ordinal(), 78, 11));
-            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT2.ordinal(), 97, 11));
-            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT3.ordinal(), 78, 29));
-            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT4.ordinal(), 97, 29));
-
-            addSlot(new SlotOutput(forge.getInventory(), TileEntityForge.EnumSlots.OUTPUT_SLOT.ordinal(), 148, 42));
-            addSlot(new SlotFuel(forge.getInventory(), TileEntityForge.EnumSlots.FUEL_SLOT.ordinal(), 88, 63));
             addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.MOLD_SLOT.ordinal(), 45, 42));
+
+            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT.ordinal(), 78, 11));
+            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT2.ordinal(), 96, 11));
+            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT3.ordinal(), 78, 29));
+            addSlot(new SlotItemHandler(forge.getInventory(), TileEntityForge.EnumSlots.INPUT_SLOT4.ordinal(), 96, 29));
+
+            addSlot(new SlotOutput(invPlayer.player, forge, forge.getInventory(), TileEntityForge.EnumSlots.OUTPUT_SLOT.ordinal(), 148, 42));
+            addSlot(new SlotFuel(forge.getInventory(), TileEntityForge.EnumSlots.FUEL_SLOT.ordinal(), 88, 63));
 
             for (int k = 0; k < 9; ++k) {
                 addSlot(new Slot(invPlayer, k, 8 + k * 18, 142));
@@ -104,11 +104,11 @@ public class ContainerForge extends Container {
                     return ItemStack.EMPTY;
                 }
             } else if (isMold(sourceItemStack.getItem())) {
-                if (!this.moveItemStackTo(sourceItemStack, 6, 7, false)) {
+                if (!this.moveItemStackTo(sourceItemStack, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
             } else if (isIngredient(sourceItemStack.getItem())) {
-                if (!this.moveItemStackTo(sourceItemStack, 0, 4, false)) {
+                if (!this.moveItemStackTo(sourceItemStack, 1, 5, false)) {
                     return ItemStack.EMPTY;
                 }
             } else if (index >= 7 && index < 34) {
@@ -162,26 +162,12 @@ public class ContainerForge extends Container {
     }
 
     public boolean isMold(Item item) {
-        for (IForgeRecipe recipe : ForgeRecipeManager.getInstance().getRecipes()) {
-            if (recipe.getMold() != null && !recipe.getMold().isEmpty() && recipe.getMold().getItem() == item) {
-                return true;
-            }
-        }
+
         return false;
     }
 
     public boolean isIngredient(Item item) {
-        if (item instanceof ItemScrap)
-            return true;
-        for (IForgeRecipe recipe : ForgeRecipeManager.getInstance().getRecipes()) {
-            if (recipe.getIngredients() != null) {
-                for (ItemStack stack : recipe.getIngredients()) {
-                    if (!stack.isEmpty() && stack.getItem() == item) {
-                        return true;
-                    }
-                }
-            }
-        }
+
         return false;
     }
 
@@ -203,15 +189,49 @@ public class ContainerForge extends Container {
 
     // SlotOutput is a slot that will not accept any item
     public class SlotOutput extends SlotItemHandler {
-        public SlotOutput(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
+        private final PlayerEntity player;
+        private final TileEntityForge forge;
+        private int removeCount;
+
+        public SlotOutput(PlayerEntity player, TileEntityForge forge, IItemHandler itemHandler, int index, int xPosition, int yPosition) {
             super(itemHandler, index, xPosition, yPosition);
+            this.player = player;
+            this.forge = forge;
         }
 
-        // if this function returns false, the player won't be able to insert the given
-        // item into this slot
         @Override
         public boolean mayPlace(ItemStack stack) {
             return false;
+        }
+
+        public ItemStack remove(int p_75209_1_) {
+            if (this.hasItem()) {
+                this.removeCount += Math.min(p_75209_1_, this.getItem().getCount());
+            }
+
+            return super.remove(p_75209_1_);
+        }
+
+
+        public ItemStack onTake(PlayerEntity p_190901_1_, ItemStack p_190901_2_) {
+            this.checkTakeAchievements(p_190901_2_);
+            super.onTake(p_190901_1_, p_190901_2_);
+            return p_190901_2_;
+        }
+
+        protected void onQuickCraft(ItemStack p_75210_1_, int p_75210_2_) {
+            this.removeCount += p_75210_2_;
+            this.checkTakeAchievements(p_75210_1_);
+        }
+
+        protected void checkTakeAchievements(ItemStack p_75208_1_) {
+            p_75208_1_.onCraftedBy(this.player.level, this.player, this.removeCount);
+            if (!this.player.level.isClientSide) {
+                forge.awardUsedRecipesAndPopExperience(this.player);
+            }
+
+            this.removeCount = 0;
+            net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerSmeltedEvent(this.player, p_75208_1_);
         }
     }
 

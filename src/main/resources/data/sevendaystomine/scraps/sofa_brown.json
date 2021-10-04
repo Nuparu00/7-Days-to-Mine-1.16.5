@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:sofa_brown",
+  "material" : "string",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

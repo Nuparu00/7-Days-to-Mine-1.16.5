@@ -196,4 +196,13 @@ public class ModTileEntities {
 
 	public static final RegistryObject<TileEntityType<TileEntityPrinter>> PRINTER = TILE_ENTITIES.register("printer",
 			() -> TileEntityType.Builder.of(TileEntityPrinter::new, ModBlocks.PRINTER.get()).build(null));
+
+	public static final RegistryObject<TileEntityType<TileEntityGrill>> COOKING_GRILL = TILE_ENTITIES.register("cooking_grill",
+			() -> TileEntityType.Builder.of(TileEntityGrill::new, ModBlocks.COOKING_GRILL.get()).build(null));
+
+	public static final RegistryObject<TileEntityType<TileEntityCookingPot>> COOKING_POT = TILE_ENTITIES.register("cooking_pot",
+			() -> TileEntityType.Builder.of(TileEntityCookingPot::new, ModBlocks.COOKING_POT.get()).build(null));
+
+	public static final RegistryObject<TileEntityType<TileEntityBeaker>> BEAKER = TILE_ENTITIES.register("beaker",
+			() -> TileEntityType.Builder.of(TileEntityBeaker::new, ModBlocks.COOKING_GRILL_BEAKER.get()).build(null));
 }

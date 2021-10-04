@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:brass_ingot",
+  "material" : "brass",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

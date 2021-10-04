@@ -77,7 +77,7 @@ public class BlockBigSignSlave extends BlockHorizontalBase {
     }
 
     @Override
-    public BlockItem createBlockitem() {
+    public BlockItem createBlockItem() {
         return null;
     }
 

@@ -1,0 +1,13 @@
+{
+   "type":"sevendaystomine:locked_shapeless",
+    "ingredients": [
+        {
+                        "tag": "forge:ingots/copper"
+        }
+    ],
+   "result":{
+      "item":"sevendaystomine:wire",
+      "count":4
+   },
+  "recipe": "electricity"
+}

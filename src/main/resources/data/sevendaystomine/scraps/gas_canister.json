@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:gas_canister",
+  "material" : "gasoline",
+  "weight" : 1,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

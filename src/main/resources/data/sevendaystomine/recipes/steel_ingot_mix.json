@@ -1,0 +1,21 @@
+{
+   "type":"sevendaystomine:forge_material",
+   "ingredients":[
+      {
+         "material":"iron",
+         "weight" : 4
+      },
+      {
+         "material":"carbon",
+         "weight" : 2
+      }
+   ],
+   "result":{
+      "item":"sevendaystomine:steel_ingot"
+   },
+   "mold":{
+      "item":"sevendaystomine:ingot_mold"
+   },
+   "experience" : 5,
+   "cookingtime" : 800
+}

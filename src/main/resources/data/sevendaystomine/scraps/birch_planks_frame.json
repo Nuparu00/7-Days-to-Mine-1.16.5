@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:birch_planks_frame",
+  "material" : "wood",
+  "weight" : 8,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

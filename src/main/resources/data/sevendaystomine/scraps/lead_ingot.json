@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:lead_ingot",
+  "material" : "lead",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

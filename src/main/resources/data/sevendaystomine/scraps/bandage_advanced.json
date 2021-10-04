@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:bandage_advanced",
+  "material" : "cloth",
+  "weight" : 1,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

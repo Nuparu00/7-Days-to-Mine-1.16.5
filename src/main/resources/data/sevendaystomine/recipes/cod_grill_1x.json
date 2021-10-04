@@ -1,0 +1,12 @@
+{
+   "type":"sevendaystomine:grill_shapeless",
+   "ingredients":[
+      {
+         "item":"minecraft:cod"
+      }
+   ],
+   "result":{
+      "item":"minecraft:cooked_cod",
+      "count":1
+   }
+}

@@ -3,13 +3,13 @@ package nuparu.sevendaystomine.item;
 import net.minecraft.item.Item;
 import nuparu.sevendaystomine.init.ModItemGroups;
 
-public class ItemGunPart extends ItemQualityScrapable {
+public class ItemGunPart extends ItemQuality {
 
-	public ItemGunPart(EnumMaterial mat) {
-		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_FORGING), mat);
+	public ItemGunPart(Properties properties) {
+		super(properties);
 	}
 
-	public ItemGunPart(EnumMaterial mat, int weight) {
-		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_FORGING),mat, weight);
+	public ItemGunPart(){
+		this(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_FORGING));
 	}
 }

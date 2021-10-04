@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:copper_ingot",
+  "material" : "copper",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

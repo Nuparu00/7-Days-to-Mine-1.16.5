@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:tin_ore",
+  "material" : "tin",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

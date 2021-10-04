@@ -14,6 +14,7 @@ import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.block.ContainerWorkbench;
+import nuparu.sevendaystomine.inventory.block.ContainerWorkbenchUncrafting;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
 public class TileEntityWorkbench extends TileEntityItemHandler<ItemHandlerNameable> {
@@ -97,7 +98,8 @@ public class TileEntityWorkbench extends TileEntityItemHandler<ItemHandlerNameab
 
 	@Override
 	public Container createMenu(int windowID, PlayerInventory playerInventory, PlayerEntity p_createMenu_3_) {
-		return ContainerWorkbench.createContainerServerSide(windowID, playerInventory, this,worldPosition);
+
+		return playerInventory.player.isCrouching() ? ContainerWorkbenchUncrafting.createContainerServerSide(windowID, playerInventory, this,worldPosition) : ContainerWorkbench.createContainerServerSide(windowID, playerInventory, this,worldPosition);
 	}
 
 }

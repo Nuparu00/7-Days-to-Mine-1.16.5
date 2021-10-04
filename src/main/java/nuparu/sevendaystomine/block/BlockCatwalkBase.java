@@ -25,16 +25,13 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockCatwalkBase extends BlockBase implements IScrapable, IWaterLoggable {
+public class BlockCatwalkBase extends BlockBase implements  IWaterLoggable {
 	public static final EnumProperty<CatwalkType> TYPE = EnumProperty.create("type", CatwalkType.class);
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	protected static final VoxelShape BOTTOM_AABB = Block.box(0, 0, 0, 16, 0.0625*16, 16);
 	protected static final VoxelShape TOP_AABB = Block.box(0, 0.9375*16, 0, 16, 16, 16);
-	
-	private EnumMaterial enumMat = EnumMaterial.IRON;
-	private int weight = 2;
+
 
 	public BlockCatwalkBase(AbstractBlock.Properties properties) {
 		super(properties);
@@ -132,31 +129,6 @@ public class BlockCatwalkBase extends BlockBase implements IScrapable, IWaterLog
 		default:
 			return false;
 		}
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		enumMat = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return enumMat;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	public enum CatwalkType implements IStringSerializable {

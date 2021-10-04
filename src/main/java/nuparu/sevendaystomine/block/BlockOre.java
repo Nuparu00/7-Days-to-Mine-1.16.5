@@ -8,41 +8,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.MathHelper;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 
-public class BlockOre extends OreBlock implements IBlockBase, IScrapable {
-
-	private EnumMaterial enumMat = null;
-	private int weight = 12;
+public class BlockOre extends OreBlock implements IBlockBase {
 	
-	public BlockOre(Properties properties, EnumMaterial mat) {
+	public BlockOre(Properties properties) {
 		super(properties);
-		this.enumMat = mat;
-	}
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		enumMat = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return enumMat;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-	this.weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 	
 	@Override
@@ -63,7 +33,7 @@ public class BlockOre extends OreBlock implements IBlockBase, IScrapable {
 	   }
 	
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		 final Item.Properties properties = new Item.Properties().tab(getItemGroup());
 		 return new BlockItem(this, properties);
 	}

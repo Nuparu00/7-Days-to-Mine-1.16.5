@@ -40,6 +40,18 @@ public class BookDataManager extends JsonReloadListener {
 			bookz.put(key, BookDataParser.INSTANCE.getBookDataFromResource(entry.getValue()));
 		}
 		books = bookz;
+		reloadRecipes();
+	}
+
+	public void reloadRecipes(){
+		for (Map.Entry<ResourceLocation, BookData> entry : BookDataManager.instance.getBooks().entrySet()) {
+			BookData data = entry.getValue();
+			for (BookData.Page page : data.getPages()) {
+				for (BookData.CraftingMatrix matrix : page.crafting) {
+					matrix.loadRecipe();
+				}
+			}
+		}
 	}
 	
 	public BookData get(ResourceLocation res) {

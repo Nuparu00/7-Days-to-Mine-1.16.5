@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:tin_ingot",
+  "material" : "tin",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

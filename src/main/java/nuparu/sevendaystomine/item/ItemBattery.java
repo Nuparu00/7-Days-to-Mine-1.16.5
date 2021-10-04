@@ -22,12 +22,12 @@ import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.electricity.IBattery;
 import nuparu.sevendaystomine.init.ModItemGroups;
 
-public class ItemBattery extends ItemQualityScrapable implements IBattery{
+public class ItemBattery extends ItemQuality implements IBattery{
 
 	public static final int BASE_VOLTAGE = 2500;
 
-	public ItemBattery(EnumMaterial mat, int weight) {
-		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY),mat, weight);
+	public ItemBattery() {
+		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY));
 	}
 
 	@Override

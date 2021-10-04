@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:shower_head",
+  "material" : "iron",
+  "weight" : 8,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

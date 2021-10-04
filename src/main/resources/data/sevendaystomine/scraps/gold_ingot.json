@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:gold_ingot",
+  "material" : "gold",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

@@ -56,7 +56,7 @@ public class BlockTorchEnhanced extends TorchBlock implements IBlockBase {
 	}
 	
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		 return null;
 	}
 

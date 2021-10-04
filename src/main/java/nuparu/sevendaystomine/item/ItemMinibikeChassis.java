@@ -1,9 +1,12 @@
 package nuparu.sevendaystomine.item;
 
-public class ItemMinibikeChassis extends ItemQualityScrapable {
+import net.minecraft.item.Item;
+import nuparu.sevendaystomine.init.ModItemGroups;
+
+public class ItemMinibikeChassis extends ItemQuality {
 
 	public ItemMinibikeChassis() {
-		super(EnumMaterial.IRON, 4);
+		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_ELECTRICITY));
 	}
 /*
 	@Override

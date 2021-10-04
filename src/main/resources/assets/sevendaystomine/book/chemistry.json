@@ -97,7 +97,7 @@
           "z": 0,
           "width": 96,
           "height": 96,
-          "res": "minecraft:textures/items/gunpowder.png"
+          "res": "minecraft:textures/item/gunpowder.png"
         }
       ]
     },
@@ -229,13 +229,13 @@
           "x": 13,
           "y": 92,
           "z": 0,
-          "item": "sevendaystomine:bottledwater"
+          "item": "sevendaystomine:bottled_water"
         },
 		{
           "x": 85,
           "y": 83,
           "z": 0,
-          "item": "sevendaystomine:bottledbeer"
+          "item": "sevendaystomine:bottled_beer"
         },
         {
           "x": 13,
@@ -253,19 +253,19 @@
           "x": 13,
           "y": 132,
           "z": 0,
-          "item": "sevendaystomine:bottledwater"
+          "item": "sevendaystomine:bottled_water"
         },
 		{
           "x": 85,
           "y": 123,
           "z": 0,
-          "item": "sevendaystomine:bottledbeer"
+          "item": "sevendaystomine:bottled_beer"
         },
         {
           "x": 139,
           "y": 34,
           "z": 0,
-          "item": "sevendaystomine:bottledwater"
+          "item": "sevendaystomine:bottled_water"
         },
 		{
           "x": 157,

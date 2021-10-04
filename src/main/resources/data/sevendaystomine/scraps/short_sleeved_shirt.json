@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:short_sleeved_shirt",
+  "material" : "cloth",
+  "weight" : 3,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

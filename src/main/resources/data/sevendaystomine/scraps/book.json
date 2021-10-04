@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:book",
+  "material" : "paper",
+  "weight" : 16,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

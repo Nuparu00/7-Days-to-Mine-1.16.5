@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:bird_nest",
+  "material" : "plant_fiber",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

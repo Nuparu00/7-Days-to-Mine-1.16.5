@@ -57,11 +57,11 @@ import nuparu.sevendaystomine.block.IUpgradeable;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.IVoltage;
 import nuparu.sevendaystomine.init.*;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.BreakSyncTrackingMessage;
 import nuparu.sevendaystomine.util.DamageSources;
@@ -150,24 +150,10 @@ public class WorldEventHandler {
 		} else if (item == Items.BOOK) {
 			event.setBurnTime(80);
 		}
-		if (item instanceof IScrapable) {
-			IScrapable scrapable = (IScrapable) item;
-			if (scrapable.getItemMaterial() == EnumMaterial.WOOD) {
-				event.setBurnTime(200 * scrapable.getWeight());
-			}
-		} else if (item instanceof BlockItem) {
-			BlockItem itemBlock = (BlockItem) item;
-			Block block = itemBlock.getBlock();
-			if (block instanceof IScrapable) {
-				IScrapable scrapable = (IScrapable) block;
-				if (scrapable.getItemMaterial() == EnumMaterial.WOOD) {
-					event.setBurnTime(200 * scrapable.getWeight());
-				}
-			}
-		} else if (VanillaManager.getVanillaScrapable(item) != null) {
-			VanillaManager.VanillaScrapableItem scrapable = VanillaManager.getVanillaScrapable(item);
-			if (scrapable.getMaterial() == EnumMaterial.WOOD) {
-				event.setBurnTime(200 * scrapable.getWeight());
+		 if (ScrapDataManager.instance.hasEntry(item)) {
+			ScrapDataManager.ScrapEntry scrapEntry = ScrapDataManager.instance.getEntry(item);
+			if (scrapEntry.material == EnumMaterial.WOOD) {
+				event.setBurnTime(200 * scrapEntry.weight);
 			}
 		} else if (item == ModItems.CRUDE_BOW.get()) {
 			event.setBurnTime(300);

@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:scrap_glass",
+  "material" : "glass",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}

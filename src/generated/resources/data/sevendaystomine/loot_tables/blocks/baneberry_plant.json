@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "sevendaystomine:baneberry_plant"
+          "name": "sevendaystomine:baneberry"
         }
       ],
       "conditions": [

@@ -31,8 +31,8 @@ public class BlockPickable extends BlockBase {
 		return this.canSurviveOn(p_196260_2_, blockpos, blockstate);
 	}
 
-	private boolean canSurviveOn(IBlockReader p_235552_1_, BlockPos p_235552_2_, BlockState p_235552_3_) {
-		return p_235552_3_.isFaceSturdy(p_235552_1_, p_235552_2_, Direction.UP) || p_235552_3_.is(Blocks.HOPPER);
+	public boolean canSurviveOn(IBlockReader world, BlockPos pos, BlockState state) {
+		return state.isFaceSturdy(world, pos, Direction.UP) || state.is(Blocks.HOPPER);
 	}
 
 	@Override

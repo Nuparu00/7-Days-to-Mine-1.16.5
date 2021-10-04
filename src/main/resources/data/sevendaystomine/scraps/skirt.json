@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:skirt",
+  "material" : "cloth",
+  "weight" : 3,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

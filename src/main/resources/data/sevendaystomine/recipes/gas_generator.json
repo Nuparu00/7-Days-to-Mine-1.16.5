@@ -1,0 +1,29 @@
+{
+  "type": "sevendaystomine:workbench_shaped",
+  "pattern": [
+    "IIIII",
+    "ICCCI",
+    "IISII",
+    "IWWWI",
+    "IIIII"
+  ],
+  "key": {
+    "C": {
+      "item": "sevendaystomine:empty_can"
+    },
+    "W": {
+      "item": "sevendaystomine:wire"
+    },
+    "I": {
+      "item": "sevendaystomine:iron_pipe"
+    },
+    "S": {
+      "item": "sevendaystomine:small_engine",
+      "data": 32767
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:generator_gas"
+  },
+  "recipe": "electricity"
+}

@@ -21,10 +21,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.util.Utils;
 
-public class BlockChair extends BlockHorizontalBase implements IScrapable, IWaterLoggable {
+public class BlockChair extends BlockHorizontalBase implements IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
 	private static final VoxelShape SOUTH = Block.box(0.1875F * 16, 0.0F, 0.3125F * 16, 0.8125F * 16, 0.6875F * 16, 0.9375F * 16);
@@ -32,10 +31,6 @@ public class BlockChair extends BlockHorizontalBase implements IScrapable, IWate
 	private static final VoxelShape WEST = Block.box(0.0625F * 16, 0.0F, 0.1875F * 16, 0.6875F * 16, 0.6875F * 16, 0.8125F * 16);
 	private static final VoxelShape EAST = Block.box(0.3125F * 16, 0.0F, 0.1875F * 16, 0.9375F * 16, 0.6875F * 16, 0.8125F * 16);
 
-	protected EnumMaterial material = EnumMaterial.WOOD;
-	private int weight = 2;
-	
-	
 	public BlockChair(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
 		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
@@ -67,31 +62,6 @@ public class BlockChair extends BlockHorizontalBase implements IScrapable, IWate
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.FAIL;
-	}
-	
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
 	}
 
 	@Override

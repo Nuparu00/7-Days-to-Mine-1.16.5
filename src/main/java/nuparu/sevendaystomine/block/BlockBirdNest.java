@@ -22,18 +22,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.item.IScrapable;
 import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
 import nuparu.sevendaystomine.tileentity.TileEntityBatteryStation;
 import nuparu.sevendaystomine.tileentity.TileEntityBirdNest;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
-public class BlockBirdNest extends BlockHorizontalBase implements IScrapable {
+public class BlockBirdNest extends BlockHorizontalBase {
 	
 	private static final VoxelShape SHAPE = Block.box(0.3F*16, 0.0F, 0.3F*16, 0.7F*16, 0.25F*16, 0.7F*16);
-
-	private EnumMaterial material = EnumMaterial.WOOD;
-	private int weight = 2;
 
 	public BlockBirdNest(AbstractBlock.Properties properties) {
 		super(properties);
@@ -45,31 +41,6 @@ public class BlockBirdNest extends BlockHorizontalBase implements IScrapable {
 		return SHAPE;
 	}
 
-
-	@Override
-	public void setMaterial(EnumMaterial mat) {
-		material = mat;
-	}
-
-	@Override
-	public EnumMaterial getItemMaterial() {
-		return material;
-	}
-
-	@Override
-	public void setWeight(int newWeight) {
-		weight = newWeight;
-	}
-
-	@Override
-	public int getWeight() {
-		return weight;
-	}
-
-	@Override
-	public boolean canBeScraped() {
-		return true;
-	}
 
 	@Override
 	public boolean hasTileEntity(BlockState state) {

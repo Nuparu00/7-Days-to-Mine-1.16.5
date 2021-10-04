@@ -226,7 +226,7 @@ public class BlockFruitBush extends BushBlock implements IGrowable, IBlockBase {
 	}
 
 	@Override
-	public BlockItem createBlockitem() {
+	public BlockItem createBlockItem() {
 		return null;
 	}
 }

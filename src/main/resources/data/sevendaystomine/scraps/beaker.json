@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:beaker",
+  "material" : "glass",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

@@ -17,10 +17,10 @@ import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.init.ModItems;
 
-public class ItemEmptyJar extends ItemScrapable {
+public class ItemEmptyJar extends Item {
 
 	public ItemEmptyJar() {
-		super(new Item.Properties().stacksTo(64).tab(ModItemGroups.TAB_MATERIALS), EnumMaterial.IRON, 1);
+		super(new Item.Properties().stacksTo(64).tab(ModItemGroups.TAB_MATERIALS));
 	}
 
 	public ActionResult<ItemStack> use(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {

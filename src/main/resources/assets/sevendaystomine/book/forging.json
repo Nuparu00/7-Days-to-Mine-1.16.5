@@ -198,13 +198,13 @@
           "x": 16,
           "y": 10,
           "z": 0,
-          "recipe": "minecraft:furnace"
+          "recipe": "sevendaystomine:forge"
         },
         {
           "x": 138,
           "y": 10,
           "z": 0,
-          "recipe": "sevendaystomine:ingotmold"
+          "recipe": "sevendaystomine:ingot_mold"
         }
       ]
     },

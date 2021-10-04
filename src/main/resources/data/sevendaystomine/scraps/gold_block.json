@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:gold_block",
+  "material" : "gold",
+  "weight" : 54,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

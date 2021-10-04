@@ -1,0 +1,22 @@
+{
+  "type": "sevendaystomine:workbench_shaped",
+  "pattern": [
+    "  II ",
+    "  II ",
+    " III ",
+    " SI  ",
+    "S    "
+  ],
+  "key": {
+    "S": {
+      "item": "sevendaystomine:plank_wood"
+    },
+    "I": {
+      "tag": "forge:ingots/steel"
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:machete"
+  },
+  "quality": true
+}

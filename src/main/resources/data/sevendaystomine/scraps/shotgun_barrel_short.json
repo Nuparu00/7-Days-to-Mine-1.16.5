@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:shotgun_barrel_short",
+  "material" : "iron",
+  "weight" : 2,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

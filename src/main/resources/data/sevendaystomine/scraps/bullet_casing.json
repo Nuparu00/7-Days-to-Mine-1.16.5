@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:bullet_casing",
+  "material" : "brass",
+  "weight" : 1,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

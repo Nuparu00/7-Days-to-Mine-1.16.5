@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:string",
+  "material" : "string",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}
