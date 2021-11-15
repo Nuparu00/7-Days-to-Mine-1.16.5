@@ -2,95 +2,342 @@ package nuparu.sevendaystomine.item;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.ImmutableMap.Builder;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.*;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import nuparu.sevendaystomine.advancements.ModTriggers;
+import nuparu.sevendaystomine.block.IUpgradeable;
+import nuparu.sevendaystomine.block.repair.BreakData;
+import nuparu.sevendaystomine.block.repair.RepairDataManager;
+import nuparu.sevendaystomine.capability.CapabilityHelper;
+import nuparu.sevendaystomine.capability.IChunkData;
+import nuparu.sevendaystomine.init.ModSounds;
+import nuparu.sevendaystomine.util.MathUtils;
+import nuparu.sevendaystomine.util.Utils;
+import nuparu.sevendaystomine.util.VanillaManager;
 
-public class ItemStoneAxe extends ItemUpgrader {
+public class ItemStoneAxe extends ItemQualityAxe implements IUpgrader {
 
-	private static final Set<Material> DIGGABLE_MATERIALS = Sets.newHashSet(Material.WOOD, Material.NETHER_WOOD,
-			Material.PLANT, Material.REPLACEABLE_PLANT, Material.BAMBOO, Material.VEGETABLE);
-	private static final Set<Block> OTHER_DIGGABLE_BLOCKS = Sets.newHashSet(Blocks.LADDER, Blocks.SCAFFOLDING,
-			Blocks.OAK_BUTTON, Blocks.SPRUCE_BUTTON, Blocks.BIRCH_BUTTON, Blocks.JUNGLE_BUTTON, Blocks.DARK_OAK_BUTTON,
-			Blocks.ACACIA_BUTTON, Blocks.CRIMSON_BUTTON, Blocks.WARPED_BUTTON);
-	protected static final Map<Block, Block> STRIPABLES = (new Builder<Block, Block>())
-			.put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD).put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
-			.put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD)
-			.put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG).put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD)
-			.put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG).put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD)
-			.put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG).put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD)
-			.put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG).put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD)
-			.put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG).put(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM)
-			.put(Blocks.WARPED_HYPHAE, Blocks.STRIPPED_WARPED_HYPHAE)
-			.put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM)
-			.put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE).build();
+	public float effect = 1f;
 
-	public ItemStoneAxe(IItemTier p_i48530_1_, float p_i48530_2_, float p_i48530_3_, Item.Properties p_i48530_4_) {
-		super(p_i48530_2_, p_i48530_3_, p_i48530_1_, OTHER_DIGGABLE_BLOCKS,
-				p_i48530_4_.addToolType(net.minecraftforge.common.ToolType.AXE, p_i48530_1_.getLevel())
-						.addToolType(ToolType.PICKAXE, 0));
-		effect = 0.25f;
+	public ItemStoneAxe(IItemTier tier, float p_i48530_2_, float p_i48530_3_, Item.Properties properties) {
+		super(tier, p_i48530_2_, p_i48530_3_, properties.addToolType(ToolType.PICKAXE,0));
 	}
 
 	@Override
-	public float getDestroySpeed(ItemStack p_150893_1_, BlockState p_150893_2_) {
-		Material material = p_150893_2_.getMaterial();
-		return (float) (DIGGABLE_MATERIALS.contains(material) ? this.speed
-				: super.getDestroySpeed(p_150893_1_, p_150893_2_));
+	public IUpgrader setEffectiveness(float effect) {
+		this.effect = effect;
+		return this;
 	}
 
 	@Override
-	public ActionResultType useOn(ItemUseContext p_195939_1_) {
-		PlayerEntity playerentity = p_195939_1_.getPlayer();
+	public ActionResultType useOn(ItemUseContext context) {
+		PlayerEntity playerIn = context.getPlayer();
+		Hand hand = context.getHand();
+		World worldIn = context.getLevel();
+		ItemStack itemstack = playerIn.getItemInHand(hand);
 
-		if (!playerentity.isCrouching()) {
-			return super.useOn(p_195939_1_);
+		if (playerIn.isCrouching()) {
+			return super.useOn(context);
 		}
 
-		World world = p_195939_1_.getLevel();
-		BlockPos blockpos = p_195939_1_.getClickedPos();
-		BlockState blockstate = world.getBlockState(blockpos);
-		BlockState block = blockstate.getToolModifiedState(world, blockpos, p_195939_1_.getPlayer(),
-				p_195939_1_.getItemInHand(), net.minecraftforge.common.ToolType.AXE);
-		if (block != null) {
-			world.playSound(playerentity, blockpos, SoundEvents.AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			if (!world.isClientSide) {
-				world.setBlock(blockpos, block, 11);
-				if (playerentity != null) {
-					p_195939_1_.getItemInHand().hurtAndBreak(1, playerentity, (p_220040_1_) -> {
-						p_220040_1_.broadcastBreakEvent(p_195939_1_.getHand());
-					});
+		BlockPos pos = new BlockPos(itemstack.getOrCreateTag().getInt("X"),
+				itemstack.getOrCreateTag().getInt("Y"), itemstack.getOrCreateTag().getInt("Z"));
+
+		BlockState state = worldIn.getBlockState(pos);
+		Block block = state.getBlock();
+
+		/*BreakSavedData data = BreakSavedData.get(worldIn);
+		BreakData breakData = data.getBreakData(pos, worldIn.dimension().location());
+		if (breakData != null && breakData.getState() != 0f) {
+			float damage = breakData.getState();
+			Repair repair = RepairManager.INSTANCE.getRepair(block, playerIn.inventory);
+			if (repair != null) {
+				for (int slot = 0; slot < playerIn.inventory.getContainerSize(); slot++) {
+					ItemStack stack = playerIn.inventory.getItem(slot);
+					if (ItemStack.isSame(stack, repair.getItemStack())) {
+						float size = (repair.getPercentage() * 10) * (effect);
+						if (damage < (effect)) {
+							size = damage * (effect / 10);
+						}
+						if (stack.getCount() < (int) Math.floor(size * 10f)) {
+							continue;
+						}
+						stack.shrink((int) Math.ceil(size * 10f));
+						worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), ModSounds.UPGRADE_WOOD,
+								SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.5f, 0.75f),
+								MathUtils.getFloatInRange(0.9f, 1f));
+						playerIn.swing(hand);
+						if (playerIn instanceof ServerPlayerEntity) {
+							itemstack.hurt(1, random, (ServerPlayerEntity) playerIn);
+						}
+						if (damage - (effect / 1f) <= 0f) {
+							data.removeBreakData(pos, worldIn);
+							break;
+						} else {
+							data.setBreakData(pos, worldIn, damage - (effect / 1f));
+							break;
+						}
+
+					} else {
+						if (slot == playerIn.inventory.getContainerSize() - 1) {
+							if (!worldIn.isClientSide() && !playerIn.isCreative() && !playerIn.isSpectator()) {
+								playerIn.sendMessage(new TranslationTextComponent("repair.missing",
+												(repair.getItemStack().getItem().getName(repair.getItemStack()).toString()),
+												worldIn.getBlockState(pos).getBlock().getName().toString()),Util.NIL_UUID);
+							}
+						}
+					}
+				}
+			}
+		} else */
+
+		IChunkData iChunkData = CapabilityHelper.getChunkData(worldIn.getChunkAt(pos));
+		if (iChunkData != null && iChunkData.hasBreakData(pos)) {
+			BreakData breakData = iChunkData.getBreakData(pos);
+			float damage = breakData.getState();
+			NonNullList<RepairDataManager.RepairEntry> repairs = RepairDataManager.instance.getEntries(block);
+
+			if(!worldIn.isClientSide()) {
+				if (repairs.isEmpty()) {
+					playerIn.sendMessage(new TranslationTextComponent("repair.none",block.getName()),Util.NIL_UUID);
+				}
+				for (RepairDataManager.RepairEntry entry : repairs) {
+					if (entry.getRepairLimit() >= 1 || ((1 - damage) + (entry.getRepairAmount() * effect) <= entry.getRepairLimit())) {
+						boolean flag = true;
+						for (ItemStack stack : entry.getItems()) {
+							if (!Utils.hasItemStack(playerIn, stack)) {
+								flag = !flag;
+								playerIn.sendMessage(new TranslationTextComponent("repair.missing.count",stack.getDisplayName(),block.getName(), stack.getCount()),Util.NIL_UUID);
+								break;
+							}
+						}
+
+						if (!flag) continue;
+
+						for (ItemStack stack : entry.getItems()) {
+							Utils.removeItemStack(playerIn.inventory, stack);
+						}
+
+						playerIn.swing(hand);
+						if (playerIn instanceof ServerPlayerEntity) {
+							itemstack.hurt(1, random, (ServerPlayerEntity) playerIn);
+						}
+
+						iChunkData.addBreakData(pos, (float) -(entry.getRepairAmount() * effect));
+						break;
+					}
 				}
 			}
 
-			return ActionResultType.sidedSuccess(world.isClientSide);
-		} else {
-			return ActionResultType.PASS;
+		} else if (block instanceof IUpgradeable && ((IUpgradeable) block).getResult(worldIn, pos) != null) {
+			IUpgradeable upgradeable = ((IUpgradeable) block);
+			ItemStack[] itemStacks = upgradeable.getItems();
+
+			if (hasItemStacks(playerIn, block, itemStacks) || playerIn.isCreative()) {
+				worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), ModSounds.UPGRADE_WOOD.get(),
+						SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.5f, 0.75f),
+						MathUtils.getFloatInRange(0.9f, 1f));
+				itemstack.getOrCreateTag().putFloat("Percent", itemstack.getOrCreateTag().getFloat("Percent") + effect);
+				playerIn.swing(hand);
+				if (itemstack.getOrCreateTag().getFloat("Percent") >= 1F) {
+					if (playerIn instanceof ServerPlayerEntity) {
+						itemstack.hurt(1, random, (ServerPlayerEntity) playerIn);
+					}
+					upgradeable.onUpgrade(worldIn, pos, state);
+					worldIn.setBlock(pos, upgradeable.getResult(worldIn, pos), 3);
+					if (!worldIn.isClientSide()) {
+						ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, o -> true, state);
+					}
+					itemstack.getOrCreateTag().putFloat("Percent", 0F);
+					if (!playerIn.isCreative()) {
+						removeItemStacks(playerIn.inventory, itemStacks);
+					}
+				}
+			}
+		} else if (VanillaManager.getVanillaUpgrade(state) != null) {
+			VanillaManager.VanillaBlockUpgrade upgrade = VanillaManager.getVanillaUpgrade(state);
+			ItemStack[] itemStacks = upgrade.getItems();
+			if (hasItemStacks(playerIn, block, itemStacks) || playerIn.isCreative()) {
+				worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), ModSounds.UPGRADE_WOOD.get(),
+						SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.5f, 0.75f),
+						MathUtils.getFloatInRange(0.9f, 1f));
+				itemstack.getOrCreateTag().putFloat("Percent", itemstack.getOrCreateTag().getFloat("Percent") + effect);
+				playerIn.swing(hand);
+				if (itemstack.getOrCreateTag().getFloat("Percent") >= 1F) {
+					if (playerIn instanceof ServerPlayerEntity) {
+						itemstack.hurt(1, random, (ServerPlayerEntity) playerIn);
+					}
+					worldIn.setBlock(pos, upgrade.getResult(), 3);
+					if (!worldIn.isClientSide()) {
+						ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, o -> true, state);
+					}
+					itemstack.getOrCreateTag().putFloat("Percent", 0F);
+					if (!playerIn.isCreative()) {
+						removeItemStacks(playerIn.inventory, itemStacks);
+					}
+				}
+			}
+		}
+
+		return ActionResultType.PASS;
+	}
+
+	public boolean hasItemStack(PlayerEntity player, Block block, ItemStack itemStack) {
+		int count = 0;
+		for (int slot = 0; slot < player.inventory.getContainerSize(); slot++) {
+			ItemStack stack = player.inventory.getItem(slot);
+			if (stack != null && stack.getItem() == itemStack.getItem()) {
+				count += stack.getCount();
+			}
+		}
+		return (count >= Math.ceil(itemStack.getCount() * (1f - (effect - 0.25f))));
+	}
+
+	public boolean hasItemStacks(PlayerEntity player, Block block, ItemStack[] itemStacks) {
+		for (ItemStack itemStack : itemStacks) {
+			if (!hasItemStack(player, block, itemStack)) {
+				if (!player.level.isClientSide() && !player.isCreative() && !player.isSpectator()) {
+					player.sendMessage(new TranslationTextComponent("upgrade.missing",itemStack.getItem().getName(itemStack).toString(),block.getName().toString()), Util.NIL_UUID);
+				}
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void removeItemStacks(PlayerInventory inv, ItemStack[] itemStacks) {
+		for (ItemStack itemStack : itemStacks) {
+			int count = (int) Math.ceil(itemStack.getCount() * (1f - (effect - 0.25f)));
+			for (int slot = 0; slot < inv.getContainerSize(); slot++) {
+				ItemStack stack = inv.getItem(slot);
+				if (stack != null && stack.getItem() == itemStack.getItem()) {
+					int decrease = Math.min(count, stack.getCount());
+					stack.shrink(decrease);
+					count -= decrease;
+					if (count <= 0) {
+						break;
+					}
+				}
+			}
 		}
 	}
 
-	@javax.annotation.Nullable
-	public static BlockState getAxeStrippingState(BlockState originalState) {
-		Block block = STRIPABLES.get(originalState.getBlock());
-		return block != null
-				? block.defaultBlockState().setValue(RotatedPillarBlock.AXIS,
-						originalState.getValue(RotatedPillarBlock.AXIS))
-				: null;
+	@Override
+	public void inventoryTick(ItemStack itemstack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if (itemstack.getOrCreateTag() == null) {
+
+			Calendar calendar = Calendar.getInstance();
+			Date date = calendar.getTime();
+			String pattern = "yyyy/MM/dd/HH/mm/ss/SSS";
+			SimpleDateFormat f = new SimpleDateFormat(pattern);
+
+			itemstack.setTag(new CompoundNBT());
+			itemstack.getOrCreateTag().putInt("X", 0);
+			itemstack.getOrCreateTag().putInt("Y", 0);
+			itemstack.getOrCreateTag().putInt("Z", 0);
+			itemstack.getOrCreateTag().putFloat("Percent", 0F);
+			itemstack.getOrCreateTag().putString("ID", entityIn.getUUID().toString() + "" + f.format(date));
+		}
+		if (isSelected) {
+
+			BlockRayTraceResult ray = Utils.rayTraceServer(entityIn, 5, 1);
+			if (ray != null) {
+				BlockPos blockName = ray.getBlockPos();
+				if (blockName != null) {
+					if (blockName.getX() != itemstack.getOrCreateTag().getInt("X")
+							|| blockName.getY() != itemstack.getOrCreateTag().getInt("Y")
+							|| blockName.getZ() != itemstack.getOrCreateTag().getInt("Z")) {
+						itemstack.getOrCreateTag().putInt("X", blockName.getX());
+						itemstack.getOrCreateTag().putInt("Y", blockName.getY());
+						itemstack.getOrCreateTag().putInt("Z", blockName.getZ());
+						itemstack.getOrCreateTag().putFloat("Percent", 0F);
+
+					}
+				} else {
+					if (0 != itemstack.getOrCreateTag().getInt("X")
+							|| 0 != itemstack.getOrCreateTag().getInt("Y")
+							|| 0 != itemstack.getOrCreateTag().getInt("Z")
+							|| itemstack.getOrCreateTag().getFloat("Percent") != 0f) {
+
+						itemstack.getOrCreateTag().putInt("X", 0);
+						itemstack.getOrCreateTag().putInt("Y", 0);
+						itemstack.getOrCreateTag().putInt("Z", 0);
+						itemstack.getOrCreateTag().putFloat("Percent", 0F);
+					}
+				}
+
+			} else {
+				if (0 != itemstack.getOrCreateTag().getInt("X") || 0 != itemstack.getOrCreateTag().getInt("Y")
+						|| 0 != itemstack.getOrCreateTag().getInt("Z")
+						|| itemstack.getOrCreateTag().getFloat("Percent") != 0f) {
+
+					itemstack.getOrCreateTag().putInt("X", 0);
+					itemstack.getOrCreateTag().putInt("Y", 0);
+					itemstack.getOrCreateTag().putInt("Z", 0);
+					itemstack.getOrCreateTag().putFloat("Percent", 0F);
+				}
+			}
+
+		} else {
+			if (0 != itemstack.getOrCreateTag().getInt("X") || 0 != itemstack.getOrCreateTag().getInt("Y")
+					|| 0 != itemstack.getOrCreateTag().getInt("Z")
+					|| itemstack.getOrCreateTag().getFloat("Percent") != 0f) {
+
+				itemstack.getOrCreateTag().putInt("X", 0);
+				itemstack.getOrCreateTag().putInt("Y", 0);
+				itemstack.getOrCreateTag().putInt("Z", 0);
+				itemstack.getOrCreateTag().putFloat("Percent", 0F);
+			}
+		}
+	}
+
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+		if (!slotChanged) {
+			if (oldStack.getItem() == newStack.getItem()
+					&& (oldStack.getOrCreateTag().getString("ID")).equals(newStack.getOrCreateTag().getString("ID"))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
+
+		if (itemstack.getOrCreateTag() == null) {
+			itemstack.setTag(new CompoundNBT());
+		}
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		String pattern = "yyyy/MM/dd/HH/mm/ss/SSS";
+		SimpleDateFormat f = new SimpleDateFormat(pattern);
+		itemstack.getOrCreateTag().putInt("X", 0);
+		itemstack.getOrCreateTag().putInt("Y", 0);
+		itemstack.getOrCreateTag().putInt("Z", 0);
+		itemstack.getOrCreateTag().putFloat("Percent", 0F);
+		itemstack.getOrCreateTag().putString("ID", player.getUUID() + "" + f.format(date));
 	}
 }

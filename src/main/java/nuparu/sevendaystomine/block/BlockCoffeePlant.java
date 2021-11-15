@@ -59,7 +59,7 @@ public class BlockCoffeePlant extends BushBlock implements IGrowable{
 	}
 
 	public BlockState getStateForAge(int p_185528_1_) {
-		return this.defaultBlockState().setValue(this.getAgeProperty(), Integer.valueOf(p_185528_1_));
+		return this.defaultBlockState().setValue(this.getAgeProperty(), p_185528_1_);
 	}
 
 	public boolean isMaxAge(BlockState p_185525_1_) {

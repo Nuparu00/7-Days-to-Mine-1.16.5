@@ -3,9 +3,7 @@ package nuparu.sevendaystomine.world.gen.structure;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -24,8 +22,9 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import org.apache.logging.log4j.Level;
+import nuparu.sevendaystomine.init.ModStructureFeatures;
 
 import java.util.List;
 
@@ -120,6 +119,7 @@ public class PillagerOutpostRuinedStructure extends Structure<NoFeatureConfig> {
      */
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
+        if(isNearCity(chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
         // Grab height of land. Will stop at first non-air block.
@@ -136,6 +136,24 @@ public class PillagerOutpostRuinedStructure extends Structure<NoFeatureConfig> {
         // Now we test to make sure our structure is not spawning on water or other fluids.
         // You can do height check instead too to make it spawn at high elevations.
         return topBlock.getFluidState().isEmpty(); //landHeight > 100;
+    }
+
+    private boolean isNearCity(ChunkGenerator p_242782_1_, long p_242782_2_, SharedSeedRandom p_242782_4_, int p_242782_5_, int p_242782_6_) {
+        StructureSeparationSettings structureseparationsettings = p_242782_1_.getSettings().getConfig(ModStructureFeatures.CITY.get());
+        if (structureseparationsettings == null) {
+            return false;
+        } else {
+            for(int i = p_242782_5_ - 10; i <= p_242782_5_ + 10; ++i) {
+                for(int j = p_242782_6_ - 10; j <= p_242782_6_ + 10; ++j) {
+                    ChunkPos chunkpos = ModStructureFeatures.CITY.get().getPotentialFeatureChunk(structureseparationsettings, p_242782_2_, p_242782_4_, i, j);
+                    if (i == chunkpos.x && j == chunkpos.z) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 
     /**

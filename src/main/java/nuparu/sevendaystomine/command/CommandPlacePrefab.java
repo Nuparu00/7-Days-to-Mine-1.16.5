@@ -9,14 +9,9 @@ import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
 import net.minecraft.command.arguments.MessageArgument;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
-import nuparu.sevendaystomine.capability.CapabilityHelper;
-import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.world.prefab.Prefab;
 import nuparu.sevendaystomine.world.prefab.PrefabParser;
 
@@ -27,9 +22,7 @@ public class CommandPlacePrefab {
 		LiteralArgumentBuilder<CommandSource> mbesayCommand = Commands.literal("placeprefab")
 				.requires((commandSource) -> commandSource.hasPermission(2))
 				.then(Commands.argument("pos", BlockPosArgument.blockPos())
-				.then(Commands.argument("name", MessageArgument.message()).executes((p_198539_0_) -> {
-					return breakData(p_198539_0_, BlockPosArgument.getOrLoadBlockPos(p_198539_0_, "pos"));
-				})));
+				.then(Commands.argument("name", MessageArgument.message()).executes((p_198539_0_) -> breakData(p_198539_0_, BlockPosArgument.getOrLoadBlockPos(p_198539_0_, "pos")))));
 
 		dispatcher.register(mbesayCommand);
 	}
@@ -46,9 +39,9 @@ public class CommandPlacePrefab {
 		try {
 			String name = MessageArgument.getMessage(commandContext, "name").getString();
 			Prefab prefab = null;
-			long startTime = 0l;
-			long endTime = 0l;
-			long duration = 0l;
+			long startTime = 0L;
+			long endTime = 0L;
+			long duration = 0L;
 
 			System.out.println("try");
 			try {

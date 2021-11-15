@@ -15,7 +15,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class BlockTrafficLight extends BlockHorizontalBase implements  IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -27,13 +26,13 @@ public class BlockTrafficLight extends BlockHorizontalBase implements  IWaterLog
 
 	public BlockTrafficLight() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(1.5f, 1));
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
-		switch ((Direction) state.getValue(FACING)) {
+		switch (state.getValue(FACING)) {
 		default:
 		case NORTH:
 			return NORTH;
@@ -50,7 +49,7 @@ public class BlockTrafficLight extends BlockHorizontalBase implements  IWaterLog
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

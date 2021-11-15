@@ -1,9 +1,6 @@
 package nuparu.sevendaystomine.entity;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-
-import javax.annotation.Nullable;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,35 +8,25 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.EntityType.IFactory;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import nuparu.sevendaystomine.init.ModEntities;
-import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.item.ItemQuality;
 
 public class BurntZombieEntity<T extends BurntZombieEntity> extends ZombieBipedEntity {
 
@@ -74,7 +61,7 @@ public class BurntZombieEntity<T extends BurntZombieEntity> extends ZombieBipedE
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 54.0D)
-				.add(Attributes.MOVEMENT_SPEED, (double) 0.185F).add(Attributes.ATTACK_DAMAGE, 3.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.ATTACK_DAMAGE, 3.0D)
 				.add(Attributes.ARMOR, 0.5D).add(Attributes.MAX_HEALTH, 115).build();
 	}
 
@@ -227,6 +214,19 @@ public class BurntZombieEntity<T extends BurntZombieEntity> extends ZombieBipedE
 			net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, zombieentity);
 		}
 
+	}
+
+	public static boolean isDarkEnoughToSpawn(IServerWorld p_223323_0_, BlockPos p_223323_1_, Random p_223323_2_) {
+		if (p_223323_0_.getBrightness(LightType.SKY, p_223323_1_) > p_223323_2_.nextInt(32)) {
+			return false;
+		} else {
+			int i = p_223323_0_.getLevel().isThundering() ? p_223323_0_.getMaxLocalRawBrightness(p_223323_1_, 10) : p_223323_0_.getMaxLocalRawBrightness(p_223323_1_);
+			return i <= p_223323_2_.nextInt(13);
+		}
+	}
+
+	public static boolean checkMonsterSpawnRules(EntityType<? extends MonsterEntity> p_223325_0_, IServerWorld p_223325_1_, SpawnReason p_223325_2_, BlockPos p_223325_3_, Random p_223325_4_) {
+		return p_223325_1_.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(p_223325_1_, p_223325_3_, p_223325_4_) && checkMobSpawnRules(p_223325_0_, p_223325_1_, p_223325_2_, p_223325_3_, p_223325_4_);
 	}
 
 	public class Factory implements IFactory<BurntZombieEntity> {

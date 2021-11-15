@@ -1,9 +1,7 @@
 package nuparu.sevendaystomine.world;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
 import nuparu.sevendaystomine.SevenDaysToMine;

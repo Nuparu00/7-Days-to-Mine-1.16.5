@@ -8,18 +8,12 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
-import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICustomCraftingCategoryExtension;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.util.Size2i;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.crafting.grill.GrillRecipeShapeless;
-
-import java.util.List;
 
 public class ScrapRecipeCategory implements IRecipeCategory<ScrapRecipeWrapper> {
     public static ResourceLocation ID = new ResourceLocation(SevenDaysToMine.MODID,"scrap");

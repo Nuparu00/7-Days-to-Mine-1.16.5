@@ -6,7 +6,6 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.world.gen.city.street.Street;
 
 import java.util.Random;

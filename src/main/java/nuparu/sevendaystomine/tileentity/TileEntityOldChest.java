@@ -76,7 +76,7 @@ public class TileEntityOldChest extends TileEntityItemHandler<ItemHandlerNameabl
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable) this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public class TileEntityOldChest extends TileEntityItemHandler<ItemHandlerNameabl
 				d2 += (double) direction.getStepZ() * 0.5D;
 			}
 
-			this.level.playSound((PlayerEntity) null, d0, d1, d2, p_195483_1_, SoundCategory.BLOCKS, 0.5F,
+			this.level.playSound(null, d0, d1, d2, p_195483_1_, SoundCategory.BLOCKS, 0.5F,
 					this.level.random.nextFloat() * 0.1F + 0.9F);
 		}
 	}

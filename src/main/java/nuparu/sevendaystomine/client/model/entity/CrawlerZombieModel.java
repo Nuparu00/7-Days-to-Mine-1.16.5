@@ -1,7 +1,5 @@
 package nuparu.sevendaystomine.client.model.entity;
 
-import java.util.ArrayList;
-
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -11,11 +9,8 @@ import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.entity.model.IHasHead;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import nuparu.sevendaystomine.entity.CrawlerZombieEntity;
-import nuparu.sevendaystomine.entity.SpiderZombieEntity;
 
 public class CrawlerZombieModel<T extends CrawlerZombieEntity> extends AgeableModel<T> implements IHasArm, IHasHead {
 	ModelRenderer head;
@@ -80,12 +75,8 @@ public class CrawlerZombieModel<T extends CrawlerZombieEntity> extends AgeableMo
 	@Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay,
 			float red, float green, float blue, float alpha) {
-		this.headParts().forEach((p_228228_8_) -> {
-			p_228228_8_.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		});
-		this.bodyParts().forEach((p_228227_8_) -> {
-			p_228227_8_.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		});
+		this.headParts().forEach((p_228228_8_) -> p_228228_8_.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha));
+		this.bodyParts().forEach((p_228227_8_) -> p_228227_8_.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha));
 	}
 
 	public void setRotation(ModelRenderer modelRenderer, float x, float y, float z) {

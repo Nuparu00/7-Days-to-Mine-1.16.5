@@ -29,7 +29,7 @@ public class MovingSoundChainsawCut extends TickableSound {
 	 */
 	public void tick() {
 		ItemStack stack = this.player.getItemInHand(Hand.MAIN_HAND);
-		CompoundNBT nbt = stack.getOrCreateTag();
+		CompoundNBT nbt = stack.getTag();
 		if (!this.player.isAlive() || System.currentTimeMillis()-PlayerEventHandler.getLastTimeHittingBlock() > 500 || stack.isEmpty() || (stack.getItem() != ModItems.CHAINSAW.get() && stack.getItem() != ModItems.AUGER.get())) {
 			this.stop();
 			PlayerEventHandler.nextChainsawCutSound = System.currentTimeMillis();

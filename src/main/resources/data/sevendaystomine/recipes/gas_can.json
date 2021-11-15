@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"G"
+	],
+	"key": {
+		"G": {
+		"item": "sevendaystomine:gasoline_bucket"
+		}
+	},
+	"result": {
+		"item": "sevendaystomine:gas_canister",
+		"count": 4
+
+	}
+}

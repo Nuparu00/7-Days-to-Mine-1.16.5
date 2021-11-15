@@ -1,13 +1,10 @@
 package nuparu.sevendaystomine.config;
 
-import java.util.ArrayList;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
-import nuparu.sevendaystomine.client.gui.EnumHudPosition;
 
 import java.util.Arrays;
 import java.util.List;
@@ -237,12 +234,12 @@ public class CommonConfig {
 		bloodmoonHordeWaves = server.comment("How many waves bloodmoon horde has").defineInRange("hordes.bloodmoonHordeWaves",
 				8, 0, Integer.MAX_VALUE);
 		bloodmoonHordeZombiesPerWaveMin = server.comment("Minimal number of zombies the bloodmoon horde wave has - used during the first few bloodmoons")
-				.defineInRange("hordes.bloodmoonHordeZombiesPerWaveMin", 5, 0, Integer.MAX_VALUE);
+				.defineInRange("hordes.bloodmoonHordeZombiesPerWaveMin", 6, 0, Integer.MAX_VALUE);
 		bloodmoonHordeZombiesPerWaveMax = server.comment("Maximal number of zombies the bloodmoon horde wave has - used  after the fifth bloodmoon")
 				.defineInRange("hordes.bloodmoonHordeZombiesPerWaveMax", 15, 0, Integer.MAX_VALUE);
 		wolfHordeFrequency = server.comment("How many days between individual wolf hordes (0 = disabled)").defineInRange("hordes.wolfHordeFrequency", 5,
 				0, Integer.MAX_VALUE);
-		wolfHordeWaves = server.comment("How many waves wolf horde has").defineInRange("hordes.wolfHordeWaves", 8, 0,
+		wolfHordeWaves = server.comment("How many waves wolf horde has").defineInRange("hordes.wolfHordeWaves", 3, 0,
 				Integer.MAX_VALUE);
 		wolfHordeZombiesPerWave = server.comment("How many zombies wolf horde wave has")
 				.defineInRange("hordes.wolfHordeZombiesPerWave", 8, 0, Integer.MAX_VALUE);
@@ -253,7 +250,7 @@ public class CommonConfig {
 		genericHordeZombiesPerWaveMin = server.comment("Minimal number of zombies the horde wave has - used during the first few bloodmoons")
 				.defineInRange("hordes.genericHordeZombiesPerWaveMin", 4, 0, Integer.MAX_VALUE);
 		genericHordeZombiesPerWaveMax = server.comment("Maximal number of zombies the horde wave has - reached after the fifth bloodmoon")
-				.defineInRange("hordes.genericHordeZombiesPerWaveMax", 8, 0, Integer.MAX_VALUE);
+				.defineInRange("hordes.genericHordeZombiesPerWaveMax", 5, 0, Integer.MAX_VALUE);
 		corpseLifespan = server.comment("How many ticks until a corpse decays").defineInRange("mobs.corpseLifespan", 20000, 0,
 				Integer.MAX_VALUE);
 		torchBurnTime = server.comment("How many ticks until a torch burns out (-1 = infinity)").defineInRange("mobs.torchBurnTime", 22000, 0,
@@ -403,5 +400,11 @@ public class CommonConfig {
 				Integer.MAX_VALUE);
 		spawnMaxZombiePig = server.comment("The maximal amount of Zombie Pigs").defineInRange("mobs.spawnMaxZombiePig", 7, 0,
 				Integer.MAX_VALUE);
+
+		//World gen
+		roadMaxY = server.comment("The max Y of roads").defineInRange("world_gen.roadMaxY", 80, 0,
+				255);
+		roadMinY = server.comment("The min Y of roads").defineInRange("world_gen.roadMinY", 63, 0,
+				255);
 	}
 }

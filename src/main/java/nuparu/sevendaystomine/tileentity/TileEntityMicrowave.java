@@ -8,7 +8,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import nuparu.sevendaystomine.init.ModTileEntities;
-import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.block.ContainerTiny;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
@@ -53,7 +52,7 @@ public class TileEntityMicrowave extends TileEntityItemHandler<ItemHandlerNameab
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

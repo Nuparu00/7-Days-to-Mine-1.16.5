@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -25,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.util.RenderUtils;
-import nuparu.sevendaystomine.util.Utils;
 
 public class BookData {
 

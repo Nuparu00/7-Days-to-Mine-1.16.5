@@ -14,8 +14,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -101,7 +99,7 @@ public class WindowsDesktopProcess extends DesktopProcess {
 
 			@Override
 			public boolean isDisabled() {
-				return ((WindowsDesktopProcess) tickingProcess).start == false;
+				return !((WindowsDesktopProcess) tickingProcess).start;
 			}
 
 		};
@@ -192,8 +190,8 @@ public class WindowsDesktopProcess extends DesktopProcess {
 				(sr.getGuiScaledHeight() / 2) - (screen.ySize / 2), 0, 0, screen.xSize, screen.ySize, screen.xSize,
 				screen.ySize, 1, 0);*/
 		Minecraft.getInstance().getTextureManager().bind(bgr);
-		AbstractGui.blit(matrix,(int)(sr.getGuiScaledWidth() / 2) - (int)(screen.xSize / 2),
-				(int)(sr.getGuiScaledHeight() / 2) - (int)(screen.ySize / 2),0, 0, (int)screen.xSize, (int)screen.ySize, (int)screen.xSize,
+		AbstractGui.blit(matrix, (sr.getGuiScaledWidth() / 2) - (int)(screen.xSize / 2),
+				(sr.getGuiScaledHeight() / 2) - (int)(screen.ySize / 2),0, 0, (int)screen.xSize, (int)screen.ySize, (int)screen.xSize,
 				(int)screen.ySize);
 
 		matrix.popPose();
@@ -225,8 +223,8 @@ public class WindowsDesktopProcess extends DesktopProcess {
 			minutes = Utils.getWorldMinutes(computerTE.getLevel());
 		}
 
-		RenderUtils.drawCenteredString(matrix,new StringBuilder("").append(HOUR_FORMATTER.format(hours)).append(":")
-				.append(HOUR_FORMATTER.format(minutes)).toString(), 0, 0, 0xffffff);
+		RenderUtils.drawCenteredString(matrix, "" + HOUR_FORMATTER.format(hours) + ":" +
+				HOUR_FORMATTER.format(minutes), 0, 0, 0xffffff);
 		matrix.translate(0, 0, -3);
 		matrix.popPose();
 	}

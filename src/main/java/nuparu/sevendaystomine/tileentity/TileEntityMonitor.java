@@ -286,8 +286,7 @@ public class TileEntityMonitor extends TileEntity implements ITickableTileEntity
 
     @Override
     public CompoundNBT getUpdateTag() {
-        CompoundNBT nbt = save(new CompoundNBT());
-        return nbt;
+        return save(new CompoundNBT());
     }
 
     @Override
@@ -429,7 +428,7 @@ public class TileEntityMonitor extends TileEntity implements ITickableTileEntity
         long delta = Math.min(canBeAdded, power);
         long lost = 0;
         if (connection != null) {
-            lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+            lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
         }
         long realDelta = delta - lost;
         this.voltage += realDelta;

@@ -7,9 +7,17 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.entity.ai.GoalBreakBlocks;
+import nuparu.sevendaystomine.init.ModLootTables;
+import nuparu.sevendaystomine.util.ItemUtils;
 
 public abstract class ZombieQuadrapedEntity<T extends ZombieQuadrapedEntity> extends ZombieBaseEntity {
 
@@ -54,8 +62,15 @@ public abstract class ZombieQuadrapedEntity<T extends ZombieQuadrapedEntity> ext
 			lootable.setOriginal(this);
 			lootable.setPos(getX(), getY(), getZ());
 			dead = true;
+			System.out.println("XX " + this.getClass());
 			if (!this.level.isClientSide()) {
-				// ItemUtils.fillWithLoot(lootable.getInventory(), lootTable, world, rand);
+				System.out.println("XX");
+				LootTable loottable = this.level.getServer().getLootTables().get(ModLootTables.ZOMBIE_GENERIC);
+				LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.level)).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(this.blockPosition()));
+				if (this.lastHurtByPlayer != null) {
+					lootcontext$builder.withLuck(lastHurtByPlayer.getLuck()).withParameter(LootParameters.THIS_ENTITY, lastHurtByPlayer);
+				}
+				ItemUtils.fill(loottable,lootable.getInventory(), lootcontext$builder.create(LootParameterSets.CHEST));
 				level.addFreshEntity(lootable);
 			}
 

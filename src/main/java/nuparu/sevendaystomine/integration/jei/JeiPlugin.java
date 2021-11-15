@@ -37,6 +37,7 @@ import nuparu.sevendaystomine.integration.jei.locked.LockedExtension;
 import nuparu.sevendaystomine.integration.jei.pot.PotRecipeCategory;
 import nuparu.sevendaystomine.integration.jei.scrap.ScrapRecipeCategory;
 import nuparu.sevendaystomine.integration.jei.scrap.ScrapRecipeWrapper;
+import nuparu.sevendaystomine.integration.jei.separator.SeparatorRecipeCategory;
 import nuparu.sevendaystomine.integration.jei.workbench.WorkbenchRecipeCategory;
 import nuparu.sevendaystomine.inventory.block.*;
 import nuparu.sevendaystomine.item.EnumMaterial;
@@ -73,6 +74,7 @@ public class JeiPlugin implements IModPlugin {
         registry.addRecipeCategories(new PotRecipeCategory(gui));
         registry.addRecipeCategories(new BeakerRecipeCategory(gui));
         registry.addRecipeCategories(new ChemistryShapelessRecipeCategory(gui));
+        registry.addRecipeCategories(new SeparatorRecipeCategory(gui));
     }
 
     @Override
@@ -86,6 +88,7 @@ public class JeiPlugin implements IModPlugin {
         registry.addRecipes(getScrapRecipes(),ScrapRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ModRecipeSerializers.COOKING_POT.getA()),PotRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ModRecipeSerializers.BEAKER.getA()),BeakerRecipeCategory.ID);
+        registry.addRecipes(getRecipes(manager, ModRecipeSerializers.SEPARATOR.getA()),SeparatorRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ChemistryRecipeShapeless.class), ChemistryShapelessRecipeCategory.ID);
 
         registry.addIngredientInfo(new ItemStack(ModBlocks.WORKBENCH.get()), VanillaTypes.ITEM, new TranslationTextComponent("jei.information.workbench"));
@@ -123,7 +126,7 @@ public class JeiPlugin implements IModPlugin {
                 //ItemStack scrapResult = ScrapDataManager.instance.getScrapResult(material);
                 ScrapDataManager.ScrapEntry scrapResult = ScrapDataManager.instance.getScrapResult(material);
                 for(ScrapDataManager.ScrapEntry entry : ScrapDataManager.instance.getScraps()){
-                    if(entry.item == null) continue;
+                    if(entry.item == null || entry.canBeScrapped) continue;
                     if(entry.material == material) {
                         if (entry.weight > scrapResult.weight) {
                             NonNullList<ItemStack> ingredients = NonNullList.create();
@@ -134,7 +137,7 @@ public class JeiPlugin implements IModPlugin {
                         }
                         else{
                             int inputCount = (int)Math.ceil(1d/(entry.weight * CommonConfig.scrapCoefficient.get()));
-                            if(inputCount < 1) continue;;
+                            if(inputCount < 1) continue;
                             NonNullList<ItemStack> ingredients = NonNullList.create();
                             ingredients.add(new ItemStack(entry.item,inputCount));
                             //For some reason the stack sometimes is air, no idea why, maybe wrong item id in some of the scrap files
@@ -158,6 +161,7 @@ public class JeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COOKING_POT.get()), PotRecipeCategory.ID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BEAKER.get()), BeakerRecipeCategory.ID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CHEMISTRY_STATION.get()), ChemistryShapelessRecipeCategory.ID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.SEPARATOR.get()), SeparatorRecipeCategory.ID);
     }
 
     @Override
@@ -168,6 +172,7 @@ public class JeiPlugin implements IModPlugin {
         registration.addRecipeTransferHandler(ContainerCookingPot.class,PotRecipeCategory.ID,0,4,5,36);
         registration.addRecipeTransferHandler(ContainerBeaker.class,BeakerRecipeCategory.ID,0,4,5,36);
         registration.addRecipeTransferHandler(ContainerChemistryStation.class, ChemistryShapelessRecipeCategory.ID, 0,4, TileEntityChemistryStation.EnumSlots.values().length, 36);
+        registration.addRecipeTransferHandler(ContainerChemistryStation.class, ChemistryShapelessRecipeCategory.ID, 0,1, 3, 36);
     }
 
     @Override
@@ -178,6 +183,8 @@ public class JeiPlugin implements IModPlugin {
         registration.addRecipeClickArea(GuiBeaker.class, 89, 37, 28, 23, BeakerRecipeCategory.ID);
         registration.addRecipeClickArea(GuiChemistryStation.class, 118, 43, 28, 23, ChemistryShapelessRecipeCategory.ID);
         registration.addRecipeClickArea(GuiWorkbench.class, 98, 43, 28, 23, WorkbenchRecipeCategory.ID, VanillaRecipeCategoryUid.CRAFTING);
+        registration.addRecipeClickArea(GuiSeparator.class, 118, 43, 28, 23, SeparatorRecipeCategory.ID);
+        registration.addRecipeClickArea(GuiSeparator.class, 45, 43, 28, 23, SeparatorRecipeCategory.ID);
     }
 
     @Override

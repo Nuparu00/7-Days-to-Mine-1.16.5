@@ -26,7 +26,6 @@ import nuparu.sevendaystomine.electricity.IBattery;
 import nuparu.sevendaystomine.electricity.IVoltage;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerBatteryStation;
-import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.util.ModConstants;
 
@@ -190,8 +189,7 @@ public class TileEntityBatteryStation extends TileEntityItemHandler<ItemHandlerN
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+        return save(new CompoundNBT());
 	}
 
 	@Override
@@ -321,7 +319,7 @@ public class TileEntityBatteryStation extends TileEntityItemHandler<ItemHandlerN
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;

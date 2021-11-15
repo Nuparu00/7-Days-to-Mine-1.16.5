@@ -179,7 +179,7 @@ public class ShellProcess extends WindowedProcess {
             while (it.hasNext()) {
                 INBT base = it.next();
                 if (base instanceof StringNBT) {
-                    log.add(((StringNBT) base).getAsString());
+                    log.add(base.getAsString());
                 }
             }
         }
@@ -189,7 +189,7 @@ public class ShellProcess extends WindowedProcess {
             while (it2.hasNext()) {
                 INBT base = it2.next();
                 if (base instanceof StringNBT) {
-                    history.add(((StringNBT) base).getAsString());
+                    history.add(base.getAsString());
                 }
             }
         }
@@ -349,7 +349,7 @@ public class ShellProcess extends WindowedProcess {
             List<BlockPos> connections = this.computerTE.getConnections();
             for (BlockPos connection : connections) {
                 addTextToLog(connection.getX() + "/" + connection.getY() + "/" + connection.getZ() + " "
-                        + new BigDecimal(Math.sqrt(connection.distSqr(this.computerTE.getPos())))
+                        + BigDecimal.valueOf(Math.sqrt(connection.distSqr(this.computerTE.getPos())))
                         .setScale(3, BigDecimal.ROUND_HALF_UP).toString()
                         + " m");
             }

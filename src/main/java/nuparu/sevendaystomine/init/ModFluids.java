@@ -1,9 +1,6 @@
 package nuparu.sevendaystomine.init;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluid;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraft.util.ResourceLocation;
@@ -12,8 +9,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.block.BlockTable;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class ModFluids {
 
@@ -36,13 +31,13 @@ public class ModFluids {
 		return new ForgeFlowingFluid.Properties(GASOLINE, GASOLINE_FLOWING,
 				FluidAttributes.builder(new ResourceLocation(SevenDaysToMine.MODID, "blocks/gasoline_still"),
 						new ResourceLocation(SevenDaysToMine.MODID, "blocks/gasoline_flow")))
-								.block(() -> (FlowingFluidBlock)(ModBlocks.GASOLINE.get())).bucket(() -> ModItems.GASOLINE_BUCKET.get());
+								.block(() -> (FlowingFluidBlock)(ModBlocks.GASOLINE.get())).bucket(ModItems.GASOLINE_BUCKET::get);
 	}
 
 	private static ForgeFlowingFluid.Properties mercury() {
 		return new ForgeFlowingFluid.Properties(MERCURY, MERCURY_FLOWING,
 				FluidAttributes.builder(new ResourceLocation(SevenDaysToMine.MODID, "blocks/mercury_still"),
 						new ResourceLocation(SevenDaysToMine.MODID, "blocks/mercury_flow")))
-				.block(() -> (FlowingFluidBlock)(ModBlocks.MERCURY.get())).bucket(() -> ModItems.MERCURY_BUCKET.get());
+				.block(() -> (FlowingFluidBlock)(ModBlocks.MERCURY.get())).bucket(ModItems.MERCURY_BUCKET::get);
 	}
 }

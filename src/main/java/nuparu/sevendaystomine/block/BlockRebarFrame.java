@@ -4,15 +4,13 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class BlockRebarFrame extends BlockUpgradeable {
 
@@ -23,7 +21,7 @@ public class BlockRebarFrame extends BlockUpgradeable {
 	}
 
 	@Override
-	public BlockState getResult(World world, BlockPos pos) {
+	public BlockState getResult(IWorld world, BlockPos pos) {
 		return ModBlocks.REBAR_FRAME_WOOD.get().defaultBlockState();
 	}
 	

@@ -52,7 +52,7 @@ public class TileEntityMedicalCabinet extends TileEntityItemHandler<ItemHandlerN
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

@@ -100,8 +100,7 @@ public class TileEntityCamera extends TileEntity implements ITickableTileEntity,
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override

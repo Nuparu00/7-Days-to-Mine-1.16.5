@@ -1,10 +1,7 @@
 package nuparu.sevendaystomine.capability;
 
-import java.util.concurrent.Callable;
-
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.chunk.Chunk;
@@ -20,13 +17,7 @@ public class ChunkDataProvider implements ICapabilitySerializable<CompoundNBT> {
     protected LazyOptional<IChunkData> instance = LazyOptional.of(CHUNK_DATA_CAP::getDefaultInstance);
 
     public static void register() {
-        CapabilityManager.INSTANCE.register(IChunkData.class, new ChunkDataStorage(), new Callable<IChunkData>() {
-
-            @Override
-            public IChunkData call() throws Exception {
-                return new ChunkData();
-            }
-        });
+        CapabilityManager.INSTANCE.register(IChunkData.class, new ChunkDataStorage(), ChunkData::new);
     }
 
     @Override

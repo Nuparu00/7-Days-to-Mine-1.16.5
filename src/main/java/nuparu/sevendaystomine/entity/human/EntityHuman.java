@@ -30,7 +30,6 @@ import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.AddSubtitleMessage;
 import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.util.dialogue.Dialogues;
-import nuparu.sevendaystomine.util.dialogue.DialoguesRegistry;
 
 public class EntityHuman extends CreatureEntity {
 	// Should not be used outside of the Entity class - especially on client side!!
@@ -56,8 +55,8 @@ public class EntityHuman extends CreatureEntity {
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(DIALOGUES, Dialogues.EMPTY);
-		this.entityData.define(CURRENT_DIALOGUE, String.valueOf("none"));
-		this.entityData.define(TEXTURE, String.valueOf("textures/entity/steve.png"));
+		this.entityData.define(CURRENT_DIALOGUE, "none");
+		this.entityData.define(TEXTURE, "textures/entity/steve.png");
 		this.entityData.define(SEX, String.valueOf(EnumSex.UNKNOWN.getName()));
 	}
 
@@ -164,7 +163,7 @@ public class EntityHuman extends CreatureEntity {
 					int i = 0;
 					i = i + EnchantmentHelper.getKnockbackBonus(this);
 					if (this.isSprinting() && flag) {
-						this.level.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, this.getSoundSource(), 1.0F, 1.0F);
+						this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, this.getSoundSource(), 1.0F, 1.0F);
 						++i;
 						flag1 = true;
 					}
@@ -174,7 +173,7 @@ public class EntityHuman extends CreatureEntity {
 
 					f = f + f1;
 					boolean flag3 = false;
-					double d0 = (double)(this.walkDist - this.walkDistO);
+					double d0 = this.walkDist - this.walkDistO;
 					if (flag && !flag2 && !flag1 && this.onGround && d0 < (double)this.getSpeed()) {
 						ItemStack itemstack = this.getItemInHand(Hand.MAIN_HAND);
 						if (itemstack.getItem() instanceof SwordItem) {
@@ -198,9 +197,9 @@ public class EntityHuman extends CreatureEntity {
 					if (flag5) {
 						if (i > 0) {
 							if (p_71059_1_ instanceof LivingEntity) {
-								((LivingEntity)p_71059_1_).knockback((float)i * 0.5F, (double) MathHelper.sin(this.yRot * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.yRot * ((float)Math.PI / 180F))));
+								((LivingEntity)p_71059_1_).knockback((float)i * 0.5F, MathHelper.sin(this.yRot * ((float)Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float)Math.PI / 180F)));
 							} else {
-								p_71059_1_.push((double)(-MathHelper.sin(this.yRot * ((float)Math.PI / 180F)) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.yRot * ((float)Math.PI / 180F)) * (float)i * 0.5F));
+								p_71059_1_.push(-MathHelper.sin(this.yRot * ((float)Math.PI / 180F)) * (float)i * 0.5F, 0.1D, MathHelper.cos(this.yRot * ((float)Math.PI / 180F)) * (float)i * 0.5F);
 							}
 
 							this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
@@ -212,12 +211,12 @@ public class EntityHuman extends CreatureEntity {
 
 							for(LivingEntity livingentity : this.level.getEntitiesOfClass(LivingEntity.class, p_71059_1_.getBoundingBox().inflate(1.0D, 0.25D, 1.0D))) {
 								if (livingentity != this && livingentity != p_71059_1_ && !this.isAlliedTo(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).isMarker()) && this.distanceToSqr(livingentity) < 9.0D) {
-									livingentity.knockback(0.4F, (double)MathHelper.sin(this.yRot * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.yRot * ((float)Math.PI / 180F))));
+									livingentity.knockback(0.4F, MathHelper.sin(this.yRot * ((float)Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float)Math.PI / 180F)));
 									livingentity.hurt(DamageSource.mobAttack(this), f3);
 								}
 							}
 
-							this.level.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, this.getSoundSource(), 1.0F, 1.0F);
+							this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, this.getSoundSource(), 1.0F, 1.0F);
 						}
 
 						if (p_71059_1_ instanceof ServerPlayerEntity && p_71059_1_.hurtMarked) {
@@ -227,14 +226,14 @@ public class EntityHuman extends CreatureEntity {
 						}
 
 						if (flag2) {
-							this.level.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, this.getSoundSource(), 1.0F, 1.0F);
+							this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, this.getSoundSource(), 1.0F, 1.0F);
 						}
 
 						if (!flag2 && !flag3) {
 							if (flag) {
-								this.level.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, this.getSoundSource(), 1.0F, 1.0F);
+								this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, this.getSoundSource(), 1.0F, 1.0F);
 							} else {
-								this.level.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, this.getSoundSource(), 1.0F, 1.0F);
+								this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, this.getSoundSource(), 1.0F, 1.0F);
 							}
 						}
 
@@ -271,7 +270,7 @@ public class EntityHuman extends CreatureEntity {
 						}
 
 					} else {
-						this.level.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, this.getSoundSource(), 1.0F, 1.0F);
+						this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, this.getSoundSource(), 1.0F, 1.0F);
 						if (flag4) {
 							p_71059_1_.clearFire();
 						}

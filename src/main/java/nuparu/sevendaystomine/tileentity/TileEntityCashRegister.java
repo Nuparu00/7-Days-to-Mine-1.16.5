@@ -53,7 +53,7 @@ public class TileEntityCashRegister extends TileEntityItemHandler<ItemHandlerNam
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

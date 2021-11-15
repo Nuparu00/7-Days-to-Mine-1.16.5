@@ -2,7 +2,6 @@ package nuparu.sevendaystomine.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SnowballEntity;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.item.UseAction;
@@ -55,7 +54,7 @@ public class ItemFragmentationGrenade extends Item {
 				stack.shrink(1);
 			}
 
-			worldIn.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(),
+			worldIn.playSound(null, player.getX(), player.getY(), player.getZ(),
 					SoundEvents.SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F,
 					0.4F / (random.nextFloat() * 0.4F + 0.8F));
 

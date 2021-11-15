@@ -1,12 +1,6 @@
 package nuparu.sevendaystomine.crafting.campfire;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import net.minecraft.item.Items;
-import net.minecraft.item.ItemStack;
-import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.init.ModItems;
 
 public class CampfireRecipeManager {
 
@@ -27,7 +21,6 @@ public class CampfireRecipeManager {
 		return this.recipes;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addRecipes() {
 		/*addRecipe(new CampfireRecipeShapeless(new ItemStack(ModItems.BOTTLED_WATER.get()),new ItemStack(ModBlocks.COOKING_POT),new ArrayList(Arrays.asList(new ItemStack(ModItems.BOTTLED_MURKY_WATER.get())))));
 		addRecipe(new CampfireRecipeShapeless(new ItemStack(ModItems.BOTTLED_WATER.get(),2),new ItemStack(ModBlocks.COOKING_POT),new ArrayList(Arrays.asList(new ItemStack(ModItems.BOTTLED_MURKY_WATER.get()),new ItemStack(ModItems.BOTTLED_MURKY_WATER.get())))));

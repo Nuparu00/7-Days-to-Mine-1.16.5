@@ -43,7 +43,7 @@ public class ContainerCookingPot extends Container {
             addSlot(new SlotItemHandler(cookingPot.getInventory(), TileEntityCookingPot.EnumSlots.INPUT_SLOT3.ordinal(), 47, 45));
             addSlot(new SlotItemHandler(cookingPot.getInventory(), TileEntityCookingPot.EnumSlots.INPUT_SLOT4.ordinal(), 65, 45));
 
-            addSlot(new SlotOutput(invPlayer.player, cookingPot,cookingPot.getInventory(), TileEntityCookingPot.EnumSlots.OUTPUT_SLOT.ordinal(), 123, 36));
+            addSlot(new SlotOutput(invPlayer.player, cookingPot, cookingPot.getInventory(), TileEntityCookingPot.EnumSlots.OUTPUT_SLOT.ordinal(), 123, 36));
 
             for (int k = 0; k < 9; ++k) {
                 addSlot(new Slot(invPlayer, k, 8 + k * 18, 142));
@@ -123,7 +123,7 @@ public class ContainerCookingPot extends Container {
     }
 
     // SlotOutput is a slot that will not accept any item
-    public class SlotOutput extends SlotItemHandler {
+    public static class SlotOutput extends SlotItemHandler {
         private final PlayerEntity player;
         private final TileEntityCookingPot cookingPot;
         private int removeCount;

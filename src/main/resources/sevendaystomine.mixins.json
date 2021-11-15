@@ -17,7 +17,8 @@
     "MixinBiomeGenerationSettingsBuilder",
     "MixinPlayerRenderer",
     "MixinWorldRenderer",
-    "MixinClientPlayNetHandler"
+    "MixinClientPlayNetHandler",
+    "MixinJigsawPiece"
   ],
   "client":[
   ],

@@ -3,19 +3,14 @@ package nuparu.sevendaystomine.inventory.block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IntArray;
 import net.minecraft.world.World;
 import net.minecraftforge.items.SlotItemHandler;
 import nuparu.sevendaystomine.init.ModContainers;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
-import nuparu.sevendaystomine.tileentity.TileEntityForge;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
-
-import javax.annotation.Nullable;
 
 public class ContainerSmall extends Container {
 

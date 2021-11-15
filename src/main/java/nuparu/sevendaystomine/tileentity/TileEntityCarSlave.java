@@ -1,18 +1,13 @@
 package nuparu.sevendaystomine.tileentity;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.IWorld;
 import nuparu.sevendaystomine.init.ModTileEntities;
-import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
 public class TileEntityCarSlave extends TileEntityCar{
 
@@ -59,8 +54,10 @@ public class TileEntityCarSlave extends TileEntityCar{
 	}
 
 	public void markForUpdate() {
-		level.sendBlockUpdated(worldPosition, level.getBlockState(this.worldPosition),
-				level.getBlockState(worldPosition), 3);
+		if(level != null) {
+			level.sendBlockUpdated(worldPosition, level.getBlockState(this.worldPosition),
+					level.getBlockState(worldPosition), 3);
+		}
 		setChanged();
 	}
 
@@ -73,8 +70,7 @@ public class TileEntityCarSlave extends TileEntityCar{
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override
@@ -96,8 +92,8 @@ public class TileEntityCarSlave extends TileEntityCar{
 		return this.index;
 	}
 
-	public void setMaster(BlockPos pos, TileEntityCarMaster masterTE) {
-		if (!level.isClientSide()) {
+	public void setMaster(BlockPos pos, TileEntityCarMaster masterTE, IWorld world) {
+		if (!world.isClientSide()) {
 			this.masterPos = pos;
 			this.masterTE = masterTE;
 		}
@@ -106,7 +102,7 @@ public class TileEntityCarSlave extends TileEntityCar{
 
 	@Override
 	public TileEntityCarMaster getMaster() {
-		if (this.masterTE == null && masterPos != null) {
+		if (this.masterTE == null && masterPos != null && level != null) {
 			TileEntity TE = level.getBlockEntity(masterPos);
 			if (TE instanceof TileEntityCarMaster) {
 				this.masterTE = (TileEntityCarMaster) TE;

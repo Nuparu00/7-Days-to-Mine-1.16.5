@@ -30,8 +30,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityTrashCan;
 
@@ -42,7 +40,7 @@ public class BlockTrashCan extends BlockHorizontalBase implements  IWaterLoggabl
 
 	public BlockTrashCan(AbstractBlock.Properties properties) {
 		super(properties);
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 	
 	@Override
@@ -75,9 +73,7 @@ public class BlockTrashCan extends BlockHorizontalBase implements  IWaterLoggabl
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-				packetBuffer.writeBlockPos(pos);
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 		}
 		return ActionResultType.SUCCESS;
 	}
@@ -123,7 +119,7 @@ public class BlockTrashCan extends BlockHorizontalBase implements  IWaterLoggabl
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

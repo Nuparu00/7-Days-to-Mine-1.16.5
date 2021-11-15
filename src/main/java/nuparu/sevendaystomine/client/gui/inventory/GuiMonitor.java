@@ -1,27 +1,17 @@
 package nuparu.sevendaystomine.client.gui.inventory;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.gui.monitor.MonitorScreen;
 import nuparu.sevendaystomine.inventory.block.ContainerMonitor;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
 import nuparu.sevendaystomine.tileentity.TileEntityMonitor;
-
-import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGuiEventListener {

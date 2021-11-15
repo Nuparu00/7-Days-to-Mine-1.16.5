@@ -8,7 +8,7 @@ public class Subtitle {
 	protected EntityHuman sender;
 	protected double duration;
 
-	public double showTime = 0l;
+	public double showTime = 0L;
 
 	public Subtitle(EntityHuman sender, String dialogue, double duration) {
 		this.sender = sender;

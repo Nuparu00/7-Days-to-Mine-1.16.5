@@ -144,9 +144,9 @@ public class ItemArmorBase extends ArmorItem implements IQuality {
 
 		if (equipmentSlot == this.slot) {
 			multimap.put(Attributes.ARMOR, new AttributeModifier(
-					ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double) this.getDefense(), AttributeModifier.Operation.ADDITION));
+					ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", this.getDefense(), AttributeModifier.Operation.ADDITION));
 			multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-					ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double) this.getToughness(), AttributeModifier.Operation.ADDITION));
+					ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", this.getToughness(), AttributeModifier.Operation.ADDITION));
 		}
 
 		return multimap;
@@ -168,9 +168,9 @@ public class ItemArmorBase extends ArmorItem implements IQuality {
 		if (slot == this.slot) {
 			if (!EnumQualityState.isQualitySystemOn()) {
 				multimap.put(Attributes.ARMOR, new AttributeModifier(
-						ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", (double) this.getDefense(), AttributeModifier.Operation.ADDITION));
+						ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", this.getDefense(), AttributeModifier.Operation.ADDITION));
 				multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-						ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness", (double) this.getToughness(), AttributeModifier.Operation.ADDITION));
+						ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness", this.getToughness(), AttributeModifier.Operation.ADDITION));
 
 			} else {
 				multimap.put(Attributes.ARMOR, new AttributeModifier(

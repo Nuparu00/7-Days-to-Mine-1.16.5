@@ -1,12 +1,9 @@
 package nuparu.sevendaystomine.client.gui.monitor.elements;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
@@ -123,7 +120,7 @@ public class Button implements IScreenElement {
 
 	@Override
 	public void render(MatrixStack matrix,float partialTicks) {
-		if (isDisabled() == false && isVisible()) {
+		if (!isDisabled() && isVisible()) {
 			boolean isHovered = isHovered(tickingProcess.getScreen().mouseX,tickingProcess.getScreen().mouseY);
 			ColorRGBA color = isHovered ? hovered : normal;
 

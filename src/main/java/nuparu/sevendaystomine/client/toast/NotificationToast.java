@@ -39,7 +39,7 @@ public class NotificationToast implements IToast {
 		RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 		p_230444_2_.blit(p_230444_1_, 0, 0, 0, 0, this.width(), this.height());
 		List<IReorderingProcessor> list = mc.font
-				.split(ITextProperties.of(SevenDaysToMine.proxy.localize("toast.unlocked")), 125);
+				.split(desc, 125);
 		int i = 16776960;
 		if (list.size() == 1) {
 			mc.font.draw(p_230444_1_, title, 30.0F, 7.0F, i | -16777216);

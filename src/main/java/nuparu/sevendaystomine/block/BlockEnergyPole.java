@@ -5,8 +5,8 @@ import javax.annotation.Nullable;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -18,8 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.tileentity.TileEntityDresser;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.tileentity.TileEntityEnergyPole;
 
 public class BlockEnergyPole extends BlockBase {
@@ -85,4 +84,8 @@ public class BlockEnergyPole extends BlockBase {
 		builder.add(FACING);
 	}
 
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
+	}
 }

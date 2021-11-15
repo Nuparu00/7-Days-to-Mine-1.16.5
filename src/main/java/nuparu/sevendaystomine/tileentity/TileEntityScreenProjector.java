@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.tileentity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,7 +18,6 @@ import net.minecraftforge.common.util.Constants;
 import nuparu.sevendaystomine.client.util.ResourcesHelper.Image;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerScreenProjector;
-import nuparu.sevendaystomine.inventory.block.ContainerTiny;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.item.ItemPhoto;
 
@@ -110,7 +108,7 @@ public class TileEntityScreenProjector extends TileEntityItemHandler<ItemHandler
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 
@@ -134,8 +132,7 @@ public class TileEntityScreenProjector extends TileEntityItemHandler<ItemHandler
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+        return save(new CompoundNBT());
 	}
 
 	@Override

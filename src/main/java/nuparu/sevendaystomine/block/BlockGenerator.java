@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -18,8 +19,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityGasGenerator;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
@@ -67,9 +68,7 @@ public class BlockGenerator extends BlockHorizontalBase {
 				if (!(player instanceof ServerPlayerEntity))
 					return ActionResultType.FAIL;
 				ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-				NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-					packetBuffer.writeBlockPos(pos);
-				});
+				NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 			}
 		}
 		return ActionResultType.SUCCESS;
@@ -102,5 +101,10 @@ public class BlockGenerator extends BlockHorizontalBase {
 			}
 		}
 
+	}
+
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
 	}
 }

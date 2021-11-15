@@ -45,7 +45,6 @@ import nuparu.sevendaystomine.electricity.network.INetwork;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerComputer;
-import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.SyncTileEntityMessage;
@@ -401,7 +400,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 
 	public boolean isCompleted() {
 		for (int i = 0; i < 5; i++) {
-			if (isPartCorrect(i) == false) {
+			if (!isPartCorrect(i)) {
 				return false;
 			}
 		}
@@ -462,8 +461,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+        return save(new CompoundNBT());
 	}
 
 	@Override
@@ -510,7 +508,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 
 		private String name;
 
-		private EnumState(String name) {
+		EnumState(String name) {
 			this.name = name;
 		}
 
@@ -536,7 +534,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 		private String name;
 		private String readable;
 
-		private EnumSystem(String name, String readable) {
+		EnumSystem(String name, String readable) {
 			this.name = name;
 			this.readable = readable;
 		}
@@ -701,7 +699,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;
@@ -794,7 +792,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

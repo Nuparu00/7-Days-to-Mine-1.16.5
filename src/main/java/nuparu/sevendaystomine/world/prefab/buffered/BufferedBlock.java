@@ -45,7 +45,6 @@ public class BufferedBlock {
         this.lootTable = lootTable;
     }
 
-    @SuppressWarnings("deprecation")
     public BlockState getBlockState() {
         if(getBlock() == null) { return null;}
         return getBlock().defaultBlockState();

@@ -2,7 +2,6 @@ package nuparu.sevendaystomine.inventory.entity;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
 import nuparu.sevendaystomine.entity.LootableCorpseEntity;
 import nuparu.sevendaystomine.init.ModContainers;
-import nuparu.sevendaystomine.init.ModItems;
 
 public class ContainerLootableCorpse extends Container {
 

@@ -15,9 +15,7 @@ import net.minecraft.world.server.ServerWorld;
 public class CommandHorde {
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		LiteralArgumentBuilder<CommandSource> mbesayCommand = Commands.literal("horde")
-				.requires((commandSource) -> commandSource.hasPermission(2)).then(Commands.argument("targets", EntityArgument.players()).executes((p_198539_0_) -> {
-					return cure(p_198539_0_, EntityArgument.getPlayers(p_198539_0_, "targets"));
-				}));
+				.requires((commandSource) -> commandSource.hasPermission(2)).then(Commands.argument("targets", EntityArgument.players()).executes((p_198539_0_) -> cure(p_198539_0_, EntityArgument.getPlayers(p_198539_0_, "targets"))));
 
 		dispatcher.register(mbesayCommand);
 	}

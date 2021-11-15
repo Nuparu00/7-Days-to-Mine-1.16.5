@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.world.gen.structure;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -24,10 +23,6 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.world.gen.city.City;
-import nuparu.sevendaystomine.world.gen.feature.jigsaw.CityJigsawManager;
-import nuparu.sevendaystomine.world.gen.feature.jigsaw.CityJigsawManagerHybrid;
-import nuparu.sevendaystomine.world.gen.feature.jigsaw.CityJigsawManagerVanilla;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;

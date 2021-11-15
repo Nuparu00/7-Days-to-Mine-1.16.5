@@ -7,9 +7,6 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -23,7 +20,6 @@ import net.minecraft.nbt.LongNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -45,7 +41,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.items.ItemStackHandler;
 import nuparu.sevendaystomine.block.BlockHorizontalBase;
 import nuparu.sevendaystomine.block.BlockTurretBase;
 import nuparu.sevendaystomine.entity.ShotEntity;
@@ -55,7 +50,6 @@ import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.TurretShotMessage;
-import org.lwjgl.system.CallbackI;
 
 public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandlerNameable>
 		implements ITickableTileEntity, INetwork {
@@ -198,7 +192,7 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 		}
 		if (on) {
 			if (this.level.getBlockState(this.worldPosition).getBlock() instanceof BlockTurretBase) {
-				facing = (Direction) this.level.getBlockState(this.worldPosition).getValue(BlockHorizontalBase.FACING);
+				facing = this.level.getBlockState(this.worldPosition).getValue(BlockHorizontalBase.FACING);
 			}
 			if (target == null) {
 				if (headRotationMaximumReached == 1) {
@@ -304,7 +298,7 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 
 	public Vector3d getHeadRotation() {
 		return getVectorFromYawPitch(headRotation
-				+ getAngle((Direction) level.getBlockState(this.worldPosition).getValue(BlockHorizontalBase.FACING)),
+				+ getAngle(level.getBlockState(this.worldPosition).getValue(BlockHorizontalBase.FACING)),
 				0);
 	}
 
@@ -328,7 +322,7 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 				EntityPredicates.NO_SPECTATORS);
 		double d2 = distance;
 		for (int j = 0; j < list.size(); ++j) {
-			Entity entity1 = (Entity) list.get(j);
+			Entity entity1 = list.get(j);
 			if (entity1 instanceof LivingEntity) {
 				AxisAlignedBB axisalignedbb = entity1.getBoundingBox();
 				Optional<Vector3d> movingobjectposition = axisalignedbb.clip(position, rayEnd);
@@ -376,7 +370,7 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
 		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
 		float f3 = MathHelper.sin(-pitch * 0.017453292F);
-		return new Vector3d((double) (f1 * f2), (double) f3, (double) (f * f2)).normalize();
+		return new Vector3d(f1 * f2, f3, f * f2).normalize();
 	}
 
 	public boolean canEntityBeSeen(Entity entity) {
@@ -408,7 +402,7 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 
 	}
 
-	public class AITurretBase {
+	public static class AITurretBase {
 		TileEntityTurret te = null;
 
 		public AITurretBase(TileEntityTurret te) {
@@ -451,7 +445,7 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 				return;
 			}
 			if (seenEntity instanceof PlayerEntity
-					&& (((PlayerEntity) seenEntity).isCreative() || ((PlayerEntity) seenEntity).isSpectator())) {
+					&& (((PlayerEntity) seenEntity).isCreative() || seenEntity.isSpectator())) {
 				return;
 			}
 			EntityType<?> entitytype = seenEntity.getType();
@@ -548,12 +542,12 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 				if (stack.getCount() >= amount) {
 					stack.shrink(amount);
 					if (stack.getCount() <= 0) {
-						((ItemStackHandler) this.getInventory()).setStackInSlot(i, ItemStack.EMPTY);
+						this.getInventory().setStackInSlot(i, ItemStack.EMPTY);
 					}
 					break;
 				} else {
 					amount -= stack.getCount();
-					((ItemStackHandler) this.getInventory()).setStackInSlot(i, ItemStack.EMPTY);
+					this.getInventory().setStackInSlot(i, ItemStack.EMPTY);
 				}
 			}
 		}
@@ -632,8 +626,7 @@ public abstract class TileEntityTurret extends TileEntityItemHandler<ItemHandler
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override

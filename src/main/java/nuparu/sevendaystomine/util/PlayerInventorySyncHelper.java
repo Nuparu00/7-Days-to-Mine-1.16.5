@@ -32,7 +32,7 @@ public class PlayerInventorySyncHelper {
 		@SubscribeEvent
 		public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 			if (!event.getEntityLiving().level.isClientSide()) {
-				if (CommonConfig.renderPlayerInventory.get() == true) {
+				if (CommonConfig.renderPlayerInventory.get()) {
 					if (event.getEntityLiving() instanceof PlayerEntity) {
 						PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 						ItemStack[] inventory = new ItemStack[player.inventory.items.size()];
@@ -89,7 +89,7 @@ public class PlayerInventorySyncHelper {
 		@SubscribeEvent
 		public static void onEntityJoin(EntityJoinWorldEvent event) {
 			if (!event.getEntity().level.isClientSide()) {
-				if (CommonConfig.renderPlayerInventory.get() == true) {
+				if (CommonConfig.renderPlayerInventory.get()) {
 					if (event.getEntity() instanceof PlayerEntity) {
 						PlayerEntity player = (PlayerEntity) event.getEntity();
 
@@ -148,7 +148,7 @@ public class PlayerInventorySyncHelper {
 		@SubscribeEvent
 		public static void onPlayerStartedTracking(PlayerEvent.StartTracking event) {
 			if (!event.getEntity().level.isClientSide()) {
-				if (CommonConfig.renderPlayerInventory.get() == true) {
+				if (CommonConfig.renderPlayerInventory.get()) {
 					if (event.getEntity() instanceof PlayerEntity && event.getTarget() instanceof PlayerEntity) {
 						PlayerEntity player = (PlayerEntity) event.getTarget();
 						PlayerEntity trackingPlayer = (PlayerEntity) event.getEntity();
@@ -199,7 +199,6 @@ public class PlayerInventorySyncHelper {
 			float f;
 
 			for (f = par2 - par1; f < -180.0F; f += 360.0F) {
-				;
 			}
 
 			while (f >= 180.0F) {

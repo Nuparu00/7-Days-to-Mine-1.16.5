@@ -108,7 +108,7 @@ public class TileEntityLamp extends TileEntity implements ITickableTileEntity, I
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;

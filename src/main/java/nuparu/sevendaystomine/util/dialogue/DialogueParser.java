@@ -18,8 +18,8 @@ public class DialogueParser {
 	public static final DialogueParser INSTANCE = new DialogueParser();
 
 	public Dialogues getDialoguesFromResource(ResourceLocation resourceLocation) {
-		InputStream in = getClass().getResourceAsStream(new StringBuilder().append("/assets/")
-				.append(resourceLocation.getNamespace()).append("/").append(resourceLocation.getPath()).toString());
+		InputStream in = getClass().getResourceAsStream("/assets/" +
+                resourceLocation.getNamespace() + "/" + resourceLocation.getPath());
 		if(in == null) {
 			Utils.getLogger().error("An error occured while trying to read " + resourceLocation + ": Missing File.");
 			return null;

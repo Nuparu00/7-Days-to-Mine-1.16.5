@@ -25,7 +25,7 @@ import nuparu.sevendaystomine.util.ModConstants;
 public class TileEntityWindTurbine extends TileEntity implements ITickableTileEntity, IVoltage {
 	private List<ElectricConnection> inputs = new ArrayList<ElectricConnection>();
 	private List<ElectricConnection> outputs = new ArrayList<ElectricConnection>();
-	private long capacity = 500l;
+	private long capacity = 500L;
 	private long voltage = 0;
 
 	public float angle;
@@ -133,8 +133,7 @@ public class TileEntityWindTurbine extends TileEntity implements ITickableTileEn
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override
@@ -330,7 +329,7 @@ public class TileEntityWindTurbine extends TileEntity implements ITickableTileEn
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;

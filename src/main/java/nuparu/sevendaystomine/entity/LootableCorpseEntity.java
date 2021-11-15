@@ -24,11 +24,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import nuparu.sevendaystomine.capability.ExtendedInventory;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.config.CommonConfig;
@@ -151,9 +148,7 @@ public class LootableCorpseEntity extends Entity implements INamedContainerProvi
 		if(!playerEntity.isCrouching() && hand == Hand.MAIN_HAND) {
 			if(playerEntity instanceof ServerPlayerEntity) {
 				ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) playerEntity;
-				NetworkHooks.openGui(serverPlayerEntity, this, (packetBuffer) -> {
-					packetBuffer.writeInt(this.getId());
-				});
+				NetworkHooks.openGui(serverPlayerEntity, this, (packetBuffer) -> packetBuffer.writeInt(this.getId()));
 			}
 			return ActionResultType.SUCCESS;
 		}
@@ -217,7 +212,7 @@ public class LootableCorpseEntity extends Entity implements INamedContainerProvi
 		if (this.age < 20)
 			return super.hurt(source, amount);
 		if (this.level.isClientSide()) {
-			level.playLocalSound((double) this.getX(), (double) this.getY(), (double) this.getZ(),
+			level.playLocalSound(this.getX(), this.getY(), this.getZ(),
 					SoundEvents.GENERIC_HURT, SoundCategory.HOSTILE, 1.0F, 1.0F, false);
 			for (int i = 0; i < (int) Math
 					.round(MathUtils.getDoubleInRange(1, 5) * SevenDaysToMine.proxy.getParticleLevel()); i++) {

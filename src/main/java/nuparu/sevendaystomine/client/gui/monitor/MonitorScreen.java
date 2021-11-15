@@ -65,7 +65,7 @@ public class MonitorScreen {
 				if (process.getScreen() == null || process.getScreen() != this) {
 					process.setScreen(this);
 				}
-				if (process.clientInit == false) {
+				if (!process.clientInit) {
 					process.clientInit();
 				}
 

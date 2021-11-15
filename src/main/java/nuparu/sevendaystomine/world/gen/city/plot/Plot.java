@@ -1,6 +1,5 @@
 package nuparu.sevendaystomine.world.gen.city.plot;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;

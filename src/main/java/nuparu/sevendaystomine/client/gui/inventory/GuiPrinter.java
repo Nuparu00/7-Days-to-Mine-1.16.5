@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -17,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.block.ContainerPrinter;
-import nuparu.sevendaystomine.inventory.block.ContainerScreenProjector;
 import nuparu.sevendaystomine.tileentity.TileEntityPrinter;
 
 import java.awt.*;

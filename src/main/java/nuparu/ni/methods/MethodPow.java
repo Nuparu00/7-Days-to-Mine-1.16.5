@@ -31,7 +31,7 @@ public class MethodPow extends Method {
 		}
 
 		return new Value(
-				(double) Math.pow((double) base.asDouble().getRealValue(), (double) exp.asDouble().getRealValue()));
+				Math.pow((double) base.asDouble().getRealValue(), (double) exp.asDouble().getRealValue()));
 	}
 
 }

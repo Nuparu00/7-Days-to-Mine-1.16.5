@@ -242,13 +242,20 @@ public class ModEntities {
 			.sized(1.5f, 0.45f).fireImmune().setTrackingRange(128).setShouldReceiveVelocityUpdates(true).setUpdateInterval(2)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "lootable_corpse").toString()));
 
+	public static final RegistryObject<EntityType<MinibikeEntity>> MINIBIKE = ENTITIES.register(
+			"minibike",
+			() -> EntityType.Builder
+					.of((EntityType.IFactory<MinibikeEntity>) MinibikeEntity::new,
+							EntityClassification.MISC)
+					.sized(0.8F, 0.75F).setTrackingRange(128).setShouldReceiveVelocityUpdates(true).setUpdateInterval(2)
+					.build(new ResourceLocation(SevenDaysToMine.MODID, "minibike").toString()));
 
 	public static final RegistryObject<EntityType<AirdropEntity>> AIRDROP = ENTITIES.register(
 			"airdrop",
 			() -> EntityType.Builder
 					.of((EntityType.IFactory<AirdropEntity>) AirdropEntity::new,
 							EntityClassification.MISC)
-					.sized(1f, 1f).fireImmune()
+					.sized(1f, 1f).fireImmune().setTrackingRange(256).clientTrackingRange(128)
 					.build(new ResourceLocation(SevenDaysToMine.MODID, "airdorp").toString()));
 
 	public static final RegistryObject<EntityType<SurvivorEntity>> SURVIVOR = ENTITIES.register(

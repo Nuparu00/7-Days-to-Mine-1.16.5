@@ -12,15 +12,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityFlag;
 
 public class BlockFlag extends BlockHorizontalBase {
 
-	private static final VoxelShape NORTH = Block.box(0.375, 0.125F, 0.7F, 0.625F, 0.375F, 1F);
-	private static final VoxelShape SOUTH = Block.box(0.375, 0.125F, 0.0F, 0.625F, 0.375F, 0.3F);
-	private static final VoxelShape WEST = Block.box(0.7F, 0.125F, 0.375F, 1F, 0.375F, 0.625F);
-	private static final VoxelShape EAST = Block.box(0.0F, 0.125F, 0.375F, 0.3F, 0.375F, 0.625F);
+	private static final VoxelShape NORTH = Block.box(0.375*16, 0.125F*16, 0.7F*16, 0.625F*16, 0.375F*16, 1F*16);
+	private static final VoxelShape SOUTH = Block.box(0.375*16, 0.125F*16, 0.0F*16, 0.625F*16, 0.375F*16, 0.3F*16);
+	private static final VoxelShape WEST = Block.box(0.7F*16, 0.125F*16, 0.375F*16, 1F*16, 0.375F*16, 0.625F*16);
+	private static final VoxelShape EAST = Block.box(0.0F, 0.125F*16, 0.375F*16, 0.3F*16, 0.375F*16, 0.625F*16);
 
 	public BlockFlag() {
 		super(AbstractBlock.Properties.of(Material.WOOD).strength(0.7f, 1));

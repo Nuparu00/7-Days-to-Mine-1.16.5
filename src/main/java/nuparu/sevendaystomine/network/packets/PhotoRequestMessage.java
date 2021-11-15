@@ -8,25 +8,14 @@ import java.util.function.Supplier;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.io.FilenameUtils;
-
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.FolderName;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.network.NetworkEvent;
-import nuparu.sevendaystomine.init.ModSounds;
-import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.util.Utils;
-import nuparu.sevendaystomine.util.photo.PhotoCatcherServer;
 
 public class PhotoRequestMessage {
 

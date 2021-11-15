@@ -45,6 +45,12 @@ public abstract class TileEntitySafe extends TileEntityItemHandler<ItemHandlerNa
 				&& player.distanceToSqr(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5) <= 64;
 	}
 
+
+	@Override
+	public ITextComponent getDisplayName() {
+		return this.getInventory().getDisplayName();
+	}
+
 	@Override
 	public void load(BlockState state, CompoundNBT compound) {
 		super.load(state, compound);

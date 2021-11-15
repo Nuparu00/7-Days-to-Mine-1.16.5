@@ -24,7 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.config.CommonConfig;
@@ -77,9 +76,9 @@ public class ItemFuelTool extends ItemQualityTool implements IReloadable {
 	@Override
 	public int getAmmo(ItemStack stack, PlayerEntity player) {
 		if (stack == null || stack.isEmpty() || stack.getOrCreateTag() == null
-				|| !stack.getOrCreateTag().contains("FuelMax"))
+				|| !stack.getOrCreateTag().contains("FuelCurrent"))
 			return -1;
-		return stack.getOrCreateTag().getInt("FuelMax");
+		return stack.getOrCreateTag().getInt("FuelCurrent");
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class ItemFuelTool extends ItemQualityTool implements IReloadable {
 
 	@Override
 	public void setAmmo(ItemStack stack, @Nullable PlayerEntity player, int ammo) {
-		stack.getOrCreateTag().putInt("FuelMax", ammo);
+		stack.getOrCreateTag().putInt("FuelCurrent", ammo);
 	}
 
 	@Override
@@ -172,7 +171,7 @@ public class ItemFuelTool extends ItemQualityTool implements IReloadable {
 
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, PlayerEntity player, Entity entity) {
-		return this.getAmmo(stack, null) > 0 ? super.onLeftClickEntity(stack, player, entity) : true;
+		return this.getAmmo(stack, null) <= 0 || super.onLeftClickEntity(stack, player, entity);
 	}
 
 }

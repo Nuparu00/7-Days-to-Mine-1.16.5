@@ -1,14 +1,10 @@
 package nuparu.sevendaystomine.events;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.BlazeEntity;
 import net.minecraft.entity.monster.EndermanEntity;
@@ -25,7 +21,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -37,7 +32,6 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.potions.Potions;
 import nuparu.sevendaystomine.util.EnumModParticleType;

@@ -14,7 +14,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import nuparu.sevendaystomine.init.ModContainers;
 import nuparu.sevendaystomine.tileentity.TileEntityChemistryStation;
-import nuparu.sevendaystomine.tileentity.TileEntityForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +43,7 @@ public class ContainerChemistryStation extends Container {
             addSlot(new SlotItemHandler(chemistryStation.getInventory(), TileEntityChemistryStation.EnumSlots.INPUT_SLOT3.ordinal(), 78, 29));
             addSlot(new SlotItemHandler(chemistryStation.getInventory(), TileEntityChemistryStation.EnumSlots.INPUT_SLOT4.ordinal(), 97, 29));
 
-            addSlot(new SlotOutput(invPlayer.player,chemistryStation,chemistryStation.getInventory(), TileEntityChemistryStation.EnumSlots.OUTPUT_SLOT.ordinal(), 148, 42));
+            addSlot(new SlotOutput(invPlayer.player, chemistryStation, chemistryStation.getInventory(), TileEntityChemistryStation.EnumSlots.OUTPUT_SLOT.ordinal(), 148, 42));
             addSlot(new SlotFuel(chemistryStation.getInventory(), TileEntityChemistryStation.EnumSlots.FUEL_SLOT.ordinal(), 88, 63));
 
             for (int k = 0; k < 9; ++k) {
@@ -147,7 +146,7 @@ public class ContainerChemistryStation extends Container {
 
 
     // SlotFuel is a slot for fuel items
-    public class SlotFuel extends SlotItemHandler {
+    public static class SlotFuel extends SlotItemHandler {
 
         public SlotFuel(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
             super(itemHandler, index, xPosition, yPosition);
@@ -163,7 +162,7 @@ public class ContainerChemistryStation extends Container {
 
 
     // SlotOutput is a slot that will not accept any item
-    public class SlotOutput extends SlotItemHandler {
+    public static class SlotOutput extends SlotItemHandler {
         private final PlayerEntity player;
         private final TileEntityChemistryStation chemistry;
         private int removeCount;

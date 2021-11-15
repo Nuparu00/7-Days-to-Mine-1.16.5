@@ -15,7 +15,7 @@ public class EntityDamageVehicle extends IndirectEntityDamageSource {
 	@Override
 	public ITextComponent getLocalizedDeathMessage(LivingEntity target) {
 
-		Entity entity = (Entity) getEntity();
+		Entity entity = getEntity();
 		LivingEntity LivingEntity1 = null;
 		if (entity instanceof LivingEntity) {
 			LivingEntity1 = (LivingEntity) entity;
@@ -23,7 +23,7 @@ public class EntityDamageVehicle extends IndirectEntityDamageSource {
 		String s = "death.attack." + this.msgId;
 		if (LivingEntity1 != null) {
 			if (this.getDirectEntity() != null && getDirectEntity() instanceof LivingEntity
-					&& ((LivingEntity) getDirectEntity()).hasCustomName()) {
+					&& getDirectEntity().hasCustomName()) {
 				String s1 = s + ".vehicle";
 				return new TranslationTextComponent(s1, target.getDisplayName(), LivingEntity1.getDisplayName(),
 						getDirectEntity().getDisplayName());

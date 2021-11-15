@@ -14,10 +14,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import nuparu.sevendaystomine.block.BlockEnergyPole;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.EnumDeviceType;
@@ -57,8 +54,7 @@ public class TileEntityEnergyPole extends TileEntity implements ITickableTileEnt
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override
@@ -228,7 +224,7 @@ public class TileEntityEnergyPole extends TileEntity implements ITickableTileEnt
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;

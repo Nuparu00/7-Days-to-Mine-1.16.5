@@ -30,8 +30,6 @@ import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.WorldGenRegion;
@@ -67,7 +65,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
@@ -83,12 +80,9 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.FolderName;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.items.IItemHandler;
@@ -149,10 +143,7 @@ public class Utils {
 		if (Desktop.isDesktopSupported()) {
 			try {
 				Desktop.getDesktop().browse(new URI(URL));
-			} catch (IOException e) {
-				e.printStackTrace();
-				return;
-			} catch (URISyntaxException e) {
+			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 				return;
 			}
@@ -448,7 +439,7 @@ public class Utils {
 		return -1;
 	}
 
-	public static boolean isSolid(World world, BlockPos pos, BlockState state) {
+	public static boolean isSolid(ISeedReader world, BlockPos pos, BlockState state) {
 		Material material = state.getMaterial();
 		Block block = state.getBlock();
 		if (!material.isLiquid() && state.isFaceSturdy(world, pos, Direction.UP)) {
@@ -500,7 +491,7 @@ public class Utils {
 		chunkData.addBreakData(pos, damage / hardness);
 		BreakData breakData = chunkData.getBreakData(pos);
 		if (breakData != null && breakData.getState() >= 1f && breakBlock) {
-			chunkData.removebreakData(pos);
+			chunkData.removeBreakData(pos);
 			if (block instanceof IUpgradeable) {
 				BlockState prev = ((IUpgradeable) block).getPrev(world, pos, state);
 				if (prev != null) {
@@ -569,7 +560,7 @@ public class Utils {
 	}
 
 	public static InputStream getInsideFileStream(String root ,String path) {
-		return Utils.class.getResourceAsStream(new StringBuilder().append("/").append(root).append("/").append(path).toString());
+		return Utils.class.getResourceAsStream("/" + root + "/" + path);
 	}
 
 	public static File tempFileFromStream(InputStream in, String name, String extension) throws IOException {
@@ -751,7 +742,7 @@ public class Utils {
 	}
 
 	public static int getDay(World world) {
-		return (int) Math.round(world.getDayTime() / 24000) + 1;
+		return Math.round(world.getDayTime() / 24000) + 1;
 	}
 
 	public static boolean isBloodmoon(World world) {
@@ -821,8 +812,8 @@ public class Utils {
 
 		double angle = 2.0 * Math.PI * world.random.nextDouble();
 		double dist = 256 + world.random.nextDouble() * 256;
-		double x = (double) xSum / players.size() + dist * Math.cos(angle);
-		double z = (double) zSum / players.size() + dist * Math.sin(angle);
+		double x = xSum / players.size() + dist * Math.cos(angle);
+		double z = zSum / players.size() + dist * Math.sin(angle);
 
 		return new BlockPos(x, 255, z);
 	}
@@ -853,7 +844,7 @@ public class Utils {
 		}
 		double x = 0;
 		double z = 0;
-		double d = (double) (lastDistance + 32) / lastDistance;
+		double d = (lastDistance + 32) / lastDistance;
 
 		x = ((1 - d) * centerPoint.getX()) + (d * theMostDistant.getX());
 		z = ((1 - d) * centerPoint.getZ()) + (d * theMostDistant.getY());
@@ -862,8 +853,7 @@ public class Utils {
 	}
 
 	@SafeVarargs
-	@SuppressWarnings("unchecked")
-	public static <T> Set<T> combine(Set<T>... sets) {
+    public static <T> Set<T> combine(Set<T>... sets) {
 		return Stream.of(sets).flatMap(Set::stream).collect(Collectors.toSet());
 	}
 
@@ -1052,17 +1042,13 @@ public class Utils {
 		Vector3d vec3d2 = vec3d.add(vec3d1.x * dst, vec3d1.y * dst, vec3d1.z * dst);
 		List<Entity> list = entity.level.getEntities(entity,
 				entity.getBoundingBox().inflate(vec3d1.x * dst, vec3d1.y * dst, vec3d1.z * dst),
-				EntityPredicates.NO_SPECTATORS.and(new Predicate<Entity>() {
-					public boolean apply(Entity p_apply_1_) {
-						return p_apply_1_.canBeCollidedWith();
-					}
-				}));
+				EntityPredicates.NO_SPECTATORS.and((Predicate<Entity>) Entity::canBeCollidedWith));
 
 		Vector3d vec3d3 = null;
 		double d2 = d1;
 		for (int j = 0; j < list.size(); ++j) {
 			Entity entity1 = list.get(j);
-			AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate((double) entity1.getPickRadius());
+			AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(entity1.getPickRadius());
 			Optional<Vector3d> optional = axisalignedbb.clip(vec3d, vec3d2);
 
 			if (axisalignedbb.contains(vec3d)) {
@@ -1196,9 +1182,7 @@ public class Utils {
 	public static <T> ArrayList<T> twoDimensionalArrayToList(T[][] array) {
 		ArrayList<T> list = new ArrayList<T>();
 		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[i].length; j++) {
-				list.add(array[i][j]);
-			}
+			list.addAll(Arrays.asList(array[i]));
 		}
 
 		return list;

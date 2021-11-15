@@ -1,0 +1,16 @@
+{
+   "type":"sevendaystomine:separator",
+   "ingredients":[
+      {
+         "item":"minecraft:chicken"
+      }
+   ],
+   "left":{
+      "item":"minecraft:cooked_chicken",
+      "count":1
+   },
+   "right":{
+      "item":"minecraft:cooked_chicken",
+      "count":1
+   }
+}

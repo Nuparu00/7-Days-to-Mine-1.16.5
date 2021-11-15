@@ -34,7 +34,7 @@ public class BootingProcess extends TickingProcess {
 		MonitorAnimation anim = getLoadingAnimation(computerTE);
 		if (anim == null)
 			return;
-		ResourceLocation res = anim.getFrame((int) Math.round(getFrame()));
+		ResourceLocation res = anim.getFrame(Math.round(getFrame()));
 		if (res != null) {
 			RenderSystem.pushMatrix();
 			GL11.glEnable(GL11.GL_BLEND);

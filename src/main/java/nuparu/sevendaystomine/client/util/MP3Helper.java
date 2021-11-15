@@ -70,8 +70,8 @@ public class MP3Helper {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static enum EnumAudioMode {
-		PLAY_ONCE, LOOP, CYCLE;
+	public enum EnumAudioMode {
+		PLAY_ONCE, LOOP, CYCLE
 	}
 	
 	@OnlyIn(Dist.CLIENT)
@@ -282,11 +282,10 @@ public class MP3Helper {
 					} else if (mode == EnumAudioMode.CYCLE) {
 						if (selected < files.size()) {
 							selected++;
-							GuiMp3.playMusic(files.get(selected));
 						} else {
 							selected = 0;
-							GuiMp3.playMusic(files.get(selected));
 						}
+						GuiMp3.playMusic(files.get(selected));
 					} else {
 						playCompleted = true;
 						audioClip.stop();

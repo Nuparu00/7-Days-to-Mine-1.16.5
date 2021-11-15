@@ -6,6 +6,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class BlockUpgradeable extends BlockBase implements IUpgradeable {
@@ -28,7 +29,7 @@ public class BlockUpgradeable extends BlockBase implements IUpgradeable {
 		return sound;
 	}
 
-	public BlockState getResult(World world, BlockPos pos) {
+	public BlockState getResult(IWorld world, BlockPos pos) {
 		return result;
 	}
 
@@ -47,7 +48,7 @@ public class BlockUpgradeable extends BlockBase implements IUpgradeable {
 		return this;    
 	}
 
-	public BlockState getPrev(World world, BlockPos pos, BlockState original) {
+	public BlockState getPrev(IWorld world, BlockPos pos, BlockState original) {
 		return prev;
 	}
 
@@ -56,12 +57,12 @@ public class BlockUpgradeable extends BlockBase implements IUpgradeable {
 	}
 
 	@Override
-	public void onUpgrade(World world, BlockPos pos, BlockState oldState) {
+	public void onUpgrade(IWorld world, BlockPos pos, BlockState oldState) {
 
 	}
 
 	@Override
-	public void onDowngrade(World world, BlockPos pos, BlockState oldState) {
+	public void onDowngrade(IWorld world, BlockPos pos, BlockState oldState) {
 		
 	}
 

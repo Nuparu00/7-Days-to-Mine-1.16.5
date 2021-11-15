@@ -68,7 +68,6 @@ import nuparu.sevendaystomine.network.packets.SyncScrapsMessage;
 import nuparu.sevendaystomine.util.PlayerUtils;
 import nuparu.sevendaystomine.util.Utils;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -78,9 +77,9 @@ public class PlayerEventHandler {
 
     public static final Method m_addSlotToContainer = ObfuscationReflectionHelper.findMethod(Container.class, "func_75146_a",
             Slot.class);
-    public static long nextChainsawCutSound = 0l;
-    protected static long nextChainsawIdleSound = 0l;
-    protected static long lastTimeHittingBlock = 0l;
+    public static long nextChainsawCutSound = 0L;
+    protected static long nextChainsawIdleSound = 0L;
+    protected static long lastTimeHittingBlock = 0L;
     public Field f_allInventories;
 
     public static long getLastTimeHittingBlock() {
@@ -126,7 +125,7 @@ public class PlayerEventHandler {
 					ItemStack wires = new ItemStack(ModItems.WIRE.get(), outputs);
                     InventoryHelper.dropItemStack(world, event.getPos().getX()+0.5,event.getPos().getY()+0.5,event.getPos().getZ()+0.5, wires);
                     stack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(event.getHand()));
-                    world.playSound((PlayerEntity)null, player, SoundEvents.SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    world.playSound(null, player, SoundEvents.SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0F, 1.0F);
 				}
 			}
 
@@ -181,11 +180,7 @@ public class PlayerEventHandler {
     public void addSlot(Slot slot, Container container) {
         try {
             m_addSlotToContainer.invoke(container, slot);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
@@ -414,7 +409,7 @@ public class PlayerEventHandler {
         if (livingEntity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) livingEntity;
             ItemStack activeStack = player.getItemInHand(Hand.MAIN_HAND);
-            CompoundNBT nbt = activeStack.getOrCreateTag();
+            CompoundNBT nbt = activeStack.getTag();
             if (activeStack.isEmpty() || (activeStack.getItem() != ModItems.CHAINSAW.get()
                     && activeStack.getItem() != ModItems.AUGER.get()))
                 return;
@@ -425,12 +420,12 @@ public class PlayerEventHandler {
 
                 if (System.currentTimeMillis() > nextChainsawIdleSound) {
                     Minecraft.getInstance().getSoundManager().play(new MovingSoundChainsawIdle(player));
-                    nextChainsawIdleSound = System.currentTimeMillis() + 3000l;
+                    nextChainsawIdleSound = System.currentTimeMillis() + 3000L;
                 }
                 if (System.currentTimeMillis() > nextChainsawCutSound
                         && System.currentTimeMillis() - getLastTimeHittingBlock() <= 500) {
                     Minecraft.getInstance().getSoundManager().play(new MovingSoundChainsawCut(player));
-                    nextChainsawCutSound = System.currentTimeMillis() + 1600l;
+                    nextChainsawCutSound = System.currentTimeMillis() + 1600L;
                 }
             }
         }

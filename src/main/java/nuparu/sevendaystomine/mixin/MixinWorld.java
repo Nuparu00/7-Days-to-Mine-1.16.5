@@ -27,7 +27,7 @@ public abstract class MixinWorld {
 			if (chunk != null) {
 				IChunkData data = CapabilityHelper.getChunkData(chunk);
 				if(data != null){
-					data.removebreakData(pos);
+					data.removeBreakData(pos);
 				}
 			}
 		}

@@ -1,11 +1,7 @@
 package nuparu.sevendaystomine.entity;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
@@ -17,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -42,7 +37,7 @@ public class FrostbittenWorkerEntity<T extends FrostbittenWorkerEntity> extends 
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
-				.add(Attributes.MOVEMENT_SPEED, (double) 0.15F).add(Attributes.ATTACK_DAMAGE, 4.5D)
+				.add(Attributes.MOVEMENT_SPEED, 0.15F).add(Attributes.ATTACK_DAMAGE, 4.5D)
 				.add(Attributes.ARMOR, 1.0D).add(Attributes.MAX_HEALTH, 90).build();
 	}
 

@@ -9,7 +9,6 @@ import net.minecraft.block.TorchBlock;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
@@ -23,9 +22,7 @@ import nuparu.sevendaystomine.tileentity.TileEntityTorch;
 public class BlockTorchEnhancedWall extends WallTorchBlock implements IBlockBase {
 
 	public BlockTorchEnhancedWall() {
-		super(AbstractBlock.Properties.of(Material.DECORATION).noCollission().instabreak().lightLevel((p_235470_0_) -> {
-			return 14;
-		}).sound(SoundType.WOOD), ParticleTypes.FLAME);
+		super(AbstractBlock.Properties.of(Material.DECORATION).noCollission().instabreak().lightLevel((p_235470_0_) -> 14).sound(SoundType.WOOD), ParticleTypes.FLAME);
 	}
 
 	public static void extinguish(World world, BlockPos pos) {
@@ -34,8 +31,8 @@ public class BlockTorchEnhancedWall extends WallTorchBlock implements IBlockBase
 			return;
 		world.setBlockAndUpdate(pos, ModBlocks.TORCH_UNLIT_WALL.get().defaultBlockState().setValue(WallTorchBlock.FACING,
 				state.getValue(WallTorchBlock.FACING)));
-		world.playLocalSound((double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F),
-				(double) ((float) pos.getZ() + 0.5F), SoundEvents.FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F,
+		world.playLocalSound((float) pos.getX() + 0.5F, (float) pos.getY() + 0.5F,
+				(float) pos.getZ() + 0.5F, SoundEvents.FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F,
 				2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F, false);
 		for (int i = 0; i < 5; ++i) {
 			double d0 = (double) pos.getX() + world.random.nextDouble() * 0.6D + 0.2D;

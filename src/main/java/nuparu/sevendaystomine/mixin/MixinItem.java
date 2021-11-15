@@ -30,7 +30,7 @@ public abstract class MixinItem {
 
     @Inject(method = "Lnet/minecraft/item/Item;fillItemCategory(Lnet/minecraft/item/ItemGroup;Lnet/minecraft/util/NonNullList;)V", at = @At("HEAD"), cancellable = true, remap = ModConstants.REMAP)
     public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> list, CallbackInfo ci) {
-        if (PlayerUtils.isVanillaItemSuitableForQuality((Item)(Object)this) && allowdedIn(group)) {
+        if (PlayerUtils.isVanillaItemSuitableForQuality((Object)this) && allowdedIn(group)) {
             ItemStack stack = new ItemStack(asItem());
             ItemQuality.setQualityForStack(stack, SevenDaysToMine.proxy.getQualityForCurrentPlayer());
             list.add(stack);
@@ -40,7 +40,7 @@ public abstract class MixinItem {
 
     @Inject(method = "Lnet/minecraft/item/Item;onCraftedBy(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At("HEAD"), remap = ModConstants.REMAP)
     public void onCraftedBy(ItemStack stack, World world, PlayerEntity player, CallbackInfo ci) {
-        if (PlayerUtils.isVanillaItemSuitableForQuality((Item)(Object)this) && ItemQuality.getQualityFromStack(stack) <= 0) {
+        if (PlayerUtils.isVanillaItemSuitableForQuality((Object)this) && ItemQuality.getQualityFromStack(stack) <= 0) {
             ItemQuality.setQualityForStack(stack, (int) Math.min(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()),
                             CommonConfig.maxQuality.get()));
         }

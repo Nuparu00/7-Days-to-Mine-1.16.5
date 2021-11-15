@@ -126,8 +126,7 @@ public class AirdropModel extends EntityModel<AirdropEntity> {
     @Override
     public void setupAnim(AirdropEntity entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
 
-        boolean renderParachute = (!entity.isOnGround() && !entity.getLanded());
-        parachute.visible = renderParachute;
+        parachute.visible = (!entity.isOnGround() && !entity.getLanded());
 
     }
 

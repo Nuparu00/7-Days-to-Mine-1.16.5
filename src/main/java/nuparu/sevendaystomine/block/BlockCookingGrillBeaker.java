@@ -42,7 +42,7 @@ public class BlockCookingGrillBeaker extends BlockCookware {
         if (stack.isEmpty() && player.isCrouching()) {
             if (!worldIn.isClientSide()) {
                 worldIn.setBlockAndUpdate(pos, ModBlocks.COOKING_GRILL.get().defaultBlockState().setValue(FACING, state.getValue(FACING)).setValue(WATERLOGGED, state.getValue(WATERLOGGED)).setValue(CAMPFIRE, state.getValue(CAMPFIRE)));
-                worldIn.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                worldIn.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                         SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS,
                         MathUtils.getFloatInRange(0.9f, 1.1f), MathUtils.getFloatInRange(0.9f, 1.1f));
                 InventoryHelper.dropItemStack(worldIn,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,new ItemStack(ModBlocks.BEAKER.get()));
@@ -52,7 +52,6 @@ public class BlockCookingGrillBeaker extends BlockCookware {
 
 
         if (worldIn.isClientSide()) return ActionResultType.SUCCESS;
-        ;
 
         INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
         if (namedContainerProvider != null) {
@@ -61,9 +60,7 @@ public class BlockCookingGrillBeaker extends BlockCookware {
             if (!(player instanceof ServerPlayerEntity))
                 return ActionResultType.FAIL;
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-            NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-                packetBuffer.writeBlockPos(pos);
-            });
+            NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
         }
         return ActionResultType.SUCCESS;
     }

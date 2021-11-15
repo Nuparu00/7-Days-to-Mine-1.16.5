@@ -2,14 +2,12 @@ package nuparu.sevendaystomine.network.packets;
 
 import java.util.function.Supplier;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.network.NetworkEvent;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.ExtendedPlayer;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
@@ -58,14 +56,14 @@ public class PlayerCapabilitySyncMessage {
         public static void handle(PlayerCapabilitySyncMessage msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> {
 				ctx.get().setPacketHandled(true);
-            	Minecraft mc = Minecraft.getInstance();
+            	PlayerEntity player = SevenDaysToMine.proxy.getPlayerEntityFromContext(ctx);
                 IExtendedPlayer extendedPlayer = msg.extendedPlayer;
                 int playerID = msg.playerID;
-                if(mc.level != null && mc.player != null){
-                     Entity entity = mc.level.getEntity(playerID);
+                if(player != null && player.level != null){
+                     Entity entity = player.level.getEntity(playerID);
                      if(entity != null && entity instanceof PlayerEntity){
-                          PlayerEntity player = (PlayerEntity)entity;
-                          IExtendedPlayer localExtendedPlayer = CapabilityHelper.getExtendedPlayer(player);
+                          PlayerEntity player2 = (PlayerEntity)entity;
+                          IExtendedPlayer localExtendedPlayer = CapabilityHelper.getExtendedPlayer(player2);
                           localExtendedPlayer.copy(extendedPlayer);
                      }
                 }

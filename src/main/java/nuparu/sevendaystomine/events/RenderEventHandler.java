@@ -1,25 +1,17 @@
 package nuparu.sevendaystomine.events;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.mojang.blaze3d.vertex.MatrixApplyingVertexBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.multiplayer.ClientChunkProvider;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.ModelBakery;
-import net.minecraft.client.settings.GraphicsFanciness;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -32,7 +24,6 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderHandEvent;
@@ -41,28 +32,17 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import nuparu.sevendaystomine.block.repair.BreakData;
-import nuparu.sevendaystomine.capability.CapabilityHelper;
-import nuparu.sevendaystomine.capability.IChunkData;
-import nuparu.sevendaystomine.client.animation.Animation;
 import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.IVoltage;
-import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.ItemGun;
-import nuparu.sevendaystomine.item.ItemGun.EnumWield;
 import nuparu.sevendaystomine.item.ItemWire;
 import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.ModConstants;
 import nuparu.sevendaystomine.util.PlayerUtils;
 
-import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderEventHandler {
@@ -508,8 +488,8 @@ public class RenderEventHandler {
         float f = player.getAttackAnim(partialTicks);
         float f1 = MathHelper.sin(MathHelper.sqrt(f) * (float)Math.PI);
         float f2 = MathHelper.lerp(partialTicks, player.yBodyRotO, player.yBodyRot) * ((float)Math.PI / 180F);
-        double d0 = (double)MathHelper.sin(f2);
-        double d1 = (double)MathHelper.cos(f2);
+        double d0 = MathHelper.sin(f2);
+        double d1 = MathHelper.cos(f2);
         double d2 = (double)i * 0.35D;
         double d3 = 0.8D;
         double d4;
@@ -524,14 +504,14 @@ public class RenderEventHandler {
             vector3d = vector3d.yRot(-MathHelper.lerp(partialTicks, player.yRotO, player.yRot) * ((float)Math.PI / 180F));
             vector3d = vector3d.yRot(f1 * 0.5F);
             vector3d = vector3d.xRot(-f1 * 0.7F);
-            d4 = MathHelper.lerp((double)partialTicks, player.xo, player.getX()) + vector3d.x;
-            d5 = MathHelper.lerp((double)partialTicks, player.yo, player.getY()) + vector3d.y;
-            d6 = MathHelper.lerp((double)partialTicks, player.zo, player.getZ()) + vector3d.z;
+            d4 = MathHelper.lerp(partialTicks, player.xo, player.getX()) + vector3d.x;
+            d5 = MathHelper.lerp(partialTicks, player.yo, player.getY()) + vector3d.y;
+            d6 = MathHelper.lerp(partialTicks, player.zo, player.getZ()) + vector3d.z;
             f3 = player.getEyeHeight();
         } else {
-            d4 = MathHelper.lerp((double)partialTicks, player.xo, player.getX()) - d1 * d2 - d0 * 0.8D;
+            d4 = MathHelper.lerp(partialTicks, player.xo, player.getX()) - d1 * d2 - d0 * 0.8D;
             d5 = player.yo + (double)player.getEyeHeight() + (player.getY() - player.yo) * (double)partialTicks - 0.45D;
-            d6 = MathHelper.lerp((double)partialTicks, player.zo, player.getZ()) - d0 * d2 + d1 * 0.8D;
+            d6 = MathHelper.lerp(partialTicks, player.zo, player.getZ()) - d0 * d2 + d1 * 0.8D;
             f3 = player.isCrouching() ? -0.1875F : 0.0F;
         }
 /*
@@ -552,4 +532,5 @@ public class RenderEventHandler {
         renderConnection(start,new Vector3d(d4,d5+f3,d6),world,matrixStack.last().pose(),buffer,hightlight,reversed);
 
     }
+
 }

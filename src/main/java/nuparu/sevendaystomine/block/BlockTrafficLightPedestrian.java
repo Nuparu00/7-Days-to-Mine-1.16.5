@@ -8,8 +8,6 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.BlockVoxelShape;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -23,18 +21,18 @@ public class BlockTrafficLightPedestrian extends BlockHorizontalBase implements 
 
 	public VoxelShape NORTH = Block.box(5, 0, 0.5625D*16, 11, 0.75D*16, 1D*16);
 	public VoxelShape SOUTH = Block.box(5, 0, 0D, 11, 0.75D*16, 0.4375D*16);
-	public VoxelShape WEST = Block.box(0.5625D*16, 0.0D, 5, 1*16, 0.75D*16, 11);
+	public VoxelShape WEST = Block.box(0.5625D*16, 0.0D, 5, 16, 0.75D*16, 11);
 	public VoxelShape EAST = Block.box(0D, 0.0D, 5, 0.4375D*16, 0.75D*16, 11);
 
 	public BlockTrafficLightPedestrian() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(1.5f, 1));
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
-		switch ((Direction) state.getValue(FACING)) {
+		switch (state.getValue(FACING)) {
 		default:
 		case NORTH:
 			return NORTH;
@@ -51,7 +49,7 @@ public class BlockTrafficLightPedestrian extends BlockHorizontalBase implements 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

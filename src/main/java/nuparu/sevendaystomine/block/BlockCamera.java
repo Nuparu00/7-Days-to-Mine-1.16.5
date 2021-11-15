@@ -8,7 +8,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityCamera;
 
 public class BlockCamera extends BlockHorizontalBase {

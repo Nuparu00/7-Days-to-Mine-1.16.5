@@ -20,7 +20,7 @@ public class BlockReinforcedConcrete extends BlockBase {
 
 	public BlockReinforcedConcrete() {
 		super(AbstractBlock.Properties.of(Material.STONE).strength(10, 10));
-		registerDefaultState(this.stateDefinition.any().setValue(PHASE, Integer.valueOf(0)));
+		registerDefaultState(this.stateDefinition.any().setValue(PHASE, 0));
 	}
 
 	@Override

@@ -1,17 +1,9 @@
 package nuparu.sevendaystomine.client.renderer.entity;
 
 import net.minecraft.client.renderer.entity.BipedRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.entity.model.ZombieModel;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.renderer.layer.RedEyesLayer;
-import nuparu.sevendaystomine.entity.ReanimatedCorpseEntity;
 import nuparu.sevendaystomine.entity.ZombieBipedEntity;
 
 public abstract class ZombieBipedRenderer<T extends ZombieBipedEntity, M extends BipedModel<T>>

@@ -51,9 +51,7 @@ public class SyncInventoryMessage {
 			Object obj = null;
 			try {
 				obj = Utils.convertFromBytes(bytes);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
+			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			if (obj != null && obj instanceof BufferedCache) {

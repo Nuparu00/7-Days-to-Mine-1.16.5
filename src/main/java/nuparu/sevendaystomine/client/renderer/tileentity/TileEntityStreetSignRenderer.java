@@ -2,32 +2,20 @@ package nuparu.sevendaystomine.client.renderer.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StandingSignBlock;
 import net.minecraft.block.WallSignBlock;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.block.BlockCalendar;
-import nuparu.sevendaystomine.block.BlockStreetSign;
-import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.tileentity.TileEntityCalendar;
 import nuparu.sevendaystomine.tileentity.TileEntityStreetSign;
-import nuparu.sevendaystomine.util.Utils;
 
 import java.util.List;
 
@@ -66,7 +54,7 @@ public class TileEntityStreetSignRenderer extends TileEntityRenderer<TileEntityS
         matrixStack.popPose();
         FontRenderer fontrenderer = this.renderer.getFont();
         float f2 = 0.010416667F;
-        matrixStack.translate(0.0D, (double)0.33333334F, (double)0.046666667F);
+        matrixStack.translate(0.0D, 0.33333334F, 0.046666667F);
         matrixStack.scale(0.010416667F, -0.010416667F, 0.010416667F);
         int i = te.getColor().getTextColor();
         double d0 = 0.4D;

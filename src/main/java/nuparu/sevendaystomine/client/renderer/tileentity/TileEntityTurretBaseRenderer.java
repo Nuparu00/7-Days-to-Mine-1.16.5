@@ -17,10 +17,8 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.BlockTurretBase;
-import nuparu.sevendaystomine.block.BlockWindTurbine;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityTurretBase;
-import nuparu.sevendaystomine.tileentity.TileEntityWindTurbine;
 
 public class TileEntityTurretBaseRenderer extends TileEntityRenderer<TileEntityTurretBase> {
 

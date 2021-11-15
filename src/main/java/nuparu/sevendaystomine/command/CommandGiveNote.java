@@ -24,9 +24,7 @@ public class CommandGiveNote {
         LiteralArgumentBuilder<CommandSource> mbesayCommand = Commands.literal("givenote")
                 .requires((commandSource) -> commandSource.hasPermission(2))
                 .then(Commands.argument("targets", EntityArgument.players())
-                        .then(Commands.argument("path", MessageArgument.message()).executes((p_198539_0_) -> {
-                            return giveNote(p_198539_0_, EntityArgument.getPlayers(p_198539_0_, "targets"));
-                        })));
+                        .then(Commands.argument("path", MessageArgument.message()).executes((p_198539_0_) -> giveNote(p_198539_0_, EntityArgument.getPlayers(p_198539_0_, "targets")))));
 
         dispatcher.register(mbesayCommand);
     }

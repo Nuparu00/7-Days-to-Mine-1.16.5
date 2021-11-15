@@ -49,9 +49,7 @@ import net.minecraft.world.storage.SaveFormat;
 import net.minecraft.world.storage.WorldSummary;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.NotificationModUpdateScreen;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.util.BrandingControlModded;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiMainMenuEnhanced extends Screen {
@@ -128,31 +126,21 @@ public class GuiMainMenuEnhanced extends Screen {
 		} else {
 			this.createNormalMenuOptions(j, 18);
 			modButton = this.addButton(new ButtonTransparent(4, j + 18 * 3, this.font.width(SevenDaysToMine.proxy.localize("fml.menu.mods")), this.font.lineHeight,
-					new TranslationTextComponent("fml.menu.mods"), button -> {
-						this.minecraft.setScreen(new net.minecraftforge.fml.client.gui.screen.ModListScreen(this));
-					}));
+					new TranslationTextComponent("fml.menu.mods"), button -> this.minecraft.setScreen(new net.minecraftforge.fml.client.gui.screen.ModListScreen(this))));
 		}
 		modUpdateNotification = getNotificationModUpdateScreen(this, modButton);
 
 		this.addButton(new ImageButton(4,4, 20, 20, 0, 106, 20, Button.WIDGETS_LOCATION,
-				256, 256, (p_213090_1_) -> {
-					this.minecraft.setScreen(
-							new LanguageScreen(this, this.minecraft.options, this.minecraft.getLanguageManager()));
-				}, new TranslationTextComponent("narrator.button.language")));
+				256, 256, (p_213090_1_) -> this.minecraft.setScreen(
+                        new LanguageScreen(this, this.minecraft.options, this.minecraft.getLanguageManager())), new TranslationTextComponent("narrator.button.language")));
 		this.addButton(new ButtonTransparent(4, j + 18 *4, this.font.width(SevenDaysToMine.proxy.localize("menu.options")),
 			this.font.lineHeight,
-				new TranslationTextComponent("menu.options"), (p_213096_1_) -> {
-					this.minecraft.setScreen(new OptionsScreen(this, this.minecraft.options));
-				}));
+				new TranslationTextComponent("menu.options"), (p_213096_1_) -> this.minecraft.setScreen(new OptionsScreen(this, this.minecraft.options))));
 		this.addButton(new ButtonTransparent(4, j + 18 *5,this.font.width(SevenDaysToMine.proxy.localize("menu.quit")),
 				this.font.lineHeight,
-				new TranslationTextComponent("menu.quit"), (p_213094_1_) -> {
-					this.minecraft.stop();
-				}));
+				new TranslationTextComponent("menu.quit"), (p_213094_1_) -> this.minecraft.stop()));
 		this.addButton(new ImageButton(28, 4, 20, 20, 0, 0, 20, ACCESSIBILITY_TEXTURE, 32,
-				64, (p_213088_1_) -> {
-					this.minecraft.setScreen(new AccessibilityScreen(this, this.minecraft.options));
-				}, new TranslationTextComponent("narrator.button.accessibility")));
+				64, (p_213088_1_) -> this.minecraft.setScreen(new AccessibilityScreen(this, this.minecraft.options)), new TranslationTextComponent("narrator.button.accessibility")));
 		this.minecraft.setConnectedToRealms(false);
 		if (this.minecraft.options.realmsNotifications && !this.realmsNotificationsInitialized) {
 			RealmsBridgeScreen realmsbridgescreen = new RealmsBridgeScreen();
@@ -168,9 +156,7 @@ public class GuiMainMenuEnhanced extends Screen {
 
 	private void createNormalMenuOptions(int p_73969_1_, int p_73969_2_) {
 		this.addButton(new ButtonTransparent(4, p_73969_1_, this.font.width(SevenDaysToMine.proxy.localize("menu.singleplayer")), this.font.lineHeight,
-				new TranslationTextComponent("menu.singleplayer"), (p_213089_1_) -> {
-					this.minecraft.setScreen(new WorldSelectionScreen(this));
-				}));
+				new TranslationTextComponent("menu.singleplayer"), (p_213089_1_) -> this.minecraft.setScreen(new WorldSelectionScreen(this))));
 		boolean flag = this.minecraft.allowsMultiplayer();
 		Button.ITooltip button$itooltip = flag ? Button.NO_TOOLTIP
 				: (p_238659_1_, p_238659_2_, p_238659_3_, p_238659_4_) -> {
@@ -182,17 +168,15 @@ public class GuiMainMenuEnhanced extends Screen {
 					}
 
 				};
-		(this.addButton(new ButtonTransparent(4, p_73969_1_ + p_73969_2_ * 1, this.font.width(SevenDaysToMine.proxy.localize("menu.multiplayer")), this.font.lineHeight,
+		(this.addButton(new ButtonTransparent(4, p_73969_1_ + p_73969_2_, this.font.width(SevenDaysToMine.proxy.localize("menu.multiplayer")), this.font.lineHeight,
 				new TranslationTextComponent("menu.multiplayer"), (p_213095_1_) -> {
-					Screen screen = (Screen) (this.minecraft.options.skipMultiplayerWarning
+					Screen screen = this.minecraft.options.skipMultiplayerWarning
 							? new MultiplayerScreen(this)
-							: new MultiplayerWarningScreen(this));
+							: new MultiplayerWarningScreen(this);
 					this.minecraft.setScreen(screen);
 				}, button$itooltip))).active = flag;
 		(this.addButton(new ButtonTransparent(4, p_73969_1_ + p_73969_2_ * 2, this.font.width(SevenDaysToMine.proxy.localize("menu.online")), this.font.lineHeight,
-				new TranslationTextComponent("menu.online"), (p_238661_1_) -> {
-					this.realmsButtonClicked();
-				}, button$itooltip))).active = flag;
+				new TranslationTextComponent("menu.online"), (p_238661_1_) -> this.realmsButtonClicked(), button$itooltip))).active = flag;
 	}
 
 	private void createDemoMenuOptions(int p_73972_1_, int p_73972_2_) {
@@ -208,7 +192,7 @@ public class GuiMainMenuEnhanced extends Screen {
 					}
 
 				}));
-		this.resetDemoButton = this.addButton(new ButtonTransparent(this.width / 2 - 100, p_73972_1_ + p_73972_2_ * 1,
+		this.resetDemoButton = this.addButton(new ButtonTransparent(this.width / 2 - 100, p_73972_1_ + p_73972_2_,
 				200, 20, new TranslationTextComponent("menu.resetdemo"), (p_238658_1_) -> {
 					SaveFormat saveformat = this.minecraft.getLevelSource();
 
@@ -223,7 +207,7 @@ public class GuiMainMenuEnhanced extends Screen {
 						}
 					} catch (IOException ioexception) {
 						SystemToast.onWorldAccessFailure(this.minecraft, "Demo_World");
-						LOGGER.warn("Failed to access demo world", (Throwable) ioexception);
+						LOGGER.warn("Failed to access demo world", ioexception);
 					}
 
 				}));
@@ -235,7 +219,7 @@ public class GuiMainMenuEnhanced extends Screen {
 			return saveformat$levelsave.getSummary() != null;
 		} catch (IOException ioexception) {
 			SystemToast.onWorldAccessFailure(this.minecraft, "Demo_World");
-			LOGGER.warn("Failed to read demo world data", (Throwable) ioexception);
+			LOGGER.warn("Failed to read demo world data", ioexception);
 			return false;
 		}
 	}
@@ -277,7 +261,7 @@ public class GuiMainMenuEnhanced extends Screen {
 				});
 			} else {*/
 				this.blitOutlineBlack(j, 15, (p_238657_2_, p_238657_3_) -> {
-					this.blit(p_230430_1_, p_238657_2_ + 0, p_238657_3_, 0, 0, 155, 44);
+					this.blit(p_230430_1_, p_238657_2_, p_238657_3_, 0, 0, 155, 44);
 					this.blit(p_230430_1_, p_238657_2_ + 155, p_238657_3_, 0, 45, 155, 44);
 				});
 			//}
@@ -370,7 +354,7 @@ public class GuiMainMenuEnhanced extends Screen {
 				saveformat$levelsave.deleteLevel();
 			} catch (IOException ioexception) {
 				SystemToast.onWorldDeleteFailure(this.minecraft, "Demo_World");
-				LOGGER.warn("Failed to delete demo world", (Throwable) ioexception);
+				LOGGER.warn("Failed to delete demo world", ioexception);
 			}
 		}
 

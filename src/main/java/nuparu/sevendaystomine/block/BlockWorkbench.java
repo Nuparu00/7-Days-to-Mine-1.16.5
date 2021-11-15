@@ -50,9 +50,7 @@ public class BlockWorkbench extends BlockHorizontalBase {
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-				packetBuffer.writeBlockPos(pos);
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 		}
 		return ActionResultType.SUCCESS;
 	}

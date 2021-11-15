@@ -14,14 +14,12 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.IQuality;
 
 import java.lang.reflect.Field;
 
-@SuppressWarnings("deprecation")
 public class RecipeGunShapeless extends RecipeLockedShapeless {
 
 	public RecipeGunShapeless(ResourceLocation p_i48161_1_, String p_i48161_2_, ItemStack p_i48161_3_,

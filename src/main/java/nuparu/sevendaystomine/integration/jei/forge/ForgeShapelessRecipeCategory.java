@@ -1,8 +1,6 @@
 package nuparu.sevendaystomine.integration.jei.forge;
 
-import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.crafting.forge.ForgeRecipeShapeless;

@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:file_cabinet",
+  "material" : "iron",
+  "weight" : 18,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

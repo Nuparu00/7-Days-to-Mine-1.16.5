@@ -6,33 +6,42 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
+import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityToilet;
 
-public class BlockToilet extends BlockHorizontalBase implements ISalvageable {
+public class BlockToilet extends BlockHorizontalBase implements ISalvageable, IWaterLoggable {
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
+	public ResourceLocation salvageLootTable = ModLootTables.TOILET_SALVAGE;
 
 	public BlockToilet(AbstractBlock.Properties properties) {
 		super(properties);
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
@@ -59,9 +68,7 @@ public class BlockToilet extends BlockHorizontalBase implements ISalvageable {
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-				packetBuffer.writeBlockPos(pos);
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 		}
 		return ActionResultType.SUCCESS;
 	}
@@ -71,16 +78,15 @@ public class BlockToilet extends BlockHorizontalBase implements ISalvageable {
 		TileEntity tileentity = p_220052_2_.getBlockEntity(p_220052_3_);
 		return tileentity instanceof INamedContainerProvider ? (INamedContainerProvider) tileentity : null;
 	}
-	
-	@Override
-	public List<ItemStack> getItems(World world, BlockPos pos, BlockState oldState, PlayerEntity player) {
-		List<ItemStack> items = new ArrayList<ItemStack>();
-		if (world.random.nextInt(2) == 0) {
-			items.add(new ItemStack(ModItems.IRON_PIPE.get(), 1 + world.random.nextInt(2)));
-		}
-		items.add(new ItemStack(ModItems.IRON_SCRAP.get(), 1 + world.random.nextInt(2)));
 
-		return items;
+	@Override
+	public ResourceLocation getSalvageLootTable(){
+		return salvageLootTable;
+	}
+
+	@Override
+	public void setSalvageLootTable(ResourceLocation resourceLocation){
+		salvageLootTable = resourceLocation;
 	}
 
 	@Override
@@ -119,6 +125,30 @@ public class BlockToilet extends BlockHorizontalBase implements ISalvageable {
 			}
 			super.onRemove(state, world, blockPos, newState, isMoving);
 		}
+	}
+
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+	}
+
+	@Override
+	public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_, IWorld p_196271_4_, BlockPos p_196271_5_, BlockPos p_196271_6_) {
+		if (p_196271_1_.getValue(WATERLOGGED)) {
+			p_196271_4_.getLiquidTicks().scheduleTick(p_196271_5_, Fluids.WATER, Fluids.WATER.getTickDelay(p_196271_4_));
+		}
+
+		return super.updateShape(p_196271_1_, p_196271_2_, p_196271_3_, p_196271_4_, p_196271_5_, p_196271_6_);
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING, WATERLOGGED);
+	}
+
+	@Override
+	public FluidState getFluidState(BlockState p_204507_1_) {
+		return p_204507_1_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_204507_1_);
 	}
 }
 

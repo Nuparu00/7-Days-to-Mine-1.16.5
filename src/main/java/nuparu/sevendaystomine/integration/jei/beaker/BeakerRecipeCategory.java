@@ -56,7 +56,7 @@ public class BeakerRecipeCategory implements IRecipeCategory<BeakerRecipeShapele
         int cookTime = recipe.getCookingTime();
         if (cookTime <= 0) {
             cookTime = 600;
-        };
+        }
         return this.cachedArrows.getUnchecked(cookTime);
     }
 

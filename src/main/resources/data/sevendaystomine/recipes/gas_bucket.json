@@ -1,0 +1,23 @@
+{
+	"type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "sevendaystomine:gas_canister"
+        },
+        {
+            "item": "sevendaystomine:gas_canister"
+        },
+        {
+            "item": "sevendaystomine:gas_canister"
+        },
+        {
+            "item": "sevendaystomine:gas_canister"
+        },
+        {
+            "item": "minecraft:bucket"
+        }
+    ],
+	"result": {
+		"item": "sevendaystomine:gasoline_bucket"
+	}
+}

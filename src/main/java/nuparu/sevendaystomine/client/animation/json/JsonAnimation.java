@@ -51,8 +51,8 @@ public class JsonAnimation {
         jsonAnimation.name = obj.has("name") ? obj.get("name").getAsString() : "minecraft:empty";
         jsonAnimation.speed = obj.has("speed") ? obj.get("speed").getAsDouble() : 1;
         jsonAnimation.duration = obj.has("duration") ? obj.get("duration").getAsInt() : 1;
-        jsonAnimation.running = obj.has("running") ? obj.get("running").getAsBoolean() : true;
-        jsonAnimation.repeat = obj.has("repeat") ? obj.get("repeat").getAsBoolean() : true;
+        jsonAnimation.running = !obj.has("running") || obj.get("running").getAsBoolean();
+        jsonAnimation.repeat = !obj.has("repeat") || obj.get("repeat").getAsBoolean();
 
         return jsonAnimation;
     }
@@ -73,20 +73,20 @@ public class JsonAnimation {
 
     @Override
     public String toString() {
-        String s = "{";
-        s += " Name: " + name.toString();
-        s += " Speed: " + speed;
-        s += " Duration: " + duration;
-        s += " Running: " + running;
-        s += " Repeat: " + repeat;
-        s += " Speed: " + speed;
-        s += " Models: [";
+        StringBuilder s = new StringBuilder("{");
+        s.append(" Name: ").append(name.toString());
+        s.append(" Speed: ").append(speed);
+        s.append(" Duration: ").append(duration);
+        s.append(" Running: ").append(running);
+        s.append(" Repeat: ").append(repeat);
+        s.append(" Speed: ").append(speed);
+        s.append(" Models: [");
         for(JsonAnimationModel model : models){
-            s+= model.toString() + " ";
+            s.append(model.toString()).append(" ");
         }
-        s += "]";
-        s += "}";
-        return s;
+        s.append("]");
+        s.append("}");
+        return s.toString();
     }
 
 }

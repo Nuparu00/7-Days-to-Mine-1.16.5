@@ -8,9 +8,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -24,10 +24,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.item.EnumMaterial;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.item.ItemLinkTool;
-import nuparu.sevendaystomine.item.ItemScrewdriver;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer.EnumSystem;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
@@ -127,4 +125,8 @@ public class BlockComputer extends BlockHorizontalBase {
 
 	}
 
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
+	}
 }

@@ -16,10 +16,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.block.BlockCamera;
 import nuparu.sevendaystomine.block.BlockGlobe;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.tileentity.TileEntityCamera;
 import nuparu.sevendaystomine.tileentity.TileEntityGlobe;
 
 public class TileEntityGlobeRenderer extends TileEntityRenderer<TileEntityGlobe> {

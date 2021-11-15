@@ -7,7 +7,6 @@ import net.minecraft.block.OreBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.MathHelper;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class BlockOre extends OreBlock implements IBlockBase {
 	

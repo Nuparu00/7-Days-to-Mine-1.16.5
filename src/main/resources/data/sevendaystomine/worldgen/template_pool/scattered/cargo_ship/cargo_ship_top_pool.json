@@ -1,0 +1,15 @@
+{
+	"name": "sevendaystomine:scattered/cargo_ship/cargo_ship_top_pool",
+	"fallback": "sevendaystomine:scattered/cargo_ship/cargo_ship_top_pool",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:scattered/cargo_ship/cargo_ship_top",
+				"processors": "sevendaystomine:default",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		}
+	]
+}

@@ -2,24 +2,18 @@ package nuparu.sevendaystomine.inventory.block;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.init.ModContainers;
-import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
-import nuparu.sevendaystomine.tileentity.ItemZoneContents;
 import nuparu.sevendaystomine.tileentity.TileEntityForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -172,7 +166,7 @@ public class ContainerForge extends Container {
     }
 
     // SlotFuel is a slot for fuel items
-    public class SlotFuel extends SlotItemHandler {
+    public static class SlotFuel extends SlotItemHandler {
 
         public SlotFuel(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
             super(itemHandler, index, xPosition, yPosition);
@@ -188,7 +182,7 @@ public class ContainerForge extends Container {
 
 
     // SlotOutput is a slot that will not accept any item
-    public class SlotOutput extends SlotItemHandler {
+    public static class SlotOutput extends SlotItemHandler {
         private final PlayerEntity player;
         private final TileEntityForge forge;
         private int removeCount;

@@ -44,7 +44,6 @@ public class HardDrive {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public CompoundNBT save(CompoundNBT nbt) {
 
 		if (applications != null) {
@@ -120,7 +119,6 @@ public class HardDrive {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setIconPostion(double x, double y, Application app) {
 		for (Map.Entry<double[], Application> entry : desktopIcons.entrySet()) {
 			if (entry.getValue() == app) {

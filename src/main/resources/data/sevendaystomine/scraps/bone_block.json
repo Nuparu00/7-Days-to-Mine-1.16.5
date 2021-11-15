@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:bone_block",
+  "material" : "bone",
+  "weight" : 9,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

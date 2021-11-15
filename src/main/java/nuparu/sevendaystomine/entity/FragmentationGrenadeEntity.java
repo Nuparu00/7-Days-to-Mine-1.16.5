@@ -5,10 +5,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ReportedException;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.BlazeEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
@@ -19,7 +17,6 @@ import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.EndGatewayTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
@@ -59,7 +56,7 @@ public class FragmentationGrenadeEntity extends ProjectileItemEntity {
     @OnlyIn(Dist.CLIENT)
     private IParticleData getParticle() {
         ItemStack itemstack = this.getItemRaw();
-        return (IParticleData)(itemstack.isEmpty() ? ParticleTypes.ITEM_SNOWBALL : new ItemParticleData(ParticleTypes.ITEM, itemstack));
+        return itemstack.isEmpty() ? ParticleTypes.ITEM_SNOWBALL : new ItemParticleData(ParticleTypes.ITEM, itemstack);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -116,7 +113,7 @@ public class FragmentationGrenadeEntity extends ProjectileItemEntity {
             f = 0.99F;
         }
 
-        this.setDeltaMovement(vector3d.scale((double)f));
+        this.setDeltaMovement(vector3d.scale(f));
         if (!this.isNoGravity()) {
             Vector3d vector3d1 = this.getDeltaMovement();
             this.setDeltaMovement(vector3d1.x, vector3d1.y - (double)this.getGravity(), vector3d1.z);

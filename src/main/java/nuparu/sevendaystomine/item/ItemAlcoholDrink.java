@@ -18,45 +18,36 @@ public class ItemAlcoholDrink extends ItemDrink {
 
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity living) {
-		stack = super.finishUsingItem(stack, worldIn, living);
-		if (living instanceof PlayerEntity)
-			return stack;
+		ItemStack result = super.finishUsingItem(stack, worldIn, living);
+		if (!(living instanceof PlayerEntity))
+			return result;
 		PlayerEntity player = (PlayerEntity) living;
 
 		if (worldIn.isClientSide())
-			return stack;
-		if (!player.hasEffect(Potions.ALCOHOL_BUZZ.get()) && !player.hasEffect(Potions.DRUNK.get())
-				&& !player.hasEffect(Potions.ALCOHOL_POISON.get())) {
-			EffectInstance effect = new EffectInstance(Potions.ALCOHOL_BUZZ.get(), 6000, 4, false, false);
-			effect.setCurativeItems(new ArrayList<ItemStack>());
-			player.addEffect(effect);
-		} else if (player.hasEffect(Potions.ALCOHOL_BUZZ.get()) && random.nextInt(3) != 0) {
-			EffectInstance effect = player.getEffect(Potions.ALCOHOL_BUZZ.get()) != null
-					? player.getEffect(Potions.ALCOHOL_BUZZ.get())
-					: player.getEffect(Potions.DRUNK.get());
-			if (worldIn.random.nextInt(Math.max(6000 - (effect.getDuration() * effect.getAmplifier()), 1)) == 0) {
-				EffectInstance effect_new = new EffectInstance(Potions.DRUNK.get(), 6000, 4, false, false);
-				effect_new.setCurativeItems(new ArrayList<ItemStack>());
-				player.addEffect(effect_new);
-				player.removeEffect(Potions.ALCOHOL_BUZZ.get());
-			}
-		} else if (player.hasEffect(Potions.DRUNK.get())
-				|| player.hasEffect(Potions.ALCOHOL_POISON.get()) && random.nextInt(5) != 0) {
-			EffectInstance effect = player.getEffect(Potions.DRUNK.get());
-			if (effect != null) {
-				if (worldIn.random.nextInt(Math.max(6000 - (effect.getDuration() * effect.getAmplifier()), 1)) == 0) {
-					EffectInstance effect_new = new EffectInstance(Potions.ALCOHOL_POISON.get(), 6000, 4, false, false);
-					effect_new.setCurativeItems(new ArrayList<ItemStack>());
-					player.addEffect(effect_new);
-					player.removeEffect(Potions.DRUNK.get());
+			return result;
+
+		EffectInstance effect = new EffectInstance(Potions.ALCOHOL_BUZZ.get(), 6000, 0, false, false);
+		if(!player.hasEffect(Potions.ALCOHOL_POISON.get())){
+			if(!player.hasEffect(Potions.DRUNK.get())){
+				if(player.hasEffect(Potions.ALCOHOL_BUZZ.get())){
+					EffectInstance buzzEffect = player.getEffect(Potions.ALCOHOL_BUZZ.get());
+					if(random.nextInt(Math.max(1,6-(buzzEffect.getDuration()/10))) == 0){
+						effect = new EffectInstance(Potions.DRUNK.get(), 3000, 0, false, false);
+					}
 				}
-			} else {
-				EffectInstance effect_new = new EffectInstance(Potions.ALCOHOL_POISON.get(), 6000, 4, false, false);
-				effect_new.setCurativeItems(new ArrayList<ItemStack>());
-				player.addEffect(effect_new);
+			}
+			else {
+				EffectInstance drunkEffect = player.getEffect(Potions.DRUNK.get());
+				effect = drunkEffect;
+				if(random.nextInt(Math.max(1,60-(drunkEffect.getDuration()/5))) == 0){
+					effect = new EffectInstance(Potions.ALCOHOL_POISON.get(), 3000, 0, false, false);
+				}
 			}
 		}
-		return stack;
+		effect.setCurativeItems(new ArrayList<ItemStack>());
+		player.addEffect(effect);
+
+		return result;
 	}
 
 }

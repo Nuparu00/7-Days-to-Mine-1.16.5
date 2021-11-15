@@ -10,7 +10,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.entity.ContainerAirdrop;
-import nuparu.sevendaystomine.inventory.entity.ContainerLootableCorpse;
 
 import java.awt.*;
 

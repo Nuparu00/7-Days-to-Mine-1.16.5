@@ -10,10 +10,10 @@ import nuparu.sevendaystomine.tileentity.TileEntityCampfire;
 public interface ICampfireRecipe {
 	 boolean matches(TileEntityCampfire inv, World worldIn);
 	 ItemStack getResult();
-	 public ItemStack getOutput(TileEntityCampfire tileEntity);
-	 public ItemStack getPot();
-	 public List<ItemStack> getIngredients();
-	 public void consumeInput(TileEntityCampfire tileEntity);
-	 public int intGetXP(PlayerEntity player);
+	 ItemStack getOutput(TileEntityCampfire tileEntity);
+	 ItemStack getPot();
+	 List<ItemStack> getIngredients();
+	 void consumeInput(TileEntityCampfire tileEntity);
+	 int intGetXP(PlayerEntity player);
 	 
 }

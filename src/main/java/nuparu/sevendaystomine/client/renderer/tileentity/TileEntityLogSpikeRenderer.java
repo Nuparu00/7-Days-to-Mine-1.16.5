@@ -2,7 +2,6 @@ package nuparu.sevendaystomine.client.renderer.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -15,16 +14,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.block.BlockWindTurbine;
 import nuparu.sevendaystomine.block.BlockWoodenLogSpike;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.tileentity.TileEntityWindTurbine;
 import nuparu.sevendaystomine.tileentity.TileEntityWoodenLogSpike;
 
 public class TileEntityLogSpikeRenderer extends TileEntityRenderer<TileEntityWoodenLogSpike> {

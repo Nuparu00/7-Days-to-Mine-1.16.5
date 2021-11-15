@@ -28,7 +28,6 @@ public class GuiBatteryStation extends ContainerScreen<ContainerBatteryStation> 
         super(container, playerInventory, title);
         this.container = container;
         this.tileEntityBatteryStation = container.getTileEntity();
-        ;
     }
 
     // Returns true if the given x,y coordinates are within the given rectangle

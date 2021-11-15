@@ -30,7 +30,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityCorpse;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
@@ -41,7 +40,7 @@ public class BlockCorpse extends BlockHorizontalBase implements  IWaterLoggable 
 
 	public BlockCorpse(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 	
 	@Override
@@ -74,8 +73,7 @@ public class BlockCorpse extends BlockHorizontalBase implements  IWaterLoggable 
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 		}
 		return ActionResultType.SUCCESS;
 	}
@@ -111,7 +109,7 @@ public class BlockCorpse extends BlockHorizontalBase implements  IWaterLoggable 
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

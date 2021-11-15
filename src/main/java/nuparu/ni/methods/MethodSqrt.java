@@ -23,7 +23,7 @@ public class MethodSqrt extends Method {
 			return null;
 		}
 
-		return new Value((double)Math.sqrt((double)base.asDouble().getRealValue()));
+		return new Value(Math.sqrt((double)base.asDouble().getRealValue()));
 	}
 
 }

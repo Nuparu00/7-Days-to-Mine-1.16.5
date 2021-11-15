@@ -1,10 +1,7 @@
 package nuparu.sevendaystomine.capability;
 
-import java.util.concurrent.Callable;
-
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,13 +17,7 @@ public class ExtendedInventoryProvider implements ICapabilitySerializable<Compou
     
 
     public static void register() {
-        CapabilityManager.INSTANCE.register(IItemHandlerExtended.class, new ExtendedInventoryStorage(), new Callable<IItemHandlerExtended>() {
-
-            @Override
-            public IItemHandlerExtended call() throws Exception {
-                return new ExtendedInventory();
-            }
-        });
+        CapabilityManager.INSTANCE.register(IItemHandlerExtended.class, new ExtendedInventoryStorage(), ExtendedInventory::new);
     }
 
     @Override

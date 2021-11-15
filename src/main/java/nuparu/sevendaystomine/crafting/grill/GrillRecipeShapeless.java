@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.crafting.grill;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.network.PacketBuffer;
@@ -62,7 +61,7 @@ public class GrillRecipeShapeless implements IGrillRecipe<TileEntityGrill> {
         label43: {
             if (i == this.ingredients.size()) {
                 if (this.isSimple) {
-                    if (recipeitemhelper.canCraft(this, (IntList)null)) {
+                    if (recipeitemhelper.canCraft(this, null)) {
                         break label43;
                     }
                 } else if (RecipeMatcher.findMatches(inputs, this.ingredients) != null) {

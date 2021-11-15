@@ -6,10 +6,6 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.entity.FrozenLumberjackEntity;
-import nuparu.sevendaystomine.entity.MinerZombieEntity;
-import nuparu.sevendaystomine.entity.PlaguedNurseEntity;
-import nuparu.sevendaystomine.entity.ReanimatedCorpseEntity;
 import nuparu.sevendaystomine.entity.ZombieSoldierEntity;
 
 public class ZombieSoldierRenderer<T extends ZombieSoldierEntity, M extends BipedModel<T>>

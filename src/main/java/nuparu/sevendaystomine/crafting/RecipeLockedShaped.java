@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
@@ -30,7 +29,6 @@ import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.ItemRecipeBook;
 
-@SuppressWarnings("deprecation")
 public class RecipeLockedShaped extends ShapedRecipe implements IRecipeLocked{
 
 	public String recipe;
@@ -64,12 +62,12 @@ public class RecipeLockedShaped extends ShapedRecipe implements IRecipeLocked{
 		} else if (c instanceof WorkbenchContainer) {
 				WorkbenchContainer container = (WorkbenchContainer) (c);
 				CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
-				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
-						"field_75238_b"));
+				player = ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
+						"field_75238_b");
 			} else if (c instanceof PlayerContainer) {
 				PlayerContainer container = (PlayerContainer) (c);
-				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
-						"field_82862_h"));
+				player = ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
+						"field_82862_h");
 			}
 			if (player != null) {
 				stack.getOrCreateTag().putInt("Quality", (int) Math
@@ -89,12 +87,12 @@ public class RecipeLockedShaped extends ShapedRecipe implements IRecipeLocked{
 	} else if (c instanceof WorkbenchContainer) {
 			WorkbenchContainer container = (WorkbenchContainer) (c);
 			CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
-			player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
-					"field_75238_b"));
+			player = ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
+					"field_75238_b");
 		} else if (c instanceof PlayerContainer) {
 			PlayerContainer container = (PlayerContainer) (c);
-			player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
-					"field_82862_h"));
+			player = ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
+					"field_82862_h");
 		}
 		if (player == null)
 			return false;

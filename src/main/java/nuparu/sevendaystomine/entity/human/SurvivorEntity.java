@@ -94,7 +94,7 @@ public class SurvivorEntity extends EntityHuman implements IMerchant {
     }
 
     protected void stopTrading() {
-        this.setTradingPlayer((PlayerEntity) null);
+        this.setTradingPlayer(null);
     }
 
     @Override

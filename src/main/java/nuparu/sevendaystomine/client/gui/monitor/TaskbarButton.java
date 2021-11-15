@@ -30,7 +30,7 @@ public class TaskbarButton extends Button {
 
 	@Override
 	public void render(MatrixStack matrix, float partialTicks) {
-		if (isDisabled() == false && isVisible() && process.getApp() != null) {
+		if (!isDisabled() && isVisible() && process.getApp() != null) {
 			if (process.isFocused()) {
 				RenderSystem.pushMatrix();
 				RenderSystem.enableBlend();

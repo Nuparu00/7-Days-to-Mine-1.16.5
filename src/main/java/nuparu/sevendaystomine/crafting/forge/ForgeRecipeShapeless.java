@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.crafting.forge;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.network.PacketBuffer;
@@ -15,7 +14,6 @@ import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.tileentity.TileEntityForge;
-import nuparu.sevendaystomine.tileentity.TileEntityGrill;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -65,7 +63,7 @@ public class ForgeRecipeShapeless implements IForgeRecipe<TileEntityForge> {
         label43: {
             if (i == this.ingredients.size()) {
                 if (this.isSimple) {
-                    if (recipeitemhelper.canCraft(this, (IntList)null)) {
+                    if (recipeitemhelper.canCraft(this, null)) {
                         break label43;
                     }
                 } else if (RecipeMatcher.findMatches(inputs, this.ingredients) != null) {

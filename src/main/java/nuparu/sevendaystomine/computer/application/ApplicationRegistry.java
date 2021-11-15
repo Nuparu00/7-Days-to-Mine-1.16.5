@@ -24,8 +24,7 @@ public class ApplicationRegistry {
 	}
 	
 	public Application getByRes(ResourceLocation res) {
-		Application app = registry.get(res);
-		return app;
+		return registry.get(res);
 	}
 	
 	public Application getByString(String name) {

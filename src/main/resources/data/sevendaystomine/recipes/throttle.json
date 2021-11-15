@@ -1,0 +1,25 @@
+{
+   "type":"minecraft:crafting_shaped",
+   "pattern":[
+      " W ",
+      "CAC",
+      " P "
+   ],
+   "key":{
+      "A":{
+         "item":"sevendaystomine:armchair_black"
+      },
+      "P":{
+         "item":"sevendaystomine:iron_pipe"
+      },
+      "W":{
+         "item":"minecraft:red_wool"
+      },
+      "C":{
+         "item":"minecraft:red_carpet"
+      }
+   },
+   "result":{
+      "item":"sevendaystomine:throttle"
+   }
+}

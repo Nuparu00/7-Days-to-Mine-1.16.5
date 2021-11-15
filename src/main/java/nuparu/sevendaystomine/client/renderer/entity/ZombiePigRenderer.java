@@ -7,10 +7,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.model.entity.ZombiePigModel;
-import nuparu.sevendaystomine.client.model.entity.ZombieWolfModel;
 import nuparu.sevendaystomine.client.renderer.layer.RedEyesLayer;
 import nuparu.sevendaystomine.entity.ZombiePigEntity;
-import nuparu.sevendaystomine.entity.ZombieWolfEntity;
 
 public class ZombiePigRenderer<T extends ZombiePigEntity, M extends ZombiePigModel<T>>
 		extends MobRenderer<T, M> {

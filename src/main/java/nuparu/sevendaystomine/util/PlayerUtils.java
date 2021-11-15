@@ -78,11 +78,11 @@ public class PlayerUtils {
 		return EnumQuality.getFromQuality(quality);
 	}
 	public static boolean isQualityItem(ItemStack stack){
-		return stack.getItem() instanceof IQuality || (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getOrCreateTag().contains("Quality", Constants.NBT.TAG_INT));
+		return stack.getItem() instanceof IQuality || (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getTag() != null && stack.getTag().contains("Quality", Constants.NBT.TAG_INT));
 	}
 
 	public static boolean isVanillaQualityItem(ItemStack stack){
-		return !(stack.getItem() instanceof IQuality) && (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getOrCreateTag().contains("Quality", Constants.NBT.TAG_INT));
+		return !(stack.getItem() instanceof IQuality) && (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getTag() != null && stack.getTag().contains("Quality", Constants.NBT.TAG_INT));
 	}
 
 	public static boolean isVanillaItemSuitableForQuality(Object object){

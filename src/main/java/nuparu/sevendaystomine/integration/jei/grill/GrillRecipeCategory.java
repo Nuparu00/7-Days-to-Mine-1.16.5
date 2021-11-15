@@ -54,7 +54,7 @@ public class GrillRecipeCategory implements IRecipeCategory<GrillRecipeShapeless
         int cookTime = recipe.getCookingTime();
         if (cookTime <= 0) {
             cookTime = 600;
-        };
+        }
         return this.cachedArrows.getUnchecked(cookTime);
     }
 

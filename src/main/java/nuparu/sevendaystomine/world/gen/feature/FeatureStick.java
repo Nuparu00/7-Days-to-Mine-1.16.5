@@ -1,7 +1,6 @@
 package nuparu.sevendaystomine.world.gen.feature;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
@@ -9,19 +8,15 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.util.MathUtils;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class FeatureStick<T extends IFeatureConfig> extends Feature<T> {

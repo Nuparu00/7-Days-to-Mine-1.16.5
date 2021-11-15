@@ -1,0 +1,15 @@
+{
+	"name": "sevendaystomine:scattered/cruiser/cruiser_rear_pool",
+	"fallback": "sevendaystomine:scattered/cruiser/cruiser_rear_pool",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:scattered/cruiser/cruiser_rear",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		}
+	]
+}

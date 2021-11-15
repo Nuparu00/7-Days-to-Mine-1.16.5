@@ -31,12 +31,12 @@ import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.item.ItemQuality;
 import nuparu.sevendaystomine.tileentity.TileEntityCarMaster;
 import nuparu.sevendaystomine.tileentity.TileEntityCarSlave;
-import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.util.Utils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class BlockCar extends BlockHorizontalBase implements ISalvageable, IWaterLoggable {
 
@@ -50,12 +50,13 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
      */
     public byte[][][] shape;
     public ResourceLocation lootTable = ModLootTables.SEDAN;
+    public ResourceLocation salvageLootTable = ModLootTables.CAR_SALVAGE;
     public boolean special = false;
 
     public BlockCar(AbstractBlock.Properties properties, byte[][][] shape) {
         super(properties.noOcclusion().isSuffocating(BlockCar::never).isViewBlocking(BlockCar::never).dynamicShape());
         this.shape = shape;
-        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(MASTER, true).setValue(WATERLOGGED, Boolean.valueOf(false)));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(MASTER, true).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     private static boolean never(BlockState p_235436_0_, IBlockReader p_235436_1_, BlockPos p_235436_2_) {
@@ -104,7 +105,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
                          TileEntityCarMaster masterTE) {
         if (placeMaster) {
             FluidState fluidstate = worldIn.getFluidState(pos);
-            BlockState state = defaultBlockState().setValue(FACING, facing).setValue(MASTER, true).setValue(WATERLOGGED,Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+            BlockState state = defaultBlockState().setValue(FACING, facing).setValue(MASTER, true).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
             worldIn.setBlockAndUpdate(pos, state);
             TileEntity TE = worldIn.getBlockEntity(pos);
             if (!(TE instanceof TileEntityCarMaster)) {
@@ -112,6 +113,9 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
             }
             masterTE = (TileEntityCarMaster) TE;
         }
+
+        masterTE.setLootTable(lootTable, worldIn.random.nextLong());
+
         int index = 1;
 
         for (int height = 0; height < shape.length; height++) {
@@ -128,12 +132,12 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
                         continue;
                     }
                     FluidState fluidstate = worldIn.getFluidState(pos2);
-                    BlockState state2 = defaultBlockState().setValue(FACING, facing).setValue(MASTER, false).setValue(WATERLOGGED,Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                    BlockState state2 = defaultBlockState().setValue(FACING, facing).setValue(MASTER, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
                     worldIn.setBlockAndUpdate(pos2, state2);
                     TileEntity TE2 = worldIn.getBlockEntity(pos2);
                     if (TE2 instanceof TileEntityCarSlave) {
                         TileEntityCarSlave slave = (TileEntityCarSlave) TE2;
-                        slave.setMaster(pos, masterTE);
+                        slave.setMaster(pos, masterTE,worldIn);
                         slave.setIndex(index);
                     }
                     index++;
@@ -146,10 +150,10 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
     World Generator version
      */
     public void generate(IServerWorld worldIn, BlockPos pos, Direction facing, boolean placeMaster,
-                         TileEntityCarMaster masterTE) {
+                         TileEntityCarMaster masterTE, Random random) {
         if (placeMaster) {
             FluidState fluidstate = worldIn.getFluidState(pos);
-            BlockState state = defaultBlockState().setValue(FACING, facing).setValue(MASTER, true).setValue(WATERLOGGED,Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+            BlockState state = defaultBlockState().setValue(FACING, facing).setValue(MASTER, true).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
             worldIn.setBlock(pos, state,0);
             TileEntity TE = worldIn.getBlockEntity(pos);
             if (!(TE instanceof TileEntityCarMaster)) {
@@ -157,6 +161,9 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
             }
             masterTE = (TileEntityCarMaster) TE;
         }
+
+        masterTE.setLootTable(lootTable,random.nextLong());
+
         int index = 1;
 
         for (int height = 0; height < shape.length; height++) {
@@ -173,12 +180,12 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
                         continue;
                     }
                     FluidState fluidstate = worldIn.getFluidState(pos2);
-                    BlockState state2 = defaultBlockState().setValue(FACING, facing).setValue(MASTER, false).setValue(WATERLOGGED,Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                    BlockState state2 = defaultBlockState().setValue(FACING, facing).setValue(MASTER, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
                     worldIn.setBlock(pos2, state2,0);
                     TileEntity TE2 = worldIn.getBlockEntity(pos2);
                     if (TE2 instanceof TileEntityCarSlave) {
                         TileEntityCarSlave slave = (TileEntityCarSlave) TE2;
-                        slave.setMaster(pos, masterTE);
+                        slave.setMaster(pos, masterTE, worldIn);
                         slave.setIndex(index);
                     }
                     index++;
@@ -200,7 +207,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
                             .relative(facing, length - Math.round(shape1d.length / 2) - 1).above(height);
                     BlockState state = world.getBlockState(pos2);
                     Block block2 = state.getBlock();
-                    if (!state.canBeReplacedByLogs(world, pos2)) {
+                    if (!state.getMaterial().isReplaceable()) {
                         return false;
                     }
                 }
@@ -220,7 +227,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
             if (te instanceof TileEntityCarMaster) {
                 INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, te.getBlockPos());
                 if (namedContainerProvider != null) {
-                    TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
+                    TileEntityCarMaster tileEntity = (TileEntityCarMaster)namedContainerProvider;
                     tileEntity.unpackLootTable(player);
                     if (!(player instanceof ServerPlayerEntity))
                         return ActionResultType.FAIL;
@@ -232,6 +239,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
                 TileEntityCarSlave slave = (TileEntityCarSlave) te;
                 TileEntityCarMaster master = slave.getMaster();
                 if (master != null) {
+                    master.unpackLootTable(player);
                     INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, master.getBlockPos());
                     if (namedContainerProvider != null) {
                         if (!(player instanceof ServerPlayerEntity))
@@ -296,6 +304,15 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
     }
 
     @Override
+    public ResourceLocation getSalvageLootTable(){
+        return salvageLootTable;
+    }
+
+    @Override
+    public void setSalvageLootTable(ResourceLocation resourceLocation){
+        salvageLootTable = resourceLocation;
+    }
+
     public List<ItemStack> getItems(World world, BlockPos pos, BlockState oldState, PlayerEntity player) {
         List<ItemStack> items = new ArrayList<ItemStack>();
         if (world.random.nextDouble() < 0.05) {
@@ -343,7 +360,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockPos blockpos = context.getClickedPos();
         FluidState fluidstate = context.getLevel().getFluidState(blockpos);
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
     @Override

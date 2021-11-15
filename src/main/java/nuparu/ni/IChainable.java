@@ -4,6 +4,6 @@ import nuparu.ni.exception.EvaluationErrorException;
 
 public interface IChainable {
 
-	public boolean hasValue();
-	public Value evaluate() throws EvaluationErrorException;
+	boolean hasValue();
+	Value evaluate() throws EvaluationErrorException;
 }

@@ -5,14 +5,11 @@ import java.util.function.Supplier;
 
 import org.apache.commons.io.FilenameUtils;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.config.CommonConfig;

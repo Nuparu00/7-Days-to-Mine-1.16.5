@@ -9,12 +9,10 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.BushBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.IntegerProperty;
@@ -74,7 +72,7 @@ public class BlockFruitBush extends BushBlock implements IGrowable, IBlockBase {
 	}
 
 	public BlockState getStateForAge(int p_185528_1_) {
-		return this.defaultBlockState().setValue(this.getAgeProperty(), Integer.valueOf(p_185528_1_));
+		return this.defaultBlockState().setValue(this.getAgeProperty(), p_185528_1_);
 	}
 
 	public boolean isMaxAge(BlockState p_185525_1_) {
@@ -93,7 +91,7 @@ public class BlockFruitBush extends BushBlock implements IGrowable, IBlockBase {
 			if (age == getMaxAge()) {
 				popResource(worldIn, pos, new ItemStack(getBaseSeedId(),shears ? 3 : 1));
 				worldIn.setBlock(pos, getStateForAge(getMaxAge() - (shears ? 3 : 1)), 2);
-				worldIn.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+				worldIn.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
 						SoundEvents.GRASS_PLACE, SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.9f, 1.1f),
 						MathUtils.getFloatInRange(1.2f, 1.5f));
 				return ActionResultType.SUCCESS;
@@ -103,7 +101,7 @@ public class BlockFruitBush extends BushBlock implements IGrowable, IBlockBase {
 				if (playerIn instanceof ServerPlayerEntity) {
 					playerIn.getItemInHand(hand).hurt(1, worldIn.random, (ServerPlayerEntity) playerIn);
 				}
-				worldIn.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+				worldIn.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
 						SoundEvents.SHEEP_SHEAR, SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.9f, 1.1f),
 						MathUtils.getFloatInRange(0.95f, 1.05f));
 			}
@@ -195,7 +193,7 @@ public class BlockFruitBush extends BushBlock implements IGrowable, IBlockBase {
 	}
 
 	public void entityInside(BlockState p_196262_1_, World p_196262_2_, BlockPos p_196262_3_, Entity p_196262_4_) {
-		p_196262_4_.makeStuckInBlock(p_196262_1_, new Vector3d(0.25D, (double) 0.05F, 0.25D));
+		p_196262_4_.makeStuckInBlock(p_196262_1_, new Vector3d(0.25D, 0.05F, 0.25D));
 	}
 
 	protected IItemProvider getBaseSeedId() {

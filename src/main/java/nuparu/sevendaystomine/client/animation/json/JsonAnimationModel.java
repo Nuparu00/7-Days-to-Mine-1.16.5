@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.util.ResourceLocation;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.animation.AnimationModel;
-import nuparu.sevendaystomine.client.animation.AnimationModelRenderers;
 import nuparu.sevendaystomine.client.animation.KeyPoint;
 
 import java.util.ArrayList;
@@ -78,19 +76,19 @@ public class JsonAnimationModel {
 
     @Override
     public String toString() {
-        String s = "{";
-        s += " Renderer: " + renderer;
-        s += " Models: [";
+        StringBuilder s = new StringBuilder("{");
+        s.append(" Renderer: ").append(renderer);
+        s.append(" Models: [");
         for(JsonAnimationModel model : children){
-            s+= model.toString() + " ";
+            s.append(model.toString()).append(" ");
         }
-        s += "]";
-        s += "Models: [";
+        s.append("]");
+        s.append("Models: [");
         for(JsonKeyPoint point : points){
-            s+= point.toString() + " ";
+            s.append(point.toString()).append(" ");
         }
-        s += "]";
-        s += "}";
-        return s;
+        s.append("]");
+        s.append("}");
+        return s.toString();
     }
 }

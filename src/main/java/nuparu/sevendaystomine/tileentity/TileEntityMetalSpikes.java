@@ -78,8 +78,7 @@ public class TileEntityMetalSpikes extends TileEntity {
 
     @Override
     public CompoundNBT getUpdateTag() {
-        CompoundNBT nbt = save(new CompoundNBT());
-        return nbt;
+        return save(new CompoundNBT());
     }
 
     @Override

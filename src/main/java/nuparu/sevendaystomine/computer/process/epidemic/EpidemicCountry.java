@@ -108,7 +108,7 @@ public class EpidemicCountry {
 		while (it.hasNext()) {
 			INBT base = it.next();
 			if (base instanceof StringNBT) {
-				this.adjacentTemp.add(((StringNBT) base).getAsString());
+				this.adjacentTemp.add(base.getAsString());
 			}
 		}
 
@@ -117,7 +117,7 @@ public class EpidemicCountry {
 		while (it.hasNext()) {
 			INBT base = it.next();
 			if (base instanceof StringNBT) {
-				this.airTemp.add(((StringNBT) base).getAsString());
+				this.airTemp.add(base.getAsString());
 			}
 		}
 
@@ -126,7 +126,7 @@ public class EpidemicCountry {
 		while (it.hasNext()) {
 			INBT base = it.next();
 			if (base instanceof StringNBT) {
-				this.navalTemp.add(((StringNBT) base).getAsString());
+				this.navalTemp.add(base.getAsString());
 			}
 		}
 

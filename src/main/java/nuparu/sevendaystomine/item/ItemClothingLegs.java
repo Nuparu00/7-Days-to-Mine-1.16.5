@@ -13,7 +13,7 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 public class ItemClothingLegs extends ItemClothing {
 
 	public ItemClothingLegs(boolean isDyeable, boolean hasOverlay, String fileName) {
-		super(ModArmorMaterial.CLOTHING,EquipmentSlotType.CHEST, new Item.Properties().stacksTo(1));
+		super(ModArmorMaterial.CLOTHING,EquipmentSlotType.LEGS, new Item.Properties().stacksTo(1));
 		this.isDyeable = isDyeable;
 		this.hasOverlay = hasOverlay;
 		this.texture = new ResourceLocation(SevenDaysToMine.MODID,"textures/models/clothing/" + fileName +".png");

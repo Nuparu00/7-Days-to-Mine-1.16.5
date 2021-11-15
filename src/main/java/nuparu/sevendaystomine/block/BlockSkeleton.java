@@ -23,7 +23,7 @@ public class BlockSkeleton extends BlockHorizontalBase implements IWaterLoggable
 	
 	public BlockSkeleton() {
 		super(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.BONE_BLOCK).strength(1f, 1).noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class BlockSkeleton extends BlockHorizontalBase implements IWaterLoggable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

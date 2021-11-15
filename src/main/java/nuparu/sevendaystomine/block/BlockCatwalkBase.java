@@ -24,7 +24,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class BlockCatwalkBase extends BlockBase implements  IWaterLoggable {
 	public static final EnumProperty<CatwalkType> TYPE = EnumProperty.create("type", CatwalkType.class);
@@ -36,7 +35,7 @@ public class BlockCatwalkBase extends BlockBase implements  IWaterLoggable {
 	public BlockCatwalkBase(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(TYPE, CatwalkType.BOTTOM).setValue(WATERLOGGED,
-				Boolean.valueOf(false)));
+				Boolean.FALSE));
 	}
 
 	public boolean useShapeForLightOcclusion(BlockState p_220074_1_) {
@@ -50,12 +49,10 @@ public class BlockCatwalkBase extends BlockBase implements  IWaterLoggable {
 	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
 		CatwalkType slabtype = p_220053_1_.getValue(TYPE);
-		switch (slabtype) {
-		case TOP:
+		if (slabtype == CatwalkType.TOP) {
 			return TOP_AABB;
-		default:
-			return BOTTOM_AABB;
 		}
+		return BOTTOM_AABB;
 	}
 
 	@Nullable
@@ -64,7 +61,7 @@ public class BlockCatwalkBase extends BlockBase implements  IWaterLoggable {
 		BlockState blockstate = p_196258_1_.getLevel().getBlockState(blockpos);
 		FluidState fluidstate = p_196258_1_.getLevel().getFluidState(blockpos);
 		BlockState blockstate1 = this.defaultBlockState().setValue(TYPE, CatwalkType.BOTTOM).setValue(WATERLOGGED,
-				Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+				fluidstate.getType() == Fluids.WATER);
 		Direction direction = p_196258_1_.getClickedFace();
 		return direction != Direction.DOWN
 				&& (direction == Direction.UP || !(p_196258_1_.getClickLocation().y - (double) blockpos.getY() > 0.5D))
@@ -136,7 +133,7 @@ public class BlockCatwalkBase extends BlockBase implements  IWaterLoggable {
 
 		private final String name;
 
-		private CatwalkType(String p_i49332_3_) {
+		CatwalkType(String p_i49332_3_) {
 			this.name = p_i49332_3_;
 		}
 

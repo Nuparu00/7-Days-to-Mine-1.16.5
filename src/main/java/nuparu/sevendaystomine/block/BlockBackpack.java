@@ -2,46 +2,36 @@ package nuparu.sevendaystomine.block;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.command.arguments.MessageArgument;
+import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.AbstractFurnaceTileEntity;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
-import nuparu.sevendaystomine.tileentity.TileEntityBookshelf;
-import nuparu.sevendaystomine.tileentity.TileEntityDresser;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
-import nuparu.sevendaystomine.util.Utils;
 
-import java.util.List;
+public class BlockBackpack extends BlockHorizontalBase implements IWaterLoggable {
 
-public class BlockBackpack extends BlockHorizontalBase{
-	
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	private static final VoxelShape NORTH = Block.box(4, 0.0F, 16, 12, 13, 10);
 	private static final VoxelShape SOUTH = Block.box(4, 0.0F, 0F, 12, 13, 6);
 	private static final VoxelShape WEST = Block.box(16, 0.0F, 4, 10, 13, 12);
@@ -49,6 +39,7 @@ public class BlockBackpack extends BlockHorizontalBase{
 
 	public BlockBackpack(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 	
 	@Override
@@ -87,9 +78,7 @@ public class BlockBackpack extends BlockHorizontalBase{
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-				packetBuffer.writeBlockPos(pos);
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 			}
 		return ActionResultType.SUCCESS;
 	}
@@ -123,4 +112,19 @@ public class BlockBackpack extends BlockHorizontalBase{
 		}
 	}
 
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> p_206840_1_) {
+		p_206840_1_.add(FACING, WATERLOGGED);
+	}
+
+	@Override
+	public FluidState getFluidState(BlockState p_204507_1_) {
+		return p_204507_1_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_204507_1_);
+	}
 }

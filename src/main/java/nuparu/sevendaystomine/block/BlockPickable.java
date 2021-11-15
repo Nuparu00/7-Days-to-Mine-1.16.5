@@ -4,8 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -16,7 +14,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.util.MathUtils;
 
 public class BlockPickable extends BlockBase {
@@ -52,9 +50,10 @@ public class BlockPickable extends BlockBase {
 		if (worldIn.isClientSide())
 			return ActionResultType.SUCCESS;
 
+		System.out.println(getDrops(state, (ServerWorld) worldIn,pos,null).get(0).toString());
 		Block.dropResources(state, worldIn, pos);
 		worldIn.setBlockAndUpdate(pos,Blocks.AIR.defaultBlockState());
-		worldIn.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+		worldIn.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
 				SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS,
 				MathUtils.getFloatInRange(0.9f, 1.1f), MathUtils.getFloatInRange(0.9f, 1.1f));
 

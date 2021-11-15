@@ -9,7 +9,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.inventory.block.ContainerForge;
 import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 
 import java.awt.*;

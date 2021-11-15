@@ -36,10 +36,8 @@ public class ItemBloodDrawKit extends Item {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entityLiving;
 			int dur = this.getUseDuration(stack) - timeLeft;
-			if (dur >= this.getUseDuration(stack) * 0.05f) {
+			if (dur >= this.getUseDuration(stack) * 0.15f) {
 				ItemStack bloodBag = new ItemStack(ModItems.BLOOD_BAG.get());
-
-				LivingEntity toHurt = player;
 
 				/*RayTraceResult entityRay = Utils.raytraceEntities(entityLiving, 2);
 				if (entityRay != null) {
@@ -55,18 +53,18 @@ public class ItemBloodDrawKit extends Item {
 					}
 				}*/
 
-				if (toHurt instanceof PlayerEntity) {
-					bloodBag.getOrCreateTag().putString("donor", toHurt.getUUID().toString());
+				if (player instanceof PlayerEntity) {
+					bloodBag.getOrCreateTag().putString("donor", player.getUUID().toString());
 				}
 
-				if (!world.isClientSide() && toHurt != player) {
+				if (!world.isClientSide() && player != player) {
 					//ModTriggers.MOSCO.trigger((ServerPlayerEntity) player);
 				}
 
 				if (!player.inventory.add(bloodBag)) {
 					player.drop(bloodBag, false);
 				}
-				toHurt.hurt(DamageSources.bleeding, 4);
+				((LivingEntity) player).hurt(DamageSources.bleeding, 4);
 				if (player instanceof ServerPlayerEntity) {
 					stack.hurt(1, world.random, (ServerPlayerEntity) entityLiving);
 					if(stack.getDamageValue() >= this.getMaxDamage(stack)) {

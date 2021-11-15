@@ -1,7 +1,6 @@
 package nuparu.sevendaystomine.tileentity;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -25,7 +24,6 @@ import nuparu.sevendaystomine.init.ModFluids;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerFlamethrower;
-import nuparu.sevendaystomine.inventory.block.ContainerGasGenerator;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
 public class TileEntityFlamethrower extends TileEntityItemHandler<ItemHandlerNameable> implements ITickableTileEntity {
@@ -206,8 +204,7 @@ public class TileEntityFlamethrower extends TileEntityItemHandler<ItemHandlerNam
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+        return save(new CompoundNBT());
 	}
 
 	@Override

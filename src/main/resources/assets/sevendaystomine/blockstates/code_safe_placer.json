@@ -1,0 +1,10 @@
+{
+    "variants": {
+		"facing=south": { "model": "sevendaystomine:block/code_safe_locked","y":180 },
+		"facing=east": { "model": "sevendaystomine:block/code_safe_locked","y":90 },
+		"facing=west": { "model": "sevendaystomine:block/code_safe_locked","y":270 },
+		"facing=north": { "model": "sevendaystomine:block/code_safe_locked","y":0 },
+		"facing=up": { "model": "sevendaystomine:block/code_safe_locked","x":-90 },
+		"facing=down": { "model": "sevendaystomine:block/code_safe_locked","x":90 }
+    }
+}

@@ -14,13 +14,13 @@ public class TileEntityEnergySwitch extends TileEntityEnergyPole {
 
 	@Override
 	public long tryToSendPower(long power, ElectricConnection connection) {
-		if (level.getBlockState(worldPosition).getValue(BlockEnergySwitch.POWERED) == false)
+		if (!level.getBlockState(worldPosition).getValue(BlockEnergySwitch.POWERED))
 			return 0;
 		long canBeAdded = capacity - voltage;
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;

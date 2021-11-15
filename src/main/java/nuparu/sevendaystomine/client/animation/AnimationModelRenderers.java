@@ -14,7 +14,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.events.RenderEventHandler;
@@ -32,7 +31,7 @@ public class AnimationModelRenderers {
             @Override
             void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light) {
                 Minecraft minecraft = Minecraft.getInstance();
-                AbstractClientPlayerEntity player = minecraft.player;;
+                AbstractClientPlayerEntity player = minecraft.player;
                 PlayerRenderer playerrenderer = (PlayerRenderer) minecraft.getEntityRenderDispatcher().getRenderer(player);
                 playerrenderer.renderRightHand(matrixStack,buffer,light,player);
 
@@ -58,7 +57,7 @@ public class AnimationModelRenderers {
             @Override
             void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light) {
                 Minecraft minecraft = Minecraft.getInstance();
-                AbstractClientPlayerEntity player = minecraft.player;;
+                AbstractClientPlayerEntity player = minecraft.player;
                 PlayerRenderer playerrenderer = (PlayerRenderer) minecraft.getEntityRenderDispatcher().getRenderer(player);
                 playerrenderer.renderLeftHand(matrixStack,buffer,light,player);
 

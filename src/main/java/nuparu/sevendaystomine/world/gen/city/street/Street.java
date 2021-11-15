@@ -4,13 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.block.BlockAsphalt;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.util.Utils;
@@ -170,7 +166,7 @@ public class Street {
 System.out.println("STREET GEN");
         int width = city.type.getRoadWidth() + (city.type.getPavementWidth() * 2);
         for (int forward = 0; forward <= city.type.roadLength - 1; forward++) {
-            int y = (int) Math.round(Utils.lerp(start.getY(), end.getY(), forward / (float) city.type.roadLength));
+            int y = Math.round(Utils.lerp(start.getY(), end.getY(), forward / (float) city.type.roadLength));
 
             for (int side = 0; side < width; side++) {
                 int offset = side - Math.round(width / 2f) + 1;
@@ -191,7 +187,6 @@ System.out.println("STREET GEN");
         if ((side < city.type.getPavementWidth() || side >= city.type.getRoadWidth() + city.type.getPavementWidth())
                 && originalState != city.type.roadBlock) {
             BlockState pavementState = city.type.pavementBlock;
-            ;
             if (pavementState == null) {
                 pavementState = Blocks.STONE_BRICKS.defaultBlockState();
                 if (city.rand.nextInt(3) == 0) {

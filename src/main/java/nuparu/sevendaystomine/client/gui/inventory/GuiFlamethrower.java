@@ -13,14 +13,11 @@ import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.block.ContainerFlamethrower;
-import nuparu.sevendaystomine.inventory.block.ContainerGasGenerator;
 import nuparu.sevendaystomine.tileentity.TileEntityFlamethrower;
-import nuparu.sevendaystomine.tileentity.TileEntityGasGenerator;
 
 import java.awt.*;
 import java.util.ArrayList;

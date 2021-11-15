@@ -9,7 +9,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.inventory.block.ContainerWorkbench;
 import nuparu.sevendaystomine.inventory.block.ContainerWorkbenchUncrafting;
 
 import java.awt.*;
@@ -17,7 +16,7 @@ import java.awt.*;
 @OnlyIn(Dist.CLIENT)
 public class GuiWorkbenchUncrafting extends ContainerScreen<ContainerWorkbenchUncrafting> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/gui/container/workbench.png");
+			"textures/gui/container/workbench_uncrafting.png");
 	ContainerWorkbenchUncrafting container;
 
 	public GuiWorkbenchUncrafting(ContainerWorkbenchUncrafting container, PlayerInventory playerInventory, ITextComponent title) {
@@ -46,7 +45,7 @@ public class GuiWorkbenchUncrafting extends ContainerScreen<ContainerWorkbenchUn
 	@Override
 	protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
 		// draw the label for the top of the screen
-		this.font.draw(matrixStack, this.title, 134-(this.font.width(this.title)/2), 6, Color.darkGray.getRGB()); /// this.font.draw
+		this.font.draw(matrixStack, this.title, 8, 6, Color.darkGray.getRGB()); /// this.font.draw
 
 		// draw the label for the player inventory slots
 		this.font.draw(matrixStack, this.inventory.getDisplayName(), /// this.font.draw

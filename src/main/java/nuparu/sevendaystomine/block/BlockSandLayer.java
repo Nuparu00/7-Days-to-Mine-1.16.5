@@ -34,7 +34,7 @@ public class BlockSandLayer extends BlockBase {
 
 	public BlockSandLayer(AbstractBlock.Properties properties) {
 	      super(properties);
-	      this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1)));
+	      this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
 	   }
 
 	public boolean isPathfindable(BlockState p_196266_1_, IBlockReader p_196266_2_, BlockPos p_196266_3_,
@@ -120,7 +120,7 @@ public class BlockSandLayer extends BlockBase {
 		BlockState blockstate = p_196258_1_.getLevel().getBlockState(p_196258_1_.getClickedPos());
 		if (blockstate.is(this)) {
 			int i = blockstate.getValue(LAYERS);
-			return blockstate.setValue(LAYERS, Integer.valueOf(Math.min(8, i + 1)));
+			return blockstate.setValue(LAYERS, Math.min(8, i + 1));
 		} else {
 			return super.getStateForPlacement(p_196258_1_);
 		}

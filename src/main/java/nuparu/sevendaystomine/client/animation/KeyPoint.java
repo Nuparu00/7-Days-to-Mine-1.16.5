@@ -1,10 +1,6 @@
 package nuparu.sevendaystomine.client.animation;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.util.math.vector.Vector3d;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class KeyPoint {
 

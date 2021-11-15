@@ -29,13 +29,13 @@ public class BlockBoards extends BlockHorizontalBase implements IWaterLoggable {
 	public BlockBoards() {
 		super(AbstractBlock.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(1.5f, 2f)
 				.harvestTool(ToolType.AXE).harvestLevel(0).noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
-		switch ((Direction) state.getValue(FACING)) {
+		switch (state.getValue(FACING)) {
 		default:
 		case NORTH:
 			return NORTH;
@@ -56,7 +56,7 @@ public class BlockBoards extends BlockHorizontalBase implements IWaterLoggable {
 		if(dir.getAxis() == Direction.Axis.Y){
 			dir = context.getHorizontalDirection().getOpposite();
 		}
-		return this.defaultBlockState().setValue(FACING, dir).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, dir).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

@@ -7,17 +7,11 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.init.ModItemGroups;
-import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
 import nuparu.sevendaystomine.inventory.item.ItemNamedContainerProvider;
 
@@ -42,9 +36,7 @@ public class ItemBackpack extends Item {
 			};
 			if (namedContainerProvider != null) {
 				ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) playerIn;
-				NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-					packetBuffer.writeItem(stack);
-				});
+				NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeItem(stack));
 				return ActionResult.success(stack);
 			}
 		}

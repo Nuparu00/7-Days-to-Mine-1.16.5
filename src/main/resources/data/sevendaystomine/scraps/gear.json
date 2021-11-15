@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:gear",
+  "material" : "iron",
+  "weight" : 4,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}

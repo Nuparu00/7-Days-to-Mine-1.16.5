@@ -5,7 +5,6 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -21,7 +20,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.ToolType;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
 
 public class ItemAuger extends ItemFuelTool {

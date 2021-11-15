@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.world.gen.structure;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -193,7 +192,7 @@ public class HelicopterStructure extends Structure<NoFeatureConfig> {
             int xOffset = centerPos.getX() - structureCenter.getX();
             int zOffset = centerPos.getZ() - structureCenter.getZ();
             for(StructurePiece structurePiece : this.pieces){
-                structurePiece.move(xOffset, 0, zOffset);
+                structurePiece.move(xOffset, -1, zOffset);
             }
             this.calculateBoundingBox();
         }

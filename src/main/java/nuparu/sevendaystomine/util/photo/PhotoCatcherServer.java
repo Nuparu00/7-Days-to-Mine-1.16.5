@@ -6,13 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Maps;
 
@@ -32,8 +26,7 @@ public class PhotoCatcherServer {
 			return finish(bytes, nameBase);
 		}
 		if (!byteMap.containsKey(id)) {
-			byteMap.put(id, new ArrayList<ByteMapItem>(Arrays
-					.asList(new ByteMapItem[] { new ByteMapItem(bytes, index, parts, nameBase) })));
+			byteMap.put(id, new ArrayList<ByteMapItem>(Collections.singletonList(new ByteMapItem(bytes, index, parts, nameBase))));
 		} else {
 			List<ByteMapItem> existingByteMapItems = byteMap.get(id);
 			existingByteMapItems.add(new ByteMapItem(bytes, index, parts, nameBase));
@@ -51,12 +44,10 @@ public class PhotoCatcherServer {
 	public static byte[] byteMapToBytes(List<ByteMapItem> map) throws IOException {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		Collections.sort(map, new Comparator<ByteMapItem>() {
-			public int compare(ByteMapItem o1, ByteMapItem o2) {
-				if (o1.index == o2.index)
-					return 0;
-				return o1.index < o2.index ? -1 : 1;
-			}
+		map.sort((o1, o2) -> {
+			if (o1.index == o2.index)
+				return 0;
+			return o1.index < o2.index ? -1 : 1;
 		});
 
 		for (ByteMapItem item : map) {

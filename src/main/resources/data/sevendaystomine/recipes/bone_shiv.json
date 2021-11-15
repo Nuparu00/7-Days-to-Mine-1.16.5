@@ -1,0 +1,15 @@
+{
+  "type": "sevendaystomine:quality_shaped",
+  "pattern": [
+    " B",
+    "B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bone"
+    }
+  },
+  "result": {
+    "item": "sevendaystomine:bone_shiv"
+  }
+}

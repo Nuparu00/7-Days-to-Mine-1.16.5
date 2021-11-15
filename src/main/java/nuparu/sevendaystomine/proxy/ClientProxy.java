@@ -5,12 +5,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
@@ -27,19 +25,19 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.client.gui.*;
+import nuparu.sevendaystomine.client.sound.MovingSoundMinibikeIdle;
 import nuparu.sevendaystomine.client.sound.PositionedLoudSound;
 import nuparu.sevendaystomine.client.toast.NotificationToast;
 import nuparu.sevendaystomine.client.util.MP3Helper;
 import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.entity.MinibikeEntity;
 import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.events.*;
 import nuparu.sevendaystomine.init.ModItems;
@@ -81,7 +79,6 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(new KeyEventHandler());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void init() {
         super.init();
@@ -93,11 +90,7 @@ public class ClientProxy extends CommonProxy {
                 ModItems.SHIRT.get(), ModItems.SHORT_SLEEVED_SHIRT.get(), ModItems.JACKET.get(), ModItems.JUMPER.get(), ModItems.COAT.get(),
                 ModItems.T_SHIRT_0.get(), ModItems.T_SHIRT_1.get()};
 
-        colors.register(new IItemColor() {
-            public int getColor(ItemStack stack, int tintIndex) {
-                return tintIndex > 0 ? -1 : ((IDyeableArmorItem) stack.getItem()).getColor(stack);
-            }
-        }, clothes);
+        colors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((IDyeableArmorItem) stack.getItem()).getColor(stack), clothes);
     }
 
     @Override
@@ -147,6 +140,7 @@ public class ClientProxy extends CommonProxy {
             return;
         }
         TileEntity te = player.level.getBlockEntity(new BlockPos(x, y, z));
+        System.out.println(x + " " + y + " "  + z);
         switch (id) {
             case 0:
                 mc.setScreen(new GuiCodeSafeLocked(te, new BlockPos(x, y, z)));
@@ -220,7 +214,7 @@ public class ClientProxy extends CommonProxy {
         Minecraft mc = Minecraft.getInstance();
         if (mc != null && mc.player != null) {
             if (mc.player == shooter && mc.getCameraEntity() == shooter) {
-                TickHandler.recoil += recoil;
+                ClientTickHandler.recoil += recoil;
             }
         }
     }
@@ -278,7 +272,7 @@ public class ClientProxy extends CommonProxy {
         super.playLoudSound(world, soundEvent, volume, blockPosIn, category);
         if (Minecraft.getInstance().level == null || Minecraft.getInstance().level != world)
             return;
-        ISound isound = (ISound) mapSoundPositions.get(blockPosIn);
+        ISound isound = mapSoundPositions.get(blockPosIn);
         if (isound != null) {
             Minecraft.getInstance().getSoundManager().stop(isound);
             mapSoundPositions.remove(blockPosIn);
@@ -314,19 +308,19 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void playMovingSound(int id, Entity entity) {
-/*
+
 		switch (id) {
 		case 0:
-			if (entity instanceof EntityMinibike) {
-				Minecraft.getInstance().getSoundManager().play(new MovingSoundMinibikeIdle((EntityMinibike) entity));
+			if (entity instanceof MinibikeEntity) {
+				Minecraft.getInstance().getSoundManager().play(new MovingSoundMinibikeIdle((MinibikeEntity) entity));
 			}
 			break;
 		case 1:
-			if (entity instanceof EntityCar) {
+			/*if (entity instanceof EntityCar) {
 				Minecraft.getInstance().getSoundManager().play(new MovingSoundCarIdle((EntityCar) entity));
-			}
+			}*/
 			break;
-		}*/
+		}
     }
 
     @Override
@@ -344,5 +338,10 @@ public class ClientProxy extends CommonProxy {
         if (player == null) return 0;
         return (int) MathUtils.clamp(player.totalExperience / CommonConfig.xpPerQuality.get(), 1,
                 CommonConfig.maxQuality.get());
+    }
+
+    @Override
+    public World getWorld(){
+        return Minecraft.getInstance().level;
     }
 }

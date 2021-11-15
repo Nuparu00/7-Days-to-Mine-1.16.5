@@ -29,7 +29,7 @@ import nuparu.sevendaystomine.util.ModConstants;
 public class TileEntityAirplaneRotor extends TileEntity implements ITickableTileEntity, IVoltage {
 	private List<ElectricConnection> inputs = new ArrayList<ElectricConnection>();
 	private List<ElectricConnection> outputs = new ArrayList<ElectricConnection>();
-	private long capacity = 1000l;
+	private long capacity = 1000L;
 	private long voltage = 0;
 
 	public float speed;
@@ -39,7 +39,7 @@ public class TileEntityAirplaneRotor extends TileEntity implements ITickableTile
 	public float thrust = 0f;
 	public float angle;
 	public float anglePrev;
-	private long nextSound = (long) 0;
+	private long nextSound = 0;
 	private AxisAlignedBB windBB;
 
 	Direction facing;
@@ -130,8 +130,8 @@ public class TileEntityAirplaneRotor extends TileEntity implements ITickableTile
 				}
 				BlockPos front = worldPosition.relative(facing);
 				List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class,
-						new AxisAlignedBB((double) front.getX(), (double) front.getY(), (double) front.getZ(),
-								(double) (front.getX() + 1), (double) (front.getY() + 1), (double) (front.getZ() + 1)));
+						new AxisAlignedBB(front.getX(), front.getY(), front.getZ(),
+                                front.getX() + 1, front.getY() + 1, front.getZ() + 1));
 				for (int i = 0; i < list.size(); i++) {
 					LivingEntity entity = list.get(i);
 
@@ -375,7 +375,7 @@ public class TileEntityAirplaneRotor extends TileEntity implements ITickableTile
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;
@@ -431,8 +431,7 @@ public class TileEntityAirplaneRotor extends TileEntity implements ITickableTile
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override

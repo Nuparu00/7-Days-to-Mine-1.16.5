@@ -22,9 +22,7 @@ public class CommandSetQuality {
 		LiteralArgumentBuilder<CommandSource> mbesayCommand = Commands.literal("setquality")
 				.requires((commandSource) -> commandSource.hasPermission(2))
 				.then(Commands.argument("targets", EntityArgument.players())
-				.then(Commands.argument("quality", MessageArgument.message()).executes((p_198539_0_) -> {
-					return airdrop(p_198539_0_, EntityArgument.getPlayers(p_198539_0_, "targets"));
-				})));
+				.then(Commands.argument("quality", MessageArgument.message()).executes((p_198539_0_) -> airdrop(p_198539_0_, EntityArgument.getPlayers(p_198539_0_, "targets")))));
 
 		dispatcher.register(mbesayCommand);
 	}

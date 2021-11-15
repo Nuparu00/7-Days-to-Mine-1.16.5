@@ -113,7 +113,7 @@ public class BloodmoonHorde extends Horde{
 
     @Override
     public void onPlayerStopTacking(ServerPlayerEntity player, ZombieBaseEntity zombie) {
-        // removeTarget(player);
+        removeTarget(player);
     }
 
     public void onRemove() {

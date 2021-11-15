@@ -16,12 +16,7 @@
       "item": "minecraft:redstone"
     },
     "M": {
-     "type": "minecraft:item_nbt",
-     "item": "forge:bucketFilled",
-     "nbt": {
-       "FluidName": "mercury",
-       "Amount": 1000
-        }
+    "item": "sevendaystomine:mercury_bucket"
     }
   },
   "result": {

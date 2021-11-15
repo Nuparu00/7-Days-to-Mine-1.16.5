@@ -54,12 +54,12 @@ public class RecipeQualityShaped extends ShapedRecipe {
 			} else if (c instanceof WorkbenchContainer) {
 				WorkbenchContainer container = (WorkbenchContainer) (c);
 				CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
-				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
-						"field_75238_b"));
+				player = ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
+						"field_75238_b");
 			} else if (c instanceof PlayerContainer) {
 				PlayerContainer container = (PlayerContainer) (c);
-				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
-						"field_82862_h"));
+				player = ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
+						"field_82862_h");
 			}
 			if (player != null) {
 				stack.getOrCreateTag().putInt("Quality", (int) Math
@@ -218,7 +218,7 @@ public class RecipeQualityShaped extends ShapedRecipe {
 
 		for (Entry<String, JsonElement> entry : p_192408_0_.entrySet()) {
 			if (entry.getKey().length() != 1) {
-				throw new JsonSyntaxException("Invalid key entry: '" + (String) entry.getKey()
+				throw new JsonSyntaxException("Invalid key entry: '" + entry.getKey()
 						+ "' is an invalid symbol (must be 1 character only).");
 			}
 
@@ -235,9 +235,7 @@ public class RecipeQualityShaped extends ShapedRecipe {
 
 	public static ItemStack itemFromJson(JsonObject p_199798_0_) {
 		String s = JSONUtils.getAsString(p_199798_0_, "item");
-		Item item = Registry.ITEM.getOptional(new ResourceLocation(s)).orElseThrow(() -> {
-			return new JsonSyntaxException("Unknown item '" + s + "'");
-		});
+		Item item = Registry.ITEM.getOptional(new ResourceLocation(s)).orElseThrow(() -> new JsonSyntaxException("Unknown item '" + s + "'"));
 		if (p_199798_0_.has("data")) {
 			throw new JsonParseException("Disallowed data tag found");
 		} else {

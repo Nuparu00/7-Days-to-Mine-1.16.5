@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.potions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectType;
 import net.minecraft.world.Difficulty;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.util.DamageSources;
 
 public class PotionChlorinePoisoning extends PotionBase {

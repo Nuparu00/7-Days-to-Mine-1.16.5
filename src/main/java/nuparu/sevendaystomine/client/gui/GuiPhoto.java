@@ -5,11 +5,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.client.util.ResourcesHelper;
 import nuparu.sevendaystomine.client.util.ResourcesHelper.Image;
 import nuparu.sevendaystomine.network.PacketManager;
@@ -50,7 +48,7 @@ public class GuiPhoto extends Screen {
 		super.render(matrix, mouseX, mouseY, partialTicks);
 		if (image != null) {
 			// -1 == (width > height) ; 0 == (width == height) ; 1 == (width < height)
-			int shape = image.width > image.height ? -1 : (image.width == image.height ? 0 : 1);
+			int shape = Integer.compare(image.height, image.width);
 
 			int w = width;
 			int h = height;

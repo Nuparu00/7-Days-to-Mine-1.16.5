@@ -1,7 +1,5 @@
 package nuparu.sevendaystomine.init;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
@@ -57,25 +55,25 @@ public class ModItems {
 	public static final RegistryObject<Item> MP5 = ITEMS.register("mp5", () -> new ItemMP5());
 	public static final RegistryObject<Item> RPG = ITEMS.register("rpg", () -> new ItemRPG());
 	public static final RegistryObject<Item> M4 = ITEMS.register("m4", () -> new ItemM4());
-	public static final RegistryObject<Item> BOTTLED_MURKY_WATER = ITEMS.register("bottled_murky_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.MURKY_WATER).craftRemainder(EMPTY_JAR.get()), 250, 20));
-	public static final RegistryObject<Item> BOTTLED_WATER = ITEMS.register("bottled_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 75));
-	public static final RegistryObject<Item> BOTTLED_BEER = ITEMS.register("bottled_beer", () -> new ItemAlcoholDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 75));
-	public static final RegistryObject<Item> GOLDENROD_TEA = ITEMS.register("goldenrod_tea", () -> new ItemTea(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 75));
-	public static final RegistryObject<Item> BOTTLED_COFFEE = ITEMS.register("bottled_coffee", () -> new ItemCoffeeDrink(new Item.Properties().stacksTo(16).food(ModFood.COFFEE_DRINK).craftRemainder(EMPTY_JAR.get()), 250, 75));
-	public static final RegistryObject<Item> CANNED_MURKY_WATER = ITEMS.register("canned_murky_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.MURKY_WATER).craftRemainder(EMPTY_JAR.get()), 250, 20));
-	public static final RegistryObject<Item> CANNED_WATER = ITEMS.register("canned_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 75));
+	public static final RegistryObject<Item> BOTTLED_MURKY_WATER = ITEMS.register("bottled_murky_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.MURKY_WATER).craftRemainder(EMPTY_JAR.get()), 250, 60));
+	public static final RegistryObject<Item> BOTTLED_WATER = ITEMS.register("bottled_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 125));
+	public static final RegistryObject<Item> BOTTLED_BEER = ITEMS.register("bottled_beer", () -> new ItemAlcoholDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 125));
+	public static final RegistryObject<Item> GOLDENROD_TEA = ITEMS.register("goldenrod_tea", () -> new ItemTea(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_JAR.get()), 250, 125));
+	public static final RegistryObject<Item> BOTTLED_COFFEE = ITEMS.register("bottled_coffee", () -> new ItemCoffeeDrink(new Item.Properties().stacksTo(16).food(ModFood.COFFEE_DRINK).craftRemainder(EMPTY_JAR.get()), 250, 250));
+	public static final RegistryObject<Item> CANNED_MURKY_WATER = ITEMS.register("canned_murky_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.MURKY_WATER).craftRemainder(EMPTY_CAN.get()), 250, 60));
+	public static final RegistryObject<Item> CANNED_WATER = ITEMS.register("canned_water", () -> new ItemDrink(new Item.Properties().stacksTo(16).food(ModFood.WATER).craftRemainder(EMPTY_CAN.get()), 250, 125));
 	public static final RegistryObject<Item> CANNED_CAT_FOOD = ITEMS.register("canned_cat_food", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_ANIMAL_FOOD).craftRemainder(EMPTY_CAN.get()).durability(2)));
 	public static final RegistryObject<Item> CANNED_DOG_FOOD = ITEMS.register("canned_dog_food", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_ANIMAL_FOOD).craftRemainder(EMPTY_CAN.get()).durability(2)));
 	public static final RegistryObject<Item> CANNED_HAM = ITEMS.register("canned_ham", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_HAM).craftRemainder(EMPTY_CAN.get()).durability(3)));
 	public static final RegistryObject<Item> CANNED_CHICKEN = ITEMS.register("canned_chicken", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_CHICKEN).craftRemainder(EMPTY_CAN.get()).durability(4)));
 	public static final RegistryObject<Item> CANNED_CHILI = ITEMS.register("canned_chili", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_CHILI).craftRemainder(EMPTY_CAN.get()).durability(2)));
-	public static final RegistryObject<Item> CANNED_MISO = ITEMS.register("canned_miso", () -> new ItemCannedSoup(new Item.Properties().stacksTo(1).food(ModFood.CANNED_MISO).craftRemainder(EMPTY_CAN.get()).durability(2), 50, 5));
+	public static final RegistryObject<Item> CANNED_MISO = ITEMS.register("canned_miso", () -> new ItemCannedSoup(new Item.Properties().stacksTo(1).food(ModFood.CANNED_MISO).craftRemainder(EMPTY_CAN.get()).durability(2), 50, 30));
 	public static final RegistryObject<Item> CANNED_PASTA = ITEMS.register("canned_pasta", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_PASTA).craftRemainder(EMPTY_CAN.get()).durability(2)));
 	public static final RegistryObject<Item> CANNED_PEARS = ITEMS.register("canned_pears", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_FRUIT_AND_VEGETABLES).craftRemainder(EMPTY_CAN.get()).durability(2)));
 	public static final RegistryObject<Item> CANNED_PEAS = ITEMS.register("canned_peas", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_FRUIT_AND_VEGETABLES).craftRemainder(EMPTY_CAN.get()).durability(2)));
 	public static final RegistryObject<Item> CANNED_SALMON = ITEMS.register("canned_salmon", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_CHICKEN).craftRemainder(EMPTY_CAN.get()).durability(3)));
-	public static final RegistryObject<Item> CANNED_SOUP = ITEMS.register("canned_soup", () -> new ItemCannedSoup(new Item.Properties().stacksTo(1).food(ModFood.CANNED_SOUP).craftRemainder(EMPTY_CAN.get()).durability(2), 50, 2));
-	public static final RegistryObject<Item> CANNED_STOCK = ITEMS.register("canned_stock", () -> new ItemCannedSoup(new Item.Properties().stacksTo(1).food(ModFood.CANNED_STOCK).craftRemainder(EMPTY_CAN.get()).durability(2), 50, 2));
+	public static final RegistryObject<Item> CANNED_SOUP = ITEMS.register("canned_soup", () -> new ItemCannedSoup(new Item.Properties().stacksTo(1).food(ModFood.CANNED_SOUP).craftRemainder(EMPTY_CAN.get()).durability(2), 50, 30));
+	public static final RegistryObject<Item> CANNED_STOCK = ITEMS.register("canned_stock", () -> new ItemCannedSoup(new Item.Properties().stacksTo(1).food(ModFood.CANNED_STOCK).craftRemainder(EMPTY_CAN.get()).durability(2), 50, 30));
 	public static final RegistryObject<Item> CANNED_TUNA = ITEMS.register("canned_tuna", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_CHICKEN).craftRemainder(EMPTY_CAN.get()).durability(3)));
 	public static final RegistryObject<Item> CANNED_BEEF = ITEMS.register("canned_beef", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_HUGE_MEAT).craftRemainder(EMPTY_CAN.get()).durability(4)));
 	public static final RegistryObject<Item> CANNED_LAMB = ITEMS.register("canned_lamb", () -> new ItemCannedFood(new Item.Properties().stacksTo(1).food(ModFood.CANNED_HUGE_MEAT).craftRemainder(EMPTY_CAN.get()).durability(4)));
@@ -354,7 +352,7 @@ public class ModItems {
 	public static final RegistryObject<Item> FLARE = ITEMS.register("flare", () -> new ItemFlare());
 
 
-	public static final RegistryObject<Item> SODA = ITEMS.register("soda", () -> new ItemCoffeeDrink(new Item.Properties().stacksTo(16).food(ModFood.SODA).craftRemainder(EMPTY_CAN.get()), 150, 75));
+	public static final RegistryObject<Item> SODA = ITEMS.register("soda", () -> new ItemCoffeeDrink(new Item.Properties().stacksTo(16).food(ModFood.SODA).craftRemainder(EMPTY_CAN.get()), 200, 200));
 
 	public static final RegistryObject<Item> REANIMATED_CORPSE_SPAWN_EGG = ITEMS.register("reanimated_corpse_spawn_egg", () -> new SpawnEggItem(ModEntities.REANIMATED_CORPSE_RAW, 0x403A34, 0x1D2637, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> PLAGUED_NURSE_SPAWN_EGG = ITEMS.register("plagued_nurse_spawn_egg", () -> new SpawnEggItem(ModEntities.PLAGUED_NURSE_RAW, 0x2C5B50, 0x1D2637, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
@@ -423,4 +421,9 @@ public class ModItems {
 
 	public static final RegistryObject<Item> GASOLINE_BUCKET = ITEMS.register("gasoline_bucket", () -> new BucketItem(ModFluids.GASOLINE, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> MERCURY_BUCKET = ITEMS.register("mercury_bucket", () -> new BucketItem(ModFluids.MERCURY, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1).tab(ItemGroup.TAB_MISC)));
+	public static final RegistryObject<Item> GEAR = ITEMS.register("gear", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+
+	public static final RegistryObject<Item> REALITY_WAND = ITEMS.register("reality_wand", () -> new ItemRealityWand());
+	public static final RegistryObject<Item> PLANK_FUNGI = ITEMS.register("plank_fungi", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
+	public static final RegistryObject<Item> IRON_PIPE_MOLD = ITEMS.register("iron_pipe_mold", () -> new ItemMold());
 }

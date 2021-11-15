@@ -4,12 +4,12 @@ import net.minecraft.item.ItemStack;
 
 public interface IQuality {
 
-	public int getQuality(ItemStack stack);
+	int getQuality(ItemStack stack);
 
-	public EnumQuality getQualityTierFromStack(ItemStack stack);
+	EnumQuality getQualityTierFromStack(ItemStack stack);
 
-	public EnumQuality getQualityTierFromInt(int quality);
+	EnumQuality getQualityTierFromInt(int quality);
 
-	public void setQuality(ItemStack stack, int quality);
+	void setQuality(ItemStack stack, int quality);
 
 }

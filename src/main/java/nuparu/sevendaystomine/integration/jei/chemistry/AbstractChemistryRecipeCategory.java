@@ -21,10 +21,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.crafting.chemistry.IChemistryRecipe;
-import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityChemistryStation;
-import nuparu.sevendaystomine.tileentity.TileEntityForge;
 
 public abstract class AbstractChemistryRecipeCategory<T extends IChemistryRecipe<TileEntityChemistryStation>> implements IRecipeCategory<T> {
     protected static final ResourceLocation TEXTURE = new ResourceLocation(SevenDaysToMine.MODID,

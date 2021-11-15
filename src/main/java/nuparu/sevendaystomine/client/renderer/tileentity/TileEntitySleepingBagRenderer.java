@@ -4,10 +4,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -20,12 +18,10 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.BlockSleepingBag;
-import nuparu.sevendaystomine.block.BlockWindTurbine;
 import nuparu.sevendaystomine.client.model.tileentity.SleepingBagBottomModel;
 import nuparu.sevendaystomine.client.model.tileentity.SleepingBagHeadModel;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntitySleepingBag;
-import nuparu.sevendaystomine.tileentity.TileEntityWindTurbine;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -35,9 +31,7 @@ public class TileEntitySleepingBagRenderer extends TileEntityRenderer<TileEntity
     private final  RenderMaterial[] BED_TEXTURES = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map((p_228770_0_) -> {
         System.out.println("KEX " + p_228770_0_.getName());
         return new RenderMaterial(AtlasTexture.LOCATION_BLOCKS, new ResourceLocation(SevenDaysToMine.MODID,"entity/sleepingbag/" + p_228770_0_.getName()));
-    }).toArray((p_228769_0_) -> {
-        return new RenderMaterial[p_228769_0_];
-    });
+    }).toArray(RenderMaterial[]::new);
 
     private final SleepingBagHeadModel HEAD_MODEL = new SleepingBagHeadModel();
     private final SleepingBagBottomModel BOTTOM_MODEL = new SleepingBagBottomModel();

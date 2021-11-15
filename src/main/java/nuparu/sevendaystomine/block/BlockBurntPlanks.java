@@ -5,14 +5,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.init.ModItems;
 
 public class BlockBurntPlanks extends BlockUpgradeable {
 	public BlockBurntPlanks() {
@@ -21,7 +20,7 @@ public class BlockBurntPlanks extends BlockUpgradeable {
 	}
 
 	@Override
-	public BlockState getPrev(World world, BlockPos pos, BlockState original) {
+	public BlockState getPrev(IWorld world, BlockPos pos, BlockState original) {
 		return ModBlocks.BURNT_FRAME.get().defaultBlockState();
 	}
 	

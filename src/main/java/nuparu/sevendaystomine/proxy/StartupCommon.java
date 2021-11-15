@@ -4,11 +4,13 @@ import net.minecraft.block.WoodType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.entity.*;
 import nuparu.sevendaystomine.entity.human.SurvivorEntity;
+import nuparu.sevendaystomine.init.ModBiomes;
 import nuparu.sevendaystomine.init.ModEntities;
 
 public class StartupCommon {
@@ -32,6 +34,7 @@ public class StartupCommon {
 		  GlobalEntityTypeAttributes.put(ModEntities.ZOMBIE_WOLF.get(), ZombieWolfEntity.createAttributes());
 		  GlobalEntityTypeAttributes.put(ModEntities.ZOMBIE_PIG.get(), ZombiePigEntity.createAttributes());
 		  GlobalEntityTypeAttributes.put(ModEntities.SURVIVOR.get(), SurvivorEntity.createAttributes());
+		  GlobalEntityTypeAttributes.put(ModEntities.MINIBIKE.get(), MinibikeEntity.createAttributes());
 
 
 		  event.enqueueWork(() -> {
@@ -46,12 +49,16 @@ public class StartupCommon {
 			  EntitySpawnPlacementRegistry.register(ModEntities.CRAWLER_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.BURNT_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.BLOATED_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
-			  EntitySpawnPlacementRegistry.register(ModEntities.SOUL_BURNT_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
+			  EntitySpawnPlacementRegistry.register(ModEntities.SOUL_BURNT_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BurntZombieEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.INFECTED_SURVIVOR.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.SOLDIER_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.ZOMBIE_WOLF.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.ZOMBIE_PIG.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
-		  });
+			  EntitySpawnPlacementRegistry.register(ModEntities.BURNT_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BurntZombieEntity::checkMonsterSpawnRules);
+});
+
+		  BiomeManager.addBiome(BiomeManager.BiomeType.WARM,new BiomeManager.BiomeEntry(ModBiomes.createKey(ModBiomes.WASTELAND_PLAINS),3));
+		  BiomeManager.addBiome(BiomeManager.BiomeType.WARM,new BiomeManager.BiomeEntry(ModBiomes.createKey(ModBiomes.WASTELAND_FOREST),6));
 	  }
 
 }

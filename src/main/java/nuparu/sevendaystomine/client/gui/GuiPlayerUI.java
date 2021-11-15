@@ -1,11 +1,8 @@
 package nuparu.sevendaystomine.client.gui;
 
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.util.math.vector.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -85,7 +82,7 @@ public class GuiPlayerUI {
 						mc.gui.blit(matrix, x, y - 10, 0, 0, 81, 8);
 					}
 					if (CommonConfig.staminaSystem.get()) {
-						mc.gui.blit(matrix, x + 1, y - 0, 0, 15, (int) Math.floor(
+						mc.gui.blit(matrix, x + 1, y, 0, 15, (int) Math.floor(
 								extendedPlayer.getStamina() / (10f * (extendedPlayer.getMaximumStamina() / 780f))), 6);
 						mc.gui.blit(matrix, x, y - 1, 0, 0, 81, 8);
 					}

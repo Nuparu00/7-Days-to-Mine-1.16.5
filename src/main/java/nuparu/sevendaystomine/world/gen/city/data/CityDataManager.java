@@ -5,9 +5,6 @@ import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
-import nuparu.sevendaystomine.item.guide.BookDataManager;
-import nuparu.sevendaystomine.util.book.BookData;
-import nuparu.sevendaystomine.util.book.BookDataParser;
 import nuparu.sevendaystomine.world.gen.city.City;
 
 import java.util.*;

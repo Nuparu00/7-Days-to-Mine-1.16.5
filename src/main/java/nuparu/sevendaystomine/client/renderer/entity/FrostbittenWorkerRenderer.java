@@ -6,11 +6,7 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.entity.FrigidHunterEntity;
 import nuparu.sevendaystomine.entity.FrostbittenWorkerEntity;
-import nuparu.sevendaystomine.entity.FrozenLumberjackEntity;
-import nuparu.sevendaystomine.entity.PlaguedNurseEntity;
-import nuparu.sevendaystomine.entity.ReanimatedCorpseEntity;
 
 public class FrostbittenWorkerRenderer<T extends FrostbittenWorkerEntity, M extends BipedModel<T>>
 		extends ZombieBipedRenderer<T, M> {

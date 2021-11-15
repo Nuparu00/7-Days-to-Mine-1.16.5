@@ -7,8 +7,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
@@ -23,23 +21,17 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import nuparu.sevendaystomine.inventory.IContainerCallbacks;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.util.ItemUtils;
 import nuparu.sevendaystomine.util.Utils;
 
-import java.util.List;
-import java.util.Random;
-
 public abstract class TileEntityItemHandler<INVENTORY extends ItemHandlerNameable>
-		extends TileEntity implements IContainerCallbacks, INamedContainerProvider {
+		extends TileEntity implements IContainerCallbacks, INamedContainerProvider, ILootTableProvider {
 
 	@Nullable
 	protected ResourceLocation lootTable;
@@ -113,7 +105,7 @@ public abstract class TileEntityItemHandler<INVENTORY extends ItemHandlerNameabl
 	LOOT TABLE PART
 	 */
 
-	protected boolean tryLoadLootTable(CompoundNBT p_184283_1_) {
+	public boolean tryLoadLootTable(CompoundNBT p_184283_1_) {
 		if (p_184283_1_.contains("LootTable", 8)) {
 			this.lootTable = new ResourceLocation(p_184283_1_.getString("LootTable"));
 			this.lootTableSeed = p_184283_1_.getLong("LootTableSeed");
@@ -123,7 +115,7 @@ public abstract class TileEntityItemHandler<INVENTORY extends ItemHandlerNameabl
 		}
 	}
 
-	protected boolean trySaveLootTable(CompoundNBT p_184282_1_) {
+	public boolean trySaveLootTable(CompoundNBT p_184282_1_) {
 		if (this.lootTable == null) {
 			return false;
 		} else {
@@ -157,5 +149,9 @@ public abstract class TileEntityItemHandler<INVENTORY extends ItemHandlerNameabl
 	public void setLootTable(ResourceLocation p_189404_1_, long p_189404_2_) {
 		this.lootTable = p_189404_1_;
 		this.lootTableSeed = p_189404_2_;
+	}
+
+	public void setLootTable(ResourceLocation p_189404_1_) {
+		this.lootTable = p_189404_1_;
 	}
 }

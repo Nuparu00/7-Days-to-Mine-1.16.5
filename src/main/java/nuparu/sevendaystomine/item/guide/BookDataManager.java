@@ -6,14 +6,11 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.util.book.BookData;
 import nuparu.sevendaystomine.util.book.BookDataParser;
 
@@ -37,7 +34,9 @@ public class BookDataManager extends JsonReloadListener {
 		for (Map.Entry<ResourceLocation, JsonElement> entry : objectIn.entrySet()) {
 			ResourceLocation key = entry.getKey();
 			System.out.println("BOOK DATA " + key.toString());
-			bookz.put(key, BookDataParser.INSTANCE.getBookDataFromResource(entry.getValue()));
+			BookData data = BookDataParser.INSTANCE.getBookDataFromResource(entry.getValue());
+			if(data == null) continue;
+			bookz.put(key, data);
 		}
 		books = bookz;
 		reloadRecipes();

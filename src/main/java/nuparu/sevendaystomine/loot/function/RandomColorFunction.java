@@ -6,15 +6,10 @@ import com.google.gson.JsonSerializationContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootEntry;
 import net.minecraft.loot.LootFunction;
 import net.minecraft.loot.LootFunctionType;
 import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.loot.functions.SetContents;
-import net.minecraft.util.JSONUtils;
 import nuparu.sevendaystomine.item.ItemClothing;
-
-import java.util.Arrays;
 
 public class RandomColorFunction extends LootFunction {
 

@@ -147,7 +147,7 @@ public class WindowsLoginProcess extends TickingProcess {
 	public void onButtonPressed(Button button, int mouseButton) {
 		int buttonId = button.ID;
 		if (buttonId == 0) {
-			if (computerTE.isRegistered() == true && computerTE.getState() == EnumState.LOGIN && completed == false) {
+			if (computerTE.isRegistered() && computerTE.getState() == EnumState.LOGIN && !completed) {
 				TextField p = (TextField) elements.get(0);
 				this.password = p.getContentText();
 				this.completed = true;

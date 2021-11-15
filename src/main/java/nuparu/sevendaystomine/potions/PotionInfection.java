@@ -1,15 +1,8 @@
 package nuparu.sevendaystomine.potions;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.potion.EffectType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.client.util.RenderUtils;
 
 public class PotionInfection extends PotionBase {
 

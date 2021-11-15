@@ -26,7 +26,7 @@ public class CrawlerZombieEntity<T extends CrawlerZombieEntity> extends ZombieBi
 	
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes( ).add(Attributes.FOLLOW_RANGE, 56.0D)
-				.add(Attributes.MOVEMENT_SPEED, (double) 0.125f).add(Attributes.ATTACK_DAMAGE, 3.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.125f).add(Attributes.ATTACK_DAMAGE, 3.0D)
 				.add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 50).build();
 	}
 

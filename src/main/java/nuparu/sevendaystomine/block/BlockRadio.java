@@ -17,7 +17,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityRadio;
 
 public class BlockRadio extends BlockHorizontalBase {

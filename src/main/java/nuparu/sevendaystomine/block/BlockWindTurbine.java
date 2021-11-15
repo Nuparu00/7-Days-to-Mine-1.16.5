@@ -4,12 +4,10 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import nuparu.sevendaystomine.item.EnumMaterial;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.tileentity.TileEntityWindTurbine;
 
 public class BlockWindTurbine extends BlockHorizontalBase {
@@ -29,4 +27,8 @@ public class BlockWindTurbine extends BlockHorizontalBase {
 		return new TileEntityWindTurbine();
 	}
 
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
+	}
 }

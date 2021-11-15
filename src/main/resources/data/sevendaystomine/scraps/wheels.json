@@ -1,6 +1,6 @@
 {
   "item" : "sevendaystomine:wheels",
-  "material" : "leasther",
+  "material" : "leather",
   "weight" : 12,
   "canBeScrapped" : true,
   "isScrapBit" : false

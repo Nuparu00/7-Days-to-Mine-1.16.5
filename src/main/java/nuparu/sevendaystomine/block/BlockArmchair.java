@@ -20,7 +20,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.util.Utils;
 
 public class BlockArmchair extends BlockHorizontalBase implements IWaterLoggable {
@@ -33,13 +32,13 @@ public class BlockArmchair extends BlockHorizontalBase implements IWaterLoggable
 
 	public BlockArmchair(AbstractBlock.Properties properties) {
 		super(properties);
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
-		switch ((Direction) state.getValue(FACING)) {
+		switch (state.getValue(FACING)) {
 		default:
 		case NORTH:
 			return NORTH;
@@ -66,7 +65,7 @@ public class BlockArmchair extends BlockHorizontalBase implements IWaterLoggable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

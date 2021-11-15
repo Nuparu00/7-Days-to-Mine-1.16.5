@@ -25,13 +25,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import nuparu.sevendaystomine.crafting.grill.IGrillRecipe;
 import nuparu.sevendaystomine.crafting.pot.ICookingPotRecipe;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.IContainerCallbacks;
 import nuparu.sevendaystomine.inventory.block.ContainerCookingPot;
-import nuparu.sevendaystomine.inventory.block.ContainerGrill;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
 import javax.annotation.Nullable;
@@ -202,7 +200,7 @@ public class TileEntityCookingPot extends TileEntityItemHandler<ItemHandlerNamea
 		return this.getInventory().getStackInSlot(EnumSlots.OUTPUT_SLOT.ordinal());
 	}
 
-	public ItemStack getIntputSlot(int i) {
+	public ItemStack getInputSlot(int i) {
 		return this.getInventory().getStackInSlot(EnumSlots.INPUT_SLOT.ordinal()+i);
 	}
 
@@ -227,9 +225,7 @@ public class TileEntityCookingPot extends TileEntityItemHandler<ItemHandlerNamea
 		compound.putInt("CookTimeTotal", (short) this.totalCookTime);
 
 		CompoundNBT compoundnbt = new CompoundNBT();
-		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> {
-			compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_);
-		});
+		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_));
 		compound.put("RecipesUsed", compoundnbt);
 
 		return compound;
@@ -362,7 +358,7 @@ public class TileEntityCookingPot extends TileEntityItemHandler<ItemHandlerNamea
 
 	@Override
 	public ItemStack getItem(int i) {
-		return this.getIntputSlot(i);
+		return this.getInputSlot(i);
 	}
 
 	@Override

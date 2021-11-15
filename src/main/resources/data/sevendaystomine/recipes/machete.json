@@ -1,15 +1,15 @@
 {
   "type": "sevendaystomine:workbench_shaped",
   "pattern": [
-    "  II ",
-    "  II ",
+    "   II",
+    "  III",
     " III ",
     " SI  ",
     "S    "
   ],
   "key": {
     "S": {
-      "item": "sevendaystomine:plank_wood"
+      "item": "minecraft:stick"
     },
     "I": {
       "tag": "forge:ingots/steel"

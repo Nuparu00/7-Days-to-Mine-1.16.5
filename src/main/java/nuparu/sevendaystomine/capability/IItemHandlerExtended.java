@@ -5,8 +5,8 @@ import net.minecraft.util.INameable;
 import net.minecraftforge.items.IItemHandler;
 
 public interface IItemHandlerExtended extends IItemHandler,INameable{
-	public void copy(IItemHandler from);
-    public CompoundNBT serializeNBT();
-    public void deserializeNBT(CompoundNBT nbt);
-    public void setSize(int size);
+	void copy(IItemHandler from);
+    CompoundNBT serializeNBT();
+    void deserializeNBT(CompoundNBT nbt);
+    void setSize(int size);
 }

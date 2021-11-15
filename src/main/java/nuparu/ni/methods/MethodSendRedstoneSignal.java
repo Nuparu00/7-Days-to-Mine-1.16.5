@@ -1,7 +1,6 @@
 package nuparu.ni.methods;
 
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
 import nuparu.ni.CodeBlock;
 import nuparu.ni.Token;
 import nuparu.ni.Value;

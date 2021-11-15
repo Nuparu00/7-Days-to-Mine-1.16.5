@@ -2,16 +2,12 @@ package nuparu.sevendaystomine.network.packets;
 
 import java.util.function.Supplier;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.fml.network.NetworkEvent;
-import nuparu.sevendaystomine.capability.CapabilityHelper;
-import nuparu.sevendaystomine.capability.IChunkData;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.events.ClientEventHandler;
 
 public class BreakSyncTrackingMessage {
@@ -41,8 +37,7 @@ public class BreakSyncTrackingMessage {
 		public static void handle(BreakSyncTrackingMessage msg, Supplier<NetworkEvent.Context> ctx) {
 			ctx.get().enqueueWork(() -> {
 				ctx.get().setPacketHandled(true);
-				Minecraft mc = Minecraft.getInstance();
-				World world = mc.level;
+				World world = SevenDaysToMine.proxy.getWorld();
 				
 				
 				ClientEventHandler.cachedChunks.put(msg.pos,msg.data);

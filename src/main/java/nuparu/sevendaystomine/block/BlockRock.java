@@ -24,7 +24,7 @@ public class BlockRock extends BlockHorizontalBase implements IWaterLoggable {
 	public BlockRock() {
 		super(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE).strength(2, 3)
 				.harvestTool(ToolType.PICKAXE).harvestLevel(0).noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class BlockRock extends BlockHorizontalBase implements IWaterLoggable {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

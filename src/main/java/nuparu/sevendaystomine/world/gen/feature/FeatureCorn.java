@@ -11,7 +11,6 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import nuparu.sevendaystomine.block.BlockCornPlant;
-import nuparu.sevendaystomine.block.BlockFruitBush;
 import nuparu.sevendaystomine.init.ModBlocks;
 
 import java.util.Random;

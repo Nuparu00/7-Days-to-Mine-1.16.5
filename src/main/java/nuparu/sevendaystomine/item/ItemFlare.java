@@ -2,10 +2,8 @@ package nuparu.sevendaystomine.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.item.UseAction;
-import net.minecraft.stats.Stats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -54,7 +52,7 @@ public class ItemFlare extends Item {
 				stack.shrink(1);
 			}
 
-			worldIn.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(),
+			worldIn.playSound(null, player.getX(), player.getY(), player.getZ(),
 					SoundEvents.SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F,
 					0.4F / (random.nextFloat() * 0.4F + 0.8F));
 

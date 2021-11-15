@@ -4,14 +4,14 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import nuparu.sevendaystomine.item.EnumMaterial;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.tileentity.TileEntitySolarPanel;
 
 public class BlockSolarPanel extends BlockHorizontalBase {
@@ -42,6 +42,11 @@ public class BlockSolarPanel extends BlockHorizontalBase {
 	@Nullable
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileEntitySolarPanel();
+	}
+
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
 	}
 
 }

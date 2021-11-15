@@ -37,7 +37,7 @@ public class FrozenLumberjackEntity<T extends FrozenLumberjackEntity> extends Zo
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
-				.add(Attributes.MOVEMENT_SPEED, (double) 0.15F).add(Attributes.ATTACK_DAMAGE, 6.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.15F).add(Attributes.ATTACK_DAMAGE, 6.0D)
 				.add(Attributes.ARMOR, 2.0D).add(Attributes.MAX_HEALTH, 115).build();
 	}
 

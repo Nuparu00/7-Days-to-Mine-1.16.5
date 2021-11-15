@@ -217,46 +217,46 @@ public class Value implements IChainable {
 		}
 
 		if (type == EnumValueType.STRING) {
-			return (String) value;
+			return value;
 		}
 		if (type == EnumValueType.INT) {
 			if (value instanceof Number) {
 				return ((Number) value).intValue();
 			}
-			return (int) value;
+			return value;
 		}
 		if (type == EnumValueType.BOOL) {
-			return (boolean) value;
+			return value;
 		}
 		if (type == EnumValueType.DOUBLE) {
 			if (value instanceof Number) {
 				return ((Number) value).doubleValue();
 			}
-			return (double) value;
+			return value;
 		}
 		if (type == EnumValueType.FLOAT) {
 			if (value instanceof Number) {
 				return ((Number) value).floatValue();
 			}
-			return (float) value;
+			return value;
 		}
 		if (type == EnumValueType.LONG) {
 			if (value instanceof Number) {
 				return ((Number) value).longValue();
 			}
-			return (long) value;
+			return value;
 		}
 		if (type == EnumValueType.SHORT) {
 			if (value instanceof Number) {
 				return ((Number) value).shortValue();
 			}
-			return (short) value;
+			return value;
 		}
 		if (type == EnumValueType.BYTE) {
 			if (value instanceof Number) {
 				return ((Number) value).byteValue();
 			}
-			return (byte) value;
+			return value;
 		}
 		return value;
 	}

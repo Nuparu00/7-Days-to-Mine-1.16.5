@@ -1,11 +1,8 @@
 package nuparu.sevendaystomine.util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.IInventory;
@@ -13,10 +10,6 @@ import net.minecraft.item.*;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.items.IItemHandler;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.config.CommonConfig;
@@ -42,7 +35,7 @@ public class ItemUtils {
 
 	
 	public static int getQuality(ItemStack stack) {
-		CompoundNBT nbt = stack.getOrCreateTag();
+		CompoundNBT nbt = stack.getTag();
 		if (nbt != null) {
 			if (nbt.contains("Quality")) {
 				return nbt.getInt("Quality");
@@ -64,7 +57,6 @@ public class ItemUtils {
 		Random random = lootContext.getRandom();
 		List<Integer> list1 = getAvailableSlots(inventory, random);
 		lootTable.shuffleAndSplitItems(list, list1.size(), random);
-
 		for(ItemStack itemstack : list) {
 			if (list1.isEmpty()) {
 				SevenDaysToMine.LOGGER.warn("Tried to over-fill a container");

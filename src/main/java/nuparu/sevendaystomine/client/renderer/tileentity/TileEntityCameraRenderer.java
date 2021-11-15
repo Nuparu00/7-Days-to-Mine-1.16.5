@@ -11,17 +11,14 @@ import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.BlockCamera;
-import nuparu.sevendaystomine.block.BlockWindTurbine;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityCamera;
-import nuparu.sevendaystomine.tileentity.TileEntityWindTurbine;
 
 public class TileEntityCameraRenderer extends TileEntityRenderer<TileEntityCamera> {
 

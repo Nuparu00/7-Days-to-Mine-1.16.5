@@ -52,7 +52,7 @@ public class TileEntityCupboard extends TileEntityItemHandler<ItemHandlerNameabl
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

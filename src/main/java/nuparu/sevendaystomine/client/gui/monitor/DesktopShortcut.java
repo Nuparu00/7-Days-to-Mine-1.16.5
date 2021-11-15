@@ -51,7 +51,7 @@ public class DesktopShortcut implements IDesktopElement, IDraggable {
 
 	public Application app;
 
-	private long lastClick = 0l;
+	private long lastClick = 0L;
 
 	public DesktopShortcut(double x, double y, double width, double height, MonitorScreen screen, DesktopProcess process,
 			Application app) {
@@ -124,7 +124,7 @@ public class DesktopShortcut implements IDesktopElement, IDraggable {
 
 	@Override
 	public void render(MatrixStack matrix, float partialTicks) {
-		if (isDisabled() == false && isVisible() && app != null) {
+		if (!isDisabled() && isVisible() && app != null) {
 			GL11.glPushMatrix();
 			RenderSystem.color3f(1, 1, 1);
 			RenderUtils.drawTexturedRect(matrix,app.ICON, new ColorRGBA(1d, 1d, 1d), x + 2, y + 2, 0, 0, width - 4, height - 4,
@@ -153,7 +153,7 @@ public class DesktopShortcut implements IDesktopElement, IDraggable {
 
 		}
 
-		if (isHovered(screen.mouseX, screen.mouseY) && isDragged == false
+		if (isHovered(screen.mouseX, screen.mouseY) && !isDragged
 				&& WindowedProcess.isDesktopVisible(screen.mouseX, screen.mouseY, process.getTE())) {
 			GL11.glPushMatrix();
 			RenderSystem.color3f(1, 1, 1);
@@ -197,7 +197,7 @@ public class DesktopShortcut implements IDesktopElement, IDraggable {
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int state) {
-		if (isDragged == true) {
+		if (isDragged) {
 			isDragged = false;
 			if (mouseX < screen.getRelativeX(0) - 20 || mouseY < screen.getRelativeY(0) - 20
 					|| mouseX > screen.getRelativeX(0) + screen.xSize + 20
@@ -261,7 +261,7 @@ public class DesktopShortcut implements IDesktopElement, IDraggable {
 	@Override
 	public void mouseClickMove(double mouseX, double mouseY, int clickedMouseButton, double deltaX, double deltaY) {
 		if (clickedMouseButton == 0 && isFocused()) {
-			if (isDragged == false) {
+			if (!isDragged) {
 				isDragged = true;
 			}
 			x = MathUtils.clamp(mouseX - getOffsetX(), screen.getRelativeX(0), screen.getRelativeX(1) - width);

@@ -11,9 +11,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.init.ModEntities;
-import nuparu.sevendaystomine.util.dialogue.Dialogues;
 
 public class MountableBlockEntity extends Entity {
 

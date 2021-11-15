@@ -2,7 +2,7 @@ package nuparu.sevendaystomine.network.packets;
 
 import java.util.function.Supplier;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.SevenDaysToMine;
@@ -41,15 +41,16 @@ public class ApplyRecoilMessage{
 
 			ctx.get().enqueueWork(() -> {
 				ctx.get().setPacketHandled(true);
-				SevenDaysToMine.proxy.addRecoil(msg.recoil, Minecraft.getInstance().player);
+				PlayerEntity player = SevenDaysToMine.proxy.getPlayerEntityFromContext(ctx);
+				SevenDaysToMine.proxy.addRecoil(msg.recoil, player);
 				RenderEventHandler.shotAnimationTimer = System.currentTimeMillis()+150;
 				if (msg.flash) {
 					if (msg.main) {
 						RenderEventHandler.mainMuzzleFlash = 8;
-						RenderEventHandler.mainMuzzleFlashAngle=Minecraft.getInstance().level.random.nextDouble()*360;
+						RenderEventHandler.mainMuzzleFlashAngle=player.level.random.nextDouble()*360;
 					} else {
 						RenderEventHandler.sideMuzzleFlash = 5;
-						RenderEventHandler.sideMuzzleFlashAngle=Minecraft.getInstance().level.random.nextDouble()*360;
+						RenderEventHandler.sideMuzzleFlashAngle=player.level.random.nextDouble()*360;
 					}
 				}
 			});

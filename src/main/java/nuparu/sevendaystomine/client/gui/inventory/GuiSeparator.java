@@ -51,12 +51,14 @@ public class GuiSeparator extends ContainerScreen<ContainerSeparator> {
 		this.blit(matrixStack, marginHorizontal, marginVertical, 0, 0, imageWidth, imageHeight);
 
 		// draw the cook progress bar
+		//
 		double cookProgress = container.fractionOfCookTimeComplete();
 
 		int progressLevel = (int) (cookProgress * 24);
 
+		//x,y,U-start,V-start
 		this.blit(matrixStack, marginHorizontal + 107, marginVertical + 43, 176, 14, progressLevel + 1, 16);
-		this.blit(matrixStack, marginHorizontal + 45+24-progressLevel-1, marginVertical + 43, 176+24-progressLevel-1, 31, progressLevel + 2, 16);
+		this.blit(matrixStack, marginHorizontal + 45+25-progressLevel-2, marginVertical + 43, 176+25-progressLevel-1, 31, progressLevel+1, 16);
 
 		int k = this.getBurnLeftScaled(14);
 		this.blit(matrixStack, 82, 73 - k, 176, 14 - k, 14, k);
@@ -66,7 +68,7 @@ public class GuiSeparator extends ContainerScreen<ContainerSeparator> {
 	@Override
 	protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
 
-		this.font.draw(matrixStack, this.title, 5, 5, Color.darkGray.getRGB()); /// this.font.draw
+		this.font.draw(matrixStack, this.title, 8, 5, Color.darkGray.getRGB()); /// this.font.draw
 
 		// draw the label for the player inventory slots
 		this.font.draw(matrixStack, this.inventory.getDisplayName(), /// this.font.draw

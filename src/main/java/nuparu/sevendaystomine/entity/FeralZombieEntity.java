@@ -1,11 +1,7 @@
 package nuparu.sevendaystomine.entity;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
@@ -14,17 +10,12 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModEntities;
-import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.item.ItemQuality;
 
 public class FeralZombieEntity<T extends FeralZombieEntity> extends ZombieBipedEntity {
 
@@ -43,7 +34,7 @@ public class FeralZombieEntity<T extends FeralZombieEntity> extends ZombieBipedE
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
-				.add(Attributes.MOVEMENT_SPEED, (double) 0.3F).add(Attributes.ATTACK_DAMAGE, 8.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_DAMAGE, 8.0D)
 				.add(Attributes.ARMOR, 20.0D).add(Attributes.MAX_HEALTH, 250).build();
 	}
 

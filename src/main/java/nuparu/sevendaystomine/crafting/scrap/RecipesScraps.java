@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import com.google.gson.JsonObject;
 
 import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
@@ -17,12 +16,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.crafting.workbench.RecipeWorkbenchShaped;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.util.ItemUtils;
 import nuparu.sevendaystomine.util.Utils;
-import nuparu.sevendaystomine.util.VanillaManager;
 import nuparu.sevendaystomine.config.CommonConfig;
 
 public class RecipesScraps implements ICraftingRecipe {
@@ -80,6 +77,7 @@ public class RecipesScraps implements ICraftingRecipe {
 	}
 
 	public boolean matchesAnyOtherRecipe(CraftingInventory inv, World worldIn) {
+		if(Utils.getServer() == null) return false;
 		Iterator<IRecipe<?>> recipes = Utils.getServer().getRecipeManager().getRecipes().iterator();
 		while (recipes.hasNext()) {
 			IRecipe<?> recipe = recipes.next();

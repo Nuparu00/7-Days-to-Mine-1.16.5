@@ -42,7 +42,7 @@ public abstract class CreateAccountProcess extends TickingProcess {
 		if (completed) {
 			if (!username.isEmpty()) {
 
-				if (computerTE != null && computerTE.isRegistered() == false) {
+				if (computerTE != null && !computerTE.isRegistered()) {
 					computerTE.onAccountCreated(this);
 				} else {
 					computerTE.killProcess(this);

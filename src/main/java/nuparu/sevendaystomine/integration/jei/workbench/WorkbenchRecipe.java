@@ -2,7 +2,6 @@ package nuparu.sevendaystomine.integration.jei.workbench;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;

@@ -78,7 +78,7 @@ public class MacDesktopProcess extends DesktopProcess {
 
 			@Override
 			public boolean isDisabled() {
-				return ((MacDesktopProcess) tickingProcess).start == false;
+				return !((MacDesktopProcess) tickingProcess).start;
 			}
 
 		};
@@ -172,8 +172,8 @@ public class MacDesktopProcess extends DesktopProcess {
 			minutes = Utils.getWorldMinutes(computerTE.getLevel());
 		}
 
-		RenderUtils.drawCenteredString(matrix,new StringBuilder("").append(HOUR_FORMATTER.format(hours)).append(":")
-				.append(HOUR_FORMATTER.format(minutes)).toString(), 0, 0, 0xffffff);
+		RenderUtils.drawCenteredString(matrix, "" + HOUR_FORMATTER.format(hours) + ":" +
+				HOUR_FORMATTER.format(minutes), 0, 0, 0xffffff);
 		RenderSystem.translated(0, 0, -2);
 		RenderSystem.popMatrix();
 	}

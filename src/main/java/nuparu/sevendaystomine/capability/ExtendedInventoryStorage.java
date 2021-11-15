@@ -9,8 +9,7 @@ public class ExtendedInventoryStorage implements Capability.IStorage<IItemHandle
 
 	@Override
 	public INBT writeNBT(Capability<IItemHandlerExtended> capability, IItemHandlerExtended instance, Direction side) {
-		CompoundNBT nbt = instance.serializeNBT();
-		return nbt;
+		return instance.serializeNBT();
 	}
 
 	@Override

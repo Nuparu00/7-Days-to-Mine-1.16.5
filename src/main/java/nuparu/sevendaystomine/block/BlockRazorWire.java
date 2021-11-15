@@ -12,8 +12,6 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.Half;
-import net.minecraft.state.properties.StairsShape;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
@@ -24,7 +22,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityWoodenSpikes;
 
 public class BlockRazorWire extends BlockHorizontalBase implements IWaterLoggable {
@@ -33,7 +30,7 @@ public class BlockRazorWire extends BlockHorizontalBase implements IWaterLoggabl
 
 	public BlockRazorWire(AbstractBlock.Properties properties) {
 		super(properties.noCollission());
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
@@ -41,9 +38,9 @@ public class BlockRazorWire extends BlockHorizontalBase implements IWaterLoggabl
 		if (!(entityIn instanceof LivingEntity)) {
 			return;
 		}
-		entityIn.makeStuckInBlock(state, new Vector3d(0.25D, (double) 0.05F, 0.25D));
+		entityIn.makeStuckInBlock(state, new Vector3d(0.25D, 0.05F, 0.25D));
 		if (entityIn instanceof PlayerEntity) {
-			if (((PlayerEntity) entityIn).isCreative() || ((PlayerEntity) entityIn).isSpectator()) {
+			if (((PlayerEntity) entityIn).isCreative() || entityIn.isSpectator()) {
 				return;
 			}
 		}
@@ -100,8 +97,7 @@ public class BlockRazorWire extends BlockHorizontalBase implements IWaterLoggabl
 		Direction direction = p_196258_1_.getClickedFace();
 		BlockPos blockpos = p_196258_1_.getClickedPos();
 		FluidState fluidstate = p_196258_1_.getLevel().getFluidState(blockpos);
-		BlockState blockstate = this.defaultBlockState().setValue(FACING, p_196258_1_.getHorizontalDirection()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-		return blockstate;
+		return this.defaultBlockState().setValue(FACING, p_196258_1_.getHorizontalDirection()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

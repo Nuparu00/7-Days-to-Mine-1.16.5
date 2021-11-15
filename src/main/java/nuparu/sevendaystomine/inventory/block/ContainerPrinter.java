@@ -16,7 +16,6 @@ import net.minecraftforge.items.SlotItemHandler;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModContainers;
 import nuparu.sevendaystomine.tileentity.TileEntityPrinter;
-import nuparu.sevendaystomine.tileentity.TileEntityScreenProjector;
 
 public class ContainerPrinter extends Container {
 

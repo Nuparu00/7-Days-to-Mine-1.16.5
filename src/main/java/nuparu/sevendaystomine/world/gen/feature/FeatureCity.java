@@ -1,18 +1,12 @@
 package nuparu.sevendaystomine.world.gen.feature;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import nuparu.sevendaystomine.util.Utils;
-import nuparu.sevendaystomine.world.gen.city.City;
 
 import java.util.Random;
 

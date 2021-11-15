@@ -138,9 +138,7 @@ public class AirdropEntity extends Entity implements INamedContainerProvider {
         if (!playerEntity.isCrouching() && hand == Hand.MAIN_HAND) {
             if (playerEntity instanceof ServerPlayerEntity) {
                 ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) playerEntity;
-                NetworkHooks.openGui(serverPlayerEntity, this, (packetBuffer) -> {
-                    packetBuffer.writeInt(this.getId());
-                });
+                NetworkHooks.openGui(serverPlayerEntity, this, (packetBuffer) -> packetBuffer.writeInt(this.getId()));
             }
             return ActionResultType.SUCCESS;
         }
@@ -310,7 +308,7 @@ public class AirdropEntity extends Entity implements INamedContainerProvider {
             d0 = 1.0D;
         }
 
-        d0 = d0 * 128.0D * getViewScale();
+        d0 = d0 * 512.0D * getViewScale();
         return p_70112_1_ < d0 * d0;
     }
 }

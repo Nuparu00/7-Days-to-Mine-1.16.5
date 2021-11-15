@@ -4,6 +4,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.INestedGuiEventHandler;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.tileentity.TileEntity;
@@ -19,7 +21,7 @@ import nuparu.sevendaystomine.network.packets.SafeCodeMessage;
 import nuparu.sevendaystomine.tileentity.TileEntityCodeSafe;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiCodeSafeLocked extends Screen {
+public class GuiCodeSafeLocked extends Screen implements IGuiEventListener, INestedGuiEventHandler {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation(SevenDaysToMine.MODID,
 			"textures/gui/container/code_safe_locked.png");
@@ -35,7 +37,7 @@ public class GuiCodeSafeLocked extends Screen {
 	public GuiCodeSafeLocked(TileEntity tileEntity, BlockPos pos) {
 		super(new StringTextComponent("screen.code_safe.locked"));
 		if (!(tileEntity instanceof TileEntityCodeSafe)) {
-			throw new IllegalArgumentException("Passed TileEntity is not isntance of TileEntityCodeSafe!");
+			throw new IllegalArgumentException("Passed TileEntity ("+ tileEntity.getClass().toString() + ") is not isntance of TileEntityCodeSafe!");
 		}
 		this.safe = (TileEntityCodeSafe) tileEntity;
 		this.pos = pos;
@@ -53,26 +55,32 @@ public class GuiCodeSafeLocked extends Screen {
 		
 		int y1 = guiTop + 23;
 		int y2 = guiTop + 53;
-		
-		this.buttons.add(new CodeButton(4, x1, y1, 12, 20, new StringTextComponent("+"), (button) -> {
-			actionPerformed((CodeButton) button);
-        }));
-		
-		this.buttons.add(new CodeButton(5, x1, y2, 12, 20, new StringTextComponent("-"), (button) -> {
+
+		addButton(new CodeButton(4, x1, y1, 12, 20, new StringTextComponent("+"), (button) -> {
+			System.out.println("FF");
 			actionPerformed((CodeButton) button);
         }));
 
-		this.buttons.add(new CodeButton(2, x2, y1, 12, 20, new StringTextComponent("+"), (button) -> {
-			actionPerformed((CodeButton) button);
-        }));
-		this.buttons.add(new CodeButton(3, x2, y2, 12, 20, new StringTextComponent("-"), (button) -> {
+		addButton(new CodeButton(5, x1, y2, 12, 20, new StringTextComponent("-"), (button) -> {
+			System.out.println("FF");
 			actionPerformed((CodeButton) button);
         }));
 
-		this.buttons.add(new CodeButton(0, x3, y1, 12, 20, new StringTextComponent("+"), (button) -> {
+		addButton(new CodeButton(2, x2, y1, 12, 20, new StringTextComponent("+"), (button) -> {
+			System.out.println("FF");
 			actionPerformed((CodeButton) button);
         }));
-		this.buttons.add(new CodeButton(1, x3, y2, 12, 20, new StringTextComponent("-"), (button) -> {
+		addButton(new CodeButton(3, x2, y2, 12, 20, new StringTextComponent("-"), (button) -> {
+			System.out.println("FF");
+			actionPerformed((CodeButton) button);
+        }));
+
+		addButton(new CodeButton(0, x3, y1, 12, 20, new StringTextComponent("+"), (button) -> {
+			System.out.println("FF");
+			actionPerformed((CodeButton) button);
+        }));
+		addButton(new CodeButton(1, x3, y2, 12, 20, new StringTextComponent("-"), (button) -> {
+			System.out.println("FF");
 			actionPerformed((CodeButton) button);
         }));
 
@@ -128,6 +136,7 @@ public class GuiCodeSafeLocked extends Screen {
 	
 	protected void actionPerformed(CodeButton button)
 	{
+		System.out.println("FFF");
 		int buttonID = button.id;
 		if(buttonID >= 0 && buttonID <= 5) {
 			
@@ -146,6 +155,11 @@ public class GuiCodeSafeLocked extends Screen {
 			}
 		}
 	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
 	
 	public static class CodeButton extends Button{
 
@@ -155,6 +169,12 @@ public class GuiCodeSafeLocked extends Screen {
 				ITextComponent p_i232255_5_, IPressable p_i232255_6_) {
 			super(p_i232255_1_, p_i232255_2_, p_i232255_3_, p_i232255_4_, p_i232255_5_, p_i232255_6_);
 			this.id = id;
+		}
+
+		@Override
+		public void onPress() {
+
+			super.onPress();
 		}
 		
 	}

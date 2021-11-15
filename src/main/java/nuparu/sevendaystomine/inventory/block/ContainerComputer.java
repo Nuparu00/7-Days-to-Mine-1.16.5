@@ -9,9 +9,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
 import net.minecraftforge.items.SlotItemHandler;
 import nuparu.sevendaystomine.init.ModContainers;
-import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
-import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
 public class ContainerComputer extends Container {
 

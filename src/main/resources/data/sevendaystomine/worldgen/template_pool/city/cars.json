@@ -1,0 +1,87 @@
+{
+	"name": "sevendaystomine:city/lamps",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 75,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/car_empty",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 5,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/sedan_red",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 5,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/sedan_green",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 5,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/sedan_blue",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 5,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/sedan_yellow",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 5,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/sedan_white",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 5,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/sedan_black",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 2,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/ambulance",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 2,
+			"element": {
+				"location": "sevendaystomine:city/streets/decoration/cars/police_car",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

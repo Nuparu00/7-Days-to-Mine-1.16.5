@@ -7,7 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;

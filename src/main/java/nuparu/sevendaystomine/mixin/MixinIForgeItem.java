@@ -8,7 +8,6 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.ForgeConfig;
 import net.minecraftforge.common.extensions.IForgeItem;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
@@ -18,8 +17,6 @@ import nuparu.sevendaystomine.util.ItemUtils;
 import nuparu.sevendaystomine.util.PlayerUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-
-import java.util.Iterator;
 
 @Mixin(IForgeItem.class)
 public interface MixinIForgeItem {
@@ -46,7 +43,7 @@ public interface MixinIForgeItem {
                     return 0x89713C;
             }
         }
-        return MathHelper.hsvToRgb(Math.max(0.0F, (float) (1.0F - ((IForgeItem) (Object)this).getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
+        return MathHelper.hsvToRgb(Math.max(0.0F, (float) (1.0F - ((IForgeItem) this).getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
     }
 
     /**
@@ -56,7 +53,7 @@ public interface MixinIForgeItem {
     @Overwrite(remap = false)
     default Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack)
     {
-        IForgeItem thys = ((IForgeItem)(Object)this);
+        IForgeItem thys = ((IForgeItem) this);
         if(stack != null && CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
             Multimap<Attribute, AttributeModifier> multimap = HashMultimap.<Attribute, AttributeModifier>create();
             if (thys instanceof ArmorItem){
@@ -64,9 +61,9 @@ public interface MixinIForgeItem {
                 if (equipmentSlot == armor.getSlot()) {
                     if (!EnumQualityState.isQualitySystemOn()) {
                         multimap.put(Attributes.ARMOR, new AttributeModifier(
-                                ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double) armor.getDefense(), AttributeModifier.Operation.ADDITION));
+                                ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", armor.getDefense(), AttributeModifier.Operation.ADDITION));
                         multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-                                ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double) armor.getToughness(), AttributeModifier.Operation.ADDITION));
+                                ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", armor.getToughness(), AttributeModifier.Operation.ADDITION));
 
                     } else {
                         multimap.put(Attributes.ARMOR, new AttributeModifier(
@@ -81,20 +78,20 @@ public interface MixinIForgeItem {
                 if (thys instanceof ToolItem) {
                     ToolItem tool =(ToolItem)thys;
 
-                    multimap.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(tool.BASE_ATTACK_DAMAGE_UUID,
+                    multimap.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_UUID,
                             "Weapon modifier", ItemUtils.getAttackDamageModifiedTool(stack), AttributeModifier.Operation.ADDITION));
                     multimap.put(Attributes.ATTACK_SPEED,
-                            new AttributeModifier(tool.BASE_ATTACK_SPEED_UUID, "Weapon modifier", ItemUtils.getAttackSpeedModifiedTool(stack), AttributeModifier.Operation.ADDITION));
+                            new AttributeModifier(Item.BASE_ATTACK_SPEED_UUID, "Weapon modifier", ItemUtils.getAttackSpeedModifiedTool(stack), AttributeModifier.Operation.ADDITION));
 
                     return multimap;
                 }
                 else if (thys instanceof SwordItem) {
                     SwordItem sword =(SwordItem)thys;
 
-                    multimap.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(sword.BASE_ATTACK_DAMAGE_UUID,
+                    multimap.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_UUID,
                             "Weapon modifier",ItemUtils.getAttackDamageModifiedSword(stack), AttributeModifier.Operation.ADDITION));
                     multimap.put(Attributes.ATTACK_SPEED,
-                            new AttributeModifier(sword.BASE_ATTACK_SPEED_UUID, "Weapon modifier", ItemUtils.getAttackSpeedModifiedSword(stack), AttributeModifier.Operation.ADDITION));
+                            new AttributeModifier(Item.BASE_ATTACK_SPEED_UUID, "Weapon modifier", ItemUtils.getAttackSpeedModifiedSword(stack), AttributeModifier.Operation.ADDITION));
 
                     return multimap;
                 }
@@ -109,10 +106,10 @@ public interface MixinIForgeItem {
     @Overwrite(remap = false)
     default int getMaxDamage(ItemStack stack)
     {
-        Item item = ((IForgeItem)(Object)this).getItem();
+        Item item = ((IForgeItem) this).getItem();
         int damage = item.getMaxDamage();
-        if(PlayerUtils.isVanillaItemSuitableForQuality((IForgeItem)(Object)this) && CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
-            if (stack.getOrCreateTag() != null) {
+        if(PlayerUtils.isVanillaItemSuitableForQuality(this) && CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
+            if (stack.getTag() != null) {
                 damage += ItemQuality.getQualityFromStack(stack);
             }
         }

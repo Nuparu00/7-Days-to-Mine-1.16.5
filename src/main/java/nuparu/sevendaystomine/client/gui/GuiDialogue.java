@@ -3,8 +3,6 @@ package nuparu.sevendaystomine.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -75,9 +73,7 @@ public class GuiDialogue extends Screen implements IGuiEventListener{
 			y = rectTop + (5 * (buttons.size() + 1)) + 5;
 		}
 
-		addButton(new GuiDialogueOption(x, y, (rectRight - rectLeft) - 5, text, this, (button) -> {
-			actionPerformed(button);
-        }));
+		addButton(new GuiDialogueOption(x, y, (rectRight - rectLeft) - 5, text, this, this::actionPerformed));
 	}
 
 	@Override
@@ -133,10 +129,10 @@ public class GuiDialogue extends Screen implements IGuiEventListener{
 				i = -1;
 			}
 
-			this.currentScroll = (float) ((double) this.currentScroll - (double) i / (double) j);
+			this.currentScroll = (float) ((double) this.currentScroll - i / (double) j);
 			this.currentScroll = MathHelper.clamp(this.currentScroll, 0.0F, 1.0F);
 
-			int deltaY = (int) Math.round(currentScroll / 2 * h);
+			int deltaY = Math.round(currentScroll / 2 * h);
 			for (Widget button : buttons) {
 				if (button instanceof GuiDialogueOption) {
 					((GuiDialogueOption) button).setDeltaY(deltaY);
@@ -207,7 +203,7 @@ public class GuiDialogue extends Screen implements IGuiEventListener{
 						if (minecraft.font.width(sub) > widthIn) {
 							boolean isPreviousEmpty = text.charAt(i - 2) == ' ';
 							boolean isThisEmpty = text.charAt(i - 1) == ' ';
-							boolean isNextEmpty = text.length() - 1 >= i + 1 ? text.charAt(i) == ' ' : true;
+							boolean isNextEmpty = text.length() - 1 < i + 1 || text.charAt(i) == ' ';
 
 							if (!isThisEmpty && !isPreviousEmpty) {
 								for (int j = i - 3; j > 2; j--) {

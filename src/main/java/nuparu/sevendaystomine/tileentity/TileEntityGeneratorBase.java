@@ -3,12 +3,9 @@ package nuparu.sevendaystomine.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -19,7 +16,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.Constants;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
@@ -74,7 +70,7 @@ public abstract class TileEntityGeneratorBase extends TileEntityItemHandler<Item
 
 	public boolean isBurning = false;
 
-	protected long capacity = 100000l;
+	protected long capacity = 100000L;
 	protected long voltage = 0;
 	
 	public int soundCounter = 90;
@@ -98,8 +94,7 @@ public abstract class TileEntityGeneratorBase extends TileEntityItemHandler<Item
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override
@@ -358,7 +353,7 @@ public abstract class TileEntityGeneratorBase extends TileEntityItemHandler<Item
 		long delta = Math.min(canBeAdded, power);
 		long lost = 0;
 		if (connection != null) {
-			lost = (long) Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
+			lost = Math.round(delta * ModConstants.DROP_PER_BLOCK * connection.getDistance());
 		}
 		long realDelta = delta - lost;
 		this.voltage += realDelta;
@@ -388,6 +383,6 @@ public abstract class TileEntityGeneratorBase extends TileEntityItemHandler<Item
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 }

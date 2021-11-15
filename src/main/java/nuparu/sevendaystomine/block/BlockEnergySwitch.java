@@ -6,13 +6,12 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -30,6 +29,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.ItemWire;
 import nuparu.sevendaystomine.tileentity.TileEntityEnergySwitch;
@@ -47,7 +47,7 @@ public class BlockEnergySwitch extends BlockHorizontalBase {
 	public BlockEnergySwitch(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(
-				this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(POWERED, Boolean.valueOf(false)));
+				this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(POWERED, Boolean.FALSE));
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class BlockEnergySwitch extends BlockHorizontalBase {
 		} else {
 			BlockState blockstate = this.pull(state, world, pos);
 			float f = blockstate.getValue(POWERED) ? 0.6F : 0.5F;
-			world.playSound((PlayerEntity) null, pos, SoundEvents.LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, f);
+			world.playSound(null, pos, SoundEvents.LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, f);
 			return ActionResultType.CONSUME;
 		}
 	}
@@ -118,8 +118,8 @@ public class BlockEnergySwitch extends BlockHorizontalBase {
 		} else if (world.hasNeighborSignal(pos)) {
 			CompoundNBT nbt = world.getBlockEntity(pos).save(new CompoundNBT());
 			world.setBlockAndUpdate(pos, blockstate.setValue(POWERED, !blockstate.getValue(POWERED)));
-			float f = ((Boolean) blockstate.getValue(POWERED)).booleanValue() ? 0.6F : 0.5F;
-			world.playSound((PlayerEntity) null, pos, SoundEvents.LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, f);
+			float f = blockstate.getValue(POWERED) ? 0.6F : 0.5F;
+			world.playSound(null, pos, SoundEvents.LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, f);
 			world.getBlockEntity(pos).load(state, nbt);
 		}
 	}
@@ -142,4 +142,8 @@ public class BlockEnergySwitch extends BlockHorizontalBase {
 		builder.add(FACING, POWERED);
 	}
 
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
+	}
 }

@@ -7,9 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.renderer.layer.BurnsLayer;
-import nuparu.sevendaystomine.client.renderer.layer.RedEyesLayer;
 import nuparu.sevendaystomine.entity.BurntZombieEntity;
-import nuparu.sevendaystomine.entity.ReanimatedCorpseEntity;
 
 public class BurntZombieRenderer<T extends BurntZombieEntity, M extends BipedModel<T>>
 		extends ZombieBipedRenderer<T, M> {

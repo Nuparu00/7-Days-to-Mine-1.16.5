@@ -26,7 +26,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityMetalSpikes;
 
 import javax.annotation.Nullable;
@@ -45,7 +44,7 @@ public class BlockMetalSpikes extends HorizontalFaceBlock implements  IBlockBase
     public BlockMetalSpikes(AbstractBlock.Properties p_i48369_1_) {
         super(p_i48369_1_);
         this.registerDefaultState(
-                this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL).setValue(WATERLOGGED, Boolean.valueOf(false)));
+                this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
@@ -85,9 +84,9 @@ public class BlockMetalSpikes extends HorizontalFaceBlock implements  IBlockBase
             if (!(entityIn instanceof LivingEntity)) {
                 return;
             }
-            entityIn.makeStuckInBlock(state, new Vector3d(0.25D, (double) 0.05F, 0.25D));
+            entityIn.makeStuckInBlock(state, new Vector3d(0.25D, 0.05F, 0.25D));
             if (entityIn instanceof PlayerEntity) {
-                if (((PlayerEntity) entityIn).isCreative() || ((PlayerEntity) entityIn).isSpectator()) {
+                if (((PlayerEntity) entityIn).isCreative() || entityIn.isSpectator()) {
                     return;
                 }
             }
@@ -107,7 +106,7 @@ public class BlockMetalSpikes extends HorizontalFaceBlock implements  IBlockBase
 
 
     protected static Direction getConnectedDirection(BlockState p_196365_0_) {
-        switch ((AttachFace) p_196365_0_.getValue(FACE)) {
+        switch (p_196365_0_.getValue(FACE)) {
             case CEILING:
                 return Direction.DOWN;
             case FLOOR:
@@ -191,10 +190,10 @@ public class BlockMetalSpikes extends HorizontalFaceBlock implements  IBlockBase
             if (direction.getAxis() == Direction.Axis.Y) {
                 blockstate = this.defaultBlockState()
                         .setValue(FACE, direction == Direction.UP ? AttachFace.CEILING : AttachFace.FLOOR)
-                        .setValue(FACING, context.getHorizontalDirection()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                        .setValue(FACING, context.getHorizontalDirection()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
             } else {
                 blockstate = this.defaultBlockState().setValue(FACE, AttachFace.WALL).setValue(FACING,
-                        direction.getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                        direction.getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
             }
 
             if (blockstate.canSurvive(context.getLevel(), context.getClickedPos())) {

@@ -11,7 +11,6 @@ import net.minecraftforge.items.SlotItemHandler;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
 import nuparu.sevendaystomine.entity.AirdropEntity;
-import nuparu.sevendaystomine.entity.LootableCorpseEntity;
 import nuparu.sevendaystomine.init.ModContainers;
 
 public class ContainerAirdrop extends Container {

@@ -1,7 +1,5 @@
 package nuparu.sevendaystomine.capability;
 
-import java.util.concurrent.Callable;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,13 +17,7 @@ public class ExtendedPlayerProvider implements ICapabilitySerializable<CompoundN
     protected LazyOptional<IExtendedPlayer> instance = LazyOptional.of(EXTENDED_PLAYER_CAP::getDefaultInstance);
 
     public static void register() {
-        CapabilityManager.INSTANCE.register(IExtendedPlayer.class, new ExtendedPlayerStorage(), new Callable<IExtendedPlayer>() {
-
-            @Override
-            public IExtendedPlayer call() throws Exception {
-                return new ExtendedPlayer();
-            }
-        });
+        CapabilityManager.INSTANCE.register(IExtendedPlayer.class, new ExtendedPlayerStorage(), ExtendedPlayer::new);
     }
 
     @Override

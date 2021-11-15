@@ -1,5 +1,6 @@
 package nuparu.sevendaystomine.client.gui;
 
+import nuparu.sevendaystomine.item.IUpgrader;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -35,15 +36,15 @@ public class GuiUpgradeOverlay extends AbstractGui {
 			Minecraft mc = Minecraft.getInstance();
 			PlayerEntity entity = mc.player;
 			ItemStack stack = entity.inventory.getSelected();
-			if (stack != null && stack.getItem() instanceof ItemUpgrader) {
+			if (stack != null && stack.getItem() instanceof IUpgrader) {
 				BlockRayTraceResult objectPosition = Utils.rayTrace(entity.level, entity,
 						entity.getAttribute(net.minecraftforge.common.ForgeMod.REACH_DISTANCE.get()).getValue(),
 						RayTraceContext.FluidMode.ANY);
 				if (objectPosition != null) {
 					BlockPos blockPos = objectPosition.getBlockPos();
-					if (blockPos != null && stack.getOrCreateTag() != null
-							&& stack.getOrCreateTag().contains("Percent", Constants.NBT.TAG_FLOAT)) {
-						if (stack.getOrCreateTag().getFloat("Percent") != 0) {
+					if (blockPos != null && stack.getTag() != null
+							&& stack.getTag().contains("Percent", Constants.NBT.TAG_FLOAT)) {
+						if (stack.getTag().getFloat("Percent") != 0) {
 
 							MainWindow resolution = event.getWindow();
 							int x = (resolution.getGuiScaledWidth() / 2);

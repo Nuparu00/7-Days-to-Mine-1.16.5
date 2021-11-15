@@ -2,12 +2,9 @@ package nuparu.sevendaystomine.network.packets;
 
 import java.util.function.Supplier;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.SevenDaysToMine;
 
 public class OpenGuiClientMessage {
@@ -44,11 +41,12 @@ public class OpenGuiClientMessage {
 		public static void handle(OpenGuiClientMessage msg, Supplier<NetworkEvent.Context> ctx) {
 			ctx.get().enqueueWork(() -> {
 				ctx.get().setPacketHandled(true);
-				PlayerEntity player = Minecraft.getInstance().player;
+				PlayerEntity player = SevenDaysToMine.proxy.getPlayerEntityFromContext(ctx);
 				if(player == null) {
 					return;
 				}
-				System.out.println("DO NO USE THIS");
+				SevenDaysToMine.proxy.openClientSideGui(msg.id,msg.x, msg.y, msg.z);
+				//System.out.println("DO NO USE THIS");
 				//NetworkHooks.openGui(player, containerSupplier);
 				return;
 			});

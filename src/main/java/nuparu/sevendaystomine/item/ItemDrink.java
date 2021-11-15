@@ -24,24 +24,29 @@ public class ItemDrink extends Item {
 
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity living) {
-		stack = super.finishUsingItem(stack, worldIn, living);
-		if (living instanceof PlayerEntity)
-			return stack;
+		ItemStack original = stack.copy();
+		ItemStack result = super.finishUsingItem(stack, worldIn, living).copy();
+		if (!(living instanceof PlayerEntity))
+			return result;
 		PlayerEntity player = (PlayerEntity) living;
 		IExtendedPlayer extendedPlayer = CapabilityHelper.getExtendedPlayer(player);
 		if (CommonConfig.thirstSystem.get()) {
 			extendedPlayer.addThirst(thirst);
 		}
 		if (CommonConfig.staminaSystem.get()) {
-			extendedPlayer.addThirst(thirst);
 			extendedPlayer.addStamina(stamina);
 		}
+
 		player.removeEffect(Potions.THIRST.get());
-		if (stack.getDamageValue() + 1 == stack.getMaxDamage() && this.hasContainerItem(stack)) {
-			ItemStack itemStack = this.getContainerItem(stack);
-			return itemStack.copy();
+		if ((original.getDamageValue() + 1 >= original.getMaxDamage()) && this.hasContainerItem(result)) {
+			ItemStack itemStack = this.getContainerItem(original).copy();
+			if (!worldIn.isClientSide()) {
+				if (!player.addItem(itemStack)) {
+					player.drop(itemStack, false);
+				}
+			}
 		}
-		return stack;
+		return result;
 	}
 
 	public UseAction getUseAnimation(ItemStack stack) {

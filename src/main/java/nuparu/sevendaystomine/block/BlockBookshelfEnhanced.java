@@ -32,7 +32,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.tileentity.TileEntityBookshelf;
-import nuparu.sevendaystomine.tileentity.TileEntityForge;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
 public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IWaterLoggable {
@@ -58,7 +57,7 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IWate
 
 	public BlockBookshelfEnhanced(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(FULL, false).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(FULL, false).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
@@ -97,9 +96,7 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IWate
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-				packetBuffer.writeBlockPos(pos);
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 		}
 		return ActionResultType.SUCCESS;
 	}
@@ -150,7 +147,7 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IWate
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 	@Override
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {

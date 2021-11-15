@@ -1,12 +1,12 @@
 {
 	"name": "sevendaystomine:city/traffic_lights",
-	"fallback": "minecraft:empty",
+	"fallback": "sevendaystomine:city/traffic_lights",
 	"elements": [
 		{
 			"weight": 6,
 			"element": {
-				"location": "sevendaystomine:city/streets/traffic_light",
-				"processors": "sevendaystomine:mossify",
+				"location": "sevendaystomine:city/streets/decoration/traffic_light",
+				"processors": "minecraft:empty",
 				"projection": "rigid",
 				"element_type": "minecraft:single_pool_element"
 			}

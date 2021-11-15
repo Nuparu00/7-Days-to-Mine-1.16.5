@@ -1,103 +1,60 @@
 package nuparu.sevendaystomine.events;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
-import nuparu.sevendaystomine.client.util.CameraHelper;
-import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.entity.AirdropEntity;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModGameRules;
+import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.potions.Potions;
-import nuparu.sevendaystomine.util.DamageSources;
-import nuparu.sevendaystomine.util.MathUtils;
-import nuparu.sevendaystomine.util.PlayerUtils;
-import nuparu.sevendaystomine.util.Utils;
+import nuparu.sevendaystomine.util.*;
 import nuparu.sevendaystomine.world.MiscSavedData;
 import nuparu.sevendaystomine.world.horde.BloodmoonHorde;
+import nuparu.sevendaystomine.world.horde.GenericHorde;
 import nuparu.sevendaystomine.world.horde.HordeSavedData;
+import nuparu.sevendaystomine.world.horde.ZombieWolfHorde;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class TickHandler {
-    public static float recoil = 0;
-    public static float antiRecoil = 0;
-    public static int time = 0;
-    public static int useCount = 0;
 
-    @OnlyIn(Dist.CLIENT)
-    public static int windCounter;
 
-    @OnlyIn(Dist.CLIENT)
-    public static int beat;
-    @OnlyIn(Dist.CLIENT)
-    public static ResourceLocation drunkShaderRes;
-    @OnlyIn(Dist.CLIENT)
-    public static Method f_loadShader;
-    @OnlyIn(Dist.CLIENT)
-    public static boolean bloodmoon;
-    @OnlyIn(Dist.CLIENT)
-    public static Field f_MOON_PHASES_TEXTURES;
-    @OnlyIn(Dist.CLIENT)
-    public static ResourceLocation bloodmoon_texture;
-    @OnlyIn(Dist.CLIENT)
-    public static ResourceLocation default_moon_texture;
-    @OnlyIn(Dist.CLIENT)
-    private static ResourceLocation bleedShaderRes;
-    @OnlyIn(Dist.CLIENT)
-    private static ResourceLocation nightShaderRes;
-    private static Method f_setSize;
-    @OnlyIn(Dist.CLIENT)
-    private static Minecraft mc;
-    private long nextTorchCheck = 0l;
+    private long nextTorchCheck = 0L;
 
     public TickHandler() {
 
     }
 
-    @SuppressWarnings("deprecation")
     public static void init(Dist side) {
         if (side == Dist.CLIENT) {
-            bloodmoon_texture = new ResourceLocation(SevenDaysToMine.MODID, "textures/environment/moon_phases.png");
-            default_moon_texture = new ResourceLocation("textures/environment/moon_phases.png");
 
             //f_loadShader = ReflectionHelper.findMethod(WorldRenderer.class, "loadShader", "func_175069_a", ResourceLocation.class);
-            mc = Minecraft.getInstance();
-
-            windCounter = 10;
-            beat = 999999;
-
-            bleedShaderRes = new ResourceLocation(SevenDaysToMine.MODID + ":shaders/post/blur_bleed.json");
-            nightShaderRes = new ResourceLocation(SevenDaysToMine.MODID + ":shaders/post/night.json");
-            drunkShaderRes = new ResourceLocation(SevenDaysToMine.MODID + ":shaders/post/drunk.json");
 
         }
         //f_setSize = ReflectionHelper.findMethod(Entity.class, "setSize", "func_70105_a", float.class, float.class);
@@ -134,7 +91,7 @@ public class TickHandler {
 
             if (extendedPlayer.getThirst() > 0) {
                 if (world.random.nextInt(25) == 0) {
-                    extendedPlayer.consumeThirst((int) 1);
+                    extendedPlayer.consumeThirst(1);
                 }
             }
             if (extendedPlayer.getThirst() <= 0) {
@@ -152,7 +109,7 @@ public class TickHandler {
                     }
 
                     if (CommonConfig.thirstSystem.get() && world.random.nextInt(35) == 0) {
-                        extendedPlayer.consumeThirst((int) 1);
+                        extendedPlayer.consumeThirst(1);
                     }
                 }
 
@@ -166,15 +123,6 @@ public class TickHandler {
                 player.setSprinting(false);
             }
         }
-
-    }
-
-    @SuppressWarnings("deprecation")
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (!ClientConfig.postprocessingShaders.get())
-            return;
 
     }
 
@@ -203,8 +151,16 @@ public class TickHandler {
             miscData.setLastAirdrop(Utils.getDay(world));
             BlockPos pos = Utils.getAirdropPos(world);
 
+            //Spawns the airdrop at the world spawn as that one is always loaded
             AirdropEntity e = new AirdropEntity(world, world.getSharedSpawnPos().above(255));
+
+            LootTable loottable = server.getLootTables().get(ModLootTables.AIRDROP);
+            LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(pos));
+
+            ItemUtils.fill(loottable,e.getInventory(), lootcontext$builder.create(LootParameterSets.CHEST));
+
             world.addFreshEntity(e);
+            //Move the airdrop to the actual position
             e.setPos(pos.getX(), pos.getY(), pos.getZ());
             int x = pos.getX() + MathUtils.getIntInRange(world.random, 32, 128) * (world.random.nextBoolean() ? 1 : -1);
             int z = pos.getZ() + MathUtils.getIntInRange(world.random, 32, 128) * (world.random.nextBoolean() ? 1 : -1);
@@ -252,30 +208,30 @@ public class TickHandler {
 									world.random.nextFloat() * 0.1f + 0.95f, world.random.nextFloat() * 0.1f + 0.95f);
 						}
 
-					}/* else if (time > 1000 && time < 1060 && iep.getWolfHorde() != day && Utils.isWolfHorde(world)) {
+					} else if (time > 1000 && time < 1060 && iep.getWolfHorde() != day && Utils.isWolfHorde(world)) {
 
-						ZombieWolfHorde horde = new ZombieWolfHorde(player.blockPosition(), world, player);
+						ZombieWolfHorde horde = new ZombieWolfHorde(player.blockPosition(), (ServerWorld)world, player);
 						horde.addTarget(playerMP);
 						horde.start();
 						iep.setWolfHorde(day);
-					} else if (!iep.hasHorde(world)) {
-						CitySavedData csd = CitySavedData.get(world);
-						CityData city = csd.getClosestCity(player.blockPosition(), 100);
+					} else if (day != 1 && !iep.hasHorde(world)) {
+						/*CitySavedData csd = CitySavedData.get(world);
+						CityData city = csd.getClosestCity(player.blockPosition(), 100);*/
 
-						if (world.random.nextDouble() < ModConfig.world.genericHordeChance
-								* (city == null ? 1 : (1 + ((10 * city.getZombieLevel() / 1024f))))) {
-							GenericHorde horde = new GenericHorde(player.blockPosition(), world, player);
-							if (city != null && city.getZombieLevel() > 0) {
+						if (world.random.nextDouble() < CommonConfig.genericHordeChance.get()
+								/* (city == null ? 1 : (1 + ((10 * city.getZombieLevel() / 1024f))))*/) {
+							GenericHorde horde = new GenericHorde(player.blockPosition(), (ServerWorld)world, player);
+							/*if (city != null && city.getZombieLevel() > 0) {
 								city.setZombieLevel(city.getZombieLevel() - (horde.waves * horde.getZombiesInWave()));
-							}
+							}*/
 							horde.addTarget(playerMP);
 							horde.start();
 							iep.setHorde(day);
 						}
-					}*/
+					}
 				}
                 if (Utils.isBloodmoon(day - 1) && time < 1000 && iep.getLastBloodmoonSurvivalCheck() < day) {
-                    //ModTriggers.BLOODMOON_SURVIVAL.trigger(playerMP);
+                    ModTriggers.BLOODMOON_SURVIVAL.trigger(playerMP, o -> true);
                     iep.setLastBloodmoonSurvivalCheck(day);
                 }
             }
@@ -309,68 +265,9 @@ public class TickHandler {
                         player.inventory.armor.set(i, new ItemStack(ModBlocks.TORCH_LIT.get(), s.getCount()));
                     }
                 }
-                nextTorchCheck = System.currentTimeMillis() + 1000l;
+                nextTorchCheck = System.currentTimeMillis() + 1000L;
             }
         }
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-
-        if (event.phase == TickEvent.Phase.START) {
-            PlayerEntity player = mc.player;
-
-            if (player == null)
-                return;
-            World world = player.level;
-
-            if (recoil > 0) {
-                recoil *= 0.8F;
-
-                player.xRot -= recoil / 2;
-                if (useCount < 25) {
-                    antiRecoil += recoil / 2;
-                    player.xRot += antiRecoil * 0.1F;
-                }
-                antiRecoil *= 0.8F;
-            }
-
-            IExtendedPlayer iep = CapabilityHelper.getExtendedPlayer(player);
-            if (iep != null && iep.getStamina() <= 0) {
-                KeyBinding.set(mc.options.keySprint.getKey(), false);
-                player.setSprinting(false);
-            }
-            if (ClientConfig.burntForestParticles.get()) {
-                for (int l = 0; l < 500 * SevenDaysToMine.proxy.getParticleLevel(); ++l) {
-                    int i1 = MathHelper.floor(player.getX()) + world.random.nextInt(16) - world.random.nextInt(16);
-                    int j1 = MathHelper.floor(player.getY()) + world.random.nextInt(16) - world.random.nextInt(16);
-                    int k1 = MathHelper.floor(player.getZ()) + world.random.nextInt(16) - world.random.nextInt(16);
-                    BlockPos pos = new BlockPos(i1, j1, k1);
-                    Biome biome = world.getBiome(pos);
-
-					/*if ((biome instanceof BiomeWastelandBase) && ((BiomeWastelandBase) biome).floatingParticles()) {
-						if (world.random.nextInt(8) > Math.abs(world.getHeight(pos).getY() - j1)) {
-							BlockState block = world.getBlockState(pos);
-
-							if (block.getMaterial() == Material.AIR) {
-
-								world.addParticle(ParticleTypes.ASH,
-										(double) ((float) i1 + world.random.nextFloat()),
-										(double) ((float) j1 + world.random.nextFloat()),
-										(double) ((float) k1 + world.random.nextFloat()), 0.0D, -1D, 0.0D);
-							}
-						}
-					}*/
-                }
-            }
-            if (ClientEventHandler.takingPhoto) {
-                CameraHelper.INSTANCE.saveScreenshot(mc.getWindow().getScreenWidth(), mc.getWindow().getScreenHeight(), mc.getMainRenderTarget(), player);
-                ClientEventHandler.takingPhoto = false;
-            }
-
-        }
-
     }
 
 }

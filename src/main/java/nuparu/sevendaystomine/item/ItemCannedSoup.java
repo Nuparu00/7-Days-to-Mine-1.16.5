@@ -24,7 +24,7 @@ public class ItemCannedSoup extends ItemCannedFood {
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity living) {
 		stack = super.finishUsingItem(stack, worldIn, living);
-		if (living instanceof PlayerEntity)
+		if (!(living instanceof PlayerEntity))
 			return stack;
 		PlayerEntity player = (PlayerEntity) living;
 		IExtendedPlayer extendedPlayer = CapabilityHelper.getExtendedPlayer(player);
@@ -32,7 +32,6 @@ public class ItemCannedSoup extends ItemCannedFood {
 			extendedPlayer.addThirst(thirst);
 		}
 		if (CommonConfig.staminaSystem.get()) {
-			extendedPlayer.addThirst(thirst);
 			extendedPlayer.addStamina(stamina);
 		}
 		player.removeEffect(Potions.THIRST.get());

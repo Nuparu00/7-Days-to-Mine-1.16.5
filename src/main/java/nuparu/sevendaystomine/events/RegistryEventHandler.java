@@ -3,7 +3,12 @@ package nuparu.sevendaystomine.events;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.TableLootEntry;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -13,6 +18,9 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.IBlockBase;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModFeatures;
+import nuparu.sevendaystomine.loot.modifier.GrassModifier;
+
+import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = SevenDaysToMine.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEventHandler {
@@ -35,7 +43,7 @@ public class RegistryEventHandler {
         ModFeatures.finishRegistration(event);
     }
 
-    @SubscribeEvent
+   /* @SubscribeEvent
     public static void onMissingBlockMapping(RegistryEvent.MissingMappings<Block> event) {
         System.out.println("onMissingBlockMapping()");
         for (RegistryEvent.MissingMappings.Mapping<Block> entry : event.getAllMappings()) {
@@ -43,5 +51,12 @@ public class RegistryEventHandler {
                 entry.remap(ModBlocks.ASPHALT.get());
             }
         }
+    }*/
+
+    /*@SubscribeEvent
+    public static void registerModifierSerializers(@Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+        event.getRegistry().register(
+                    new GrassModifier.Serializer().setRegistryName(new ResourceLocation(SevenDaysToMine.MODID,"grass"))
+            );
+        }*/
     }
-}

@@ -8,74 +8,74 @@ import net.minecraft.world.World;
 
 public interface IExtendedPlayer {
 
-	public void setThirst(int thirst);
+	void setThirst(int thirst);
 
-	public void consumeThirst(int thirst);
+	void consumeThirst(int thirst);
 
-	public void addThirst(int thirst);
+	void addThirst(int thirst);
 
-	public int getThirst();
+	int getThirst();
 
-	public int getMaximumThirst();
+	int getMaximumThirst();
 
-	public void setStamina(int stamina);
+	void setStamina(int stamina);
 
-	public void consumeStamina(int stamina);
+	void consumeStamina(int stamina);
 
-	public void addStamina(int stamina);
+	void addStamina(int stamina);
 
-	public int getStamina();
+	int getStamina();
 
-	public int getMaximumStamina();
+	int getMaximumStamina();
 
-	public boolean getCrawling();
+	boolean getCrawling();
 
-	public void setCrawling(boolean state);
+	void setCrawling(boolean state);
 
-	public boolean isInfected();
+	boolean isInfected();
 
-	public int getInfectionTime();
+	int getInfectionTime();
 
-	public void setInfectionTime(int stage);
+	void setInfectionTime(int stage);
 	
-	public void unlockRecipe(String rec);
+	void unlockRecipe(String rec);
 	
-	public boolean hasRecipe(String rec);
+	boolean hasRecipe(String rec);
 	
-	public List<String> getRecipes();
+	List<String> getRecipes();
 
-	public IExtendedPlayer setOwner(PlayerEntity player);
+	IExtendedPlayer setOwner(PlayerEntity player);
 
-	public PlayerEntity getOwner();
+	PlayerEntity getOwner();
 
-	public void readNBT(CompoundNBT nbt);
+	void readNBT(CompoundNBT nbt);
 
-	public CompoundNBT writeNBT(CompoundNBT nbt);
+	CompoundNBT writeNBT(CompoundNBT nbt);
 
-	public void copy(IExtendedPlayer iep);
+	void copy(IExtendedPlayer iep);
 
-	public void onDataChanged();
+	void onDataChanged();
 
-	public void onStartedTracking(PlayerEntity tracker);
+	void onStartedTracking(PlayerEntity tracker);
 	
-	public boolean hasHorde(World world);
+	boolean hasHorde(World world);
 	
-	public void setBloodmoon(int i);
-	public int getBloodmoon();
+	void setBloodmoon(int i);
+	int getBloodmoon();
 	
-	public void setWolfHorde(int i);
-	public int getWolfHorde();
+	void setWolfHorde(int i);
+	int getWolfHorde();
 	
-	public void setHorde(int i);
-	public int getHorde();
+	void setHorde(int i);
+	int getHorde();
 	
-	public void setDrinkCounter(int i);
-	public int getDrinkCounter();
+	void setDrinkCounter(int i);
+	int getDrinkCounter();
 	
-	public void setSurvivedBloodmoons(int i);
-	public int getSurvivedBloodmons();
+	void setSurvivedBloodmoons(int i);
+	int getSurvivedBloodmons();
 	
-	public void setLastBloodmoonSurvivalCheck(int i);
-	public int getLastBloodmoonSurvivalCheck();
+	void setLastBloodmoonSurvivalCheck(int i);
+	int getLastBloodmoonSurvivalCheck();
 
 }

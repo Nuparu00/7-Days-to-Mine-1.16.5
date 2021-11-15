@@ -11,16 +11,22 @@ import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResult;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import nuparu.sevendaystomine.SevenDaysToMine;
 
+import net.minecraft.world.server.ServerWorld;
+import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.block.ISalvageable;
+import nuparu.sevendaystomine.init.ModLootTables;
+import nuparu.sevendaystomine.util.ItemUtils;
 import nuparu.sevendaystomine.util.MathUtils;
 
 public class ItemWrench extends ItemUpgrader {
@@ -54,12 +60,21 @@ public class ItemWrench extends ItemUpgrader {
 				}
 				salvageable.onSalvage(worldIn, pos, state);
 				if (!worldIn.isClientSide()) {
-					//ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, state);
+					ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, o -> true,state);
 				}
 				itemstack.getOrCreateTag().putFloat("Percent", 0F);
 				if (!worldIn.isClientSide()) {
-					List<ItemStack> stacks = salvageable.getItems(worldIn, pos, state, playerIn);
+					/*List<ItemStack> stacks = salvageable.getItems(worldIn, pos, state, playerIn);
 					for (ItemStack stack : stacks) {
+						if (!playerIn.addItem(stack)) {
+							playerIn.drop(stack, false);
+						}
+					}*/
+					LootTable loottable = worldIn.getServer().getLootTables().get(salvageable.getSalvageLootTable());
+					LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)worldIn)).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(pos));
+					lootcontext$builder.withLuck(playerIn.getLuck()).withParameter(LootParameters.THIS_ENTITY, playerIn);
+					List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(LootParameterSets.CHEST));
+					for (ItemStack stack : list) {
 						if (!playerIn.addItem(stack)) {
 							playerIn.drop(stack, false);
 						}

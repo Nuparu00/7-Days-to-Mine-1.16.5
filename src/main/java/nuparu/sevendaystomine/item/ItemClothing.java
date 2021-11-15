@@ -97,9 +97,10 @@ public abstract class ItemClothing extends DyeableArmorItem implements IQuality 
     @OnlyIn(Dist.CLIENT)
     public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack,
                                                      EquipmentSlotType armorSlot, A _default) {
-        if (model == null) {
+        //if (model == null) {
+
             model = new PlayerModel(0.35f, false);
-        }
+        //}
         return (A) model;
     }
 
@@ -212,9 +213,9 @@ public abstract class ItemClothing extends DyeableArmorItem implements IQuality 
 
         if (equipmentSlot == this.slot) {
             multimap.put(Attributes.ARMOR, new AttributeModifier(
-                    ARMOR_MODIFIER_UUID_PER_SLOT[equipmentSlot.getIndex()], "Armor modifier", (double) this.getDefense(), AttributeModifier.Operation.ADDITION));
+                    ARMOR_MODIFIER_UUID_PER_SLOT[equipmentSlot.getIndex()], "Armor modifier", this.getDefense(), AttributeModifier.Operation.ADDITION));
             multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-                    ARMOR_MODIFIER_UUID_PER_SLOT[equipmentSlot.getIndex()], "Armor toughness", (double) this.getToughness(), AttributeModifier.Operation.ADDITION));
+                    ARMOR_MODIFIER_UUID_PER_SLOT[equipmentSlot.getIndex()], "Armor toughness", this.getToughness(), AttributeModifier.Operation.ADDITION));
         }
 
         return multimap;
@@ -236,9 +237,9 @@ public abstract class ItemClothing extends DyeableArmorItem implements IQuality 
         if (slot == this.slot) {
             if (!EnumQualityState.isQualitySystemOn()) {
                 multimap.put(Attributes.ARMOR, new AttributeModifier(
-                        ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()], "Armor modifier", (double) this.getDefense(), AttributeModifier.Operation.ADDITION));
+                        ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()], "Armor modifier", this.getDefense(), AttributeModifier.Operation.ADDITION));
                 multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-                        ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()], "Armor toughness", (double) this.getToughness(), AttributeModifier.Operation.ADDITION));
+                        ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()], "Armor toughness", this.getToughness(), AttributeModifier.Operation.ADDITION));
 
             } else {
                 multimap.put(Attributes.ARMOR, new AttributeModifier(

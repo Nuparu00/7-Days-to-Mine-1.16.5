@@ -4,10 +4,10 @@ import net.minecraft.nbt.CompoundNBT;
 
 public interface IDialogue {
 
-	public String getUnloclaizedName();
-	public void setUnlocalizedName(String unlocalizedName);
-	public String getLocalizedText();
+	String getUnloclaizedName();
+	void setUnlocalizedName(String unlocalizedName);
+	String getLocalizedText();
 	
-	public void readFromNBT(CompoundNBT nbt);
-	public CompoundNBT save(CompoundNBT nbt);
+	void readFromNBT(CompoundNBT nbt);
+	CompoundNBT save(CompoundNBT nbt);
 }

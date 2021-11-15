@@ -4,7 +4,6 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -12,6 +11,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.tileentity.TileEntityCar;
 import nuparu.sevendaystomine.world.gen.city.Cars;
@@ -36,10 +36,9 @@ public class BlockPoliceCar extends BlockCar {
 			ISelectionContext p_220053_4_) {
 
 		//The client's antialiasing seems to crash the gmes, as for some reason getBlockState sometimes fidnds a block with a negative ID, so we just return this
-		if(world instanceof ChunkRenderCache){
+		if(!(world instanceof IWorld)){
 			return VoxelShapes.box(0.25,0.25,0.25,0.75,0.75,0.75);
 		}
-
 
 		double height = 1;
 		double width = 1;

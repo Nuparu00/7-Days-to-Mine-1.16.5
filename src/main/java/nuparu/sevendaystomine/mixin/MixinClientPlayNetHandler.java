@@ -1,18 +1,10 @@
 package nuparu.sevendaystomine.mixin;
 
 import net.minecraft.client.network.play.ClientPlayNetHandler;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SRecipeBookPacket;
 import net.minecraft.network.play.server.SUpdateRecipesPacket;
-import net.minecraft.util.NonNullList;
-import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.item.ItemQuality;
 import nuparu.sevendaystomine.item.guide.BookDataManager;
 import nuparu.sevendaystomine.util.ModConstants;
-import nuparu.sevendaystomine.util.PlayerUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

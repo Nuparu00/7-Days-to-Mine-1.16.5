@@ -52,7 +52,7 @@ public class TileEntityFileCabinet extends TileEntityItemHandler<ItemHandlerName
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

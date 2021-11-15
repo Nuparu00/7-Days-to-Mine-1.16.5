@@ -21,6 +21,7 @@ public class ClientConfig {
     public static BooleanValue particles;
     public static BooleanValue burntForestParticles;
     public static BooleanValue wastelandFog;
+    public static IntValue wastelandFogBlend;
     public static BooleanValue molotovParticles;
     public static BooleanValue postprocessingShaders;
     public static EnumValue<EnumHudPosition> hudPosition;
@@ -43,6 +44,6 @@ public class ClientConfig {
     	molotovParticles=server.comment("Should use the molotov flame entites spawn the flame particles?").define("render.molotov_particles",true);
     	postprocessingShaders=server.comment("Should use GLSL sahders for drunk/bleeding effects?").define("render.postprocessing_shaders",true);
     	hudPosition=server.comment("Should use custom sky (for bloodmons,etc..)?").defineEnum("gui.hud_position",EnumHudPosition.LEFT_BOTTOM,EnumHudPosition.values());
-    	
+        wastelandFogBlend=server.comment("How far does the fog blend sample from").defineInRange("render.wastelandFogBlend",4,0,16);
     }
 }

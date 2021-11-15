@@ -12,7 +12,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModTileEntities;
-import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.block.ContainerWorkbench;
 import nuparu.sevendaystomine.inventory.block.ContainerWorkbenchUncrafting;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;

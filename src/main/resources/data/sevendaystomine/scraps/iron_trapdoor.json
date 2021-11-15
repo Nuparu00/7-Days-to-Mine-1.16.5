@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:iron_trapdoor",
+  "material" : "iron",
+  "weight" : 12,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

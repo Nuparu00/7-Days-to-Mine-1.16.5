@@ -1,18 +1,14 @@
 package nuparu.sevendaystomine.network.packets;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Supplier;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.network.NetworkEvent;
+import nuparu.sevendaystomine.SevenDaysToMine;
 
 public class SyncTileEntityMessage {
 
@@ -45,7 +41,7 @@ public class SyncTileEntityMessage {
 				ctx.get().setPacketHandled(true);
 				BlockPos pos = msg.pos;
 				CompoundNBT nbt = msg.data;
-				World world = Minecraft.getInstance().level;
+				World world = SevenDaysToMine.proxy.getWorld();
 				if (world == null) {
 					return;
 				}

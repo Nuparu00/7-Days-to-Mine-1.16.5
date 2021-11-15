@@ -13,7 +13,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -24,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.init.ModBlocks;
+import nuparu.sevendaystomine.init.ModItems;
 
 public class BlockTorchUnlit extends TorchBlock implements IBlockBase {
 
@@ -51,7 +51,7 @@ public class BlockTorchUnlit extends TorchBlock implements IBlockBase {
 				stack.hurt(1, worldIn.random, (ServerPlayerEntity) player);
 			}
 		}
-		else if (item == Items.TORCH) {
+		else if (item == Items.TORCH || item == ModItems.TORCH.get()) {
 			lit(worldIn,pos);
 		}
 		
@@ -64,8 +64,8 @@ public class BlockTorchUnlit extends TorchBlock implements IBlockBase {
 		if (!(state.getBlock() instanceof TorchBlock))
 			return;
 		world.setBlockAndUpdate(pos, ModBlocks.TORCH_LIT.get().defaultBlockState());
-		world.playLocalSound((double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F),
-				(double) ((float) pos.getZ() + 0.5F), SoundEvents.FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 0.5F,
+		world.playLocalSound((float) pos.getX() + 0.5F, (float) pos.getY() + 0.5F,
+				(float) pos.getZ() + 0.5F, SoundEvents.FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 0.5F,
 				2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F, false);
 	}
 	@Override

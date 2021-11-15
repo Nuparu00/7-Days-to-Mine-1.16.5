@@ -12,7 +12,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -29,8 +28,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.tileentity.TileEntityRefrigerator;
 
@@ -67,9 +64,7 @@ public class BlockRefrigerator extends BlockHorizontalBase {
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-				packetBuffer.writeBlockPos(pos);
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 		}
 		return ActionResultType.SUCCESS;
 	}
@@ -82,7 +77,7 @@ public class BlockRefrigerator extends BlockHorizontalBase {
 
 	@Override
 	public void setPlacedBy(World p_180633_1_, BlockPos p_180633_2_, BlockState p_180633_3_, LivingEntity p_180633_4_, ItemStack p_180633_5_) {
-		p_180633_1_.setBlock(p_180633_2_.above(), (BlockState)p_180633_3_.setValue(HALF, DoubleBlockHalf.UPPER), 3);
+		p_180633_1_.setBlock(p_180633_2_.above(), p_180633_3_.setValue(HALF, DoubleBlockHalf.UPPER), 3);
 		if (p_180633_5_.hasCustomHoverName()) {
 			TileEntity tileentity = p_180633_1_.getBlockEntity(p_180633_2_);
 			if (tileentity instanceof TileEntityItemHandler) {
@@ -118,7 +113,7 @@ public class BlockRefrigerator extends BlockHorizontalBase {
 	}
 
 	public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_, IWorld p_196271_4_, BlockPos p_196271_5_, BlockPos p_196271_6_) {
-		DoubleBlockHalf doubleblockhalf = (DoubleBlockHalf)p_196271_1_.getValue(HALF);
+		DoubleBlockHalf doubleblockhalf = p_196271_1_.getValue(HALF);
 		if (p_196271_2_.getAxis() == Direction.Axis.Y && doubleblockhalf == DoubleBlockHalf.LOWER == (p_196271_2_ == Direction.UP)) {
 			return p_196271_3_.is(this) && p_196271_3_.getValue(HALF) != doubleblockhalf ? p_196271_1_.setValue(FACING, p_196271_3_.getValue(FACING)) : Blocks.AIR.defaultBlockState();
 		} else {

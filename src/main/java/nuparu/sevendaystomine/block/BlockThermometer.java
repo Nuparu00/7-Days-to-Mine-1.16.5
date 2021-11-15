@@ -6,8 +6,8 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -19,6 +19,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.tileentity.TileEntityThermometer;
 
 public class BlockThermometer extends BlockTileProvider<TileEntityThermometer> {
@@ -36,7 +37,7 @@ public class BlockThermometer extends BlockTileProvider<TileEntityThermometer> {
 	public BlockThermometer(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(
-				this.defaultBlockState().setValue(FACING, Direction.DOWN).setValue(POWERED, Boolean.valueOf(false)));
+				this.defaultBlockState().setValue(FACING, Direction.DOWN).setValue(POWERED, Boolean.FALSE));
 	}
 
 	@Override
@@ -105,4 +106,8 @@ public class BlockThermometer extends BlockTileProvider<TileEntityThermometer> {
 		builder.add(FACING, POWERED);
 	}
 
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
+	}
 }

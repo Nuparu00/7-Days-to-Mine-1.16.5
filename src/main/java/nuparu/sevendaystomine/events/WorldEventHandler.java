@@ -12,20 +12,18 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.TableLootEntry;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
@@ -43,7 +41,7 @@ import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.world.MobSpawnInfoBuilder;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -96,11 +94,63 @@ public class WorldEventHandler {
 		//Handles double blocks
 		if (!(block instanceof DoublePlantBlock)) {
 			FluidState fluidstate = world.getFluidState(pos);
-			block.removedByPlayer(state, world, pos, (PlayerEntity) null, true, fluidstate);
+			block.removedByPlayer(state, world, pos, null, true, fluidstate);
 		} else {
 			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 		}
 		world.sendBlockUpdated(pos, state, Blocks.AIR.defaultBlockState(), 3);
+	}
+
+	@SubscribeEvent
+	public void onPlayerDig(BlockEvent.BreakEvent event) {
+		BlockPos pos = event.getPos();
+		IWorld world = event.getWorld();
+		BlockState state = event.getState();
+		Block block = state.getBlock();
+
+		if (block instanceof IUpgradeable && ((IUpgradeable) block).getPrev(world, pos, state) != null
+				&& ((IUpgradeable) block).getPrev(world, pos, state).getBlock() != Blocks.AIR) {
+			IUpgradeable upgradeable = (IUpgradeable) state.getBlock();
+			event.setCanceled(true);
+			world.setBlock(pos, upgradeable.getPrev(world, pos, state),2);
+			upgradeable.onDowngrade(world, pos, state);
+			Block prev = upgradeable.getPrev(world, pos, state).getBlock();
+			if (!(prev instanceof IUpgradeable))
+				return;
+			for (ItemStack stack : ((IUpgradeable) prev).getItems()) {
+				int count = (int) (stack.getCount() * Math.random());
+				if (count > 0) {
+					ItemStack s = stack.copy();
+					s.setCount(count);
+				}
+			}
+			return;
+		} else {
+			VanillaBlockUpgrade upgrade = VanillaManager.getVanillaUpgrade(state);
+			if (upgrade != null && upgrade.getPrev() != null && upgrade.getPrev().getBlock() != Blocks.AIR) {
+				event.setCanceled(true);
+				world.setBlock(pos, upgrade.getPrev(),2);
+				if (upgrade.getPrev().getBlock() instanceof IUpgradeable) {
+					ItemStack[] stacks = (upgrade.getPrev().getBlock() instanceof IUpgradeable)
+							? (((IUpgradeable) upgrade.getPrev().getBlock()).getItems())
+							: ((VanillaManager.getVanillaUpgrade(upgrade.getPrev()) != null)
+							? (VanillaManager.getVanillaUpgrade(upgrade.getPrev()).getItems())
+							: (null));
+
+					if (stacks != null) {
+						for (ItemStack stack : stacks) {
+							int count = (int) (stack.getCount() * Math.random());
+							if (count > 0) {
+								ItemStack s = stack.copy();
+								s.setCount(count);
+								//event.getDrops().add(s);
+							}
+						}
+					}
+				}
+				return;
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -225,11 +275,35 @@ public class WorldEventHandler {
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_MILITARY_BASE);
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRPLANE);
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_HELICOPTER);
+				if (!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY)) {
+					event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRPFIELD);
+				}
 			}
 			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY)) {
 				event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.stickFeature);
 			}
 		}
+
+		if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.RIVER)) {
+			event.getGeneration().getFeatures(GenerationStage.Decoration.RAW_GENERATION).add(() -> ModFeatures.roadsFeature);
+			event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> ModFeatures.carsFeature);
+		}
+
+		if(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_YACHT);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_SUNKEN_YACHT);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CRUISER);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CARGO_SHIP);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CARGO_SHIP_SUNKEN);
+		}
+
+		if(biomeKey.location().equals(ModBiomes.WASTELAND_FOREST.getId())){
+			//System.out.println("BURNS BURNS BURNS, THE RING OF FIRE");
+			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTreeFeature);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_LANDFILL);
+		}
+
+
 		if(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.PLAINS) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SAVANNA)) {
 			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.cornFeature);
 		}
@@ -284,9 +358,23 @@ public class WorldEventHandler {
 			tempMap.putIfAbsent(ModStructureFeatures.AIRPLANE.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.AIRPLANE.get()));
 			tempMap.putIfAbsent(ModStructureFeatures.MILITARY_BASE.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.MILITARY_BASE.get()));
 			tempMap.putIfAbsent(ModStructureFeatures.HELICOPTER.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.HELICOPTER.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.LANDFILL.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.LANDFILL.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.YACHT.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.YACHT.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.SUNKEN_YACHT.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.SUNKEN_YACHT.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.CRUISER.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.CRUISER.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.CARGO_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.CARGO_SHIP.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.CARGO_SHIP_SUNKEN.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.CARGO_SHIP_SUNKEN.get()));
+			tempMap.putIfAbsent(ModStructureFeatures.AIRFIELD.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.AIRFIELD.get()));
 			serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
 	}
 
 
+
+	/*@SubscribeEvent
+	public static void onLootLoad(LootTableLoadEvent event) {
+		if (event.getName().equals(new ResourceLocation("minecraft","blocks/grass"))) {
+			event.getTable().addPool(LootPool.lootPool().add(TableLootEntry.lootTableReference(new ResourceLocation(SevenDaysToMine.MODID,"grass"))).build());
+		}
+	}*/
 }

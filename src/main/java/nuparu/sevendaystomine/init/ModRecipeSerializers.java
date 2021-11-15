@@ -21,6 +21,7 @@ import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.crafting.pot.CookingPotRecipeShapeless;
 import nuparu.sevendaystomine.crafting.scrap.RecipesScraps;
 import nuparu.sevendaystomine.crafting.grill.GrillRecipeShapeless;
+import nuparu.sevendaystomine.crafting.separator.SeparatorRecipe;
 import nuparu.sevendaystomine.crafting.workbench.RecipeWorkbenchShaped;
 import nuparu.sevendaystomine.tileentity.TileEntityChemistryStation;
 import nuparu.sevendaystomine.tileentity.TileEntityForge;
@@ -33,33 +34,33 @@ public class ModRecipeSerializers {
 			SevenDaysToMine.MODID);
 
 	public static final RegistryObject<RecipesScraps.Serializer> SCRAP_SERIALIZER = SERIALIZERS.register("recipe_scrap",
-			() -> new RecipesScraps.Serializer());
+            RecipesScraps.Serializer::new);
 
 	public static final RegistryObject<RecipeWorkbenchShaped.Serializer> WORKBENCH_SHAPED = SERIALIZERS.register("workbench_shaped",
-			() -> new RecipeWorkbenchShaped.Serializer());
+            RecipeWorkbenchShaped.Serializer::new);
 
 	public static final RegistryObject<RecipeQualityShaped.Serializer> QUALITY_SHAPED = SERIALIZERS.register("quality_shaped",
-			() -> new RecipeQualityShaped.Serializer());
+            RecipeQualityShaped.Serializer::new);
 
 	public static final RegistryObject<RecipeQualityShapeless.Serializer> QUALITY_SHAPELESS = SERIALIZERS.register("quality_shapeless",
-			() -> new RecipeQualityShapeless.Serializer());
+            RecipeQualityShapeless.Serializer::new);
 
 
 	public static final RegistryObject<RecipeLockedShaped.Serializer> LOCKED_SHAPED = SERIALIZERS.register("locked_shaped",
-			() -> new RecipeLockedShaped.Serializer());
+            RecipeLockedShaped.Serializer::new);
 
 	public static final RegistryObject<RecipeLockedShapeless.Serializer> LOCKED_SHAPELESS = SERIALIZERS.register("locked_shapeless",
-			() -> new RecipeLockedShapeless.Serializer());
+            RecipeLockedShapeless.Serializer::new);
 
 	public static final RegistryObject<IRecipeSerializer<?>> GUN_SHAPELESS = SERIALIZERS.register("gun_shapeless",
-			() -> new RecipeGunShapeless.Serializer());
+            RecipeGunShapeless.Serializer::new);
 
 	public static final RegistryObject<IRecipeSerializer<?>> FORGE_SHAPELESS = SERIALIZERS.register("forge_shapeless",
-			() -> new ForgeRecipeShapeless.Factory());
+            ForgeRecipeShapeless.Factory::new);
 	public static final RegistryObject<IRecipeSerializer<?>> FORGE_MATERIAL = SERIALIZERS.register("forge_material",
-			() -> new ForgeRecipeMaterial.Factory());
+            ForgeRecipeMaterial.Factory::new);
 	public static final RegistryObject<IRecipeSerializer<?>> CHEMISTRY_SHAPELESS = SERIALIZERS.register("chemistry_shapeless",
-			() -> new ChemistryRecipeShapeless.Factory());
+            ChemistryRecipeShapeless.Factory::new);
 
 	//Recipe Types
 	public static final IRecipeType<IForgeRecipe<TileEntityForge>> FORGE_RECIPE_TYPE = IRecipeType.register(new ResourceLocation(SevenDaysToMine.MODID, "forge").toString());
@@ -68,6 +69,7 @@ public class ModRecipeSerializers {
 	public static final Tuple<IRecipeType<GrillRecipeShapeless>, RegistryObject<IRecipeSerializer<GrillRecipeShapeless>>> GRILL = registerRecipeType("grill_shapeless", GrillRecipeShapeless.Factory::new);
 	public static final Tuple<IRecipeType<CookingPotRecipeShapeless>, RegistryObject<IRecipeSerializer<CookingPotRecipeShapeless>>> COOKING_POT = registerRecipeType("cooking_pot_shapeless", CookingPotRecipeShapeless.Factory::new);
 	public static final Tuple<IRecipeType<BeakerRecipeShapeless>, RegistryObject<IRecipeSerializer<BeakerRecipeShapeless>>> BEAKER = registerRecipeType("beaker_shapeless", BeakerRecipeShapeless.Factory::new);
+	public static final Tuple<IRecipeType<SeparatorRecipe>, RegistryObject<IRecipeSerializer<SeparatorRecipe>>> SEPARATOR = registerRecipeType("separator", SeparatorRecipe.Factory::new);
 
 
 	//Creedit: https://github.com/Tslat/Advent-Of-Ascension/blob/dfc01e41f4eda6fcc9748e796d31e3f6b1e38d9b/source/common/registration/AoARecipes.java#L20

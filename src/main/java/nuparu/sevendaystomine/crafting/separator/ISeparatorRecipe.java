@@ -1,17 +1,12 @@
 package nuparu.sevendaystomine.crafting.separator;
 
-import java.util.List;
-
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.item.crafting.IRecipe;
 import nuparu.sevendaystomine.tileentity.TileEntitySeparator;
+import org.apache.commons.lang3.tuple.Pair;
 
-public interface ISeparatorRecipe {
-	 boolean matches(TileEntitySeparator inv, World worldIn);
-	 public List<ItemStack> getResult();
-	 public List<ItemStack> getOutputs(TileEntitySeparator tileEntity);
-	 public ItemStack getIngredient();
-	 public void consumeInput(TileEntitySeparator tileEntity);
-	 public int intGetXP(PlayerEntity player);
+public interface ISeparatorRecipe<T extends TileEntitySeparator> extends IRecipe<T> {
+	float getExperience();
+	int getCookingTime();
+	Pair<ItemStack,ItemStack> assemblePair(T separator);
 }

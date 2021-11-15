@@ -8,15 +8,11 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
-import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.items.SlotItemHandler;
-import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
 import nuparu.sevendaystomine.init.ModContainers;
 import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
-import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
 public class ContainerBackpack extends Container {
 

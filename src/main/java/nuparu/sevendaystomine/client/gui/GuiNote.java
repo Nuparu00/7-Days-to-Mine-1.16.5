@@ -10,7 +10,6 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -169,13 +168,9 @@ public class GuiNote extends Screen implements IGuiEventListener {
 		int offsetFromScreenLeft = (width - xSize) / 2;
 		int marginVertical = (height - ySize) / 2;
 		buttons.add(buttonNextPage = new GuiNextButton(offsetFromScreenLeft + xSize - 10 - 23, marginVertical + 160,
-				true, this, (button) -> {
-					actionPerformed(button);
-				}));
+				true, this, this::actionPerformed));
 		buttons.add(buttonPreviousPage = new GuiNextButton(offsetFromScreenLeft + 10, marginVertical + 160, false, this,
-				(button) -> {
-					actionPerformed(button);
-				}));
+                this::actionPerformed));
 
 		buttonNextPage.active = false;
 		buttonPreviousPage.active = false;

@@ -10,7 +10,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.crafting.forge.ForgeRecipeMaterial;
-import nuparu.sevendaystomine.crafting.forge.ForgeRecipeShapeless;
 import nuparu.sevendaystomine.crafting.forge.MaterialStack;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.item.EnumMaterial;
@@ -46,7 +45,7 @@ public class ForgeMaterialRecipeCategory extends AbstractForgeRecipeCategory<For
             ScrapDataManager.ScrapEntry entry = ScrapDataManager.instance.getSmallestItem(material);
             if(entry != null){
                 ItemStack stack = new ItemStack(entry.item, (int)Math.ceil((double)weight/entry.weight));
-                if(stack.isEmpty()) continue;;
+                if(stack.isEmpty()) continue;
                 list.add(Ingredient.of(stack));
             }
 

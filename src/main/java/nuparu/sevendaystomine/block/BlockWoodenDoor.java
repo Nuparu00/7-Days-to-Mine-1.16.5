@@ -3,20 +3,19 @@ package nuparu.sevendaystomine.block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModItems;
+import nuparu.sevendaystomine.item.IUpgrader;
 import nuparu.sevendaystomine.item.ItemUpgrader;
 
 public class BlockWoodenDoor extends BlockDoorBase implements IUpgradeable {
@@ -36,12 +35,12 @@ public class BlockWoodenDoor extends BlockDoorBase implements IUpgradeable {
 	}
 
 	@Override
-	public BlockState getPrev(World world, BlockPos pos, BlockState original) {
+	public BlockState getPrev(IWorld world, BlockPos pos, BlockState original) {
 		return Blocks.AIR.defaultBlockState();
 	}
 
 	@Override
-	public BlockState getResult(World world, BlockPos pos) {
+	public BlockState getResult(IWorld world, BlockPos pos) {
 		BlockState oldState = world.getBlockState(pos);
 
 		return ModBlocks.WOODEN_DOOR_REINFORCED.get().defaultBlockState().setValue(FACING, oldState.getValue(FACING))
@@ -52,33 +51,32 @@ public class BlockWoodenDoor extends BlockDoorBase implements IUpgradeable {
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult result) {
-		if (player.getItemInHand(hand).getItem() instanceof ItemUpgrader && player.isCrouching()) {
+		if (player.getItemInHand(hand).getItem() instanceof IUpgrader && player.isCrouching()) {
 			return ActionResultType.SUCCESS;
 		}
 		return super.use(state, world, pos, player, hand, result);
 	}
 
 	@Override
-	public void onUpgrade(World world, BlockPos pos, BlockState oldState) {
+	public void onUpgrade(IWorld world, BlockPos pos, BlockState oldState) {
 		DoubleBlockHalf half = oldState.getValue(HALF);
 		if (half == DoubleBlockHalf.LOWER) {
 			BlockPos blockPos = pos.above();
 			BlockState state = world.getBlockState(blockPos);
 			if (state.getBlock() == Blocks.AIR || state.getBlock() instanceof BlockDoorBase) {
-				world.setBlockAndUpdate(blockPos, getResult(world, blockPos));
+				world.setBlock(blockPos, getResult(world, blockPos),2);
 			}
 		} else if (half == DoubleBlockHalf.UPPER) {
 			BlockPos blockPos = pos.below();
-			;
-			BlockState state = world.getBlockState(blockPos);
+            BlockState state = world.getBlockState(blockPos);
 			if (state.getBlock() == Blocks.AIR || state.getBlock() instanceof BlockDoorBase) {
-				world.setBlockAndUpdate(blockPos, getResult(world, blockPos));
+				world.setBlock(blockPos, getResult(world, blockPos),2);
 			}
 		}
 	}
 
 	@Override
-	public void onDowngrade(World world, BlockPos pos, BlockState oldState) {
+	public void onDowngrade(IWorld world, BlockPos pos, BlockState oldState) {
 
 	}
 

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -27,7 +26,6 @@ import nuparu.sevendaystomine.electricity.IVoltage;
 import nuparu.sevendaystomine.init.ModFluids;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModTileEntities;
-import nuparu.sevendaystomine.inventory.block.ContainerCombustionGenerator;
 import nuparu.sevendaystomine.inventory.block.ContainerGasGenerator;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.util.MathUtils;
@@ -116,7 +114,7 @@ public class TileEntityGasGenerator extends TileEntityGeneratorBase{
 		}
 
 		if (temperature > 1) {
-			this.level.explode((Entity) null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 2, true,Explosion.Mode.BREAK);
+			this.level.explode(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 2, true,Explosion.Mode.BREAK);
 		}
 		if (tank.getFluidAmount() < tank.getCapacity()) {
 			ItemStack stack = this.getInventory().getStackInSlot(0);

@@ -10,7 +10,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.fml.BrandingControl;
 import net.minecraftforge.fml.ForgeI18n;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.versions.forge.ForgeVersion;

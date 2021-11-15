@@ -1,8 +1,6 @@
 package nuparu.sevendaystomine.init;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.world.gen.blockplacer.BlockPlacerType;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;

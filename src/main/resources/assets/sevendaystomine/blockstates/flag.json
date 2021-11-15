@@ -1,5 +1,8 @@
 {
     "variants": {
-        "": { "model": "sevendaystomine:block/flag" }
+        "facing=north": { "model": "sevendaystomine:block/flag" },
+        "facing=west": { "model": "sevendaystomine:block/flag", "y": 270 },
+        "facing=east": { "model": "sevendaystomine:block/flag", "y": 90 },
+        "facing=south": { "model": "sevendaystomine:block/flag", "y": 180 }
     }
 }

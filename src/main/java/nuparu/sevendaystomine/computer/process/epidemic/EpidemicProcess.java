@@ -818,7 +818,7 @@ public class EpidemicProcess extends WindowedProcess {
 			while (it.hasNext()) {
 				INBT base = it.next();
 				if (base instanceof StringNBT) {
-					upgrades.add(EnumUpgrade.getByName(((StringNBT) base).getAsString()));
+					upgrades.add(EnumUpgrade.getByName(base.getAsString()));
 				}
 			}
 		}

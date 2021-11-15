@@ -1,14 +1,8 @@
 package nuparu.sevendaystomine.network.packets;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import nuparu.sevendaystomine.capability.CapabilityHelper;
-import nuparu.sevendaystomine.capability.ExtendedPlayer;
-import nuparu.sevendaystomine.capability.IExtendedPlayer;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 
 import java.util.function.Supplier;

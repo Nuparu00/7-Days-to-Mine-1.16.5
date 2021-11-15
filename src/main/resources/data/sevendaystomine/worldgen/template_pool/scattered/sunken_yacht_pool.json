@@ -1,0 +1,24 @@
+{
+	"name": "sevendaystomine:scattered/yacht_pool",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:scattered/yacht/yacht_sunken",
+				"processors": "sevendaystomine:default",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:scattered/yacht/yacht_sunken_damaged",
+				"processors": "sevendaystomine:default",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		}
+	]
+}

@@ -38,7 +38,7 @@ public class ContainerWorkbench extends Container {
         super(ModContainers.WORKBENCH.get(), windowID);
         this.world = invPlayer.player.level;
         this.tileEntity = tileEntity;
-        this.player = invPlayer.player;;
+        this.player = invPlayer.player;
         this.access = IWorldPosCallable.create(invPlayer.player.level,pos);
 
         this.addSlot(new CraftingResultSlot(player, this.craftSlots, this.resultSlots, 0, 134, 44));
@@ -87,9 +87,7 @@ public class ContainerWorkbench extends Container {
     }
 
     public void slotsChanged(IInventory p_75130_1_) {
-        this.access.execute((p_217069_1_, p_217069_2_) -> {
-            slotChangedCraftingGrid(this.containerId, p_217069_1_, this.player, this.craftSlots, this.resultSlots);
-        });
+        this.access.execute((p_217069_1_, p_217069_2_) -> slotChangedCraftingGrid(this.containerId, p_217069_1_, this.player, this.craftSlots, this.resultSlots));
     }
 
     public void fillCraftSlotsStackedContents(RecipeItemHelper p_201771_1_) {
@@ -112,9 +110,7 @@ public class ContainerWorkbench extends Container {
 
     public void removed(PlayerEntity p_75134_1_) {
         super.removed(p_75134_1_);
-        this.access.execute((p_217068_2_, p_217068_3_) -> {
-            this.clearContainer(p_75134_1_, p_217068_2_, this.craftSlots);
-        });
+        this.access.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(p_75134_1_, p_217068_2_, this.craftSlots));
     }
 
     @Override
@@ -125,9 +121,7 @@ public class ContainerWorkbench extends Container {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
-                this.access.execute((p_217067_2_, p_217067_3_) -> {
-                    itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, entity);
-                });
+                this.access.execute((p_217067_2_, p_217067_3_) -> itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, entity));
                 if (!this.moveItemStackTo(itemstack1, 26, 62, true)) {
                     return ItemStack.EMPTY;
                 }

@@ -11,10 +11,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.init.ModItems;
+import nuparu.sevendaystomine.item.IUpgrader;
 import nuparu.sevendaystomine.item.ItemUpgrader;
 
 public class BlockWoodenDoorReinforced extends BlockDoorBase implements IUpgradeable {
@@ -34,14 +35,14 @@ public class BlockWoodenDoorReinforced extends BlockDoorBase implements IUpgrade
 	}
 
 	@Override
-	public BlockState getPrev(World world, BlockPos pos, BlockState original) {
+	public BlockState getPrev(IWorld world, BlockPos pos, BlockState original) {
 		return ModBlocks.WOODEN_DOOR.get().defaultBlockState().setValue(FACING, original.getValue(FACING))
 				.setValue(OPEN, original.getValue(OPEN)).setValue(HINGE, original.getValue(HINGE))
 				.setValue(POWERED, original.getValue(POWERED)).setValue(HALF, original.getValue(HALF));
 	}
 
 	@Override
-	public BlockState getResult(World world, BlockPos pos) {
+	public BlockState getResult(IWorld world, BlockPos pos) {
 		BlockState oldState = world.getBlockState(pos);
 
 		return ModBlocks.WOODEN_DOOR_IRON_REINFORCED.get().defaultBlockState().setValue(FACING, oldState.getValue(FACING))
@@ -52,33 +53,32 @@ public class BlockWoodenDoorReinforced extends BlockDoorBase implements IUpgrade
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult result) {
-		if (player.getItemInHand(hand).getItem() instanceof ItemUpgrader && player.isCrouching()) {
+		if (player.getItemInHand(hand).getItem() instanceof IUpgrader && player.isCrouching()) {
 			return ActionResultType.SUCCESS;
 		}
 		return super.use(state, world, pos, player, hand, result);
 	}
 
 	@Override
-	public void onUpgrade(World world, BlockPos pos, BlockState oldState) {
+	public void onUpgrade(IWorld world, BlockPos pos, BlockState oldState) {
 		DoubleBlockHalf half = oldState.getValue(HALF);
 		if (half == DoubleBlockHalf.LOWER) {
 			BlockPos blockPos = pos.above();
 			BlockState state = world.getBlockState(blockPos);
 			if (state.getBlock() == Blocks.AIR || state.getBlock() instanceof BlockDoorBase) {
-				world.setBlockAndUpdate(blockPos, getResult(world, blockPos));
+				world.setBlock(blockPos, getResult(world, blockPos),2);
 			}
 		} else if (half == DoubleBlockHalf.UPPER) {
 			BlockPos blockPos = pos.below();
-			;
-			BlockState state = world.getBlockState(blockPos);
+            BlockState state = world.getBlockState(blockPos);
 			if (state.getBlock() == Blocks.AIR || state.getBlock() instanceof BlockDoorBase) {
-				world.setBlockAndUpdate(blockPos, getResult(world, blockPos));
+				world.setBlock(blockPos, getResult(world, blockPos),2);
 			}
 		}
 	}
 
 	@Override
-	public void onDowngrade(World world, BlockPos pos, BlockState oldState) {
+	public void onDowngrade(IWorld world, BlockPos pos, BlockState oldState) {
 		DoubleBlockHalf half = oldState.getValue(HALF);
 		if (half == DoubleBlockHalf.LOWER) {
 			pos = pos.above();
@@ -87,7 +87,7 @@ public class BlockWoodenDoorReinforced extends BlockDoorBase implements IUpgrade
 			pos = pos.below();
 			half = DoubleBlockHalf.LOWER;
 		}
-		world.setBlockAndUpdate(pos, getPrev(world,pos,oldState).setValue(HALF, half));
+		world.setBlock(pos, getPrev(world,pos,oldState).setValue(HALF, half),3);
 	}
 
 }

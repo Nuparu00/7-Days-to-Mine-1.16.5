@@ -3,8 +3,6 @@ package nuparu.sevendaystomine.block;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.IItemProvider;
 import nuparu.sevendaystomine.init.ModItems;
 

@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -21,8 +22,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.item.EnumMaterial;
-import nuparu.sevendaystomine.tileentity.TileEntityMicrowave;
+import nuparu.sevendaystomine.init.ModBlocks;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.tileentity.TileEntityMonitor;
 
 public class BlockMonitor extends BlockHorizontalBase {
@@ -55,7 +56,7 @@ public class BlockMonitor extends BlockHorizontalBase {
 			if (player.isCrouching()) {
 				if (!worldIn.isClientSide()) {
 					monitorTE.setState(!monitorTE.getState());
-					if (monitorTE.getState() == true) {
+					if (monitorTE.getState()) {
 						TranslationTextComponent text = new TranslationTextComponent("computer.turn.on");
 						text.getStyle().withColor(TextFormatting.GREEN);
 						player.sendMessage(text,Util.NIL_UUID);
@@ -73,9 +74,7 @@ public class BlockMonitor extends BlockHorizontalBase {
 					if (!(player instanceof ServerPlayerEntity))
 						return ActionResultType.FAIL;
 					ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-						packetBuffer.writeBlockPos(pos);
-					});
+					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 				}
 				if (!worldIn.isClientSide()) {
 					monitorTE.addPlayer(player);
@@ -102,5 +101,12 @@ public class BlockMonitor extends BlockHorizontalBase {
 	@Nullable
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileEntityMonitor();
+	}
+
+	@Override
+	public ItemGroup getItemGroup() {
+		if(this == ModBlocks.MONITOR_OFF.get())
+		return ModItemGroups.TAB_ELECTRICITY;
+		else return null;
 	}
 }

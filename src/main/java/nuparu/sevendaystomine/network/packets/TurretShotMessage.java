@@ -1,12 +1,10 @@
 package nuparu.sevendaystomine.network.packets;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
+import nuparu.sevendaystomine.SevenDaysToMine;
 
 import java.util.function.Supplier;
 
@@ -45,7 +43,7 @@ public class TurretShotMessage {
 
 			ctx.get().enqueueWork(() -> {
 				ctx.get().setPacketHandled(true);
-				World world = Minecraft.getInstance().level;
+				World world = SevenDaysToMine.proxy.getWorld();
 				world.addParticle(ParticleTypes.SMOKE, msg.posX, msg.posY - 0.2,
 						msg.posZ, 0.0D, 0.075D, 0.0D);
 				world.addParticle(ParticleTypes.FLAME, msg.posX, msg.posY - 0.2,

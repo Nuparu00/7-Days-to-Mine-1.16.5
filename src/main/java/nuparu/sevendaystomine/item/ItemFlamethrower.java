@@ -9,7 +9,6 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.entity.FlameEntity;
-import nuparu.sevendaystomine.entity.ShotEntity;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModItems;

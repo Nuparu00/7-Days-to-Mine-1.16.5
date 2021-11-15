@@ -2,6 +2,7 @@ package nuparu.sevendaystomine.datagen.loot;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.loot.BlockLootTables;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.RandomValueRange;
 import net.minecraftforge.fml.RegistryObject;
@@ -27,6 +28,7 @@ public class ModBlockLootTables extends BlockLootTables {
         this.add(ModBlocks.SMALL_ROCK_ANDESITE.get(),createSingleItemTable(ModItems.SMALL_STONE.get()));
         this.add(ModBlocks.SMALL_ROCK_DIORITE.get(),createSingleItemTable(ModItems.SMALL_STONE.get()));
         this.add(ModBlocks.SMALL_ROCK_GRANITE.get(),createSingleItemTable(ModItems.SMALL_STONE.get()));
+        this.add(ModBlocks.STICK.get(),createSingleItemTable(Items.STICK));
     }
 
     @Override

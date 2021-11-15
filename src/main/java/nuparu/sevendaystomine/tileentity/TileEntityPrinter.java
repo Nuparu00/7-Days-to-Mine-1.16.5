@@ -14,15 +14,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.Constants;
-import nuparu.sevendaystomine.client.util.ResourcesHelper.Image;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerPrinter;
-import nuparu.sevendaystomine.inventory.block.ContainerScreenProjector;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
-import nuparu.sevendaystomine.item.ItemPhoto;
 
 public class TileEntityPrinter extends TileEntityItemHandler<ItemHandlerNameable> implements ITickableTileEntity {
 
@@ -86,7 +80,7 @@ public class TileEntityPrinter extends TileEntityItemHandler<ItemHandlerNameable
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 
@@ -110,8 +104,7 @@ public class TileEntityPrinter extends TileEntityItemHandler<ItemHandlerNameable
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+        return save(new CompoundNBT());
 	}
 
 	@Override

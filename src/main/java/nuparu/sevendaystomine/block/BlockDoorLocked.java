@@ -1,7 +1,6 @@
 package nuparu.sevendaystomine.block;
 
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.properties.DoorHingeSide;
 import net.minecraft.state.properties.DoubleBlockHalf;
@@ -49,7 +48,7 @@ public class BlockDoorLocked extends BlockDoorBase {
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
 		if (System.currentTimeMillis() >= nextSoundAllowed && !player.isCrouching()) {
-			nextSoundAllowed = System.currentTimeMillis() + 500l;
+			nextSoundAllowed = System.currentTimeMillis() + 500L;
 			world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), ModSounds.DOOR_LOCKED.get(), SoundCategory.BLOCKS,
 					0.75f + MathUtils.getFloatInRange(0, 0.25f), 0.8f + MathUtils.getFloatInRange(0, 0.2f),false);
 		}

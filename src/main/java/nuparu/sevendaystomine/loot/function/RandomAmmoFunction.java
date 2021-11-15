@@ -7,8 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.ILootCondition;
-import nuparu.sevendaystomine.item.IReloadable;
-import nuparu.sevendaystomine.item.ItemFuelTool;
 import nuparu.sevendaystomine.item.ItemGun;
 
 public class RandomAmmoFunction extends LootFunction {

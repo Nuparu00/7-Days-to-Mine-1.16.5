@@ -255,8 +255,7 @@ public class ItemZoneContents implements IInventory {
 	 *         then ItemStack with a size of 11 is returned
 	 */
 	public ItemStack increaseStackSize(int index, ItemStack itemStackToInsert) {
-		ItemStack leftoverItemStack = furnaceComponentContents.insertItem(index, itemStackToInsert, false);
-		return leftoverItemStack;
+        return furnaceComponentContents.insertItem(index, itemStackToInsert, false);
 	}
 
 	/**

@@ -1,0 +1,15 @@
+{
+	"name": "sevendaystomine:scattered/cargo_ship_sunken/cargo_ship_sunken_front_pool",
+	"fallback": "sevendaystomine:scattered/cargo_ship_sunken/cargo_ship_sunken_front_pool",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:scattered/cargo_ship_sunken/cargo_ship_sunken_front",
+				"processors": "sevendaystomine:default",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		}
+	]
+}

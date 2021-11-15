@@ -6,14 +6,12 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -22,20 +20,16 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
 import nuparu.sevendaystomine.advancements.ModTriggers;
-import nuparu.sevendaystomine.block.repair.RepairManager;
 import nuparu.sevendaystomine.capability.CapabilityHandler;
 import nuparu.sevendaystomine.capability.ChunkDataProvider;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.ExtendedPlayerProvider;
-import nuparu.sevendaystomine.client.gui.ConfigScreen;
 import nuparu.sevendaystomine.command.*;
 import nuparu.sevendaystomine.config.ConfigHelper;
 import nuparu.sevendaystomine.crafting.RecipeManager;
 import nuparu.sevendaystomine.events.*;
 import nuparu.sevendaystomine.init.*;
-import nuparu.sevendaystomine.item.guide.BookDataManager;
 import nuparu.sevendaystomine.loot.function.ModLootFunctionManager;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.potions.Potions;
@@ -43,17 +37,15 @@ import nuparu.sevendaystomine.proxy.ClientProxy;
 import nuparu.sevendaystomine.proxy.CommonProxy;
 import nuparu.sevendaystomine.proxy.StartupClient;
 import nuparu.sevendaystomine.proxy.StartupCommon;
-import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.util.VanillaManager;
-import nuparu.sevendaystomine.util.book.BookData;
-import nuparu.sevendaystomine.util.book.BookData.CraftingMatrix;
-import nuparu.sevendaystomine.util.book.BookData.Page;
 import nuparu.sevendaystomine.world.gen.city.CityBuildings;
 import nuparu.sevendaystomine.world.gen.city.CityType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -66,8 +58,8 @@ public class SevenDaysToMine {
     static final String CLIENT_PROXY_CLASS = "nuparu.sevendaystomine.proxy.ClientProxy";
     static final String SERVER_PROXY_CLASS = "nuparu.sevendaystomine.proxy.CommonProxy";
     public static SevenDaysToMine instance;
-    public static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new,
+            () -> CommonProxy::new);
 
 
     public static final WoodType STREET_WOOD_TYPE = WoodType.create(new ResourceLocation(SevenDaysToMine.MODID, "street").toString());
@@ -95,14 +87,15 @@ public class SevenDaysToMine {
         MinecraftForge.EVENT_BUS.register(this);
         bus.register(ModTileEntities.class);
         bus.register(StartupCommon.class);
-        bus.register(StartupClient.class);
 
         ModSounds.SOUNDS.register(bus);
         ModBlocks.BLOCKS.register(bus);
         ModItems.ITEMS.register(bus);
         Potions.EFFECTS.register(bus);
+        ModBiomes.BIOMES.register(bus);
         ModDataSerializers.SERIALIZERS.register(bus);
         ModRecipeSerializers.SERIALIZERS.register(bus);
+        ModLootModifiers.LOOT_MODIFIERS.register(bus);
 
         ModFluids.FLUIDS.register(bus);
         //ModRecipes.RECIPES.register(bus);
@@ -126,8 +119,6 @@ public class SevenDaysToMine {
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
         MinecraftForge.EVENT_BUS.register(new WorldEventHandler());
         MinecraftForge.EVENT_BUS.register(new TickHandler());
-        // Alters Vanilla
-        VanillaManager.modifyVanilla();
 
         proxy.preInit();
     }
@@ -142,6 +133,9 @@ public class SevenDaysToMine {
             ModGameRules.register();
             ModStructureFeatures.setupStructures();
             ModConfiguredStructures.registerConfiguredStructures();
+            ModStructureProcessors.register();
+            ModStructurePoolElements.register();
+            ModLootModifiers.registerConditions();
         });
 
         ModTriggers.register();
@@ -178,10 +172,11 @@ public class SevenDaysToMine {
         proxy.init();
 
         proxy.postInit();
-        // Loads repairs
-        RepairManager.repairsInit();
         CityType.init();
         CityBuildings.init();
+
+        // Alters Vanilla
+        VanillaManager.modifyVanilla();
     }
 
     @SubscribeEvent
@@ -189,6 +184,45 @@ public class SevenDaysToMine {
         proxy.serverStarting(event);
     }
 
+
+    public static List<String> recipesToRemove = new ArrayList<String>();
+
+    static{
+        recipesToRemove.add("minecraft:oak_planks");
+        recipesToRemove.add("minecraft:birch_planks");
+        recipesToRemove.add("minecraft:spruce_planks");
+        recipesToRemove.add("minecraft:jungle_planks");
+        recipesToRemove.add("minecraft:dark_oak_planks");
+        recipesToRemove.add("minecraft:acacia_planks");
+        recipesToRemove.add("minecraft:crimson_planks");
+        recipesToRemove.add("minecraft:warped_planks");
+        recipesToRemove.add("minecraft:furnace");
+        recipesToRemove.add("minecraft:wooden_sword");
+        recipesToRemove.add("minecraft:wooden_spade");
+        recipesToRemove.add("minecraft:wooden_pickaxe");
+        recipesToRemove.add("minecraft:wooden_axe");
+        recipesToRemove.add("minecraft:wooden_hoe");
+        recipesToRemove.add("minecraft:stone_sword");
+        recipesToRemove.add("minecraft:stone_spade");
+        recipesToRemove.add("minecraft:stone_pickaxe");
+        recipesToRemove.add("minecraft:stone_axe");
+        recipesToRemove.add("minecraft:stone_hoe");
+        recipesToRemove.add("minecraft:iron_sword");
+        recipesToRemove.add("minecraft:gold_sword");
+        recipesToRemove.add("minecraft:diamond_sword");
+        recipesToRemove.add("minecraft:diamond_shovel");
+        recipesToRemove.add("minecraft:diamond_pickaxe");
+        recipesToRemove.add("minecraft:diamond_axe");
+        recipesToRemove.add("minecraft:diamond_hoe");
+        recipesToRemove.add("minecraft:diamond_helmet");
+        recipesToRemove.add("minecraft:diamond_chestplate");
+        recipesToRemove.add("minecraft:diamond_leggings");
+        recipesToRemove.add("minecraft:diamond_boots");
+        recipesToRemove.add("minecraft:iron_ingot");
+        recipesToRemove.add("minecraft:iron_ingot_from_blasting");
+        recipesToRemove.add("minecraft:gold_ingot");
+        recipesToRemove.add("minecraft:gold_ingot_from_blasting");
+    }
 
     @SubscribeEvent
     public void onServerStarted(FMLServerStartedEvent event) {
@@ -202,7 +236,7 @@ public class SevenDaysToMine {
                         ResourceLocation location = recipe.getKey();
                         IRecipe<?> value = recipe.getValue();
 
-                        if(!location.toString().equals("minecraft:furnace")){
+                        if(!recipesToRemove.contains(location.toString())){
                             newMap.put(location,value);
                         }
                     }

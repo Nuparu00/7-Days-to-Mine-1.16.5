@@ -5,7 +5,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
 public abstract class TileEntityCar extends TileEntity {
 

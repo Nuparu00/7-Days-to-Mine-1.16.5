@@ -87,9 +87,7 @@ public class ItemQualityBow extends BowItem implements IQuality {
 	                      abstractarrowentity.setSecondsOnFire(100);
 	                   }
 
-	                   stack.hurtAndBreak(1, playerentity, (p_220009_1_) -> {
-	                      p_220009_1_.broadcastBreakEvent(playerentity.getUsedItemHand());
-	                   });
+	                   stack.hurtAndBreak(1, playerentity, (p_220009_1_) -> p_220009_1_.broadcastBreakEvent(playerentity.getUsedItemHand()));
 	                   if (flag1 || playerentity.abilities.instabuild && (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
 	                      abstractarrowentity.pickup = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
 	                   }
@@ -97,7 +95,7 @@ public class ItemQualityBow extends BowItem implements IQuality {
 	                   world.addFreshEntity(abstractarrowentity);
 	                }
 
-	                world.playSound((PlayerEntity)null, playerentity.getX(), playerentity.getY(), playerentity.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+	                world.playSound(null, playerentity.getX(), playerentity.getY(), playerentity.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 	                if (!flag1 && !playerentity.abilities.instabuild) {
 	                   itemstack.shrink(1);
 	                   if (itemstack.isEmpty()) {

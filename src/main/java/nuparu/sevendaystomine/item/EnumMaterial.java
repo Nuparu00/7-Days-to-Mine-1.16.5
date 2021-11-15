@@ -10,7 +10,7 @@ public enum EnumMaterial {
 	STONE("stone"), GLASS("glass"), CLOTH("cloth"), PLANT_FIBER("plant_fiber"),
 	PLASTIC("plastic"), CLAY("clay"), MERCURY("mercury"), POTASSIUM("potassium"),
 	CONCRETE("concrete"), LEATHER("leather"), GASOLINE("gasoline"),
-	SAND("sand"), PAPER("paper"), STRING("string");
+	SAND("sand"), PAPER("paper"), STRING("string"), BONE("bone");
 
 	String registryName;
 

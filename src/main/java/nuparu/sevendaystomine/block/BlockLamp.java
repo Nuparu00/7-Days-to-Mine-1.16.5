@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneTorchBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -18,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.tileentity.TileEntityLamp;
 
 public class BlockLamp extends BlockTileProvider<TileEntityLamp> {
@@ -26,12 +28,12 @@ public class BlockLamp extends BlockTileProvider<TileEntityLamp> {
 
 	public BlockLamp(AbstractBlock.Properties p_i48343_1_) {
 		super(p_i48343_1_);
-		this.registerDefaultState(this.defaultBlockState().setValue(LIT, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(LIT, Boolean.FALSE));
 	}
 
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext p_196258_1_) {
-		return this.defaultBlockState().setValue(LIT, Boolean.valueOf(false));
+		return this.defaultBlockState().setValue(LIT, Boolean.FALSE);
 	}
 	
 	@Override
@@ -79,4 +81,8 @@ public class BlockLamp extends BlockTileProvider<TileEntityLamp> {
 		p_206840_1_.add(LIT);
 	}
 
+	@Override
+	public ItemGroup getItemGroup() {
+		return ModItemGroups.TAB_ELECTRICITY;
+	}
 }

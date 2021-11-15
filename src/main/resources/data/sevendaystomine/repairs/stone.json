@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:stone",
+  "items": [{
+    "item": "sevendaystomine:small_stone",
+    "count": 1
+  }]
+}

@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.init.ModContainers;
 import nuparu.sevendaystomine.tileentity.TileEntitySeparator;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +31,7 @@ public class ContainerSeparator extends Container {
         super(ModContainers.SEPARATOR.get(), windowID);
         if (ModContainers.SEPARATOR.get() == null)
             throw new IllegalStateException(
-                    "Must initialise containerTypeContainerForge before constructing a ContainerForge!");
+                    "Must initialise ModContainers.SEPARATOR before constructing a ContainerSeparator!");
         this.intArray = intArray;
         this.world = invPlayer.player.level;
         this.separator = separator;
@@ -132,9 +131,9 @@ public class ContainerSeparator extends Container {
      * @return fraction remaining, between 0 - 1
      */
     public double fractionOfCookTimeComplete() {
-        if (intArray.get(3) == 0)
+        if (intArray.get(1) == 0)
             return 0;
-        double fraction = intArray.get(2) / (double) intArray.get(3);
+        double fraction = intArray.get(0) / (double) intArray.get(1);
         return MathHelper.clamp(fraction, 0.0, 1.0);
     }
 
@@ -148,7 +147,7 @@ public class ContainerSeparator extends Container {
     }
 
     // SlotFuel is a slot for fuel items
-    public class SlotFuel extends SlotItemHandler {
+    public static class SlotFuel extends SlotItemHandler {
 
         public SlotFuel(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
             super(itemHandler, index, xPosition, yPosition);
@@ -164,7 +163,7 @@ public class ContainerSeparator extends Container {
 
 
     // SlotOutput is a slot that will not accept any item
-    public class SlotOutput extends SlotItemHandler {
+    public static class SlotOutput extends SlotItemHandler {
         public SlotOutput(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
             super(itemHandler, index, xPosition, yPosition);
         }

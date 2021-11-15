@@ -15,18 +15,14 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
-import nuparu.sevendaystomine.crafting.grill.GrillRecipeShapeless;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityForge;
-import nuparu.sevendaystomine.tileentity.TileEntityGrill;
 
 public abstract class AbstractForgeRecipeCategory<T extends IForgeRecipe<TileEntityForge>> implements IRecipeCategory<T> {
     protected static final ResourceLocation TEXTURE = new ResourceLocation(SevenDaysToMine.MODID,

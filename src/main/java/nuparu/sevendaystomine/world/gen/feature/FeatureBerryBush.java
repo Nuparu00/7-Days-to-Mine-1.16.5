@@ -2,22 +2,15 @@ package nuparu.sevendaystomine.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import nuparu.sevendaystomine.block.BlockFruitBush;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.util.MathUtils;
 
 import java.util.Random;
 

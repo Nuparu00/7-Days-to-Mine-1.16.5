@@ -13,7 +13,6 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,7 +22,6 @@ import nuparu.sevendaystomine.item.EnumMaterial;
 import net.minecraftforge.common.ToolType;
 
 import net.minecraft.item.DyeColor;
-import nuparu.sevendaystomine.proxy.StartupClient;
 
 public class ModBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
@@ -121,12 +119,12 @@ public class ModBlocks {
 			() -> new BlockStick(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.5F, 0.25F)
 					.instabreak().sound(SoundType.WOOD)));
 	public static final RegistryObject<Block> BLUEBERRY_PLANT = BLOCKS.register("blueberry_plant",
-			() -> new BlockBlueberry());
+			BlockBlueberry::new);
 	public static final RegistryObject<Block> BANEBERRY_PLANT = BLOCKS.register("baneberry_plant",
-			() -> new BlockBaneberry());
-	public static final RegistryObject<Block> CORN_PLANT = BLOCKS.register("corn_plant", () -> new BlockCornPlant());
+			BlockBaneberry::new);
+	public static final RegistryObject<Block> CORN_PLANT = BLOCKS.register("corn_plant", BlockCornPlant::new);
 	public static final RegistryObject<Block> COFFEE_PLANT = BLOCKS.register("coffee_plant",
-			() -> new BlockCoffeePlant());
+			BlockCoffeePlant::new);
 	public static final RegistryObject<Block> GOLDENROD = BLOCKS.register("goldenrod",
 			() -> new BlockFlower(Effects.SATURATION, 7,
 					AbstractBlock.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -162,21 +160,25 @@ public class ModBlocks {
 			AbstractBlock.Properties.of(Material.STONE).strength(3f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
 
 	public static final RegistryObject<Block> ORE_POTASSIUM = BLOCKS.register("potassium_ore",
-			() -> new BlockPotassiumOre());
+			BlockPotassiumOre::new);
 	public static final RegistryObject<Block> ORE_CINNABAR = BLOCKS.register("cinnabar_ore", () -> new BlockOre(
 			AbstractBlock.Properties.of(Material.STONE).strength(2.5f, 5).harvestTool(ToolType.PICKAXE).harvestLevel(2)));
 
-	public static final RegistryObject<BlockRebarFrame> REBAR_FRAME = BLOCKS.register("rebar_frame", () -> new BlockRebarFrame());
+	public static final RegistryObject<BlockRebarFrame> REBAR_FRAME = BLOCKS.register("rebar_frame", BlockRebarFrame::new);
 	public static final RegistryObject<BlockRebarFrameWood> REBAR_FRAME_WOOD = BLOCKS.register("rebar_frame_wood",
-			() -> new BlockRebarFrameWood());
+			BlockRebarFrameWood::new);
 	public static final RegistryObject<Block> REINFORCED_CONCRETE_WET = BLOCKS.register("reinforced_concrete_wet",
-			() -> new BlockReinforcedConcreteWet());
+			BlockReinforcedConcreteWet::new);
 	public static final RegistryObject<Block> REINFORCED_CONCRETE = BLOCKS.register("reinforced_concrete",
-			() -> new BlockReinforcedConcrete());
-	public static final RegistryObject<Block> ASPHALT = BLOCKS.register("asphalt", () -> new BlockAsphalt());
+			BlockReinforcedConcrete::new);
+	public static final RegistryObject<Block> ASPHALT = BLOCKS.register("asphalt", BlockAsphalt::new);
 
 	public static final RegistryObject<Block> CODE_SAFE = BLOCKS.register("code_safe",
 			() -> new BlockCodeSafe(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
+
+	public static final RegistryObject<Block> CODE_SAFE_PLACER = BLOCKS.register("code_safe_placer",
+			() -> new BlockCodeSafePlacer(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
+
 	public static final RegistryObject<Block> CARDBOARD_BOX = BLOCKS.register("cardboard_box",
 			() -> new BlockCardboardBox(AbstractBlock.Properties.of(Material.WOOL)));
 
@@ -222,15 +224,15 @@ public class ModBlocks {
 	public static final RegistryObject<Block> TRASH_CAN = BLOCKS.register("trash_can",
 			() -> new BlockTrashCan(AbstractBlock.Properties.of(Material.METAL)));
 
-	public static final RegistryObject<Block> TORCH_UNLIT = BLOCKS.register("torch_unlit", () -> new BlockTorchUnlit());
+	public static final RegistryObject<Block> TORCH_UNLIT = BLOCKS.register("torch_unlit", BlockTorchUnlit::new);
 
 	public static final RegistryObject<Block> TORCH_UNLIT_WALL = BLOCKS.register("torch_unlit_wall",
-			() -> new BlockTorchUnlitWall());
+			BlockTorchUnlitWall::new);
 
-	public static final RegistryObject<Block> TORCH_LIT = BLOCKS.register("torch_lit", () -> new BlockTorchEnhanced());
+	public static final RegistryObject<Block> TORCH_LIT = BLOCKS.register("torch_lit", BlockTorchEnhanced::new);
 
 	public static final RegistryObject<Block> TORCH_LIT_WALL = BLOCKS.register("torch_lit_wall",
-			() -> new BlockTorchEnhancedWall());
+			BlockTorchEnhancedWall::new);
 
 	public static final RegistryObject<Block> ARMCHAIR_BLACK = BLOCKS.register("armchair_black",
 			() -> new BlockArmchair(AbstractBlock.Properties.copy(Blocks.BLACK_WOOL)));
@@ -267,37 +269,37 @@ public class ModBlocks {
 			() -> new BlockArmchair(AbstractBlock.Properties.copy(Blocks.BLACK_WOOL)));
 
 	public static final RegistryObject<Block> SLEEPING_BAG_BLACK = BLOCKS.register("sleeping_bag_black",
-			() -> new BlockSleepingBag(DyeColor.BLACK, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.BLACK, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_WHITE = BLOCKS.register("sleeping_bag_white",
-			() -> new BlockSleepingBag(DyeColor.WHITE, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.WHITE, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_RED = BLOCKS.register("sleeping_bag_red",
-			() -> new BlockSleepingBag(DyeColor.RED, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.RED, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_BLUE = BLOCKS.register("sleeping_bag_blue",
-			() -> new BlockSleepingBag(DyeColor.BLUE, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.BLUE, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_GREEN = BLOCKS.register("sleeping_bag_green",
-			() -> new BlockSleepingBag(DyeColor.GREEN, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.GREEN, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_YELLOW = BLOCKS.register("sleeping_bag_yellow",
-			() -> new BlockSleepingBag(DyeColor.YELLOW, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.YELLOW, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_ORANGE = BLOCKS.register("sleeping_bag_orange",
-			() -> new BlockSleepingBag(DyeColor.ORANGE, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.ORANGE, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_CYAN = BLOCKS.register("sleeping_bag_cyan",
-			() -> new BlockSleepingBag(DyeColor.CYAN, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.CYAN, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_LIME = BLOCKS.register("sleeping_bag_lime",
-			() -> new BlockSleepingBag(DyeColor.LIME, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.LIME, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_GRAY = BLOCKS.register("sleeping_bag_gray",
-			() -> new BlockSleepingBag(DyeColor.GRAY, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.GRAY, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_SILVER = BLOCKS.register("sleeping_bag_silver",
-			() -> new BlockSleepingBag(DyeColor.LIGHT_GRAY, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.LIGHT_GRAY, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_LIGHT_BLUE = BLOCKS.register("sleeping_bag_light_blue",
-			() -> new BlockSleepingBag(DyeColor.LIGHT_BLUE, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.LIGHT_BLUE, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_PINK = BLOCKS.register("sleeping_bag_pink",
-			() -> new BlockSleepingBag(DyeColor.PINK, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.PINK, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_PURPLE = BLOCKS.register("sleeping_bag_purple",
-			() -> new BlockSleepingBag(DyeColor.PURPLE, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.PURPLE, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_MAGENTA = BLOCKS.register("sleeping_bag_magenta",
-			() -> new BlockSleepingBag(DyeColor.MAGENTA, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.MAGENTA, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 	public static final RegistryObject<Block> SLEEPING_BAG_BROWN = BLOCKS.register("sleeping_bag_brown",
-			() -> new BlockSleepingBag(DyeColor.BROWN, AbstractBlock.Properties.copy(Blocks.BLACK_BED)));
+			() -> new BlockSleepingBag(DyeColor.BROWN, AbstractBlock.Properties.copy(Blocks.BLACK_BED).strength(0.05F)));
 
 	public static final RegistryObject<Block> THROTTLE = BLOCKS.register("throttle",
 			() -> new BlockThrottle(AbstractBlock.Properties.copy(Blocks.BLACK_WOOL)));
@@ -316,19 +318,19 @@ public class ModBlocks {
 			() -> new BlockWoodenDoorIronReinforced(AbstractBlock.Properties.copy(Blocks.OAK_DOOR)));
 
 	public static final RegistryObject<Block> TRAFFIC_LIGHT = BLOCKS.register("traffic_light",
-			() -> new BlockTrafficLight());
+			BlockTrafficLight::new);
 
 	public static final RegistryObject<Block> TRAFFIC_LIGHT_PEDESTRIAN = BLOCKS.register("traffic_light_pedestrian",
-			() -> new BlockTrafficLightPedestrian());
+			BlockTrafficLightPedestrian::new);
 
-	public static final RegistryObject<Block> SEDAN_RED = BLOCKS.register("sedan_red", () -> new BlockSedan());
-	public static final RegistryObject<Block> SEDAN_BLUE = BLOCKS.register("sedan_blue", () -> new BlockSedan());
-	public static final RegistryObject<Block> SEDAN_YELLOW = BLOCKS.register("sedan_yellow", () -> new BlockSedan());
-	public static final RegistryObject<Block> SEDAN_GREEN = BLOCKS.register("sedan_green", () -> new BlockSedan());
-	public static final RegistryObject<Block> SEDAN_WHITE = BLOCKS.register("sedan_white", () -> new BlockSedan());
-	public static final RegistryObject<Block> SEDAN_BLACK = BLOCKS.register("sedan_black", () -> new BlockSedan());
-	public static final RegistryObject<Block> POLICE_CAR = BLOCKS.register("police_car", () -> new BlockPoliceCar());
-	public static final RegistryObject<Block> AMBULANCE = BLOCKS.register("ambulance", () -> new BlockAmbulance());
+	public static final RegistryObject<Block> SEDAN_RED = BLOCKS.register("sedan_red", BlockSedan::new);
+	public static final RegistryObject<Block> SEDAN_BLUE = BLOCKS.register("sedan_blue", BlockSedan::new);
+	public static final RegistryObject<Block> SEDAN_YELLOW = BLOCKS.register("sedan_yellow", BlockSedan::new);
+	public static final RegistryObject<Block> SEDAN_GREEN = BLOCKS.register("sedan_green", BlockSedan::new);
+	public static final RegistryObject<Block> SEDAN_WHITE = BLOCKS.register("sedan_white", BlockSedan::new);
+	public static final RegistryObject<Block> SEDAN_BLACK = BLOCKS.register("sedan_black", BlockSedan::new);
+	public static final RegistryObject<Block> POLICE_CAR = BLOCKS.register("police_car", BlockPoliceCar::new);
+	public static final RegistryObject<Block> AMBULANCE = BLOCKS.register("ambulance", BlockAmbulance::new);
 
 	public static final RegistryObject<Block> DEAD_MOSSY_STONE = BLOCKS.register("dead_mossy_stone",
 			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.MOSSY_COBBLESTONE)));
@@ -374,7 +376,7 @@ public class ModBlocks {
 			() -> new BlockCatwalkBase(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 
 	public static final RegistryObject<Block> CATWALK_STAIRS = BLOCKS.register("catwalk_stairs",
-			() -> new BlockCatwalkStairs());
+			BlockCatwalkStairs::new);
 
 	public static final RegistryObject<Block> BASALT_BRICKS_CRACKED = BLOCKS.register("basalt_bricks_cracked",
 			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.STONE_BRICKS)));
@@ -423,25 +425,25 @@ public class ModBlocks {
 	public static final RegistryObject<Block> MONITOR_WIN10 = BLOCKS.register("monitor_win10",
 			() -> new BlockMonitor(AbstractBlock.Properties.of(Material.METAL)));
 
-	public static final RegistryObject<Block> BOARDS = BLOCKS.register("boards", () -> new BlockBoards());
+	public static final RegistryObject<Block> BOARDS = BLOCKS.register("boards", BlockBoards::new);
 
 	public static final RegistryObject<Block> TOILET = BLOCKS.register("toilet",
 			() -> new BlockToilet(AbstractBlock.Properties.of(Material.STONE).noOcclusion()));
 
-	public static final RegistryObject<Block> FLAG = BLOCKS.register("flag", () -> new BlockFlag());
+	public static final RegistryObject<Block> FLAG = BLOCKS.register("flag", BlockFlag::new);
 
 	public static final RegistryObject<Block> MICROWAVE = BLOCKS.register("microwave",
 			() -> new BlockMicrowave(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 
-	public static final RegistryObject<Block> SINK_FAUCET = BLOCKS.register("sink_faucet", () -> new BlockSinkFaucet());
+	public static final RegistryObject<Block> SINK_FAUCET = BLOCKS.register("sink_faucet", BlockSinkFaucet::new);
 
 	public static final RegistryObject<Block> METAL_LADDER = BLOCKS.register("metal_ladder",
-			() -> new BlockLadderMetal());
-	public static final RegistryObject<Block> RADIATOR = BLOCKS.register("radiator", () -> new BlockRadiator());
+			BlockLadderMetal::new);
+	public static final RegistryObject<Block> RADIATOR = BLOCKS.register("radiator", BlockRadiator::new);
 	public static final RegistryObject<Block> DARK_BRICKS = BLOCKS.register("dark_bricks",
 			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.STONE_BRICKS)));
 
-	public static final RegistryObject<Block> CINDER = BLOCKS.register("cinder", () -> new BlockCinder());
+	public static final RegistryObject<Block> CINDER = BLOCKS.register("cinder", BlockCinder::new);
 
 	public static final RegistryObject<Block> BACKPACK_NORMAL = BLOCKS.register("backpack_normal",
 			() -> new BlockBackpack(AbstractBlock.Properties.copy(Blocks.WHITE_WOOL)));
@@ -451,17 +453,17 @@ public class ModBlocks {
 			() -> new BlockBackpack(AbstractBlock.Properties.copy(Blocks.WHITE_WOOL)));
 
 	public static final RegistryObject<Block> TV_BROKEN = BLOCKS.register("television_broken",
-			() -> new BlockTelevisionBroken());
-	public static final RegistryObject<Block> SHOWER_HEAD = BLOCKS.register("shower_head", () -> new BlockShowerHead());
+			BlockTelevisionBroken::new);
+	public static final RegistryObject<Block> SHOWER_HEAD = BLOCKS.register("shower_head", BlockShowerHead::new);
 
 	public static final RegistryObject<Block> CORPSE_00 = BLOCKS.register("corpse_00",
 			() -> new BlockCorpse(AbstractBlock.Properties.of(Material.WOOL)));
 	public static final RegistryObject<Block> CORPSE_01 = BLOCKS.register("corpse_01",
 			() -> new BlockCorpse(AbstractBlock.Properties.of(Material.WOOL)));
-	public static final RegistryObject<Block> SKELETON = BLOCKS.register("skeleton", () -> new BlockSkeleton());
+	public static final RegistryObject<Block> SKELETON = BLOCKS.register("skeleton", BlockSkeleton::new);
 	public static final RegistryObject<Block> SKELETON_SITTING = BLOCKS.register("skeleton_sitting",
-			() -> new BlockSkeleton());
-	public static final RegistryObject<Block> SKELETON_TORSO = BLOCKS.register("skeleton_torso", () -> new BlockSkeleton());
+			BlockSkeleton::new);
+	public static final RegistryObject<Block> SKELETON_TORSO = BLOCKS.register("skeleton_torso", BlockSkeleton::new);
 
 	public static final RegistryObject<Block> WORKBENCH = BLOCKS.register("workbench",
 			() -> new BlockWorkbench(AbstractBlock.Properties.of(Material.WOOD).noOcclusion()));
@@ -604,7 +606,7 @@ public class ModBlocks {
 	public static final RegistryObject<Block> WHEELS = BLOCKS.register("wheels",
 			() -> new BlockWheels(AbstractBlock.Properties.of(Material.WOOL)));
 
-	public static final RegistryObject<Block> LARGE_ROCK = BLOCKS.register("large_rock", () -> new BlockRock());
+	public static final RegistryObject<Block> LARGE_ROCK = BLOCKS.register("large_rock", BlockRock::new);
 
 	public static final RegistryObject<Block> WOODEN_SPIKES = BLOCKS.register("wooden_spikes",
 			() -> new BlockWoodenSpikes(AbstractBlock.Properties.of(Material.WOOD)));
@@ -657,7 +659,7 @@ public class ModBlocks {
 			() -> new BlockWoodenLogSpike(AbstractBlock.Properties.copy(Blocks.CRIMSON_STEM)));
 	
 	
-	public static final RegistryObject<Block> SANDBAGS = BLOCKS.register("sandbags", () -> new BlockSandbags());
+	public static final RegistryObject<Block> SANDBAGS = BLOCKS.register("sandbags", BlockSandbags::new);
 
 	public static final RegistryObject<Block> FILE_CABINET = BLOCKS.register("file_cabinet",
 			() -> new BlockFileCabinet(AbstractBlock.Properties.of(Material.METAL)));
@@ -668,12 +670,12 @@ public class ModBlocks {
 	public static final RegistryObject<Block> CAMERA = BLOCKS.register("camera",
 			() -> new BlockCamera(AbstractBlock.Properties.of(Material.METAL)));
 
-	public static final RegistryObject<Block> BURNT_LOG = BLOCKS.register("burnt_log", () -> new BlockBurntLog());
+	public static final RegistryObject<Block> BURNT_LOG = BLOCKS.register("burnt_log", BlockBurntLog::new);
 
-	public static final RegistryObject<BlockBurntFrame> BURNT_FRAME = BLOCKS.register("burnt_frame", () -> new BlockBurntFrame());
+	public static final RegistryObject<BlockBurntFrame> BURNT_FRAME = BLOCKS.register("burnt_frame", BlockBurntFrame::new);
 
 	public static final RegistryObject<BlockBurntPlanks> BURNT_PLANKS = BLOCKS.register("burnt_planks",
-			() -> new BlockBurntPlanks());
+			BlockBurntPlanks::new);
 
 	public static final RegistryObject<Block> DRY_GROUND = BLOCKS.register("dry_ground",
 			() -> new BlockDryGround(AbstractBlock.Properties.copy(Blocks.GRAVEL)));
@@ -683,10 +685,10 @@ public class ModBlocks {
 					AbstractBlock.Properties.copy(BURNT_PLANKS.get())));
 
 	public static final RegistryObject<Block> BURNT_PLANKS_SLAB = BLOCKS.register("burnt_planks_slab",
-			() -> new BlockBurntPlanksSlab());
+			BlockBurntPlanksSlab::new);
 
 	public static final RegistryObject<Block> BURNT_PLANKS_FENCE = BLOCKS.register("burnt_planks_fence",
-			() -> new BlockBurntPlanksFence());
+			BlockBurntPlanksFence::new);
 
 	public static final RegistryObject<Block> BURNT_CHAIR = BLOCKS.register("burnt_chair",
 			() -> new BlockChair(AbstractBlock.Properties.copy(BURNT_PLANKS.get())));
@@ -701,15 +703,15 @@ public class ModBlocks {
 	public static final RegistryObject<Block> RAZOR_WIRE = BLOCKS.register("razor_wire",
 			() -> new BlockRazorWire(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 
-	public static final RegistryObject<Block> STAND = BLOCKS.register("stand", () -> new BlockStand());
+	public static final RegistryObject<Block> STAND = BLOCKS.register("stand", BlockStand::new);
 
-	public static final RegistryObject<Block> LANDMINE = BLOCKS.register("landmine", () -> new BlockLandmine());
+	public static final RegistryObject<Block> LANDMINE = BLOCKS.register("landmine", BlockLandmine::new);
 
 	public static final RegistryObject<Block> FAKE_ANVIL = BLOCKS.register("fake_anvil",
 			() -> new BlockFakeAnvil(AbstractBlock.Properties.copy(Blocks.ANVIL)));
 
 	public static final RegistryObject<Block> REDSTONE_LAMP_BROKEN = BLOCKS.register("redstone_lamp_broken",
-			() -> new BlockRedstoneLightBroken());
+			BlockRedstoneLightBroken::new);
 
 	public static final RegistryObject<Block> CALENDAR = BLOCKS.register("calendar",
 			() -> new BlockCalendar(AbstractBlock.Properties.of(Material.WOOL).noOcclusion()));
@@ -735,20 +737,20 @@ public class ModBlocks {
 			() -> new BlockMetal(AbstractBlock.Properties.of(Material.METAL).strength(1.9f, 4), EnumMaterial.BRASS,
 					54));
 
-	public static final RegistryObject<Block> PAPER = BLOCKS.register("paper", () -> new BlockPaper());
+	public static final RegistryObject<Block> PAPER = BLOCKS.register("paper", BlockPaper::new);
 	public static final RegistryObject<Block> SAND_LAYER = BLOCKS.register("sand_layer",
 			() -> new BlockSandLayer(AbstractBlock.Properties.copy(Blocks.SAND)));
 	public static final RegistryObject<Block> RED_SAND_LAYER = BLOCKS.register("red_sand_layer",
 			() -> new BlockSandLayer(AbstractBlock.Properties.copy(Blocks.SAND)));
 
 	public static final RegistryObject<Block> DARK_BRICKS_SLAB = BLOCKS.register("dark_bricks_slab",
-			() -> new BlockDarkBricksSlab());
+			BlockDarkBricksSlab::new);
 	public static final RegistryObject<Block> DARK_BRICKS_STAIRS = BLOCKS.register("dark_bricks_stairs",
 			() -> new BlockStairsBase(() -> BURNT_PLANKS.get().defaultBlockState(),
 					AbstractBlock.Properties.copy(DARK_BRICKS.get())));
 
 	public static final RegistryObject<Block> DARK_BRICKS_MOSSY_SLAB = BLOCKS.register("dark_bricks_mossy_slab",
-			() -> new BlockDarkBricksMossySlab());
+			BlockDarkBricksMossySlab::new);
 
 	public static final RegistryObject<Block> DARK_BRICKS_MOSSY_STAIRS = BLOCKS.register("dark_bricks_mossy_stairs",
 			() -> new BlockStairsBase(() -> BURNT_PLANKS.get().defaultBlockState(),
@@ -759,10 +761,10 @@ public class ModBlocks {
 					AbstractBlock.Properties.copy(BRICK_MOSSY.get())));
 
 	public static final RegistryObject<Block> BRICK_MOSSY_SLAB = BLOCKS.register("brick_mossy_slab",
-			() -> new BlockBrickMossySlab());
+			BlockBrickMossySlab::new);
 
 	public static final RegistryObject<Block> ASPHALT_SLAB = BLOCKS.register("asphalt_slab",
-			() -> new BlockAsphaltSlab());
+			BlockAsphaltSlab::new);
 
 	public static final RegistryObject<Block> PRINTER = BLOCKS.register("printer",
 			() -> new BlockPrinter(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
@@ -779,9 +781,18 @@ public class ModBlocks {
 	public static final RegistryObject<Block> STRUCTURE_ANDESITE = BLOCKS.register("structure_andesite",
 			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.ANDESITE)));
 
+	public static final RegistryObject<Block> CAR_PLACER = BLOCKS.register("car_placer",
+			() -> new BlockCarPlacer(AbstractBlock.Properties.of(Material.STONE).noDrops().instabreak()));
+
+	public static final RegistryObject<Block> STONE_BRICK_STAIRS_CRACCKED = BLOCKS.register("stone_brick_stairs_cracked",
+			() -> new BlockStairsBase(Blocks.STONE_BRICKS::defaultBlockState,
+					AbstractBlock.Properties.copy(Blocks.STONE_BRICKS)));
+	public static final RegistryObject<Block> LIGHT_GRAY_CONCRETE_CRACKED = BLOCKS.register("light_gray_concrete_cracked",
+			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.LIGHT_GRAY_CONCRETE)));
+	public static final RegistryObject<Block> CYAN_TERRACOTTA_CRACKED = BLOCKS.register("cyan_terracotta_cracked",
+			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.CYAN_TERRACOTTA)));
+
 	public static ToIntFunction<BlockState> litBlockEmission(int p_235420_0_) {
-		return (p_235421_1_) -> {
-			return p_235421_1_.getValue(BlockStateProperties.LIT) ? p_235420_0_ : 0;
-		};
+		return (p_235421_1_) -> p_235421_1_.getValue(BlockStateProperties.LIT) ? p_235420_0_ : 0;
 	}
 }

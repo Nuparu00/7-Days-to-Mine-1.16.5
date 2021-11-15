@@ -53,7 +53,7 @@ public class TileEntityToilet extends TileEntityItemHandler<ItemHandlerNameable>
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable) this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 	@Override

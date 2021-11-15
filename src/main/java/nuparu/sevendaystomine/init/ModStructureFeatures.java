@@ -27,6 +27,13 @@ public class ModStructureFeatures {
     public static final RegistryObject<Structure<NoFeatureConfig>> AIRPLANE = STRUCTURE_FEATURES.register("airplane", () -> (new AirplaneStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> MILITARY_BASE = STRUCTURE_FEATURES.register("military_base", () -> (new MilitaryBaseStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> HELICOPTER = STRUCTURE_FEATURES.register("helicopter", () -> (new HelicopterStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> LANDFILL = STRUCTURE_FEATURES.register("landfill", () -> (new LandfillStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> YACHT = STRUCTURE_FEATURES.register("yacht", () -> (new YachtStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> SUNKEN_YACHT = STRUCTURE_FEATURES.register("sunken_yacht", () -> (new SunkenYachtStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> CRUISER = STRUCTURE_FEATURES.register("cruiser", () -> (new CruiserStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> CARGO_SHIP = STRUCTURE_FEATURES.register("cargo_ship", () -> (new CargoShipStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> CARGO_SHIP_SUNKEN = STRUCTURE_FEATURES.register("cargo_ship_sunken", () -> (new CargoShipSunkenStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> AIRFIELD = STRUCTURE_FEATURES.register("airfield", () -> (new AirfieldStructure(NoFeatureConfig.CODEC)));
 
     /**
      * This is where we set the rarity of your structures and determine if land conforms to it.
@@ -35,15 +42,15 @@ public class ModStructureFeatures {
     public static void setupStructures() {
         setupMapSpacingAndLand(
                 CITY.get(), /* The instance of the structure */
-                new StructureSeparationSettings(32 /* average distance apart in chunks between spawn attempts */,
-                        16 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(40 /* average distance apart in chunks between spawn attempts */,
+                        20 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1189998819 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
 
         setupMapSpacingAndLand(
                 PILLAGER_OUTPOST_RUINED.get(), /* The instance of the structure */
-                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
-                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(84 /* average distance apart in chunks between spawn attempts */,
+                        42 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         481516234 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
 
@@ -73,12 +80,12 @@ public class ModStructureFeatures {
                 new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
                         32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         888544688 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
-                true);
+                false);
 
         setupMapSpacingAndLand(
                 MILITARY_BASE.get(), /* The instance of the structure */
-                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
-                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(96 /* average distance apart in chunks between spawn attempts */,
+                        44 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1734202115 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
 
@@ -87,6 +94,55 @@ public class ModStructureFeatures {
                 new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
                         32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         2039152021 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                LANDFILL.get(), /* The instance of the structure */
+                new StructureSeparationSettings(90 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        848506554 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                YACHT.get(), /* The instance of the structure */
+                new StructureSeparationSettings(32 /* average distance apart in chunks between spawn attempts */,
+                        6 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        77774541 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                false);
+
+        setupMapSpacingAndLand(
+                SUNKEN_YACHT.get(), /* The instance of the structure */
+                new StructureSeparationSettings(32 /* average distance apart in chunks between spawn attempts */,
+                        6 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        256123001 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                false);
+
+        setupMapSpacingAndLand(
+                CRUISER.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        16 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        912201500 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                false);
+
+        setupMapSpacingAndLand(
+                CARGO_SHIP.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        16 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        532011330 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                false);
+
+        setupMapSpacingAndLand(
+                CARGO_SHIP_SUNKEN.get(), /* The instance of the structure */
+                new StructureSeparationSettings(64 /* average distance apart in chunks between spawn attempts */,
+                        16 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        947531330 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                false);
+
+        setupMapSpacingAndLand(
+                AIRFIELD.get(), /* The instance of the structure */
+                new StructureSeparationSettings(76 /* average distance apart in chunks between spawn attempts */,
+                        32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        1454291511 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
     }
 

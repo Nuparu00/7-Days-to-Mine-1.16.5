@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
@@ -18,15 +17,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -44,7 +40,6 @@ import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.IContainerCallbacks;
 import nuparu.sevendaystomine.inventory.block.ContainerForge;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
-import nuparu.sevendaystomine.item.ItemMold;
 
 public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 		implements INamedContainerProvider, IContainerCallbacks, ITickableTileEntity, IInventory {
@@ -174,7 +169,7 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 			if (flag != this.isBurning()) {
 				flag1 = true;
 				this.level.setBlock(this.worldPosition, this.level.getBlockState(this.worldPosition)
-						.setValue(AbstractFurnaceBlock.LIT, Boolean.valueOf(this.isBurning())), 3);
+						.setValue(AbstractFurnaceBlock.LIT, this.isBurning()), 3);
 			}
 		}
 
@@ -302,9 +297,7 @@ public class TileEntityForge extends TileEntityItemHandler<ItemHandlerNameable>
 		compound.putInt("CookTimeTotal", (short) this.totalCookTime);
 
 		CompoundNBT compoundnbt = new CompoundNBT();
-		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> {
-			compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_);
-		});
+		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_));
 		compound.put("RecipesUsed", compoundnbt);
 
 		return compound;

@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.computer.process;
 import java.util.ArrayList;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -322,7 +321,7 @@ public abstract class WindowedProcess extends TickingProcess implements IDraggab
 	public void mouseReleased(int mouseX, int mouseY, int state) {
 		if (isMinimized())
 			return;
-		if (isDragged == true) {
+		if (isDragged) {
 			isDragged = false;
 			if (mouseX < MonitorScreen.screen.getRelativeX(0) - 20 || mouseY < MonitorScreen.screen.getRelativeY(0) - 20
 					|| mouseX > MonitorScreen.screen.getRelativeX(0) + MonitorScreen.screen.xSize + 20
@@ -345,7 +344,7 @@ public abstract class WindowedProcess extends TickingProcess implements IDraggab
 			return;
 		if (clickedMouseButton == 0 && isFocused() && Utils.isInArea(mouseX, mouseY, x, y,
 				width - 3 * (MonitorScreen.screen.ySize * title_bar_height), MonitorScreen.screen.ySize * title_bar_height)) {
-			if (isDragged == false) {
+			if (!isDragged) {
 				isDragged = true;
 			}
 			x = MathUtils.clamp(mouseX - getOffsetX(), MonitorScreen.screen.getRelativeX(0),

@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -18,13 +17,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import net.minecraft.client.gui.INestedGuiEventHandler;
-import net.minecraft.util.math.MathHelper;
 import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.util.ColorRGBA;
 import org.apache.commons.io.FilenameUtils;
-import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -34,12 +30,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -133,9 +125,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 					AudioFormat format = audioStream.getFormat();
 					long frames = audioStream.getFrameLength();
 					audio.setDuration((frames + 0.0) / format.getFrameRate());
-				} catch (UnsupportedAudioFileException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
+				} catch (UnsupportedAudioFileException | IOException e) {
 					e.printStackTrace();
 				} finally {
 					if (audioStream != null) {
@@ -168,30 +158,30 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 		this.buttons.clear();
 		int x = (this.width) / 2;
 		this.scrollbar = new GuiScrollbar(this, x - 75, this.guiTop + 45, MP3Helper.files, 150);
-		buttonPause = new GuiButtonPause( x - 10, this.guiTop + 155, (button) -> {
+		buttonPause = new GuiButtonPause(x - 10, this.guiTop + 155, (button) -> {
 			System.out.println("DDDDDDD");
 			actionPerformed(button);
-        });
+		});
 
 		buttonBackward = new GuiButtonBackward(x - 35, this.guiTop + 155, (button) -> {
 			System.out.println("DDDDDDD");
 			actionPerformed(button);
-        });
+		});
 
 		buttonStop = new GuiButtonStop(x - 60, this.guiTop + 155, (button) -> {
 			System.out.println("DDDDDDD");
 			actionPerformed(button);
-        });
+		});
 
 		buttonRepeat = new GuiButtonRepeat(x - 85, this.guiTop + 155, (button) -> {
 			System.out.println("DDDDDDD");
 			actionPerformed(button);
-        });
+		});
 
-		buttonForward = new GuiButtonForward( x + 15, this.guiTop + 155, (button) -> {
+		buttonForward = new GuiButtonForward(x + 15, this.guiTop + 155, (button) -> {
 			System.out.println("DDDDDDD");
 			actionPerformed(button);
-        });
+		});
 
 		slider.x = x - 75;
 		slider.y = this.guiTop + 20;
@@ -221,7 +211,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 		if (MP3Helper.getAudioPlayer().getAudioClip() != null) {
 			double currentSecond = MP3Helper.getAudioPlayer().getAudioClip().getMicrosecondPosition() / 1000000;
 			if (MP3Helper.getAudioPlayer().getDuration() != 0) {
-				slider.setValue((double) (currentSecond / MP3Helper.getAudioPlayer().getDurationInSecs()));
+				slider.setValue(currentSecond / MP3Helper.getAudioPlayer().getDurationInSecs());
 			}
 		}
 		volumeSlider.setValue(MP3Helper.audioVolume);
@@ -293,10 +283,10 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 				}
 			}
 		}
-		String string = new StringBuilder("").append(formatter.format(Math.floor(currentSecond / 60))).append(":")
-				.append(formatter.format(currentSecond % 60)).append("/")
-				.append(formatter.format(Math.floor(durationSecond / 60))).append(":")
-				.append(formatter.format(durationSecond % 60)).toString();
+		String string = "" + formatter.format(Math.floor(currentSecond / 60)) + ":" +
+				formatter.format(currentSecond % 60) + "/" +
+				formatter.format(Math.floor(durationSecond / 60)) + ":" +
+				formatter.format(durationSecond % 60);
 		this.font.draw(matrix,string, this.guiLeft + 13, this.guiTop + 32, 4210752);
 
 		// zLevel = 100.0F;
@@ -390,31 +380,21 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 			MP3Helper.getAudioPlayer().stop();
 		}
 
-		MP3Helper.playbackThread = new Thread(new Runnable() {
+		MP3Helper.playbackThread = new Thread(() -> {
+			try {
 
-			@Override
-			public void run() {
-				try {
+				MP3Helper.getAudioPlayer().load(audio.getPath().toString());
+				MP3Helper.getAudioPlayer().setAudio(audio);
+				MP3Helper.getAudioPlayer().play();
 
-					MP3Helper.getAudioPlayer().load(audio.getPath().toString());
-					MP3Helper.getAudioPlayer().setAudio(audio);
-					MP3Helper.getAudioPlayer().play();
+			} catch (LineUnavailableException | IOException ex) {
 
-				} catch (UnsupportedAudioFileException ex) {
+				ex.printStackTrace();
+			} catch (Exception ex) {
 
-					ex.printStackTrace();
-				} catch (LineUnavailableException ex) {
-
-					ex.printStackTrace();
-				} catch (IOException ex) {
-
-					ex.printStackTrace();
-				} catch (Exception ex) {
-
-					ex.printStackTrace();
-				}
-
+				ex.printStackTrace();
 			}
+
 		});
 
 		MP3Helper.playbackThread.start();
@@ -430,7 +410,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 		return false;
 	}
 
-	class GuiButtonPause extends Button {
+	static class GuiButtonPause extends Button {
 		public GuiButtonPause(int xPos, int yPos, Button.IPressable press) {
 			super(xPos, yPos, 20, 20, new StringTextComponent(""),press);
 		}
@@ -474,7 +454,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 		}
 	}
 
-	class GuiButtonForward extends Button {
+	static class GuiButtonForward extends Button {
 		public GuiButtonForward(int xPos, int yPos, Button.IPressable press) {
 			super(xPos, yPos, 20, 20, new StringTextComponent(""),press);
 		}
@@ -504,7 +484,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 		}
 	}
 
-	class GuiButtonBackward extends Button {
+	static class GuiButtonBackward extends Button {
 
 		public GuiButtonBackward(int xPos, int yPos, Button.IPressable press) {
 			super(xPos, yPos, 20, 20, new StringTextComponent(""),press);
@@ -544,7 +524,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 
 	}
 
-	class GuiButtonRepeat extends Button {
+	static class GuiButtonRepeat extends Button {
 		public GuiButtonRepeat(int xPos, int yPos, Button.IPressable press) {
 			super(xPos, yPos, 20, 20, new StringTextComponent(""),press);
 		}
@@ -601,7 +581,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 		}
 	}
 
-	class GuiButtonStop extends Button {
+	static class GuiButtonStop extends Button {
 
 		public GuiButtonStop(int xPos, int yPos, Button.IPressable press) {
 			super(xPos, yPos, 20, 20, new StringTextComponent(""),press);
@@ -685,8 +665,8 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 						font.draw(stack,font.plainSubstrByWidth(audio.getName(), width - 10), this.left + 3, top + 2,
 								MP3Helper.selected == i ? 16777120 : 0xFFFFFF);
 						font.draw(stack,font.plainSubstrByWidth(
-								new StringBuilder("").append(parent.formatter.format(Math.floor(audio.getDuration() / 60)))
-										.append(":").append(parent.formatter.format(audio.getDuration() % 60)).toString(),
+								"" + parent.formatter.format(Math.floor(audio.getDuration() / 60)) +
+										":" + parent.formatter.format(audio.getDuration() % 60),
 								width - 10), this.left + 3, top + 12, 0xCCCCCC);
 						if(MP3Helper.selected == i){
 
@@ -753,7 +733,7 @@ public class GuiMp3 extends Screen implements IGuiEventListener, INestedGuiEvent
 
 		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 			if (mouseX >= x && mouseX <= x + xSize && mouseY >= y && mouseY <= y + ySize) {
-				double part = (double) (mouseX - x) / xSize;
+				double part = (mouseX - x) / xSize;
 				AudioPlayer player = MP3Helper.getAudioPlayer();
 				if (player == null || player.getAudioClip() == null)
 					return true;

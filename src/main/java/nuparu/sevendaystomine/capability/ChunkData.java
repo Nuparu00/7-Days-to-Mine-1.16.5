@@ -30,17 +30,25 @@ public class ChunkData implements IChunkData {
 	}
 
 	@Override
-	public BreakData setBreaakData(BlockPos pos, BreakData data) {
+	public boolean hasBreakData(BlockPos pos) {
+		return map.containsKey(pos) && getBreakData(pos) != null;
+	}
+
+	@Override
+	public BreakData setBreakData(BlockPos pos, BreakData data) {
+		if(data.getState() <= 0){
+			removeBreakData(pos);
+			return null;
+		}
 		map.put(pos, data);
 		markDirty();
 		return data;
 	}
 
 	@Override
-	public BreakData setBreaakData(BlockPos pos, float data) {
+	public BreakData setBreakData(BlockPos pos, float data) {
 		BreakData breakData = new BreakData(owner.getWorldForge().getGameTime(), data);
-
-		return setBreaakData(pos, breakData);
+		return setBreakData(pos, breakData);
 	}
 
 	@Override
@@ -51,17 +59,17 @@ public class ChunkData implements IChunkData {
 		} else {
 			breakData.addState(delta).setLastChange(owner.getWorldForge().getGameTime());
 		}
-		return setBreaakData(pos, breakData);
+		return setBreakData(pos, breakData);
 	}
 
 	@Override
-	public void removebreakData(BlockPos pos) {
+	public void removeBreakData(BlockPos pos) {
 		map.remove(pos);
 		markDirty();
 	}
 
 	@Override
-	public void removebreakData(BreakData data) {
+	public void removeBreakData(BreakData data) {
 		map.values().remove(data);
 		markDirty();
 	}

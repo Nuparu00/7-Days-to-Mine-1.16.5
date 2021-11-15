@@ -2,22 +2,33 @@ package nuparu.sevendaystomine.block;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import nuparu.sevendaystomine.item.EnumMaterial;
+import net.minecraft.world.World;
+import nuparu.sevendaystomine.init.ModItems;
+import nuparu.sevendaystomine.init.ModLootTables;
 
-public class BlockRadiator extends BlockHorizontalBase implements IWaterLoggable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class BlockRadiator extends BlockHorizontalBase implements IWaterLoggable, ISalvageable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	public ResourceLocation salvageLootTable = ModLootTables.RADIATOR_SALVAGE;
 
 	public VoxelShape NORTH = Block.box(0.0F, 0.0F, 11.2F, 16.0F, 12F, 16.0F);
 	public VoxelShape SOUTH = Block.box(0.0F, 0.0F, 0.0F, 16.0F, 12F, 4.8F);
@@ -26,13 +37,13 @@ public class BlockRadiator extends BlockHorizontalBase implements IWaterLoggable
 
 	public BlockRadiator() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(1.5f, 1).noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
-		switch ((Direction) state.getValue(FACING)) {
+		switch (state.getValue(FACING)) {
 		default:
 		case NORTH:
 			return NORTH;
@@ -53,7 +64,7 @@ public class BlockRadiator extends BlockHorizontalBase implements IWaterLoggable
 		if(dir.getAxis() == Direction.Axis.Y){
 			dir = context.getHorizontalDirection().getOpposite();
 		}
-		return this.defaultBlockState().setValue(FACING, dir).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, dir).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override
@@ -63,6 +74,31 @@ public class BlockRadiator extends BlockHorizontalBase implements IWaterLoggable
 		}
 
 		return super.updateShape(p_196271_1_, p_196271_2_, p_196271_3_, p_196271_4_, p_196271_5_, p_196271_6_);
+	}
+
+	@Override
+	public ResourceLocation getSalvageLootTable(){
+		return salvageLootTable;
+	}
+
+	@Override
+	public void setSalvageLootTable(ResourceLocation resourceLocation){
+		salvageLootTable = resourceLocation;
+	}
+
+	@Override
+	public SoundEvent getSound() {
+		return SoundEvents.ANVIL_LAND;
+	}
+
+	@Override
+	public float getUpgradeRate(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+		return 4;
+	}
+
+	@Override
+	public void onSalvage(World world, BlockPos pos, BlockState oldState) {
+		world.destroyBlock(pos, false);
 	}
 
 	@Override

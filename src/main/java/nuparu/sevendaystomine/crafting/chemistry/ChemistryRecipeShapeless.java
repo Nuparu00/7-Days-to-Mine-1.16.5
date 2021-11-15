@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.crafting.chemistry;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.network.PacketBuffer;
@@ -13,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.tileentity.TileEntityChemistryStation;
 
@@ -62,7 +60,7 @@ public class ChemistryRecipeShapeless implements IChemistryRecipe<TileEntityChem
         label43: {
             if (i == this.ingredients.size()) {
                 if (this.isSimple) {
-                    if (recipeitemhelper.canCraft(this, (IntList)null)) {
+                    if (recipeitemhelper.canCraft(this, null)) {
                         break label43;
                     }
                 } else if (RecipeMatcher.findMatches(inputs, this.ingredients) != null) {

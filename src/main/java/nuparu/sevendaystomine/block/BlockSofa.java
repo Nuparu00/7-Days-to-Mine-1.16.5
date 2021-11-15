@@ -1,16 +1,12 @@
 package nuparu.sevendaystomine.block;
 
-import java.util.Random;
 import java.util.stream.IntStream;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -21,7 +17,6 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.StairsShape;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -33,14 +28,9 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.util.Utils;
 
 public class BlockSofa extends BlockHorizontalBase implements IWaterLoggable {
@@ -65,11 +55,7 @@ public class BlockSofa extends BlockHorizontalBase implements IWaterLoggable {
 
 	private static VoxelShape[] makeShapes(VoxelShape p_199779_0_, VoxelShape p_199779_1_, VoxelShape p_199779_2_,
 			VoxelShape p_199779_3_, VoxelShape p_199779_4_) {
-		return IntStream.range(0, 16).mapToObj((p_199780_5_) -> {
-			return makeStairShape(p_199780_5_, p_199779_0_, p_199779_1_, p_199779_2_, p_199779_3_, p_199779_4_);
-		}).toArray((p_199778_0_) -> {
-			return new VoxelShape[p_199778_0_];
-		});
+		return IntStream.range(0, 16).mapToObj((p_199780_5_) -> makeStairShape(p_199780_5_, p_199779_0_, p_199779_1_, p_199779_2_, p_199779_3_, p_199779_4_)).toArray(VoxelShape[]::new);
 	}
 
 	private static VoxelShape makeStairShape(int p_199781_0_, VoxelShape p_199781_1_, VoxelShape p_199781_2_,
@@ -97,7 +83,7 @@ public class BlockSofa extends BlockHorizontalBase implements IWaterLoggable {
 	public BlockSofa(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
-				.setValue(SHAPE, StairsShape.STRAIGHT).setValue(WATERLOGGED, Boolean.valueOf(false)));
+				.setValue(SHAPE, StairsShape.STRAIGHT).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	public boolean useShapeForLightOcclusion(BlockState p_220074_1_) {
@@ -118,7 +104,7 @@ public class BlockSofa extends BlockHorizontalBase implements IWaterLoggable {
 		BlockPos blockpos = p_196258_1_.getClickedPos();
 		FluidState fluidstate = p_196258_1_.getLevel().getFluidState(blockpos);
 		BlockState blockstate = this.defaultBlockState().setValue(FACING, p_196258_1_.getHorizontalDirection())
-				.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+				.setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 		return blockstate.setValue(SHAPE, getStairsShape(blockstate, p_196258_1_.getLevel(), blockpos));
 	}
 

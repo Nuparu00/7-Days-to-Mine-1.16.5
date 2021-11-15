@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractSlider;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraft.util.Util;
@@ -53,34 +52,20 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
         this.animationList = new GuiAnimationDebug.AnimationList(this.minecraft);
 
         this.buttons.clear();
-        pause = new Button(10, 20, 100, 20, new StringTextComponent("Pause/Unpause"), (button) -> {
-            pause();
-        });
-        reset = new Button(115, 20, 100, 20, new StringTextComponent("Reset"), (button) -> {
-            reset();
-        });
+        pause = new Button(10, 20, 100, 20, new StringTextComponent("Pause/Unpause"), (button) -> pause());
+        reset = new Button(115, 20, 100, 20, new StringTextComponent("Reset"), (button) -> reset());
         double speed = Animations.currentAnimation != null ? Animations.currentAnimation.getSpeed() : 1;
         speedSlider = new SpeedSlider(10, 45, 100, 20, new StringTextComponent("Speed: " + MathUtils.roundToNDecimal(speed, 2) + "x"), SpeedSlider.actualSpeedToSliderPosition(speed));
 
-        repeat = new RepeatButton(10, 70, 50, 20, new StringTextComponent("Repeat"), (button) -> {
-            repeat();
-        });
+        repeat = new RepeatButton(10, 70, 50, 20, new StringTextComponent("Repeat"), (button) -> repeat());
 
-        save = new Button(10, 95, 50, 20, new StringTextComponent("Export"), (button) -> {
-            save();
-        });
+        save = new Button(10, 95, 50, 20, new StringTextComponent("Export"), (button) -> save());
 
-        select = new Button(width - 60, 20, 50, 20, new StringTextComponent("Select"), (button) -> {
-            select();
-        });
+        select = new Button(width - 60, 20, 50, 20, new StringTextComponent("Select"), (button) -> select());
 
-        doneButton = new DoneButton(width - 60, height - 40, 50, 20, new StringTextComponent("Select"), (button) -> {
-            done();
-        });
+        doneButton = new DoneButton(width - 60, height - 40, 50, 20, new StringTextComponent("Select"), (button) -> done());
 
-        override = new OverrideButton(10, 120, 50, 20, new StringTextComponent("Override"), (button) -> {
-            override();
-        });
+        override = new OverrideButton(10, 120, 50, 20, new StringTextComponent("Override"), (button) -> override());
 
         xWidget = new TextFieldWidget(font,11,150,47,20,new StringTextComponent("0"));
         yWidget = new TextFieldWidget(font,11,180,47,20,new StringTextComponent("0"));
@@ -90,9 +75,7 @@ public class GuiAnimationDebug extends Screen implements IGuiEventListener {
         yWidget.setValue(String.valueOf(Animations.offset.y));
         zWidget.setValue(String.valueOf(Animations.offset.z));
 
-        setOffset = new Button(65, 210, 60, 20, new StringTextComponent("Set Offset"), (button) -> {
-            setOffset();
-        });
+        setOffset = new Button(65, 210, 60, 20, new StringTextComponent("Set Offset"), (button) -> setOffset());
         if (!selection) {
             this.addButton(pause);
             this.addButton(reset);

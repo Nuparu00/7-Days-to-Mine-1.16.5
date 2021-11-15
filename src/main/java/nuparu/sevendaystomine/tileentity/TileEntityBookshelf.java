@@ -7,14 +7,11 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import nuparu.sevendaystomine.block.BlockBookshelfEnhanced;
 import nuparu.sevendaystomine.init.ModTileEntities;
-import nuparu.sevendaystomine.inventory.block.ContainerForge;
 import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
@@ -68,7 +65,7 @@ public class TileEntityBookshelf extends TileEntityItemHandler<ItemHandlerNameab
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

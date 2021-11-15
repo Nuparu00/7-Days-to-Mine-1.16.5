@@ -22,7 +22,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class BlockFakeAnvil extends BlockFallingBase {
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;

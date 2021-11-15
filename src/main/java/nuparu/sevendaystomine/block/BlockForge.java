@@ -50,9 +50,7 @@ public class BlockForge extends AbstractFurnaceBlock implements IBlockBase {
             if (!(player instanceof ServerPlayerEntity))
                 return ActionResultType.FAIL;
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-            NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-                packetBuffer.writeBlockPos(pos);
-            });
+            NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
         }
         return ActionResultType.SUCCESS;
     }
@@ -73,7 +71,7 @@ public class BlockForge extends AbstractFurnaceBlock implements IBlockBase {
     public void animateTick(BlockState p_180655_1_, World p_180655_2_, BlockPos p_180655_3_, Random p_180655_4_) {
         if (p_180655_1_.getValue(LIT)) {
             double d0 = (double) p_180655_3_.getX() + 0.5D;
-            double d1 = (double) p_180655_3_.getY();
+            double d1 = p_180655_3_.getY();
             double d2 = (double) p_180655_3_.getZ() + 0.5D;
             if (p_180655_4_.nextDouble() < 0.1D) {
                 p_180655_2_.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F,

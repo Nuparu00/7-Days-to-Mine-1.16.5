@@ -21,7 +21,6 @@ import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
@@ -34,7 +33,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
 
@@ -165,7 +163,7 @@ public class ItemQualityHoe extends HoeItem implements IQuality, IToolLength{
 		Multimap<Attribute, AttributeModifier> multimap = super.getDefaultAttributeModifiers(equipmentSlot);
 
 		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
-			multimap.put(Attributes.ARMOR, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double) this.getAttackDamage(), AttributeModifier.Operation.ADDITION));
+			multimap.put(Attributes.ARMOR, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.getAttackDamage(), AttributeModifier.Operation.ADDITION));
 			multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", speed, AttributeModifier.Operation.ADDITION));
 		}
 

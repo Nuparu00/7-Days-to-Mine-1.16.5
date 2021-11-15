@@ -1,17 +1,12 @@
 package nuparu.sevendaystomine.init;
 
-import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.*;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.enchantment.*;
 import nuparu.sevendaystomine.item.ItemGun;
-import nuparu.sevendaystomine.util.Utils;
 
 public class ModEnchantments {
 
@@ -19,23 +14,23 @@ public class ModEnchantments {
 			SevenDaysToMine.MODID);
 
 	public static final RegistryObject<Enchantment> FAST_RELOAD = ENCHANTMENTS.register("fast_reload",
-			() -> new EnchantmentFastReload());
+            EnchantmentFastReload::new);
 	public static final RegistryObject<Enchantment> MARKSMAN = ENCHANTMENTS.register("marksman",
-			() -> new EnchantmentMarksman());
+            EnchantmentMarksman::new);
 	public static final RegistryObject<Enchantment> EXPLOSIVE = ENCHANTMENTS.register("explosive",
-			() -> new EnchantmentExplosive());
+            EnchantmentExplosive::new);
 	public static final RegistryObject<Enchantment> SPARKING = ENCHANTMENTS.register("sparking",
-			() -> new EnchantmentSparking());
+            EnchantmentSparking::new);
 	public static final RegistryObject<Enchantment> BIG_MAG = ENCHANTMENTS.register("big_mag",
-			() -> new EnchantmentBigMag());
+            EnchantmentBigMag::new);
 	public static final RegistryObject<Enchantment> MULTISHOT = ENCHANTMENTS.register("multishot",
-			() -> new EnchantmentMultishot());
+            EnchantmentMultishot::new);
 	public static final RegistryObject<Enchantment> SHAKING = ENCHANTMENTS.register("shaking",
-			() -> new EnchantmentStrabismus());
+            EnchantmentStrabismus::new);
 	public static final RegistryObject<Enchantment> JAMMING = ENCHANTMENTS.register("jamming",
-			() -> new EnchantmentJamming());
+            EnchantmentJamming::new);
 	public static final RegistryObject<Enchantment> SMALL_MAG = ENCHANTMENTS.register("small_mag",
-			() -> new EnchantmentSmallMag());
+            EnchantmentSmallMag::new);
 
 	public static final EnchantmentType GUNS = EnchantmentType.create("guns", (item) -> item instanceof ItemGun);
 

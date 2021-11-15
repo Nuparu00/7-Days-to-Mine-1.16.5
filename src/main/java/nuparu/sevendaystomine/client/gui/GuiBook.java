@@ -8,14 +8,12 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -32,7 +30,6 @@ import nuparu.sevendaystomine.util.book.BookData.Image;
 import nuparu.sevendaystomine.util.book.BookData.Page;
 import nuparu.sevendaystomine.util.book.BookData.Stack;
 import nuparu.sevendaystomine.util.book.BookData.TextBlock;
-import nuparu.sevendaystomine.util.book.BookDataParser;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiBook extends Screen implements IGuiEventListener {
@@ -73,15 +70,15 @@ public class GuiBook extends Screen implements IGuiEventListener {
 			for (int i = 0; i < l.size(); i++) {
 				TextComponent component = l.get(i);
 
-				String s = "";
+				StringBuilder s = new StringBuilder();
 				if (tb.formatting != null) {
 					for (TextFormatting tf : tb.formatting) {
 						if (tf == null)
 							continue;
-						s += tf;
+						s.append(tf);
 					}
 				}
-				s += component.getString();
+				s.append(component.getString());
 
 				int color = tb.color;
 				if (tb.hoverColor != -1
@@ -91,10 +88,10 @@ public class GuiBook extends Screen implements IGuiEventListener {
 				}
 
 				if (tb.centered) {
-					RenderUtils.drawCenteredString(matrix, s, 0, i * (minecraft.font.lineHeight + 1) * tb.scale, color,
+					RenderUtils.drawCenteredString(matrix, s.toString(), 0, i * (minecraft.font.lineHeight + 1) * tb.scale, color,
 							tb.shadow);
 				} else {
-					RenderUtils.drawString(matrix, s, 0, i * (minecraft.font.lineHeight + 1) * tb.scale, color,
+					RenderUtils.drawString(matrix, s.toString(), 0, i * (minecraft.font.lineHeight + 1) * tb.scale, color,
 							tb.shadow);
 				}
 			}
@@ -177,13 +174,9 @@ public class GuiBook extends Screen implements IGuiEventListener {
 		int offsetFromScreenLeft = (width - xSize) / 2;
 		int marginVertical = (height - ySize) / 2;
 		buttons.add(buttonNextPage = new GuiNextButton(offsetFromScreenLeft + xSize - 10 - 23, marginVertical + 160,
-				true, this, (button) -> {
-					actionPerformed(button);
-				}));
+				true, this, this::actionPerformed));
 		buttons.add(buttonPreviousPage = new GuiNextButton(offsetFromScreenLeft + 10, marginVertical + 160, false, this,
-				(button) -> {
-					actionPerformed(button);
-				}));
+                this::actionPerformed));
 
 		buttonNextPage.active = false;
 		buttonPreviousPage.active = false;

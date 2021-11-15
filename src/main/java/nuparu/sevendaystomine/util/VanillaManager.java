@@ -6,15 +6,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
-import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.crafting.RecipeManager;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.item.EnumMaterial;
+import nuparu.sevendaystomine.init.ModSounds;
 
 public class VanillaManager {
 
@@ -158,46 +156,46 @@ public class VanillaManager {
 	}
 
 	public static void addVanillaBlockUpgrades() {
-		/*addVanillaBlockUpgrade(
-				Blocks.PLANKS.defaultBlockState().setValue(BlockPlanks.VARIANT, EnumWoodType.OAK),
-				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD, 6) }, ModSounds.UPGRADE_WOOD,
-				nuparu.sevendaystomine.init.ModBlocks.OAK_PLANKS_REINFORCED.defaultBlockState(),
-				nuparu.sevendaystomine.init.ModBlocks.OAK_FRAME.defaultBlockState());
 		addVanillaBlockUpgrade(
-				Blocks.PLANKS.defaultBlockState().setValue(BlockPlanks.VARIANT, EnumWoodType.BIRCH),
-				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD, 6) }, ModSounds.UPGRADE_WOOD,
-				nuparu.sevendaystomine.init.ModBlocks.BIRCH_PLANKS_REINFORCED.defaultBlockState(),
-				nuparu.sevendaystomine.init.ModBlocks.BIRCH_FRAME.defaultBlockState());
+				Blocks.OAK_PLANKS.defaultBlockState(),
+				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD.get(), 6) }, ModSounds.UPGRADE_WOOD.get(),
+				nuparu.sevendaystomine.init.ModBlocks.OAK_PLANKS_REINFORCED.get().defaultBlockState(),
+				nuparu.sevendaystomine.init.ModBlocks.OAK_FRAME.get().defaultBlockState());
 		addVanillaBlockUpgrade(
-				Blocks.PLANKS.defaultBlockState().setValue(BlockPlanks.VARIANT, EnumWoodType.SPRUCE),
-				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD.get(), 6) }, ModSounds.UPGRADE_WOOD,
-				nuparu.sevendaystomine.init.ModBlocks.SPRUCE_PLANKS_REINFORCED.defaultBlockState(),
-				nuparu.sevendaystomine.init.ModBlocks.SPRUCE_FRAME.defaultBlockState());
+				Blocks.BIRCH_PLANKS.defaultBlockState(),
+				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD.get(), 6) }, ModSounds.UPGRADE_WOOD.get(),
+				nuparu.sevendaystomine.init.ModBlocks.BIRCH_PLANKS_REINFORCED.get().defaultBlockState(),
+				nuparu.sevendaystomine.init.ModBlocks.BIRCH_FRAME.get().defaultBlockState());
 		addVanillaBlockUpgrade(
-				Blocks.PLANKS.defaultBlockState().setValue(BlockPlanks.VARIANT, EnumWoodType.JUNGLE),
-				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD, 6) }, ModSounds.UPGRADE_WOOD,
-				nuparu.sevendaystomine.init.ModBlocks.JUNGLE_PLANKS_REINFORCED.defaultBlockState(),
-				nuparu.sevendaystomine.init.ModBlocks.JUNGLE_FRAME.defaultBlockState());
+				Blocks.SPRUCE_PLANKS.defaultBlockState(),
+				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD.get(), 6) }, ModSounds.UPGRADE_WOOD.get(),
+				nuparu.sevendaystomine.init.ModBlocks.SPRUCE_PLANKS_REINFORCED.get().defaultBlockState(),
+				nuparu.sevendaystomine.init.ModBlocks.SPRUCE_FRAME.get().defaultBlockState());
 		addVanillaBlockUpgrade(
-				Blocks.PLANKS.defaultBlockState().setValue(BlockPlanks.VARIANT, EnumWoodType.ACACIA),
-				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD, 6) }, ModSounds.UPGRADE_WOOD,
-				nuparu.sevendaystomine.init.ModBlocks.ACACIA_PLANKS_REINFORCED.defaultBlockState(),
-				nuparu.sevendaystomine.init.ModBlocks.ACACIA_FRAME.defaultBlockState());
+				Blocks.JUNGLE_PLANKS.defaultBlockState(),
+				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD.get(), 6) }, ModSounds.UPGRADE_WOOD.get(),
+				nuparu.sevendaystomine.init.ModBlocks.JUNGLE_PLANKS_REINFORCED.get().defaultBlockState(),
+				nuparu.sevendaystomine.init.ModBlocks.JUNGLE_FRAME.get().defaultBlockState());
 		addVanillaBlockUpgrade(
-				Blocks.PLANKS.defaultBlockState().setValue(BlockPlanks.VARIANT, EnumWoodType.DARK_OAK),
-				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD, 6) }, ModSounds.UPGRADE_WOOD,
-				nuparu.sevendaystomine.init.ModBlocks.DARKOAK_PLANKS_REINFORCED.defaultBlockState(),
-				nuparu.sevendaystomine.init.ModBlocks.DARKOAK_FRAME.defaultBlockState());*/
+				Blocks.ACACIA_PLANKS.defaultBlockState(),
+				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD.get(), 6) }, ModSounds.UPGRADE_WOOD.get(),
+				nuparu.sevendaystomine.init.ModBlocks.ACACIA_PLANKS_REINFORCED.get().defaultBlockState(),
+				nuparu.sevendaystomine.init.ModBlocks.ACACIA_FRAME.get().defaultBlockState());
+		addVanillaBlockUpgrade(
+				Blocks.DARK_OAK_PLANKS.defaultBlockState(),
+				new ItemStack[] { new ItemStack(ModItems.PLANK_WOOD.get(), 6) }, ModSounds.UPGRADE_WOOD.get(),
+				ModBlocks.DARK_OAK_PLANKS_REINFORCED.get().defaultBlockState(),
+				ModBlocks.DARK_OAK_FRAME.get().defaultBlockState());
 	}
 
 	public static void addVanillaBlockUpgrade(Block parent, ItemStack[] items, SoundEvent sound, Block result) {
 		vanillaUpgrades.add(new VanillaBlockUpgrade(parent.defaultBlockState(), items, sound, result.defaultBlockState(),
-				(BlockState) null));
+                null));
 	}
 
 	public static void addVanillaBlockUpgrade(BlockState parent, ItemStack[] items, SoundEvent sound,
 			BlockState result) {
-		vanillaUpgrades.add(new VanillaBlockUpgrade(parent, items, sound, result, (BlockState) null));
+		vanillaUpgrades.add(new VanillaBlockUpgrade(parent, items, sound, result, null));
 	}
 
 	public static void addVanillaBlockUpgrade(Block parent, ItemStack[] items, SoundEvent sound, Block result,

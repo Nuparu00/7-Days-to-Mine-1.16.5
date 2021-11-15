@@ -1,0 +1,19 @@
+{
+   "type":"minecraft:crafting_shaped",
+   "pattern":[
+      "WIW",
+      "IWI",
+      "WIW"
+   ],
+   "key":{
+      "W":{
+         "item":"sevendaystomine:plank_wood"
+      },
+      "I":{
+         "item":"sevendaystomine:scrap_iron"
+      }
+   },
+   "result":{
+      "item":"sevendaystomine:boards"
+   }
+}

@@ -7,8 +7,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.entity.FrozenLumberjackEntity;
-import nuparu.sevendaystomine.entity.PlaguedNurseEntity;
-import nuparu.sevendaystomine.entity.ReanimatedCorpseEntity;
 
 public class FrozenLumberjackRenderer<T extends FrozenLumberjackEntity, M extends BipedModel<T>>
 		extends ZombieBipedRenderer<T, M> {

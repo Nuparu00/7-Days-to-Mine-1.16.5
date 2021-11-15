@@ -3,24 +3,18 @@ package nuparu.sevendaystomine.item;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.block.BlockState;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
@@ -33,12 +27,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.extensions.IForgeItem;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
-import nuparu.sevendaystomine.util.ItemUtils;
-import nuparu.sevendaystomine.util.PlayerUtils;
 
 public class ItemQualityPickaxe extends PickaxeItem implements IQuality, IToolLength{
 
@@ -167,7 +158,7 @@ public class ItemQualityPickaxe extends PickaxeItem implements IQuality, IToolLe
 		Multimap<Attribute, AttributeModifier> multimap = super.getDefaultAttributeModifiers(equipmentSlot);
 
 		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
-			multimap.put(Attributes.ARMOR, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double) this.getAttackDamage(), AttributeModifier.Operation.ADDITION));
+			multimap.put(Attributes.ARMOR, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.getAttackDamage(), AttributeModifier.Operation.ADDITION));
 			multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", speed, AttributeModifier.Operation.ADDITION));
 		}
 

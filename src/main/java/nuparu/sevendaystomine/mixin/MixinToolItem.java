@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ToolItem;
 import nuparu.sevendaystomine.config.EnumQualityState;
 import nuparu.sevendaystomine.item.IQuality;
@@ -31,8 +32,8 @@ public class MixinToolItem {
 
                 Multimap<Attribute, AttributeModifier> map = HashMultimap.<Attribute, AttributeModifier>create();
 
-                map.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(thys.BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", thys.getAttackDamage(), AttributeModifier.Operation.ADDITION));
-                map.put(Attributes.ATTACK_SPEED, new AttributeModifier(thys.BASE_ATTACK_SPEED_UUID, "Weapon modifier", this.speed, AttributeModifier.Operation.ADDITION));
+                map.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", thys.getAttackDamage(), AttributeModifier.Operation.ADDITION));
+                map.put(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_UUID, "Weapon modifier", this.speed, AttributeModifier.Operation.ADDITION));
 
                 cir.setReturnValue(map);
             }

@@ -3,7 +3,7 @@
   "pattern": [
     "IIIII",
     "ICCCI",
-    "IISII",
+    "IGSGI",
     "IWWWI",
     "IIIII"
   ],
@@ -20,6 +20,9 @@
     "S": {
       "item": "sevendaystomine:small_engine",
       "data": 32767
+    },
+    "G": {
+      "item": "sevendaystomine:gear"
     }
   },
   "result": {

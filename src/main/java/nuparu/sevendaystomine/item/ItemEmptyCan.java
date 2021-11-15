@@ -1,7 +1,5 @@
 package nuparu.sevendaystomine.item;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,13 +27,13 @@ public class ItemEmptyCan extends Item {
 
 		ItemStack itemstack = p_77659_2_.getItemInHand(p_77659_3_);
 
-		RayTraceResult raytraceresult = getPlayerPOVHitResult(p_77659_1_, p_77659_2_,
+		BlockRayTraceResult raytraceresult = getPlayerPOVHitResult(p_77659_1_, p_77659_2_,
 				RayTraceContext.FluidMode.SOURCE_ONLY);
 		if (raytraceresult.getType() == RayTraceResult.Type.MISS) {
 			return ActionResult.pass(itemstack);
 		} else {
 			if (raytraceresult.getType() == RayTraceResult.Type.BLOCK) {
-				BlockPos blockpos = ((BlockRayTraceResult) raytraceresult).getBlockPos();
+				BlockPos blockpos = raytraceresult.getBlockPos();
 				if (!p_77659_1_.mayInteract(p_77659_2_, blockpos)) {
 					return ActionResult.pass(itemstack);
 				}

@@ -1,13 +1,10 @@
 package nuparu.sevendaystomine.client.renderer.entity;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import nuparu.sevendaystomine.entity.CrawlerZombieEntity;
-import nuparu.sevendaystomine.entity.FlameEntity;
 import nuparu.sevendaystomine.entity.FragmentationGrenadeEntity;
 
 public class FragmentationGrenadeRenderer<T extends FragmentationGrenadeEntity> extends SpriteRenderer<T> {

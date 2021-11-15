@@ -7,7 +7,7 @@ public enum EnumQuality {
 	FAULTY(1, 99, TextFormatting.GRAY),
 	POOR(100, 199,TextFormatting.GOLD),
 	GOOD(200, 299, TextFormatting.YELLOW),
-	FINE(300, 399, TextFormatting.GREEN),
+	FINE(300, 399, TextFormatting.DARK_GREEN),
 	GREAT(400, 499, TextFormatting.BLUE),
 	FLAWLESS(500, Integer.MAX_VALUE, TextFormatting.DARK_PURPLE);
 

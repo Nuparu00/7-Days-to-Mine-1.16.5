@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -21,7 +20,6 @@ import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.IVoltage;
 import nuparu.sevendaystomine.init.ModTileEntities;
-import nuparu.sevendaystomine.inventory.block.ContainerBatteryStation;
 import nuparu.sevendaystomine.inventory.block.ContainerCombustionGenerator;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.util.MathUtils;
@@ -98,7 +96,7 @@ public class TileEntityCombustionGenerator extends TileEntityGeneratorBase {
 		}
 
 		if (temperature > 1) {
-			this.level.explode((Entity) null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 2, true,Explosion.Mode.BREAK);
+			this.level.explode(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 2, true,Explosion.Mode.BREAK);
 		}
 		if (temperature < 0) {
 			temperature = 0;

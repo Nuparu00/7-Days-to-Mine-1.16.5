@@ -248,7 +248,7 @@ public class WindowsCreateAccountProcess extends CreateAccountProcess {
 			}
 		}
 		if (buttonId == 1) {
-			if (page == 2 && completed == false && computerTE.isRegistered() == false) {
+			if (page == 2 && !completed && !computerTE.isRegistered()) {
 				this.completed = true;
 				TextField un = (TextField) elements.get(5);
 				TextField p = (TextField) elements.get(6);

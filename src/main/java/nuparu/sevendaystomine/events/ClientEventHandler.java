@@ -3,24 +3,28 @@ package nuparu.sevendaystomine.events;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuScreen;
-import net.minecraft.client.world.ClientWorld;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,7 +34,6 @@ import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -45,21 +48,29 @@ import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
+import nuparu.sevendaystomine.entity.MinibikeEntity;
+import nuparu.sevendaystomine.init.ModBiomes;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.*;
-import nuparu.sevendaystomine.item.guide.BookDataManager;
 import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.PlayerUtils;
 import nuparu.sevendaystomine.util.Utils;
-import nuparu.sevendaystomine.util.VanillaManager;
 
 import java.util.HashMap;
 
-@Mod.EventBusSubscriber(modid = SevenDaysToMine.MODID, value=Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = SevenDaysToMine.MODID, value = Dist.CLIENT)
 public class ClientEventHandler {
 
     public static boolean takingPhoto;
     public static HashMap<BlockPos, CompoundNBT> cachedChunks = new HashMap<BlockPos, CompoundNBT>();
+    static double biomeBlendPrev = 0;
+
+    /*@SubscribeEvent
+    public static void onPlayerConnected(ClientPlayerNetworkEvent.LoggedInEvent event) {
+        if(event.getPlayer()==Minecraft.getInstance().player) {
+            BookDataManager.instance.reloadRecipes();
+        }
+    }*/
 
     @SubscribeEvent
     public static void renderScopeOverlayPre(RenderGameOverlayEvent.Pre event) {
@@ -72,13 +83,6 @@ public class ClientEventHandler {
             // }
         }
     }
-
-    /*@SubscribeEvent
-    public static void onPlayerConnected(ClientPlayerNetworkEvent.LoggedInEvent event) {
-        if(event.getPlayer()==Minecraft.getInstance().player) {
-            BookDataManager.instance.reloadRecipes();
-        }
-    }*/
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onRenderGameOverlayEvent(RenderGameOverlayEvent.Pre event) {
@@ -106,7 +110,6 @@ public class ClientEventHandler {
                 int yMax = (int) (res.getGuiScaledHeight() - 32 - res.getGuiScaledHeight() * dH / 2);
 
                 MatrixStack matrixStack = event.getMatrixStack();
-                ;
 
                 matrixStack.pushPose();
                 RenderSystem.enableBlend();
@@ -127,6 +130,11 @@ public class ClientEventHandler {
             }
         }
     }
+    /*
+     * @SubscribeEvent public void onCLientConnect(ClientConnectedToServerEvent
+     * event) { SubtitleHelper.INSTANCE.clear(); ForgeIngameGui.renderArmor = true;
+     * }
+     */
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
@@ -135,11 +143,6 @@ public class ClientEventHandler {
             e.setGui(new GuiMainMenuEnhanced());
         }
     }
-    /*
-     * @SubscribeEvent public void onCLientConnect(ClientConnectedToServerEvent
-     * event) { SubtitleHelper.INSTANCE.clear(); ForgeIngameGui.renderArmor = true;
-     * }
-     */
 
     @SubscribeEvent
     public static void onPlaySoundEvent(PlaySoundEvent event) {
@@ -148,7 +151,7 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onFogColors(FogColors event) {
 
-        if(ClientConfig.bloodmoonSky.get()) {
+        if (ClientConfig.bloodmoonSky.get()) {
             int sunsetStart = 12610;
             int sunsestEnd = 13702;
             int sunsetDarkEnd = 13000;
@@ -182,7 +185,7 @@ public class ClientEventHandler {
                     if (time > sunsetRedStart) {
                         r = (float) MathUtils.lerp(rOld, rNew, (float) ((time - 12610) / 1092d));
                     }
-                    r = (float) event.getRed();
+                    r = event.getRed();
                 }
                 event.setRed(r);
                 event.setGreen((float) (lightMult * event.getGreen()));
@@ -191,9 +194,66 @@ public class ClientEventHandler {
         }
     }
 
-    @SubscribeEvent()
+    @SubscribeEvent
     public static void onFogDensity(FogDensity event) {
+        if (!ClientConfig.wastelandFog.get()) {
+            return;
+        }
 
+        BlockState blockstate = event.getInfo().getBlockAtCamera();
+        Material mat = blockstate.getMaterial();
+        if (mat != Material.WATER && mat != Material.LAVA) {
+            double biomeBlend = getFogBiomeBlend(Minecraft.getInstance().level, event.getInfo().getBlockPosition());
+            //System.out.println(biomeBlend);
+            if (biomeBlend > 0) {
+                double biomeBlendToUse = MathUtils.lerp(biomeBlendPrev, biomeBlend, event.getRenderPartialTicks());
+                event.setDensity((float) (event.getDensity() / (30f * (1 - (biomeBlendToUse * biomeBlendToUse) / 1.2d))));
+                RenderSystem.fogMode(GlStateManager.FogMode.EXP2);
+                /*
+                 * GlStateManager.setFogStart(1); GlStateManager.setFogEnd(10);
+                 */
+                event.setCanceled(true);
+            } else {
+                event.setCanceled(false);
+            }
+            biomeBlendPrev = biomeBlend;
+        } else {
+            event.setCanceled(false);
+
+            biomeBlendPrev = 0;
+        }
+    }
+
+    public static boolean isWastelandBiome(Biome biome) {
+        if (biome == null || biome.getRegistryName() == null) return false;
+        if (biome.getRegistryName().equals(ModBiomes.WASTELAND_PLAINS.getId()) ||
+                biome.getRegistryName().equals(ModBiomes.WASTELAND_FOREST.getId())) return true;
+        return false;
+    }
+
+    public static double getFogBiomeBlend(World world, BlockPos center) {
+        int dst = ClientConfig.wastelandFogBlend.get();
+        if (dst == 0) {
+            Biome biome = world.getBiome(center);
+            if (isWastelandBiome(biome)) {
+                return 1;
+            }
+            return 0;
+        }
+
+        int sum = 0;
+        int max = 0;
+        for (int i = -dst; i < dst; i++) {
+            for (int j = -dst; j < dst; j++) {
+                BlockPos pos = center.offset(i, 0, j);
+                Biome biome = world.getBiome(pos);
+                if (isWastelandBiome(biome)) {
+                    sum++;
+                }
+                max++;
+            }
+        }
+        return (double) sum / max;
     }
 
     @SubscribeEvent
@@ -231,7 +291,7 @@ public class ClientEventHandler {
 
         EnumMaterial mat = EnumMaterial.NONE;
         int weight = 0;
-        if(ScrapDataManager.instance.hasEntry(item)){
+        if (ScrapDataManager.instance.hasEntry(item)) {
             ScrapDataManager.ScrapEntry entry = ScrapDataManager.instance.getEntry(item);
 
             mat = entry.material;
@@ -259,16 +319,55 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public static void onCameraSetup(EntityViewRenderEvent.CameraSetup event) {
-        /*
-         * if(!ModConfig.client.minibikeCameraRoll) return; PlayerEntity player =
-         * Minecraft.getInstance().player; if(player == null) return; Entity riding =
-         * player.getVehicle();
-         *
-         * if(riding != null && riding instanceof EntityMinibike) { EntityMinibike
-         * minibike = (EntityMinibike)riding;
-         * event.setRoll(event.getRoll()+(Utils.lerp(minibike.getTurningPrev(),
-         * minibike.getTurning(), (float)event.getRenderPartialTicks()))/8f); }
-         */
+
+        if (!ClientConfig.minibikeCameraRoll.get()) return;
+        PlayerEntity player = Minecraft.getInstance().player;
+        if (player == null) return;
+        Entity riding = player.getVehicle();
+
+        if (riding instanceof MinibikeEntity) {
+            MinibikeEntity
+                    minibike = (MinibikeEntity) riding;
+            Vector3d forward = minibike.getForward();
+            Vector3d right = forward.yRot(90);
+
+            float turning = Utils.lerp(minibike.getTurningPrev(),
+                    minibike.getTurning(), (float) event.getRenderPartialTicks());
+            event.setRoll(event.getRoll() - turning / 8f);
+            //event.getInfo().move(right.z*0.1,0,-right.x*0.1);
+
+        }
+
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRenderPre(RenderPlayerEvent.Pre event) {
+        MatrixStack matrixStack = event.getMatrixStack();
+        float partialTicks = event.getPartialRenderTick();
+
+
+        if (!ClientConfig.minibikeCameraRoll.get()) return;
+        ActiveRenderInfo camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+        PlayerEntity player = Minecraft.getInstance().player;
+        if (player == null) return;
+        Entity riding = player.getVehicle();
+
+        if (riding instanceof MinibikeEntity) {
+            MinibikeEntity minibike = (MinibikeEntity) riding;
+            Vector3d forward = minibike.getForward();
+            Vector3d vec3d = (new Vector3d((double) 0.2, 0.0D, 0.0D))
+                    .yRot(-Utils.lerp(minibike.yRotO, minibike.yRot, partialTicks) * 0.017453292F - ((float) Math.PI / 2F));
+            //matrixStack.translate(vec3d.x,3*minibike.getPassengersRidingOffset(),vec3d.z);
+            //matrixStack.translate(event.getPlayer().getX()-camera.getPosition().x,event.getPlayer().getY()-camera.getPosition().y,event.getPlayer().getZ()-camera.getPosition().z);
+
+            matrixStack.mulPose(Vector3f.XN.rotationDegrees((float) (forward.x * Utils.lerp(minibike.getTurningPrev(), minibike.getTurning(), partialTicks))));
+            matrixStack.mulPose(Vector3f.ZN.rotationDegrees((float) (forward.z * Utils.lerp(minibike.getTurningPrev(), minibike.getTurning(), partialTicks))));
+
+            //matrixStack.translate(-vec3d.x,-3*minibike.getPassengersRidingOffset(),-vec3d.z);
+            //matrixStack.translate(-(event.getPlayer().getX()-camera.getPosition().x),-(event.getPlayer().getY()-camera.getPosition().y),-(event.getPlayer().getZ()-camera.getPosition().z));
+
+        }
+
     }
 
     @SubscribeEvent

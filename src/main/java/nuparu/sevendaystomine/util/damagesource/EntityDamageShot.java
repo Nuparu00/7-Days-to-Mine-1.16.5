@@ -16,7 +16,7 @@ public class EntityDamageShot extends IndirectEntityDamageSource {
 	@Override
 	public ITextComponent getLocalizedDeathMessage(LivingEntity target) {
 
-		Entity entity = (Entity) this.getEntity();
+		Entity entity = this.getEntity();
 		LivingEntity LivingEntity1 = null;
 		if (entity instanceof LivingEntity) {
 			LivingEntity1 = (LivingEntity) entity;

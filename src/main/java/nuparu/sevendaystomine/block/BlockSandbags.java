@@ -16,6 +16,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.server.ServerWorld;
 
@@ -25,9 +27,11 @@ public class BlockSandbags extends FallingBlock implements IBlockBase, IWaterLog
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
+	public static final VoxelShape SUPPORT_SHAPE = Block.box(1,0,1,15,15,15);
+
 	public BlockSandbags() {
 		super(AbstractBlock.Properties.of(Material.SAND).sound(SoundType.SAND).strength(1,1.2f).noOcclusion());
-	      this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+	      this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	public BlockState rotate(BlockState p_185499_1_, Rotation p_185499_2_) {
@@ -42,13 +46,13 @@ public class BlockSandbags extends FallingBlock implements IBlockBase, IWaterLog
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override
 	public void tick(BlockState p_225534_1_, ServerWorld p_225534_2_, BlockPos p_225534_3_, Random p_225534_4_) {
 		if (p_225534_2_.isEmptyBlock(p_225534_3_.below()) || isFree(p_225534_2_.getBlockState(p_225534_3_.below())) && p_225534_3_.getY() >= 0) {
-			FallingBlockEntity fallingblockentity = new FallingBlockEntity(p_225534_2_, (double)p_225534_3_.getX() + 0.5D, (double)p_225534_3_.getY(), (double)p_225534_3_.getZ() + 0.5D, p_225534_2_.getBlockState(p_225534_3_).setValue(WATERLOGGED,false));
+			FallingBlockEntity fallingblockentity = new FallingBlockEntity(p_225534_2_, (double)p_225534_3_.getX() + 0.5D, p_225534_3_.getY(), (double)p_225534_3_.getZ() + 0.5D, p_225534_2_.getBlockState(p_225534_3_).setValue(WATERLOGGED,false));
 			this.falling(fallingblockentity);
 			p_225534_2_.addFreshEntity(fallingblockentity);
 		}
@@ -79,6 +83,12 @@ public class BlockSandbags extends FallingBlock implements IBlockBase, IWaterLog
 	public BlockItem createBlockItem() {
 		 final Item.Properties properties = new Item.Properties().tab(getItemGroup());
 		 return new BlockItem(this, properties);
+	}
+
+	@Deprecated
+	@Override
+	public VoxelShape getBlockSupportShape(BlockState state, IBlockReader p_230335_2_, BlockPos p_230335_3_) {
+		return SUPPORT_SHAPE;
 	}
 
 }

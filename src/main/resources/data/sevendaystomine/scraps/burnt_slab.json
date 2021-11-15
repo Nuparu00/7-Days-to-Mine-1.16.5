@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:burnt_slab",
+  "material" : "carbon",
+  "weight" : 3,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

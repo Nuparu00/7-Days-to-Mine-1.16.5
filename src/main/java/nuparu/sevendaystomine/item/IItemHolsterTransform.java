@@ -8,17 +8,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public interface IItemHolsterTransform {
 
 	@OnlyIn(Dist.CLIENT)
-	public double getRotationX(ItemStack stack, PlayerEntity player);
+    double getRotationX(ItemStack stack, PlayerEntity player);
 	
 	@OnlyIn(Dist.CLIENT)
-	public double getRotationY(ItemStack stack, PlayerEntity player);
+    double getRotationY(ItemStack stack, PlayerEntity player);
 	
 	@OnlyIn(Dist.CLIENT)
-	public double getRotationZ(ItemStack stack, PlayerEntity player);
+    double getRotationZ(ItemStack stack, PlayerEntity player);
 	
-    public void setRotationX(double x);
+    void setRotationX(double x);
 	
-	public void setRotationY(double y);
+	void setRotationY(double y);
 	
-	public void setRotationZ(double z);
+	void setRotationZ(double z);
 }

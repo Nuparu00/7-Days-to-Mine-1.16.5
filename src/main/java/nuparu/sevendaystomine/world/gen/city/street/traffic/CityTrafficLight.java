@@ -11,7 +11,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.block.BlockHorizontalBase;
 import nuparu.sevendaystomine.block.BlockWallStreetSign;
 import nuparu.sevendaystomine.init.ModBlocks;
@@ -43,14 +42,14 @@ public class CityTrafficLight extends TrafficLight {
             BlockPos pos2 = pos.above(height).relative(direction.getClockWise(), i * dir);
             BlockState state = getRandomWall(street.city.rand);
             world.setBlock(pos2, state,0);
-            world.setBlock(pos2.relative(direction, 1 * dir),
+            world.setBlock(pos2.relative(direction, dir),
                     ModBlocks.TRAFFIC_LIGHT.get().defaultBlockState().setValue(BlockHorizontalBase.FACING, direction.getOpposite()),0);
         }
 
         world.setBlock(pos.above(height), Blocks.CHISELED_STONE_BRICKS.defaultBlockState(),0);
 
 
-        world.setBlock(pos.above(2).relative(direction.getClockWise(), 1 * dir), ModBlocks.TRAFFIC_LIGHT_PEDESTRIAN
+        world.setBlock(pos.above(2).relative(direction.getClockWise(), dir), ModBlocks.TRAFFIC_LIGHT_PEDESTRIAN
                 .get().defaultBlockState().setValue(BlockHorizontalBase.FACING, direction.getCounterClockWise()),0);
         world.setBlock(pos.above(2).relative(direction, -1 * dir), ModBlocks.TRAFFIC_LIGHT_PEDESTRIAN.get().defaultBlockState()
                 .setValue(BlockHorizontalBase.FACING, direction),0);

@@ -19,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.crafting.grill.GrillRecipeShapeless;
 import nuparu.sevendaystomine.crafting.pot.CookingPotRecipeShapeless;
 import nuparu.sevendaystomine.init.ModBlocks;
 

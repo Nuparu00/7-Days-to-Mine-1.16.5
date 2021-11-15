@@ -27,7 +27,7 @@ public class BlockCookware extends BlockPickable implements  IWaterLoggable {
 	public BlockCookware(AbstractBlock.Properties properties, VoxelShape shape) {
 		super(properties);
 		this.shape = shape;
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(CAMPFIRE, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE).setValue(CAMPFIRE, Boolean.FALSE));
 	}
 
 	public BlockState rotate(BlockState p_185499_1_, Rotation p_185499_2_) {
@@ -57,7 +57,7 @@ public class BlockCookware extends BlockPickable implements  IWaterLoggable {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER)).setValue(CAMPFIRE,context.getLevel().getBlockState(context.getClickedPos().below()).getBlock() instanceof  CampfireBlock);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER).setValue(CAMPFIRE,context.getLevel().getBlockState(context.getClickedPos().below()).getBlock() instanceof  CampfireBlock);
 	}
 
 	@Override

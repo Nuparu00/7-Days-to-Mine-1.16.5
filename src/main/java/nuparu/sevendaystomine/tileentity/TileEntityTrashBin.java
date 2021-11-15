@@ -37,9 +37,7 @@ public class TileEntityTrashBin extends TileEntityItemHandler<ItemHandlerNameabl
     }
 
     public static List<ItemEntity> getItemsAtAndAbove(IHopper p_200115_0_) {
-        return p_200115_0_.getSuckShape().toAabbs().stream().flatMap((p_200110_1_) -> {
-            return p_200115_0_.getLevel().getEntitiesOfClass(ItemEntity.class, p_200110_1_.move(p_200115_0_.getLevelX() - 0.5D, p_200115_0_.getLevelY() - 0.5D, p_200115_0_.getLevelZ() - 0.5D), EntityPredicates.ENTITY_STILL_ALIVE).stream();
-        }).collect(Collectors.toList());
+        return p_200115_0_.getSuckShape().toAabbs().stream().flatMap((p_200110_1_) -> p_200115_0_.getLevel().getEntitiesOfClass(ItemEntity.class, p_200110_1_.move(p_200115_0_.getLevelX() - 0.5D, p_200115_0_.getLevelY() - 0.5D, p_200115_0_.getLevelZ() - 0.5D), EntityPredicates.ENTITY_STILL_ALIVE).stream()).collect(Collectors.toList());
     }
 
     @Override
@@ -103,7 +101,7 @@ public class TileEntityTrashBin extends TileEntityItemHandler<ItemHandlerNameabl
 
     @Override
     public ITextComponent getDisplayName() {
-        return ((ItemHandlerNameable) this.getInventory()).getDisplayName();
+        return this.getInventory().getDisplayName();
     }
 
     public void setDisplayName(String displayName) {

@@ -1,14 +1,6 @@
 package nuparu.sevendaystomine.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import nuparu.sevendaystomine.capability.CapabilityHelper;
-import nuparu.sevendaystomine.capability.IExtendedPlayer;
-import nuparu.sevendaystomine.potions.Potions;
-import nuparu.sevendaystomine.util.PlayerUtils;
 
 @Deprecated
 public class ItemHoney extends ItemDrink {

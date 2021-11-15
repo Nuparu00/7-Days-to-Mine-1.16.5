@@ -67,7 +67,7 @@ public class ExtendedPlayer implements IExtendedPlayer {
 	}
 
 	public int getMaximumThirst() {
-		return this.MAX_THIRST;
+		return MAX_THIRST;
 	}
 
 	public void setStamina(int stamina) {
@@ -90,7 +90,7 @@ public class ExtendedPlayer implements IExtendedPlayer {
 	}
 
 	public int getMaximumStamina() {
-		return this.MAX_STAMINA;
+		return MAX_STAMINA;
 	}
 
 	public boolean getCrawling() {

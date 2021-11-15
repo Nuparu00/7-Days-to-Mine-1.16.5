@@ -1,25 +1,17 @@
 package nuparu.sevendaystomine.computer.process;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ICharacterConsumer;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -409,16 +401,13 @@ public class TransitProcess extends WindowedProcess {
             // tree.print("-", true);
             TransitProcess process = this;
             getOutput().clear();
-            this.computerTE.codeBus = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        CodeBlock block = Interpreter.read(tree, null, process);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            this.computerTE.codeBus = new Thread(() -> {
+                try {
+                    CodeBlock block = Interpreter.read(tree, null, process);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            };
+            });
 
             this.computerTE.codeBus.start();
 

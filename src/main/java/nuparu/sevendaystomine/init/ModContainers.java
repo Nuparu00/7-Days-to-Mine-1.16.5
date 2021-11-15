@@ -9,6 +9,7 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.block.*;
 import nuparu.sevendaystomine.inventory.entity.ContainerAirdrop;
 import nuparu.sevendaystomine.inventory.entity.ContainerLootableCorpse;
+import nuparu.sevendaystomine.inventory.entity.ContainerMinibike;
 import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
 import nuparu.sevendaystomine.inventory.item.ContainerCamera;
 
@@ -84,4 +85,10 @@ public class ModContainers {
 
 	public static final RegistryObject<ContainerType<ContainerBeaker>> BEAKER = CONTAINERS.register("beaker",
 			() -> IForgeContainerType.create(ContainerBeaker::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerCodeSafeLocked>> CODE_SAFE_LOCKED = CONTAINERS.register("code_safe_locked",
+			() -> IForgeContainerType.create(ContainerCodeSafeLocked::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerMinibike>> MINIBIKE = CONTAINERS.register("minibike",
+			() -> IForgeContainerType.create(ContainerMinibike::createContainerClientSide));
 }

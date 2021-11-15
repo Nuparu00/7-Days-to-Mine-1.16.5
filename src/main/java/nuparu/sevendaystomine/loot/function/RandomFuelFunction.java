@@ -8,8 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.ILootCondition;
 import nuparu.sevendaystomine.item.ItemFuelTool;
-import nuparu.sevendaystomine.item.ItemQuality;
-import nuparu.sevendaystomine.util.ItemUtils;
 
 public class RandomFuelFunction extends LootFunction {
 

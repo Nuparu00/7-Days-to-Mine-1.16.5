@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.enchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.item.ItemGun;
 

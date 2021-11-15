@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -40,9 +39,7 @@ public class LootableCorpseRenderer<T extends LootableCorpseEntity> extends Enti
 		Object obj = null;
 		try {
 			obj = f.get(null);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		if (obj == null)
@@ -52,7 +49,7 @@ public class LootableCorpseRenderer<T extends LootableCorpseEntity> extends Enti
 
 		Map<EntityType<? extends Entity>, IRenderFactory<? extends Entity>> entityRenderers = null;
 
-		entityRenderers = (Map<EntityType<? extends Entity>, IRenderFactory<? extends Entity>>) ObfuscationReflectionHelper
+		entityRenderers = ObfuscationReflectionHelper
 				.getPrivateValue(RenderingRegistry.class, registry, "entityRenderers");
 
 		EntityRenderer render = null;
@@ -82,7 +79,7 @@ public class LootableCorpseRenderer<T extends LootableCorpseEntity> extends Enti
 		}
 		
 		float new_x = (float) ((original.getBbHeight() / 2f) * Math.cos((entityYaw + 90) * Math.PI / 180));
-		float new_y = (float) ((original.getBbWidth() / 4f));
+		float new_y = (original.getBbWidth() / 4f);
 		float new_z = (float) ((original.getBbHeight() / 2f) * Math.sin((entityYaw + 90) * Math.PI / 180));
 
 		float rotX = -1;

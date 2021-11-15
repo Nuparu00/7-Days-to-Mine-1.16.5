@@ -33,7 +33,7 @@ public class CameraHelper {
 
 	public void saveScreenshot(int width, int height, Framebuffer buffer, PlayerEntity playerIn) {
 		if (CommonConfig.allowPhotos.get()) {
-			saveScreenshot((String) null, width, height, buffer);
+			saveScreenshot(null, width, height, buffer);
 		}
 	}
 

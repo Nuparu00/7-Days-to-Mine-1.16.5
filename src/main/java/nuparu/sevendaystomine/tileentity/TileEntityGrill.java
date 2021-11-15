@@ -3,7 +3,6 @@ package nuparu.sevendaystomine.tileentity;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.item.ExperienceOrbEntity;
@@ -13,11 +12,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.IIntArray;
@@ -28,15 +24,11 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
-import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.crafting.grill.IGrillRecipe;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.IContainerCallbacks;
-import nuparu.sevendaystomine.inventory.block.ContainerForge;
 import nuparu.sevendaystomine.inventory.block.ContainerGrill;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
@@ -206,7 +198,7 @@ public class TileEntityGrill extends TileEntityItemHandler<ItemHandlerNameable>
 		return this.getInventory().getStackInSlot(EnumSlots.OUTPUT_SLOT.ordinal());
 	}
 
-	public ItemStack getIntputSlot(int i) {
+	public ItemStack getInputSlot(int i) {
 		return this.getInventory().getStackInSlot(EnumSlots.INPUT_SLOT.ordinal()+i);
 	}
 
@@ -231,9 +223,7 @@ public class TileEntityGrill extends TileEntityItemHandler<ItemHandlerNameable>
 		compound.putInt("CookTimeTotal", (short) this.totalCookTime);
 
 		CompoundNBT compoundnbt = new CompoundNBT();
-		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> {
-			compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_);
-		});
+		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_));
 		compound.put("RecipesUsed", compoundnbt);
 
 		return compound;
@@ -366,7 +356,7 @@ public class TileEntityGrill extends TileEntityItemHandler<ItemHandlerNameable>
 
 	@Override
 	public ItemStack getItem(int i) {
-		return this.getIntputSlot(i);
+		return this.getInputSlot(i);
 	}
 
 	@Override

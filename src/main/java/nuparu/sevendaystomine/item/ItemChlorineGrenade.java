@@ -52,7 +52,7 @@ public class ItemChlorineGrenade extends Item {
 				stack.shrink(1);
 			}
 
-			worldIn.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(),
+			worldIn.playSound(null, player.getX(), player.getY(), player.getZ(),
 					SoundEvents.SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F,
 					0.4F / (random.nextFloat() * 0.4F + 0.8F));
 

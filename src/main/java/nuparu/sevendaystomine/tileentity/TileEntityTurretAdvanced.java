@@ -8,16 +8,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 import nuparu.sevendaystomine.init.ModTileEntities;
-import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.block.ContainerTurretAdvanced;
-import nuparu.sevendaystomine.inventory.itemhandler.IItemHandlerNameable;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
-import nuparu.sevendaystomine.inventory.itemhandler.wraper.NameableCombinedInvWrapper;
 import nuparu.sevendaystomine.item.ItemCircuit;
 
 public class TileEntityTurretAdvanced extends TileEntityTurret {
@@ -55,7 +49,7 @@ public class TileEntityTurretAdvanced extends TileEntityTurret {
 
 		String[] names = whitelist.split(" ");
 
-		return Arrays.stream(names).anyMatch(name::equals);
+		return Arrays.asList(names).contains(name);
 	}
 
 	public class AITurretTargetAdvanced extends AITurretTarget {
@@ -69,7 +63,7 @@ public class TileEntityTurretAdvanced extends TileEntityTurret {
 				return;
 			}
 			if (seenEntity instanceof PlayerEntity
-					&& (((PlayerEntity) seenEntity).isCreative() || ((PlayerEntity) seenEntity).isSpectator())) {
+					&& (((PlayerEntity) seenEntity).isCreative() || seenEntity.isSpectator())) {
 				return;
 			}
 

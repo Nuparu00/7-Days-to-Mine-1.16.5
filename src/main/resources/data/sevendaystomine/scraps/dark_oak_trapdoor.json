@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:dark_oak_trapdoor",
+  "material" : "wood",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

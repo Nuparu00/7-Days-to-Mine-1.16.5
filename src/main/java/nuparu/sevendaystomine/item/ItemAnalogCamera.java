@@ -22,7 +22,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,7 +31,6 @@ import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModItemGroups;
-import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
 import nuparu.sevendaystomine.inventory.item.ContainerCamera;
 import nuparu.sevendaystomine.inventory.item.ItemNamedContainerProvider;
 import nuparu.sevendaystomine.network.PacketManager;
@@ -90,9 +88,7 @@ public class ItemAnalogCamera extends Item {
 				};
 				if (namedContainerProvider != null) {
 					ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-						packetBuffer.writeItem(stack);
-					});
+					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeItem(stack));
 				}
 
 			}

@@ -1,7 +1,6 @@
 package nuparu.sevendaystomine.entity;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EntityType.IFactory;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -13,12 +12,19 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.entity.ai.GoalBreakBlocks;
-import nuparu.sevendaystomine.init.ModEntities;
+import nuparu.sevendaystomine.init.ModLootTables;
+import nuparu.sevendaystomine.util.ItemUtils;
 
-public abstract class ZombieBipedEntity<T extends ZombieBipedEntity> extends ZombieQuadrapedEntity {
+public abstract class ZombieBipedEntity<T extends ZombieBipedEntity> extends ZombieBaseEntity {
 
 	public ZombieBipedEntity(EntityType<T> type, World world) {
 		super(type, world);
@@ -62,7 +68,12 @@ public abstract class ZombieBipedEntity<T extends ZombieBipedEntity> extends Zom
 			lootable.setPos(getX(), getY(), getZ());
 			dead = true;
 			if (!this.level.isClientSide()) {
-				// ItemUtils.fillWithLoot(lootable.getInventory(), lootTable, world, rand);
+				LootTable loottable = this.level.getServer().getLootTables().get(ModLootTables.ZOMBIE_GENERIC);
+				LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.level)).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(this.blockPosition()));
+				if (this.lastHurtByPlayer != null) {
+					lootcontext$builder.withLuck(lastHurtByPlayer.getLuck()).withParameter(LootParameters.THIS_ENTITY, lastHurtByPlayer);
+				}
+				ItemUtils.fill(loottable,lootable.getInventory(), lootcontext$builder.create(LootParameterSets.CHEST));
 				level.addFreshEntity(lootable);
 			}
 

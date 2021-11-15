@@ -8,7 +8,6 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -19,7 +18,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.tileentity.TileEntityBackpack;
 import nuparu.sevendaystomine.tileentity.TileEntityGrill;
 import nuparu.sevendaystomine.util.MathUtils;
 
@@ -40,7 +38,7 @@ public class BlockCookingGrill extends BlockCookware {
             if (stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() == ModBlocks.BEAKER.get()) {
                 if (!worldIn.isClientSide()) {
                     worldIn.setBlockAndUpdate(pos, ModBlocks.COOKING_GRILL_BEAKER.get().defaultBlockState().setValue(FACING, state.getValue(FACING)).setValue(WATERLOGGED, state.getValue(WATERLOGGED)).setValue(CAMPFIRE, state.getValue(CAMPFIRE)));
-                    worldIn.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                    worldIn.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                             SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS,
                             MathUtils.getFloatInRange(0.9f, 1.1f), MathUtils.getFloatInRange(0.9f, 1.1f));
                 }
@@ -59,7 +57,7 @@ public class BlockCookingGrill extends BlockCookware {
             }
         }*/
 
-        if(worldIn.isClientSide()) return ActionResultType.SUCCESS;;
+        if(worldIn.isClientSide()) return ActionResultType.SUCCESS;
 
         INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
         if (namedContainerProvider != null) {
@@ -68,9 +66,7 @@ public class BlockCookingGrill extends BlockCookware {
             if (!(player instanceof ServerPlayerEntity))
                 return ActionResultType.FAIL;
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-            NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-                packetBuffer.writeBlockPos(pos);
-            });
+            NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
         }
         return ActionResultType.SUCCESS;
     }

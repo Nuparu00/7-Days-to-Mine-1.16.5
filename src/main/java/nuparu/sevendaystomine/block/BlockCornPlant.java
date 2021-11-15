@@ -18,14 +18,10 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -70,7 +66,7 @@ public class BlockCornPlant extends BushBlock implements IGrowable,IBlockBase {
 	}
 
 	public BlockState getStateForAge(int p_185528_1_) {
-		return this.defaultBlockState().setValue(this.getAgeProperty(), Integer.valueOf(p_185528_1_));
+		return this.defaultBlockState().setValue(this.getAgeProperty(), p_185528_1_);
 	}
 
 	public boolean isMaxAge(BlockState p_185525_1_) {
@@ -127,7 +123,7 @@ public class BlockCornPlant extends BushBlock implements IGrowable,IBlockBase {
 	}
 
 	public void growCrops(World world, BlockPos pos, BlockState state) {
-		int increase = this.getBonemealAgeIncrease(world);;
+		int increase = this.getBonemealAgeIncrease(world);
 		int i = this.getAge(state) + increase;
 		int j = this.getMaxAge();
 

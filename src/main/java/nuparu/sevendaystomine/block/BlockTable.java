@@ -12,6 +12,8 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -19,7 +21,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class BlockTable extends BlockBase implements IWaterLoggable {
 
@@ -37,10 +38,10 @@ public class BlockTable extends BlockBase implements IWaterLoggable {
 	CD
 	 */
 
-	public VoxelShape LEG_A = Block.box(2,0,12,4,14,14);
-	public VoxelShape LEG_B = Block.box(12,0,12,14,14,14);
-	public VoxelShape LEG_C = Block.box(2,0,2,4,14,4);
-	public VoxelShape LEG_D = Block.box(12,0,2,14,14,4);
+	public static final VoxelShape LEG_A = Block.box(2,0,12,4,14,14);
+	public static final  VoxelShape LEG_B = Block.box(12,0,12,14,14,14);
+	public static final  VoxelShape LEG_C = Block.box(2,0,2,4,14,4);
+	public static final  VoxelShape LEG_D = Block.box(12,0,2,14,14,4);
 
 
 	public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = Util
@@ -53,9 +54,9 @@ public class BlockTable extends BlockBase implements IWaterLoggable {
 
 	public BlockTable(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion());
-		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false))
-				.setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false))
-				.setValue(WEST, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.FALSE)
+				.setValue(EAST, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE)
+				.setValue(WEST, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
@@ -108,16 +109,16 @@ public class BlockTable extends BlockBase implements IWaterLoggable {
 		return super.getStateForPlacement(context)
 				.setValue(
 						NORTH,
-						Boolean.valueOf(this.connectsTo(blockstate,
-								blockstate.isFaceSturdy(iblockreader, blockpos1, Direction.SOUTH), Direction.SOUTH)))
+						this.connectsTo(blockstate,
+								blockstate.isFaceSturdy(iblockreader, blockpos1, Direction.SOUTH), Direction.SOUTH))
 				.setValue(EAST,
-						Boolean.valueOf(this.connectsTo(blockstate1,
-								blockstate1.isFaceSturdy(iblockreader, blockpos2, Direction.WEST), Direction.WEST)))
+						this.connectsTo(blockstate1,
+								blockstate1.isFaceSturdy(iblockreader, blockpos2, Direction.WEST), Direction.WEST))
 				.setValue(SOUTH,
-						Boolean.valueOf(this.connectsTo(blockstate2,
-								blockstate2.isFaceSturdy(iblockreader, blockpos3, Direction.NORTH), Direction.NORTH)))
-				.setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate3,
-						blockstate3.isFaceSturdy(iblockreader, blockpos4, Direction.EAST), Direction.EAST))).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+						this.connectsTo(blockstate2,
+								blockstate2.isFaceSturdy(iblockreader, blockpos3, Direction.NORTH), Direction.NORTH))
+				.setValue(WEST, this.connectsTo(blockstate3,
+						blockstate3.isFaceSturdy(iblockreader, blockpos4, Direction.EAST), Direction.EAST)).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_,
@@ -128,10 +129,34 @@ public class BlockTable extends BlockBase implements IWaterLoggable {
 
 		return p_196271_2_.getAxis().getPlane() == Direction.Plane.HORIZONTAL
 				? p_196271_1_.setValue(PROPERTY_BY_DIRECTION.get(p_196271_2_),
-						Boolean.valueOf(this.connectsTo(p_196271_3_,
-								p_196271_3_.isFaceSturdy(p_196271_4_, p_196271_6_, p_196271_2_.getOpposite()),
-								p_196271_2_.getOpposite())))
+				this.connectsTo(p_196271_3_,
+						p_196271_3_.isFaceSturdy(p_196271_4_, p_196271_6_, p_196271_2_.getOpposite()),
+						p_196271_2_.getOpposite()))
 				: super.updateShape(p_196271_1_, p_196271_2_, p_196271_3_, p_196271_4_, p_196271_5_, p_196271_6_);
+	}
+
+	public BlockState rotate(BlockState p_185499_1_, Rotation p_185499_2_) {
+		switch(p_185499_2_) {
+			case CLOCKWISE_180:
+				return p_185499_1_.setValue(NORTH, p_185499_1_.getValue(SOUTH)).setValue(EAST, p_185499_1_.getValue(WEST)).setValue(SOUTH, p_185499_1_.getValue(NORTH)).setValue(WEST, p_185499_1_.getValue(EAST));
+			case COUNTERCLOCKWISE_90:
+				return p_185499_1_.setValue(NORTH, p_185499_1_.getValue(EAST)).setValue(EAST, p_185499_1_.getValue(SOUTH)).setValue(SOUTH, p_185499_1_.getValue(WEST)).setValue(WEST, p_185499_1_.getValue(NORTH));
+			case CLOCKWISE_90:
+				return p_185499_1_.setValue(NORTH, p_185499_1_.getValue(WEST)).setValue(EAST, p_185499_1_.getValue(NORTH)).setValue(SOUTH, p_185499_1_.getValue(EAST)).setValue(WEST, p_185499_1_.getValue(SOUTH));
+			default:
+				return p_185499_1_;
+		}
+	}
+
+	public BlockState mirror(BlockState p_185471_1_, Mirror p_185471_2_) {
+		switch(p_185471_2_) {
+			case LEFT_RIGHT:
+				return p_185471_1_.setValue(NORTH, p_185471_1_.getValue(SOUTH)).setValue(SOUTH, p_185471_1_.getValue(NORTH));
+			case FRONT_BACK:
+				return p_185471_1_.setValue(EAST, p_185471_1_.getValue(WEST)).setValue(WEST, p_185471_1_.getValue(EAST));
+			default:
+				return super.mirror(p_185471_1_, p_185471_2_);
+		}
 	}
 
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> p_206840_1_) {

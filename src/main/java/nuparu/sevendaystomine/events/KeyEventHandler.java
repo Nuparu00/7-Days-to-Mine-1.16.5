@@ -15,7 +15,6 @@ import nuparu.sevendaystomine.client.gui.GuiAnimationDebug;
 import nuparu.sevendaystomine.item.ItemAnalogCamera;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.CameraDimensionsMessage;
-import nuparu.sevendaystomine.network.packets.HonkMessage;
 import nuparu.sevendaystomine.proxy.ClientProxy;
 import nuparu.sevendaystomine.util.ReloadHelper;
 

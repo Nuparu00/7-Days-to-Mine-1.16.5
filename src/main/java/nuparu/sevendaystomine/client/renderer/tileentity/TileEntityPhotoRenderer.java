@@ -4,24 +4,19 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
-import nuparu.sevendaystomine.block.BlockCalendar;
 import nuparu.sevendaystomine.block.BlockPhoto;
 import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.client.util.ResourcesHelper;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.PhotoRequestMessage;
-import nuparu.sevendaystomine.tileentity.TileEntityCalendar;
 import nuparu.sevendaystomine.tileentity.TileEntityPhoto;
-import nuparu.sevendaystomine.util.Utils;
 
 public class TileEntityPhotoRenderer extends TileEntityRenderer<TileEntityPhoto> {
 
@@ -58,7 +53,7 @@ public class TileEntityPhotoRenderer extends TileEntityRenderer<TileEntityPhoto>
             }
 
             if (te.image != null && te.image.res != null) {
-                int shape = te.image.width > te.image.height ? -1 : (te.image.width == te.image.height ? 0 : 1);
+                int shape = Integer.compare(te.image.height, te.image.width);
 
                 double w = 16;
                 double h = 16;

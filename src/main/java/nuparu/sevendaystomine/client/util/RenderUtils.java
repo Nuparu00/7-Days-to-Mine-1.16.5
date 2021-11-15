@@ -53,18 +53,18 @@ public class RenderUtils {
         Minecraft.getInstance().getTextureManager().bind(texture);
 
         RenderSystem.color4f(1, 1, 1, 1);
-        float minU = (float) u / (float) imageWidth;
-        float maxU = (float) (u + width) / (float) imageWidth;
-        float minV = (float) v / (float) imageHeight;
-        float maxV = (float) (v + height) / (float) imageHeight;
+        float minU = (float) u / imageWidth;
+        float maxU = (u + width) / imageWidth;
+        float minV = (float) v / imageHeight;
+        float maxV = (v + height) / imageHeight;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldrenderer = tessellator.getBuilder();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
         Matrix4f pose = matrix.last().pose();
-        worldrenderer.vertex(pose, x + scale * (float) width, y + scale * (float) height, zLevel).uv(maxU, maxV).endVertex();
-        worldrenderer.vertex(pose, x + scale * (float) width, y, zLevel).uv(maxU, minV).endVertex();
+        worldrenderer.vertex(pose, x + scale * width, y + scale * height, zLevel).uv(maxU, maxV).endVertex();
+        worldrenderer.vertex(pose, x + scale * width, y, zLevel).uv(maxU, minV).endVertex();
         worldrenderer.vertex(pose, x, y, zLevel).uv(minU, minV).endVertex();
-        worldrenderer.vertex(pose, x, y + scale * (float) height, zLevel).uv(minU, maxV).endVertex();
+        worldrenderer.vertex(pose, x, y + scale * height, zLevel).uv(minU, maxV).endVertex();
         worldrenderer.end();
         WorldVertexBufferUploader.end(worldrenderer);
     }
@@ -76,26 +76,24 @@ public class RenderUtils {
 
     public static void drawTexturedRect(MatrixStack matrix, ResourceLocation texture, ColorRGBA color, float x, float y, int u, int v,
                                         double width, float height, float imageWidth, float imageHeight, float scale, float zLevel) {
-        ;
         Minecraft.getInstance().getTextureManager().bind(texture);
         RenderSystem.enableAlphaTest();
         RenderSystem.color4f(1, 1, 1, 1);
-        float minU = (float) u / (float) imageWidth;
-        float maxU = (float) (u + width) / (float) imageWidth;
-        float minV = (float) v / (float) imageHeight;
-        float maxV = (float) (v + height) / (float) imageHeight;
+        float minU = (float) u / imageWidth;
+        float maxU = (float) (u + width) / imageWidth;
+        float minV = (float) v / imageHeight;
+        float maxV = (v + height) / imageHeight;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldrenderer = tessellator.getBuilder();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
         Matrix4f pose = matrix.last().pose();
-        ;
-        worldrenderer.vertex(pose, x + scale * (float) width, y + scale * (float) height, zLevel).uv(maxU, maxV)
+        worldrenderer.vertex(pose, x + scale * (float) width, y + scale * height, zLevel).uv(maxU, maxV)
                 .color((float) color.R, (float) color.G, (float) color.B, (float) color.A).endVertex();
         worldrenderer.vertex(pose, x + scale * (float) width, y, zLevel).uv(maxU, minV)
                 .color((float) color.R, (float) color.G, (float) color.B, (float) color.A).endVertex();
         worldrenderer.vertex(pose, x, y, zLevel).uv(minU, minV)
                 .color((float) color.R, (float) color.G, (float) color.B, (float) color.A).endVertex();
-        worldrenderer.vertex(pose, x, y + scale * (float) height, zLevel).uv(minU, maxV)
+        worldrenderer.vertex(pose, x, y + scale * height, zLevel).uv(minU, maxV)
                 .color((float) color.R, (float) color.G, (float) color.B, (float) color.A).endVertex();
         worldrenderer.end();
         WorldVertexBufferUploader.end(worldrenderer);
@@ -114,7 +112,6 @@ public class RenderUtils {
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         Matrix4f pose = matrix.last().pose();
-        ;
         bufferbuilder.vertex(pose, (float) (x + 0), (float) (y + height), (float) zLevel).color(r, g, b, 1)
                 .endVertex();
         bufferbuilder.vertex(pose, (float) (x + width), (float) (y + height), (float) zLevel).color(r, g, b, 1)
@@ -139,10 +136,10 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldrenderer = tessellator.getBuilder();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
-        worldrenderer.vertex(x + scale * (double) width, y + scale * (double) height, zLevel).uv(maxU, maxV).endVertex();
-        worldrenderer.vertex(x + scale * (double) width, y, zLevel).uv(maxU, minV).endVertex();
+        worldrenderer.vertex(x + scale * width, y + scale * height, zLevel).uv(maxU, maxV).endVertex();
+        worldrenderer.vertex(x + scale * width, y, zLevel).uv(maxU, minV).endVertex();
         worldrenderer.vertex(x, y, zLevel).uv(minU, minV).endVertex();
-        worldrenderer.vertex(x, y + scale * (double) height, zLevel).uv(minU, maxV).endVertex();
+        worldrenderer.vertex(x, y + scale * height, zLevel).uv(minU, maxV).endVertex();
         worldrenderer.end();
         GL11.glPopMatrix();
     }
@@ -157,7 +154,7 @@ public class RenderUtils {
     public static void drawCenteredString(MatrixStack matrix, String s, float x, float y, int color) {
         FontRenderer font = Minecraft.getInstance().font;
         matrix.pushPose();
-        font.draw(matrix, s, (float) (x - font.width(s) / 2), (float) y, color);
+        font.draw(matrix, s, x - font.width(s) / 2, y, color);
         matrix.popPose();
     }
 
@@ -442,7 +439,7 @@ public class RenderUtils {
         if (d0 <= maxDst) {
             float f = 1 + 0.5F;
             p_225629_3_.pushPose();
-            p_225629_3_.translate(0.5D, (double) f, 0.5D);
+            p_225629_3_.translate(0.5D, f, 0.5D);
             p_225629_3_.mulPose(minecraft.getEntityRenderDispatcher().cameraOrientation());
             p_225629_3_.scale(-0.025F, -0.025F, 0.025F);
             Matrix4f matrix4f = p_225629_3_.last().pose();

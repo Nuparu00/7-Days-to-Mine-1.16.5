@@ -8,12 +8,12 @@ import net.minecraft.util.math.BlockPos;
 public interface INetwork {
 	
 	
-	public List<BlockPos> getConnections();
-	public void connectTo(INetwork toConnect);
-	public void disconnect(INetwork toDisconnect);
-	public boolean isConnectedTo(INetwork net);
-	public void disconnectAll();
-	public BlockPos getPosition();
-	public void sendPacket(String packet, INetwork from, PlayerEntity playerFrom);
+	List<BlockPos> getConnections();
+	void connectTo(INetwork toConnect);
+	void disconnect(INetwork toDisconnect);
+	boolean isConnectedTo(INetwork net);
+	void disconnectAll();
+	BlockPos getPosition();
+	void sendPacket(String packet, INetwork from, PlayerEntity playerFrom);
 	
 }

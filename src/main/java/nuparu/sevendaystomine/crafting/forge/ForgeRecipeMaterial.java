@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.network.PacketBuffer;
@@ -14,10 +12,8 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
-import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityForge;
@@ -200,8 +196,7 @@ public class ForgeRecipeMaterial implements IForgeRecipe<TileEntityForge> {
         //Gets leftover stack
         if(weightToConsume < 0){
             ScrapDataManager.ScrapEntry entry = ScrapDataManager.instance.getSmallestItem(material);
-            ItemStack rest = new ItemStack(entry.item, (int) Math.ceil(-(double)weightToConsume/entry.weight));
-            return rest;
+            return new ItemStack(entry.item, (int) Math.ceil(-(double)weightToConsume/entry.weight));
         }
 
         return ItemStack.EMPTY;

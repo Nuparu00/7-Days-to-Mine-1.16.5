@@ -17,7 +17,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import nuparu.sevendaystomine.item.EnumMaterial;
 
 public class BlockLandmine extends BlockBase {
 
@@ -34,7 +33,7 @@ public class BlockLandmine extends BlockBase {
 			return;
 		}
 		if (entityIn instanceof PlayerEntity) {
-			if (((PlayerEntity) entityIn).isCreative() || ((PlayerEntity) entityIn).isSpectator()) {
+			if (((PlayerEntity) entityIn).isCreative() || entityIn.isSpectator()) {
 				return;
 			}
 		}

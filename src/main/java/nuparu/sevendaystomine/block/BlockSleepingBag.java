@@ -36,11 +36,9 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.ExplosionContext;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.ICollisionReader;
 import net.minecraft.world.IWorld;
@@ -63,7 +61,7 @@ public class BlockSleepingBag extends HorizontalBlock implements ITileEntityProv
 		super(p_i48442_2_);
 		this.color = p_i48442_1_;
 		this.registerDefaultState(
-				this.stateDefinition.any().setValue(PART, BedPart.FOOT).setValue(OCCUPIED, Boolean.valueOf(false)));
+				this.stateDefinition.any().setValue(PART, BedPart.FOOT).setValue(OCCUPIED, Boolean.FALSE));
 	}
 
 	@Nullable
@@ -93,7 +91,7 @@ public class BlockSleepingBag extends HorizontalBlock implements ITileEntityProv
 					p_225533_2_.removeBlock(blockpos, false);
 				}
 
-				p_225533_2_.explode((Entity) null, DamageSource.badRespawnPointExplosion(), (ExplosionContext) null,
+				p_225533_2_.explode(null, DamageSource.badRespawnPointExplosion(), null,
 						(double) p_225533_3_.getX() + 0.5D, (double) p_225533_3_.getY() + 0.5D,
 						(double) p_225533_3_.getZ() + 0.5D, 5.0F, true, Explosion.Mode.DESTROY);
 				return ActionResultType.SUCCESS;
@@ -336,8 +334,8 @@ public class BlockSleepingBag extends HorizontalBlock implements ITileEntityProv
 	}
 
 	private static int[][] bedStandUpOffsets(Direction p_242656_0_, Direction p_242656_1_) {
-		return ArrayUtils.addAll((int[][]) bedSurroundStandUpOffsets(p_242656_0_, p_242656_1_),
-				(int[][]) bedAboveStandUpOffsets(p_242656_0_));
+		return ArrayUtils.addAll(bedSurroundStandUpOffsets(p_242656_0_, p_242656_1_),
+				bedAboveStandUpOffsets(p_242656_0_));
 	}
 
 	private static int[][] bedSurroundStandUpOffsets(Direction p_242658_0_, Direction p_242658_1_) {

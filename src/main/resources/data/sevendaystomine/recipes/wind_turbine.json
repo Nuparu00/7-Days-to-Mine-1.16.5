@@ -1,11 +1,11 @@
 {
   "type": "sevendaystomine:workbench_shaped",
   "pattern": [
-    "  P  ",
-    " WIW ",
-    "PMMMP",
-    " WIW ",
-    "P P P"
+    "P   P",
+    " P P ",
+    " WGW ",
+    " PMP ",
+    "PS SP"
   ],
   "key": {
     "P": {
@@ -14,11 +14,14 @@
     "W": {
       "item": "sevendaystomine:wire"
     },
-    "I": {
-      "item": "sevendaystomine:iron_pipe"
+    "G": {
+      "item": "sevendaystomine:gear"
     },
     "M": {
       "item": "sevendaystomine:magnet"
+    },
+    "S": {
+      "item": "minecraft:stick"
     }
   },
   "result": {

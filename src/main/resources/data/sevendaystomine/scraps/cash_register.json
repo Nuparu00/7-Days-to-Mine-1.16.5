@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:cash_register",
+  "material" : "iron",
+  "weight" : 16,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

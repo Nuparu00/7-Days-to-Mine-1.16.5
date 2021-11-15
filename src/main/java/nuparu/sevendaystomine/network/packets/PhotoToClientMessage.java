@@ -3,22 +3,12 @@ package nuparu.sevendaystomine.network.packets;
 import java.io.File;
 import java.util.function.Supplier;
 
-import org.apache.commons.io.FilenameUtils;
-
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.SoundCategory;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.network.NetworkEvent;
-import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.client.util.ResourcesHelper;
 import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.util.photo.PhotoCatcherClient;
-import nuparu.sevendaystomine.util.photo.PhotoCatcherServer;
 
 public class PhotoToClientMessage{
 

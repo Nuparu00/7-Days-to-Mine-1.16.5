@@ -1,0 +1,19 @@
+{
+   "type":"minecraft:crafting_shaped",
+   "pattern":[
+      "P ",
+      "LP"
+   ],
+   "key":{
+      "L":{
+         "item":"minecraft:spruce_log"
+      },
+      "P":{
+         "item":"sevendaystomine:plank_wood"
+      }
+   },
+   "result":{
+      "item":"minecraft:spruce_stairs",
+      "count":4
+   }
+}

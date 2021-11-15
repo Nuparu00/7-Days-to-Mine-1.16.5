@@ -1,7 +1,5 @@
 package nuparu.sevendaystomine.util;
 
-import java.awt.*;
-
 public class ColorRGBA {
 
 	public double R;

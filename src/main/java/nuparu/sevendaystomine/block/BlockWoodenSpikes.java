@@ -21,7 +21,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.tileentity.TileEntityWoodenSpikes;
 
 public class BlockWoodenSpikes extends BlockBase implements IWaterLoggable {
@@ -29,7 +28,7 @@ public class BlockWoodenSpikes extends BlockBase implements IWaterLoggable {
 
 	public BlockWoodenSpikes(AbstractBlock.Properties properties) {
 		super(properties.noOcclusion().noCollission());
-		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
@@ -37,9 +36,9 @@ public class BlockWoodenSpikes extends BlockBase implements IWaterLoggable {
 		if (!(entityIn instanceof LivingEntity)) {
 			return;
 		}
-		entityIn.makeStuckInBlock(state, new Vector3d(0.25D, (double) 0.05F, 0.25D));
+		entityIn.makeStuckInBlock(state, new Vector3d(0.25D, 0.05F, 0.25D));
 		if (entityIn instanceof PlayerEntity) {
-			if (((PlayerEntity) entityIn).isCreative() || ((PlayerEntity) entityIn).isSpectator()) {
+			if (((PlayerEntity) entityIn).isCreative() || entityIn.isSpectator()) {
 				return;
 			}
 		}

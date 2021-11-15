@@ -1,23 +1,11 @@
 package nuparu.sevendaystomine.init;
 
-import java.util.function.Supplier;
-
-import net.minecraft.block.Block;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.inventory.block.ContainerForge;
 import nuparu.sevendaystomine.tileentity.*;
 
 @Mod.EventBusSubscriber
@@ -205,4 +193,7 @@ public class ModTileEntities {
 
 	public static final RegistryObject<TileEntityType<TileEntityBeaker>> BEAKER = TILE_ENTITIES.register("beaker",
 			() -> TileEntityType.Builder.of(TileEntityBeaker::new, ModBlocks.COOKING_GRILL_BEAKER.get()).build(null));
+
+	public static final RegistryObject<TileEntityType<TileEntityCarPlacer>> CAR_PLACER = TILE_ENTITIES.register("car_placer",
+			() -> TileEntityType.Builder.of(TileEntityCarPlacer::new, ModBlocks.CAR_PLACER.get()).build(null));
 }

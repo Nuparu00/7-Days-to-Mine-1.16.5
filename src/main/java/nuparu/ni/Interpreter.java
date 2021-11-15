@@ -204,7 +204,7 @@ public class Interpreter {
 					codeBlock.printError("Expected an indentifier, but did not find any");
 					return codeBlock;
 				}
-				String identifier = (String) name.getData().value;
+				String identifier = name.getData().value;
 
 				codeBlock.addVariable(identifier, value);
 
@@ -352,7 +352,7 @@ public class Interpreter {
 						return codeBlock;
 					}
 					try {
-						codeBlock.setVariableValue(value, (Integer) original.add(new Value(1)).getRealValue());
+						codeBlock.setVariableValue(value, original.add(new Value(1)).getRealValue());
 					} catch (VariableNotFoundException | TypeMismatchException e) {
 						e.printStackTrace();
 					}
@@ -365,7 +365,7 @@ public class Interpreter {
 						return codeBlock;
 					}
 					try {
-						codeBlock.setVariableValue(value, (Integer) original.substract(new Value(1)).getRealValue());
+						codeBlock.setVariableValue(value, original.substract(new Value(1)).getRealValue());
 					} catch (VariableNotFoundException | TypeMismatchException e) {
 						e.printStackTrace();
 					}
@@ -468,7 +468,7 @@ public class Interpreter {
 
 							condition = readCondition(bracket.getChildren().get(0), codeBlock);
 							result = condition.evaluate();
-							if ((Boolean) result.getRealValue() == false) {
+							if (!((Boolean) result.getRealValue())) {
 								break;
 							}
 							CodeBlock codeBlock2 = read(start, codeBlock, process);
@@ -523,7 +523,7 @@ public class Interpreter {
 			default:
 				break;
 			case IDENTIFIER: {
-				statement.addValue(codeBlock.getVariable((String) tree.getData().value));
+				statement.addValue(codeBlock.getVariable(tree.getData().value));
 				break;
 			}
 			case VALUE: {
@@ -566,7 +566,7 @@ public class Interpreter {
 			}
 
 			case OPERATOR: {
-				statement.addOperator(new Operator(tree.getData().type, (String) tree.getData().value));
+				statement.addOperator(new Operator(tree.getData().type, tree.getData().value));
 				break;
 			}
 

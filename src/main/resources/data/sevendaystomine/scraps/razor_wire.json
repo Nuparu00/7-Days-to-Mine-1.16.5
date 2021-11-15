@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:razor_wire",
+  "material" : "iron",
+  "weight" : 5,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

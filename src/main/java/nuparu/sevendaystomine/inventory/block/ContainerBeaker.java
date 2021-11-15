@@ -123,7 +123,7 @@ public class ContainerBeaker extends Container {
     }
 
     // SlotOutput is a slot that will not accept any item
-    public class SlotOutput extends SlotItemHandler {
+    public static class SlotOutput extends SlotItemHandler {
         private final PlayerEntity player;
         private final TileEntityBeaker grill;
         private int removeCount;

@@ -9,10 +9,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
 import net.minecraftforge.items.SlotItemHandler;
 import nuparu.sevendaystomine.init.ModContainers;
-import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.tileentity.TileEntityFlamethrower;
-import nuparu.sevendaystomine.tileentity.TileEntityGasGenerator;
-import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
 public class ContainerFlamethrower extends Container {
 

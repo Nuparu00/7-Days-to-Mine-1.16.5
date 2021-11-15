@@ -1,9 +1,6 @@
 package nuparu.sevendaystomine.client.gui.monitor.elements;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,7 +22,7 @@ public class TexturedButton extends Button {
 
 	@Override
 	public void render(MatrixStack matrix,float partialTicks) {
-		if (isDisabled() == false && isVisible()) {
+		if (!isDisabled() && isVisible()) {
 			ColorRGBA color = isHovered(tickingProcess.getScreen().mouseX,tickingProcess.getScreen().mouseY) ? hovered : normal;
 			matrix.pushPose();
 			RenderUtils.drawTexturedRect(matrix,res, color, x, y, 0, 0, width, height, width,height, 1, zLevel + 1);

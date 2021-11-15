@@ -34,7 +34,7 @@ public class JsonKeyPoint {
         jsonKeyPoint.position = object.has("position") ? readVector(object.get("position").getAsJsonObject()) : Vector3d.ZERO;
         jsonKeyPoint.rotation = object.has("rotation") ? readVector(object.get("rotation").getAsJsonObject()) : Vector3d.ZERO;
         jsonKeyPoint.scale = object.has("scale") ? readVector(object.get("scale").getAsJsonObject()) : Vector3d.ZERO;
-        jsonKeyPoint.visible = object.has("visible") ? object.get("visible").getAsBoolean() : true;
+        jsonKeyPoint.visible = !object.has("visible") || object.get("visible").getAsBoolean();
         jsonKeyPoint.time = object.has("time") ? object.get("time").getAsInt() : 0;
         return jsonKeyPoint;
     }

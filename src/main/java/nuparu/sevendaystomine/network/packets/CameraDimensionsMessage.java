@@ -2,13 +2,11 @@ package nuparu.sevendaystomine.network.packets;
 
 import java.util.function.Supplier;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.network.NetworkEvent;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.item.ItemAnalogCamera;
 import nuparu.sevendaystomine.util.MathUtils;
 

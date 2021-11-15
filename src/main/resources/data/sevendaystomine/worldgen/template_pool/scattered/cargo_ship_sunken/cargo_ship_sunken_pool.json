@@ -1,0 +1,15 @@
+{
+	"name": "sevendaystomine:scattered/cargo_ship_sunken/cargo_ship_sunken_pool",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "sevendaystomine:scattered/cargo_ship_sunken/cargo_ship_sunken_back",
+				"processors": "sevendaystomine:default",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		}
+	]
+}

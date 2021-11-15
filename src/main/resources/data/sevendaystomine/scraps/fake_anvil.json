@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:fake_anvil",
+  "material" : "iron",
+  "weight" : 24,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

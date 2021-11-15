@@ -7,7 +7,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.world.MiscSavedData;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -62,7 +61,7 @@ public class HordeSavedData extends WorldSavedData {
     @Override
     public CompoundNBT save(CompoundNBT compound) {
         if(hordes == null) {
-            hordes = new CopyOnWriteArrayList<Horde>();;
+            hordes = new CopyOnWriteArrayList<Horde>();
         }
         ListNBT list = new ListNBT();
         for (Horde horde : hordes) {
@@ -74,7 +73,7 @@ public class HordeSavedData extends WorldSavedData {
 
     public void addHorde(Horde horde) {
         if(hordes == null) {
-            hordes = new CopyOnWriteArrayList<Horde>();;
+            hordes = new CopyOnWriteArrayList<Horde>();
         }
         if (!hordes.contains(horde)) {
             horde.data = this;
@@ -85,7 +84,7 @@ public class HordeSavedData extends WorldSavedData {
 
     public Horde getHordeByUUID(UUID uuid) {
         if(hordes == null) {
-            hordes = new CopyOnWriteArrayList<Horde>();;
+            hordes = new CopyOnWriteArrayList<Horde>();
         }
         for (Horde horde : hordes) {
             if (horde.uuid.equals(uuid)) {
@@ -97,7 +96,7 @@ public class HordeSavedData extends WorldSavedData {
 
     public void removeHorde(Horde horde) {
         if(hordes == null) {
-            hordes = new CopyOnWriteArrayList<Horde>();;
+            hordes = new CopyOnWriteArrayList<Horde>();
         }
         if (hordes.contains(horde)) {
             hordes.remove(horde);
@@ -108,7 +107,7 @@ public class HordeSavedData extends WorldSavedData {
 
     public void clear() {
         if(hordes == null) {
-            hordes = new CopyOnWriteArrayList<Horde>();;
+            hordes = new CopyOnWriteArrayList<Horde>();
         }
         for (Horde horde : hordes) {
             horde.onRemove();
@@ -119,7 +118,7 @@ public class HordeSavedData extends WorldSavedData {
 
     public void update(World world) {
         if(hordes == null) {
-            hordes = new CopyOnWriteArrayList<Horde>();;
+            hordes = new CopyOnWriteArrayList<Horde>();
         }
         for (Horde horde : hordes) {
             horde.update();

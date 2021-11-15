@@ -1,10 +1,8 @@
 package nuparu.sevendaystomine.potions;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.potion.EffectType;
-import nuparu.sevendaystomine.SevenDaysToMine;
 
 public class PotionSplintedLeg extends PotionBase {
 

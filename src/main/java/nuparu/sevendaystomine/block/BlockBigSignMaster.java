@@ -1,10 +1,6 @@
 package nuparu.sevendaystomine.block;
 
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +12,6 @@ import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityBigSignMaster;
 import nuparu.sevendaystomine.tileentity.TileEntityBigSignSlave;
-import nuparu.sevendaystomine.tileentity.TileEntityStreetSign;
 
 public class BlockBigSignMaster extends WallSignBlock
 {
@@ -32,7 +27,7 @@ public class BlockBigSignMaster extends WallSignBlock
 		return true;
 	}
 
-	protected static final VoxelShape EAST = Block.box(0.0D, 0D, 0, 0.125D*16, 1*16, 1D*16);
+	protected static final VoxelShape EAST = Block.box(0.0D, 0D, 0, 0.125D*16, 16, 1D*16);
 	protected static final VoxelShape WEST = Block.box(0.875D*16, 0.0, 0D, 1.0D*16, 1D*16, 1D*16);
 	protected static final VoxelShape SOUTH = Block.box(0, 0.0, 0.0D, 1D*16, 1D*16, 0.125D*16);
 	protected static final VoxelShape NORTH = Block.box(0, 0.0, 0.875D*16, 1D*16, 1D*16, 1.0D*16);

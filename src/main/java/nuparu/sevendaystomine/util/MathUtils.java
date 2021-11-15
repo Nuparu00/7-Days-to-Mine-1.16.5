@@ -52,12 +52,15 @@ public class MathUtils {
 		return st + alpha * (end - st);
 	}
 
+	public static double lerp(double st, double end, double alpha) {
+		return st + alpha * (end - st);
+	}
+
 	public static float interpolateRotation(float prevYawOffset, float yawOffset, float partialTicks) {
 		float f;
 
 		for (f = yawOffset - prevYawOffset; f < -180.0F; f += 360.0F) {
-			;
-		}
+        }
 
 		while (f >= 180.0F) {
 			f -= 360.0F;
@@ -157,5 +160,19 @@ public class MathUtils {
 	
 	public static double getSpeedMilesPerHour(Entity entity) {
 		return getSpeedMetersPerSecond(entity)*2.23694;
+	}
+
+	//By Pyrolistical - https://stackoverflow.com/questions/202302/rounding-to-an-arbitrary-number-of-significant-digits
+	public static double roundToSignificantFigures(double num, int n) {
+		if(num == 0) {
+			return 0;
+		}
+
+		final double d = Math.ceil(Math.log10(num < 0 ? -num: num));
+		final int power = n - (int) d;
+
+		final double magnitude = Math.pow(10, power);
+		final long shifted = Math.round(num*magnitude);
+		return shifted/magnitude;
 	}
 }

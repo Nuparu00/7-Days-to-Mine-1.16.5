@@ -14,7 +14,7 @@ public class PolicemanSwellGoal extends Goal {
 	}
 
 	public boolean canUse() {
-		return (float) ((float) this.policeman.getHealth()) / (float) this.policeman.getMaxHealth() <= 0.25f;
+		return this.policeman.getHealth() / this.policeman.getMaxHealth() <= 0.25f;
 	}
 
 	public void start() {
@@ -25,7 +25,7 @@ public class PolicemanSwellGoal extends Goal {
 	}
 
 	public void tick() {
-		if ((float) ((float) this.policeman.getHealth()) / (float) this.policeman.getMaxHealth() > 0.25f) {
+		if (this.policeman.getHealth() / this.policeman.getMaxHealth() > 0.25f) {
 			this.policeman.setSwellDir(-1);
 		} else {
 			this.policeman.setSwellDir(1);

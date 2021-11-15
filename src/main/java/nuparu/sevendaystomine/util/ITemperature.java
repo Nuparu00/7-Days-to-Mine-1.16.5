@@ -2,7 +2,7 @@ package nuparu.sevendaystomine.util;
 
 public interface ITemperature {
 
-	public void setTemperature(double temperature);
-	public void addTemperature(double delta);
-	public double getTemperature();
+	void setTemperature(double temperature);
+	void addTemperature(double delta);
+	double getTemperature();
 }

@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.OptionsRowList;
 import net.minecraft.util.text.TranslationTextComponent;
-import nuparu.sevendaystomine.SevenDaysToMine;
 
 /*
 Based on https://leo3418.github.io/2021/03/31/forge-mod-config-screen-1-16.html

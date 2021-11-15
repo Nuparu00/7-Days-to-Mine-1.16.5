@@ -80,13 +80,8 @@ public class ReloadMessage {
 				final IReloadable reloadableMainFinal = reloadableMain;
 				final IReloadable reloadableSecFinal = reloadableSec;
 
-				ScheduledFuture<?> countdown = scheduler.schedule(new Runnable() {
-					@Override
-					public void run() {
-						reload(reloadableMainFinal, reloadableSecFinal, world, player, mainStack, mainBulletFinal,
-								secStack, secBulletFinal);
-					}
-				}, reloadTime, TimeUnit.MILLISECONDS);
+				ScheduledFuture<?> countdown = scheduler.schedule(() -> reload(reloadableMainFinal, reloadableSecFinal, world, player, mainStack, mainBulletFinal,
+						secStack, secBulletFinal), reloadTime, TimeUnit.MILLISECONDS);
 			});
 		}
 

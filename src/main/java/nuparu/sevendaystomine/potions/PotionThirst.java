@@ -1,12 +1,9 @@
 package nuparu.sevendaystomine.potions;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectType;
 import net.minecraft.world.Difficulty;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
 import nuparu.sevendaystomine.util.DamageSources;

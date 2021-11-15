@@ -8,7 +8,7 @@
 				"location": "sevendaystomine:scattered/ruins/ruins_0",
 				"processors": "minecraft:empty",
 				"projection": "rigid",
-				"element_type": "minecraft:single_pool_element"
+				"element_type": "sevendaystomine:mod_single_pool_element"
 			}
 		},
 		{
@@ -17,7 +17,7 @@
 				"location": "sevendaystomine:scattered/ruins/ruins_1",
 				"processors": "minecraft:empty",
 				"projection": "rigid",
-				"element_type": "minecraft:single_pool_element"
+				"element_type": "sevendaystomine:mod_single_pool_element"
 			}
 		}
 	]

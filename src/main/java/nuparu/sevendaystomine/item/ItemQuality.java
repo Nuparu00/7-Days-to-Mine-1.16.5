@@ -111,6 +111,11 @@ public class ItemQuality extends Item implements IQuality {
 		return stack;
 	}
 
+	public static int getQualityForPlayer(PlayerEntity player) {
+		return (int) MathUtils.clamp(player.totalExperience / CommonConfig.xpPerQuality.get(), 1,
+				CommonConfig.maxQuality.get());
+	}
+
 	public static ItemStack setQualityForStack(ItemStack stack, int quality) {
 		CompoundNBT nbt = stack.getOrCreateTag();
 		nbt.putInt("Quality", quality);
@@ -133,7 +138,7 @@ public class ItemQuality extends Item implements IQuality {
 	}
 
 	public static boolean hasQualityTag(ItemStack stack) {
-		return stack.getOrCreateTag() == null ? false : stack.getOrCreateTag().contains("Quality", Constants.NBT.TAG_INT);
+		return stack.getOrCreateTag() != null && stack.getOrCreateTag().contains("Quality", Constants.NBT.TAG_INT);
 	}
 
 	@Override
@@ -161,7 +166,7 @@ public class ItemQuality extends Item implements IQuality {
 	public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
 		if (this.getQuality(itemstack) <= 0) {
 			setQuality(itemstack,
-					(int) (int) Math.min(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()),
+					(int) Math.min(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()),
 							CommonConfig.maxQuality.get()));
 		}
 	}

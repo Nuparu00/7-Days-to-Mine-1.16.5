@@ -24,10 +24,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -44,6 +41,8 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.item.EnumMaterial;
+import nuparu.sevendaystomine.network.PacketManager;
+import nuparu.sevendaystomine.network.packets.OpenGuiClientMessage;
 import nuparu.sevendaystomine.tileentity.TileEntityCodeSafe;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
@@ -58,7 +57,7 @@ public class BlockCodeSafe extends BlockBase implements IWaterLoggable {
 
 	public BlockCodeSafe(AbstractBlock.Properties properties) {
 		super(properties);
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(LOCKED, true).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(LOCKED, true).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
@@ -168,14 +167,20 @@ public class BlockCodeSafe extends BlockBase implements IWaterLoggable {
 			return ActionResultType.SUCCESS;
 
 		INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
+
+
+		if(player.isCrouching() ||((TileEntityCodeSafe)namedContainerProvider).locked){
+			PacketManager.sendTo(PacketManager.openGuiClient,new OpenGuiClientMessage(0,pos.getX(),pos.getY(),pos.getZ()),(ServerPlayerEntity)player);
+			return ActionResultType.SUCCESS;
+		}
+
 		if (namedContainerProvider != null) {
 			TileEntityItemHandler tileEntity = (TileEntityItemHandler)namedContainerProvider;
 			tileEntity.unpackLootTable(player);
 			if (!(player instanceof ServerPlayerEntity))
 				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-			});
+			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
 		}
 		return ActionResultType.SUCCESS;
 	}
@@ -214,6 +219,15 @@ public class BlockCodeSafe extends BlockBase implements IWaterLoggable {
 		super.onRemove(state, world, blockPos, newState, isMoving);
 	}
 
+	public BlockState rotate(BlockState p_185499_1_, Rotation p_185499_2_) {
+		return p_185499_1_.setValue(FACING, p_185499_2_.rotate(p_185499_1_.getValue(FACING)));
+	}
+
+	public BlockState mirror(BlockState p_185471_1_, Mirror p_185471_2_) {
+		return p_185471_1_.rotate(p_185471_2_.getRotation(p_185471_1_.getValue(FACING)));
+	}
+
+
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING, LOCKED, WATERLOGGED);
 	}
@@ -221,7 +235,7 @@ public class BlockCodeSafe extends BlockBase implements IWaterLoggable {
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 

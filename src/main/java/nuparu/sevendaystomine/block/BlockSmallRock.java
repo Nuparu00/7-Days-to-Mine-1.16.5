@@ -25,7 +25,7 @@ public class BlockSmallRock extends BlockPickable implements IWaterLoggable {
 	
 	public BlockSmallRock(Properties properties) {
 		super(properties.noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_,
@@ -42,7 +42,7 @@ public class BlockSmallRock extends BlockPickable implements IWaterLoggable {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override

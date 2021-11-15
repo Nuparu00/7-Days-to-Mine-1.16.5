@@ -18,6 +18,8 @@
     "stat.unused": "Unused",
     "stat.data": "Data: %1$s",
     "stat.data.null": "<null>",
+    "stat.health": "Health: %1$s/%2$s",
+    "stat.acceleration": "Acceleration: %1$s",
 
     "_comment": "Materials",
     "material.none": "None",
@@ -48,6 +50,7 @@
     "material.sand": "Sand",
     "material.paper": "Paper",
     "material.string": "String",
+    "material.bone": "Bone",
 
     "_comment": "Colors",
     "color.red": "Red",
@@ -106,6 +109,9 @@
 
     "upgrade.missing": "You need %1$s to upgrade %2$s.",
     "repair.missing": "You need %1$s to repair %2$s.",
+    "repair.missing.count": "You need %3$sx%1$s to repair %2$s.",
+    "repair.repaired": "%1$s already is fully repaired.",
+    "repair.none": "%1$s can not be repaired.",
     "computer.install": "Installing %s...",
     "computer.turn.on": "Turning on...",
     "computer.turn.off": "Turning off...",
@@ -115,6 +121,12 @@
     "safe.code.equal": "The digit number %1$s is %2$s.",
     "safe.code.greater": "The digit number %1$s is greater than %2$s.",
     "gun.warning": "The item has no NBT data, which most likely means, you gave it yourself using the /give command or the search function in the creative inventory. This will not work! Give yourself the item from the Combat tab, craft it or manually add the NBT data using the NBTExplorer, for example.",
+    "debug.loottable.set" : "Set %1$s LootTable to %2$s",
+    "debug.loottable" : "The LootTable for %1$s is %2$s",
+    "debug.noloottable" : "No LootTable for %1$s",
+    "debug.loottable.support" : "No LootTable support for %1$s",
+    "debug.noloottable" : "No LootTable for %1$s",
+    "debug.notileentity" : "No TileEntity for %1$s",
 
     "_comment": "Computer Text",
     "computer.win10.product_key": "It's time to enter the product key",
@@ -250,7 +262,7 @@
 
     "gui.electricity.voltage": "Voltage: %1$s J",
     "gui.electricity.stored": "Stored: %1$s/%2$s J",
-    "toast.unlocked": "Recipes Unlocked!",
+    "unlocked.toast": "Recipes Unlocked!",
 
     "horde.bloodmoon.name": "Bloodmoon Horde",
     "horde.wolf.name": "Wolf Horde",
@@ -433,6 +445,7 @@
     "book_metalworking.subtitle": "Metalworking and Mechanics for beginners",
     "book_metalworking.author": "Craig Craigson",
     "book_metalworking.contents.1": "1. Workbench",
+    "book_metalworking.contents.2": "2. Code Safe",
     "book_metalworking.workbench.1": "Workbench allows you to make more complex things than a Crafting Table. Because of its more advanced tools (like a clamp), you can craft practically almost anything from tools to machines.",
     "book_metalworking.dontdistribute.1": "Copying and distribution of this book is strictly prohibited without permission.",
     "book_metalworking.copyright": "Copyright © 2020 by Craig Craigson All rights reserved.",
@@ -489,7 +502,6 @@
     "item.sevendaystomine.plank_wood": "Wood Plank",
     "item.sevendaystomine.small_stone": "Small Stone",
     "item.sevendaystomine.plant_fiber": "Plant Fiber",
-    "item.sevendaystomine.cooking_grill": "Cooking Grill",
     "item.sevendaystomine.empty_jar": "Empty Jar",
     "item.sevendaystomine.bottled_murky_water": "Bottled Murky Water",
     "item.sevendaystomine.bottled_water": "Bottled Water",
@@ -558,7 +570,7 @@
     "item.sevendaystomine.WoodenDoorItem": "Wooden Door",
     "item.sevendaystomine.WoodenDoorReinforcedItem": "Wooden Door Reinforced",
     "item.sevendaystomine.locked_door_item": "Locked Door",
-    "item.sevendaystomine.RealityWand": "Reality Wand",
+    "item.sevendaystomine.reality_wand": "Reality Wand",
     "item.sevendaystomine.mp3_player": "Audio Player",
     "item.sevendaystomine.auger": "Auger",
     "item.sevendaystomine.screwdriver": "Screwdriver",
@@ -775,6 +787,9 @@
     "item.sevendaystomine.note": "Note",
     "item.sevendaystomine.mercury_bucket": "Mercury Bucket",
     "item.sevendaystomine.gasoline_bucket": "Gasoline Bucket",
+    "item.sevendaystomine.gear": "Gear",
+    "item.sevendaystomine.plank_fungi": "Fungi Plank",
+    "item.sevendaystomine.iron_pipe_mold": "Iron Pipe Mold",
 
 
     "filled_map.sevendaystomine:city": "City Map",
@@ -825,6 +840,7 @@
     "block.sevendaystomine.beaker": "Beaker",
     "block.sevendaystomine.forge": "Forge",
     "block.sevendaystomine.forge_lit": "Lit Forge",
+    "block.sevendaystomine.cooking_grill": "Cooking Grill",
 
     "block.sevendaystomine.copper_ore": "Copper Ore",
     "block.sevendaystomine.tin_ore": "Tin Ore",
@@ -859,8 +875,8 @@
     "block.sevendaystomine.bird_nest": "Bird Nest",
     "block.sevendaystomine.trash_can": "Trash Can",
 
-    "block.sevendaystomine.TorchUnlit": "Unlit Torch",
-    "block.sevendaystomine.TorchLit": "Torch",
+    "block.sevendaystomine.torch_unlit": "Unlit Torch",
+    "block.sevendaystomine.torch_lit": "Torch",
 
     "block.sevendaystomine.armchair_black": "Black Armchair",
     "block.sevendaystomine.armchair_white": "White Armchair",
@@ -1121,6 +1137,8 @@
     "block.sevendaystomine.asphalt_slab": "Asphalt Slab",
     "block.sevendaystomine.brass_block": "Brass Block",
     "block.sevendaystomine.printer": "Printer",
+    "block.sevendaystomine.light_gray_concrete_cracked" : "Cracked Light Gray Concrete",
+    "block.sevendaystomine.cyan_terracotta_cracked" : "Cracked Cyan Terracotta",
 
     "_comment": "Sound Subtitles",
 
@@ -1282,8 +1300,8 @@
     "entity.sevendaystomine.car": "Car",
 
     "_comment": "Fluids",
-    "fluid.gasoline": "Gasoline",
-    "fluid.mercury": "Mercury",
+    "fluid.sevendaystomine.gasoline": "Gasoline",
+    "fluid.sevendaystomine.mercury": "Mercury",
 
 
     "_comment": "JEI",

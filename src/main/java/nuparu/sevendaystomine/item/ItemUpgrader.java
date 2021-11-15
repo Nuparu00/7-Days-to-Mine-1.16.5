@@ -18,32 +18,25 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.Util;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import nuparu.sevendaystomine.SevenDaysToMine;
 
+import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.block.IUpgradeable;
 import nuparu.sevendaystomine.block.repair.BreakData;
-import nuparu.sevendaystomine.block.repair.Repair;
-import nuparu.sevendaystomine.block.repair.RepairManager;
+import nuparu.sevendaystomine.block.repair.RepairDataManager;
+import nuparu.sevendaystomine.capability.CapabilityHelper;
+import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.util.VanillaManager;
 import nuparu.sevendaystomine.util.VanillaManager.VanillaBlockUpgrade;
 
-@SuppressWarnings("deprecation")
-public class ItemUpgrader extends ItemQualityTool {
+public class ItemUpgrader extends ItemQualityTool implements IUpgrader {
 
 	public float effect = 1f;
 
@@ -73,51 +66,46 @@ public class ItemUpgrader extends ItemQualityTool {
 
 		BlockState state = worldIn.getBlockState(pos);
 		Block block = state.getBlock();
-		
-		/*BreakSavedData data = BreakSavedData.get(worldIn);
-		BreakData breakData = data.getBreakData(pos, worldIn.dimension().location());
-		if (breakData != null && breakData.getState() != 0f) {
+
+		IChunkData iChunkData = CapabilityHelper.getChunkData(worldIn.getChunkAt(pos));
+		if (iChunkData != null && iChunkData.hasBreakData(pos)) {
+			BreakData breakData = iChunkData.getBreakData(pos);
 			float damage = breakData.getState();
-			Repair repair = RepairManager.INSTANCE.getRepair(block, playerIn.inventory);
-			if (repair != null) {
-				for (int slot = 0; slot < playerIn.inventory.getContainerSize(); slot++) {
-					ItemStack stack = playerIn.inventory.getItem(slot);
-					if (ItemStack.isSame(stack, repair.getItemStack())) {
-						float size = (repair.getPercentage() * 10) * (effect);
-						if (damage < (effect)) {
-							size = damage * (effect / 10);
+			NonNullList<RepairDataManager.RepairEntry> repairs = RepairDataManager.instance.getEntries(block);
+
+			if(!worldIn.isClientSide()) {
+				if (repairs.isEmpty()) {
+					playerIn.sendMessage(new TranslationTextComponent("repair.none",block.getName()),Util.NIL_UUID);
+				}
+				for (RepairDataManager.RepairEntry entry : repairs) {
+					if (entry.getRepairLimit() >= 1 || ((1 - damage) + (entry.getRepairAmount() * effect) <= entry.getRepairLimit())) {
+						boolean flag = true;
+						for (ItemStack stack : entry.getItems()) {
+							if (!Utils.hasItemStack(playerIn, stack)) {
+								flag = !flag;
+								playerIn.sendMessage(new TranslationTextComponent("repair.missing.count",stack.getDisplayName(),block.getName(), stack.getCount()),Util.NIL_UUID);
+								break;
+							}
 						}
-						if (stack.getCount() < (int) Math.floor(size * 10f)) {
-							continue;
+
+						if (!flag) continue;
+
+						for (ItemStack stack : entry.getItems()) {
+							Utils.removeItemStack(playerIn.inventory, stack);
 						}
-						stack.shrink((int) Math.ceil(size * 10f));
-						worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), ModSounds.UPGRADE_WOOD,
-								SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.5f, 0.75f),
-								MathUtils.getFloatInRange(0.9f, 1f));
+
 						playerIn.swing(hand);
 						if (playerIn instanceof ServerPlayerEntity) {
 							itemstack.hurt(1, random, (ServerPlayerEntity) playerIn);
 						}
-						if (damage - (effect / 1f) <= 0f) {
-							data.removeBreakData(pos, worldIn);
-							break;
-						} else {
-							data.setBreakData(pos, worldIn, damage - (effect / 1f));
-							break;
-						}
 
-					} else {
-						if (slot == playerIn.inventory.getContainerSize() - 1) {
-							if (!worldIn.isClientSide() && !playerIn.isCreative() && !playerIn.isSpectator()) {
-								playerIn.sendMessage(new TranslationTextComponent("repair.missing",
-												(repair.getItemStack().getItem().getName(repair.getItemStack()).toString()),
-												worldIn.getBlockState(pos).getBlock().getName().toString()),Util.NIL_UUID);
-							}
-						}
+						iChunkData.addBreakData(pos, (float) -(entry.getRepairAmount() * effect));
+						break;
 					}
 				}
 			}
-		} else */if (block instanceof IUpgradeable && ((IUpgradeable) block).getResult(worldIn, pos) != null) {
+
+		} else if (block instanceof IUpgradeable && ((IUpgradeable) block).getResult(worldIn, pos) != null) {
 			IUpgradeable upgradeable = ((IUpgradeable) block);
 			ItemStack[] itemStacks = upgradeable.getItems();
 
@@ -134,7 +122,7 @@ public class ItemUpgrader extends ItemQualityTool {
 					upgradeable.onUpgrade(worldIn, pos, state);
 					worldIn.setBlock(pos, upgradeable.getResult(worldIn, pos), 3);
 					if (!worldIn.isClientSide()) {
-						//ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, state);
+						ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, o -> true, state);
 					}
 					itemstack.getOrCreateTag().putFloat("Percent", 0F);
 					if (!playerIn.isCreative()) {
@@ -157,7 +145,7 @@ public class ItemUpgrader extends ItemQualityTool {
 					}
 					worldIn.setBlock(pos, upgrade.getResult(), 3);
 					if (!worldIn.isClientSide()) {
-						//ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, state);
+						ModTriggers.BLOCK_UPGRADE.trigger((ServerPlayerEntity) playerIn, o -> true, state);
 					}
 					itemstack.getOrCreateTag().putFloat("Percent", 0F);
 					if (!playerIn.isCreative()) {
@@ -210,8 +198,8 @@ public class ItemUpgrader extends ItemQualityTool {
 		}
 	}
 
-
-	public void tick(ItemStack itemstack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	@Override
+	public void inventoryTick(ItemStack itemstack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (itemstack.getOrCreateTag() == null) {
 
 			Calendar calendar = Calendar.getInstance();
@@ -279,6 +267,7 @@ public class ItemUpgrader extends ItemQualityTool {
 		}
 	}
 
+	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		if (!slotChanged) {
 			if (oldStack.getItem() == newStack.getItem()
@@ -289,6 +278,7 @@ public class ItemUpgrader extends ItemQualityTool {
 		return true;
 	}
 
+	@Override
 	public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
 
 		if (itemstack.getOrCreateTag() == null) {

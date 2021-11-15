@@ -28,9 +28,9 @@ public class MixinArmorItem {
 
             if (equipmentSlot == thys.getSlot()) {
                 multimap.put(Attributes.ARMOR, new AttributeModifier(
-                        ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double) thys.getDefense(), AttributeModifier.Operation.ADDITION));
+                        ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", thys.getDefense(), AttributeModifier.Operation.ADDITION));
                 multimap.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-                        ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double) thys.getToughness(), AttributeModifier.Operation.ADDITION));
+                        ItemArmorBase.ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", thys.getToughness(), AttributeModifier.Operation.ADDITION));
             }
             cir.setReturnValue(multimap);
         }

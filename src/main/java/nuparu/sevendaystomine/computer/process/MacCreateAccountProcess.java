@@ -132,7 +132,7 @@ public class MacCreateAccountProcess extends CreateAccountProcess {
 		int buttonId = button.ID;
 		if (buttonId == 0) {
 			
-			if (page == 0 && completed == false && computerTE.isRegistered() == false) {
+			if (page == 0 && !completed && !computerTE.isRegistered()) {
 				this.completed = true;
 				TextField un = (TextField) elements.get(0);
 				TextField p = (TextField) elements.get(1);

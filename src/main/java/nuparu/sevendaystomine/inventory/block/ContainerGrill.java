@@ -43,7 +43,7 @@ public class ContainerGrill extends Container {
             addSlot(new SlotItemHandler(grill.getInventory(), TileEntityGrill.EnumSlots.INPUT_SLOT3.ordinal(), 47, 45));
             addSlot(new SlotItemHandler(grill.getInventory(), TileEntityGrill.EnumSlots.INPUT_SLOT4.ordinal(), 65, 45));
 
-            addSlot(new SlotOutput(invPlayer.player,grill,grill.getInventory(), TileEntityGrill.EnumSlots.OUTPUT_SLOT.ordinal(), 123, 36));
+            addSlot(new SlotOutput(invPlayer.player, grill, grill.getInventory(), TileEntityGrill.EnumSlots.OUTPUT_SLOT.ordinal(), 123, 36));
 
             for (int k = 0; k < 9; ++k) {
                 addSlot(new Slot(invPlayer, k, 8 + k * 18, 142));
@@ -123,7 +123,7 @@ public class ContainerGrill extends Container {
     }
 
     // SlotOutput is a slot that will not accept any item
-    public class SlotOutput extends SlotItemHandler {
+    public static class SlotOutput extends SlotItemHandler {
         private final PlayerEntity player;
         private final TileEntityGrill grill;
         private int removeCount;

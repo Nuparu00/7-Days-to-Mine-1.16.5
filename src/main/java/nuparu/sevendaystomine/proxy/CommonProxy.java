@@ -23,15 +23,12 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.computer.application.ApplicationRegistry;
 import nuparu.sevendaystomine.computer.process.ProcessRegistry;
 import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.crafting.campfire.CampfireRecipeManager;
-import nuparu.sevendaystomine.crafting.separator.SeparatorRecipeManager;
 import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.events.LoudSoundEvent;
 import nuparu.sevendaystomine.events.TickHandler;
 import nuparu.sevendaystomine.util.EnumModParticleType;
 import nuparu.sevendaystomine.util.dialogue.DialoguesRegistry;
 
-@SuppressWarnings("deprecation")
 public class CommonProxy {
 
 	public static ScriptEngineManager mgr;
@@ -54,9 +51,6 @@ public class CommonProxy {
 		ProcessRegistry.INSTANCE.register();
 		ApplicationRegistry.INSTANCE.register();
 		DialoguesRegistry.INSTANCE.register();
-
-		new SeparatorRecipeManager();
-
 	}
 
 	public void postInit() {
@@ -155,5 +149,9 @@ public class CommonProxy {
 
 	public int getQualityForCurrentPlayer(){
 		return 0;
+	}
+
+	public World getWorld(){
+		return null;
 	}
 }

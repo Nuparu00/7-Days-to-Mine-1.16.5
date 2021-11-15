@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:street_sign",
+  "material" : "iron",
+  "weight" : 6,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

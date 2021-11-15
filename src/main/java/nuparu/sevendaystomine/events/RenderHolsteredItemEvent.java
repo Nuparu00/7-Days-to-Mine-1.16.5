@@ -9,8 +9,8 @@ import net.minecraftforge.eventbus.api.Event;
 public class RenderHolsteredItemEvent extends Event {
 
 	public enum EnumType {
-		BACK, BACKPACK, LEFT_HIP, RIGHT_HIP;
-	}
+		BACK, BACKPACK, LEFT_HIP, RIGHT_HIP
+    }
 
 	private PlayerEntity player;
 	private ItemStack stack;

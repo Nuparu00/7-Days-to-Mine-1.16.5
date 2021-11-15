@@ -40,8 +40,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class FlameEntity extends ProjectileEntity {
-    @SuppressWarnings("unchecked")
-    private static final Predicate<Entity> TARGETS = EntityPredicates.NO_SPECTATORS.and(EntityPredicates.ENTITY_STILL_ALIVE).and(p_apply_1_ -> p_apply_1_.canBeCollidedWith())::test;
+    private static final Predicate<Entity> TARGETS = EntityPredicates.NO_SPECTATORS.and(EntityPredicates.ENTITY_STILL_ALIVE).and(Entity::canBeCollidedWith)::test;
 
 
     private static final DataParameter<Byte> PIERCE_LEVEL = EntityDataManager.defineId(FlameEntity.class, DataSerializers.BYTE);
@@ -77,11 +76,11 @@ public class FlameEntity extends ProjectileEntity {
     }
 
     public void shoot(double p_70186_1_, double p_70186_3_, double p_70186_5_, float p_70186_7_, float p_70186_8_) {
-        Vector3d vector3d = (new Vector3d(p_70186_1_, p_70186_3_, p_70186_5_)).normalize().add(this.random.nextGaussian() * (double) 0.0075F * (double) p_70186_8_, this.random.nextGaussian() * (double) 0.0075F * (double) p_70186_8_, this.random.nextGaussian() * (double) 0.0075F * (double) p_70186_8_).scale((double) p_70186_7_);
+        Vector3d vector3d = (new Vector3d(p_70186_1_, p_70186_3_, p_70186_5_)).normalize().add(this.random.nextGaussian() * (double) 0.0075F * (double) p_70186_8_, this.random.nextGaussian() * (double) 0.0075F * (double) p_70186_8_, this.random.nextGaussian() * (double) 0.0075F * (double) p_70186_8_).scale(p_70186_7_);
         this.setDeltaMovement(vector3d);
         float f = MathHelper.sqrt(getHorizontalDistanceSqr(vector3d));
         this.yRot = (float) (MathHelper.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
-        this.xRot = (float) (MathHelper.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
+        this.xRot = (float) (MathHelper.atan2(vector3d.y, f) * (double) (180F / (float) Math.PI));
         this.yRotO = this.yRot;
         this.xRotO = this.xRot;
     }
@@ -90,7 +89,7 @@ public class FlameEntity extends ProjectileEntity {
         float f = -MathHelper.sin(p_234612_3_ * ((float) Math.PI / 180F)) * MathHelper.cos(p_234612_2_ * ((float) Math.PI / 180F));
         float f1 = -MathHelper.sin((p_234612_2_ + p_234612_4_) * ((float) Math.PI / 180F));
         float f2 = MathHelper.cos(p_234612_3_ * ((float) Math.PI / 180F)) * MathHelper.cos(p_234612_2_ * ((float) Math.PI / 180F));
-        this.shoot((double) f, (double) f1, (double) f2, p_234612_5_, p_234612_6_);
+        this.shoot(f, f1, f2, p_234612_5_, p_234612_6_);
         Vector3d vector3d = p_234612_1_.getDeltaMovement();
         this.setDeltaMovement(this.getDeltaMovement().add(vector3d.x, p_234612_1_.isOnGround() ? 0.0D : vector3d.y, vector3d.z));
     }
@@ -99,7 +98,7 @@ public class FlameEntity extends ProjectileEntity {
         float f = -MathHelper.sin(p_234612_3_ * ((float) Math.PI / 180F)) * MathHelper.cos(p_234612_2_ * ((float) Math.PI / 180F));
         float f1 = -MathHelper.sin((p_234612_2_ + p_234612_4_) * ((float) Math.PI / 180F));
         float f2 = MathHelper.cos(p_234612_3_ * ((float) Math.PI / 180F)) * MathHelper.cos(p_234612_2_ * ((float) Math.PI / 180F));
-        this.shoot((double) f, (double) f1, (double) f2, p_234612_5_, p_234612_6_);
+        this.shoot(f, f1, f2, p_234612_5_, p_234612_6_);
     }
 
     protected void defineSynchedData() {
@@ -131,7 +130,7 @@ public class FlameEntity extends ProjectileEntity {
         if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
             float f = MathHelper.sqrt(getHorizontalDistanceSqr(vector3d));
             this.yRot = (float) (MathHelper.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
-            this.xRot = (float) (MathHelper.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
+            this.xRot = (float) (MathHelper.atan2(vector3d.y, f) * (double) (180F / (float) Math.PI));
             this.yRotO = this.yRot;
             this.xRotO = this.xRot;
         }
@@ -241,7 +240,7 @@ public class FlameEntity extends ProjectileEntity {
                 this.yRot = (float) (MathHelper.atan2(d3, d0) * (double) (180F / (float) Math.PI));
             }
 
-            this.xRot = (float) (MathHelper.atan2(d4, (double) f1) * (double) (180F / (float) Math.PI));
+            this.xRot = (float) (MathHelper.atan2(d4, f1) * (double) (180F / (float) Math.PI));
             this.xRot = lerpRotation(this.xRotO, this.xRot);
             this.yRot = lerpRotation(this.yRotO, this.yRot);
             float f2 = 0.99F;
@@ -255,7 +254,7 @@ public class FlameEntity extends ProjectileEntity {
                 f2 = this.getWaterInertia();
             }
 
-            this.setDeltaMovement(vector3d.scale((double) f2));
+            this.setDeltaMovement(vector3d.scale(f2));
             if (!this.isNoGravity() && !flag) {
                 Vector3d vector3d4 = this.getDeltaMovement();
                 this.setDeltaMovement(vector3d4.x, vector3d4.y - (double) 0.015F, vector3d4.z);
@@ -273,7 +272,7 @@ public class FlameEntity extends ProjectileEntity {
     private void startFalling() {
         this.inGround = false;
         Vector3d vector3d = this.getDeltaMovement();
-        this.setDeltaMovement(vector3d.multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
+        this.setDeltaMovement(vector3d.multiply(this.random.nextFloat() * 0.2F, this.random.nextFloat() * 0.2F, this.random.nextFloat() * 0.2F));
         this.life = 0;
     }
 
@@ -422,7 +421,7 @@ public class FlameEntity extends ProjectileEntity {
         super.onHitBlock(rayTraceResult);
         Vector3d vector3d = rayTraceResult.getLocation().subtract(this.getX(), this.getY(), this.getZ());
         this.setDeltaMovement(vector3d);
-        Vector3d vector3d1 = vector3d.normalize().scale((double) 0.05F);
+        Vector3d vector3d1 = vector3d.normalize().scale(0.05F);
         this.setPosRaw(this.getX() - vector3d1.x, this.getY() - vector3d1.y, this.getZ() - vector3d1.z);
         this.inGround = true;
         this.setPierceLevel((byte) 0);

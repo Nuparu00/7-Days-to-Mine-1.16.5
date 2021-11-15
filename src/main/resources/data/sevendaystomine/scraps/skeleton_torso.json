@@ -1,0 +1,7 @@
+{
+  "item" : "sevendaystomine:skeleton_torso",
+  "material" : "bone",
+  "weight" : 9,
+  "canBeScrapped" : true,
+  "isScrapBit" : false
+}

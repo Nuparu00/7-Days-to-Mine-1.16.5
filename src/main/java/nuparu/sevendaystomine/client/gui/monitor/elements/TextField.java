@@ -1,20 +1,12 @@
 package nuparu.sevendaystomine.client.gui.monitor.elements;
 
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
-import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.renderer.BufferBuilder;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,7 +16,6 @@ import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.computer.process.TickingProcess;
 import nuparu.sevendaystomine.util.ColorRGBA;
 import net.minecraft.util.SharedConstants;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 @OnlyIn(Dist.CLIENT)
 public class TextField implements IScreenElement {
@@ -117,7 +108,7 @@ public class TextField implements IScreenElement {
 
 	@Override
 	public void render(MatrixStack matrix,float partialTicks) {
-		if (isVisible() && isDisabled() == false) {
+		if (isVisible() && !isDisabled()) {
 			matrix.pushPose();
 			RenderUtils.drawColoredRect(matrix,backgroundColor, x, y, width, height, zLevel);
 

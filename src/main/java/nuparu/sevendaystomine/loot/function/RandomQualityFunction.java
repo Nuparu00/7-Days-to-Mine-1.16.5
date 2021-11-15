@@ -7,11 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.ILootCondition;
-import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.item.ItemClothing;
 import nuparu.sevendaystomine.item.ItemQuality;
 import nuparu.sevendaystomine.util.ItemUtils;
-import nuparu.sevendaystomine.util.PlayerUtils;
 
 public class RandomQualityFunction extends LootFunction {
     private final IRandomRange value;

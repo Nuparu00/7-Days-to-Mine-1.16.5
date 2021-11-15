@@ -1,22 +1,16 @@
 package nuparu.sevendaystomine.client.renderer.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.StandingSignBlock;
 import net.minecraft.block.WallSignBlock;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.texture.NativeImage;
-import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.math.vector.Vector3f;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.tileentity.TileEntityBigSignMaster;
-import nuparu.sevendaystomine.tileentity.TileEntityStreetSign;
 
 import java.util.List;
 
@@ -40,7 +34,7 @@ public class TileEntityBigSignRenderer extends TileEntityRenderer<TileEntityBigS
 
         FontRenderer fontrenderer = this.renderer.getFont();
         float f2 = 0.010416667F;
-        matrixStack.translate(0.0D, (double)0.33333334F, (double)0.046666667F);
+        matrixStack.translate(0.0D, 0.33333334F, 0.046666667F);
         matrixStack.scale(f, -f, f);
         int i = te.getColor().getTextColor();
         double d0 = 0.4D;

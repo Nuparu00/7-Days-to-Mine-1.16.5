@@ -9,12 +9,10 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.block.ContainerForge;
-import nuparu.sevendaystomine.tileentity.TileEntityForge;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiForge extends ContainerScreen<ContainerForge> {

@@ -71,7 +71,7 @@ public class ZombieBaseEntity extends MonsterEntity {
 
     public static AttributeModifierMap createAttributes() {
         return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
-                .add(Attributes.MOVEMENT_SPEED, (double) 0.175F).add(Attributes.ATTACK_DAMAGE, 4.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.175F).add(Attributes.ATTACK_DAMAGE, 4.0D)
                 .add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 60).build();
     }
 

@@ -3,8 +3,6 @@ package nuparu.sevendaystomine.computer.process;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.MainWindow;
@@ -13,10 +11,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.gui.monitor.MonitorScreen;
 import nuparu.sevendaystomine.client.gui.monitor.elements.Button;
-import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.computer.application.ApplicationRegistry;
 import nuparu.sevendaystomine.tileentity.TileEntityCamera;
 import nuparu.sevendaystomine.util.ColorRGBA;

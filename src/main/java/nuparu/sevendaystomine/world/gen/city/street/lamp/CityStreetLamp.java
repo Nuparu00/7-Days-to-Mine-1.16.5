@@ -4,7 +4,6 @@ import net.minecraft.block.*;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.block.BlockFakeAnvil;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.util.Utils;

@@ -1,10 +1,7 @@
 package nuparu.sevendaystomine.crafting.forge;
 
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import nuparu.sevendaystomine.item.EnumMaterial;
-
-import java.util.stream.Stream;
 
 public class MaterialStack {
 

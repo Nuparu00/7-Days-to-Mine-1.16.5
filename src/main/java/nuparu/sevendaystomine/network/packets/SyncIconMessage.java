@@ -2,15 +2,12 @@ package nuparu.sevendaystomine.network.packets;
 
 import java.util.function.Supplier;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.computer.process.WindowsDesktopProcess.IconPosUpdate;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;

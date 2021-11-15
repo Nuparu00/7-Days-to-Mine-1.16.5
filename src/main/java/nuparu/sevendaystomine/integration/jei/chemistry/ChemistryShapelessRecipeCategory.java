@@ -4,7 +4,6 @@ import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.crafting.chemistry.ChemistryRecipeShapeless;
-import nuparu.sevendaystomine.crafting.forge.ForgeRecipeShapeless;
 
 public class ChemistryShapelessRecipeCategory extends AbstractChemistryRecipeCategory<ChemistryRecipeShapeless> {
 

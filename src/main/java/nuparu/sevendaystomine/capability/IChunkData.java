@@ -11,30 +11,32 @@ import nuparu.sevendaystomine.block.repair.BreakData;
 
 public interface IChunkData {
 	
-	public BreakData getBreakData(BlockPos pos);
-	
-	public BreakData setBreaakData(BlockPos pos, BreakData data); 
-	
-	public BreakData setBreaakData(BlockPos pos, float data);
+	BreakData getBreakData(BlockPos pos);
 
-	public BreakData addBreakData(BlockPos pos, float delta);
+	boolean hasBreakData(BlockPos pos);
+	
+	BreakData setBreakData(BlockPos pos, BreakData data);
+	
+	BreakData setBreakData(BlockPos pos, float data);
 
-	public void removebreakData(BlockPos pos);
+	BreakData addBreakData(BlockPos pos, float delta);
 
-	public void removebreakData(BreakData data);
+	void removeBreakData(BlockPos pos);
+
+	void removeBreakData(BreakData data);
 	
-	public void update(ServerWorld world);
+	void update(ServerWorld world);
 	
-	public void syncTo(ServerPlayerEntity player);
+	void syncTo(ServerPlayerEntity player);
 	
-	public void readFromNBT(CompoundNBT nbt);
+	void readFromNBT(CompoundNBT nbt);
 	
-	public CompoundNBT writeToNBT(CompoundNBT nbt);
+	CompoundNBT writeToNBT(CompoundNBT nbt);
 	
-	public HashMap<BlockPos, BreakData> getData();
+	HashMap<BlockPos, BreakData> getData();
 	
-	public void markDirty();
+	void markDirty();
 	
-	public void setOwner(Chunk chunk);
+	void setOwner(Chunk chunk);
 
 }

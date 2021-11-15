@@ -3,13 +3,10 @@ package nuparu.sevendaystomine.advancements;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
-import net.minecraft.advancements.criterion.BredAnimalsTrigger;
-import net.minecraft.advancements.criterion.CriterionInstance;
 import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.loot.ConditionArrayParser;
@@ -17,7 +14,6 @@ import net.minecraft.loot.ConditionArraySerializer;
 import net.minecraft.loot.LootContext;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,9 +35,7 @@ public class CustomTrigger implements ICriterionTrigger {
     }
 
     public final void addPlayerListener(PlayerAdvancements p_192165_1_, ICriterionTrigger.Listener p_192165_2_) {
-        this.players.computeIfAbsent(p_192165_1_, (p_227072_0_) -> {
-            return Sets.newHashSet();
-        }).add(p_192165_2_);
+        this.players.computeIfAbsent(p_192165_1_, (p_227072_0_) -> Sets.newHashSet()).add(p_192165_2_);
     }
 
     public final void removePlayerListener(PlayerAdvancements p_192164_1_, ICriterionTrigger.Listener p_192164_2_) {
@@ -70,7 +64,7 @@ public class CustomTrigger implements ICriterionTrigger {
         return this.createInstance(p_230307_1_, entitypredicate$andpredicate, p_230307_2_);
     }
 
-    protected void trigger(ServerPlayerEntity p_235959_1_, Predicate p_235959_2_) {
+    public void trigger(ServerPlayerEntity p_235959_1_, Predicate p_235959_2_) {
         PlayerAdvancements playeradvancements = p_235959_1_.getAdvancements();
         Set<ICriterionTrigger.Listener> set = this.players.get(playeradvancements);
         if (set != null && !set.isEmpty()) {

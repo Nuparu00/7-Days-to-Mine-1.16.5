@@ -1,6 +1,5 @@
 package nuparu.sevendaystomine.tileentity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -31,11 +30,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
 import nuparu.sevendaystomine.crafting.chemistry.IChemistryRecipe;
-import nuparu.sevendaystomine.crafting.forge.IForgeRecipe;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerChemistryStation;
-import nuparu.sevendaystomine.inventory.block.ContainerForge;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 
 import javax.annotation.Nullable;
@@ -174,8 +171,7 @@ public class TileEntityChemistryStation extends TileEntityItemHandler<ItemHandle
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = save(new CompoundNBT());
-		return nbt;
+		return save(new CompoundNBT());
 	}
 
 	@Override
@@ -269,9 +265,7 @@ public class TileEntityChemistryStation extends TileEntityItemHandler<ItemHandle
 		compound.putInt("CookTimeTotal", (short) this.totalCookTime);
 
 		CompoundNBT compoundnbt = new CompoundNBT();
-		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> {
-			compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_);
-		});
+		this.recipesUsed.forEach((p_235643_1_, p_235643_2_) -> compoundnbt.putInt(p_235643_1_.toString(), p_235643_2_));
 		compound.put("RecipesUsed", compoundnbt);
 
 		return compound;
@@ -368,7 +362,7 @@ public class TileEntityChemistryStation extends TileEntityItemHandler<ItemHandle
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return ((ItemHandlerNameable)this.getInventory()).getDisplayName();
+		return this.getInventory().getDisplayName();
 	}
 
 

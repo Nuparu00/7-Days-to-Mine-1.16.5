@@ -38,7 +38,7 @@ public class Crossing {
 
     public Street getByyFacing(Direction facing, Street exclude) {
         for (Iterator<Street> iterator = streets.iterator(); iterator.hasNext();) {
-            Street street = (Street) iterator.next();
+            Street street = iterator.next();
             if(exclude != null && exclude == street)continue;
             if (street.facing == facing)
                 return street;
@@ -47,7 +47,7 @@ public class Crossing {
     }
     public boolean isStreetInDirection(Direction facing, Street exclude) {
         for (Iterator<Street> iterator = streets.iterator(); iterator.hasNext();) {
-            Street street = (Street) iterator.next();
+            Street street = iterator.next();
             if(exclude != null && exclude == street)continue;
             if (street.facing == facing)
                 return true;

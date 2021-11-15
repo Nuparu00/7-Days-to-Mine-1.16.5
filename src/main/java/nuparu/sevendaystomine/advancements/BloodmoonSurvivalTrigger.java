@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.mojang.realmsclient.util.JsonUtils;
 import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
@@ -17,6 +16,7 @@ import net.minecraft.loot.LootContext;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.stats.ServerStatisticsManager;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
@@ -43,9 +43,7 @@ public class BloodmoonSurvivalTrigger implements ICriterionTrigger {
     }
 
     public final void addPlayerListener(PlayerAdvancements p_192165_1_, Listener p_192165_2_) {
-        this.players.computeIfAbsent(p_192165_1_, (p_227072_0_) -> {
-            return Sets.newHashSet();
-        }).add(p_192165_2_);
+        this.players.computeIfAbsent(p_192165_1_, (p_227072_0_) -> Sets.newHashSet()).add(p_192165_2_);
     }
 
     public final void removePlayerListener(PlayerAdvancements p_192164_1_, Listener p_192164_2_) {
@@ -68,7 +66,7 @@ public class BloodmoonSurvivalTrigger implements ICriterionTrigger {
         int bloodmoon = -1;
 
         if (json.has("bloodmoon")) {
-            bloodmoon = JsonUtils.getIntOr( "bloodmoon",json,-1);
+            bloodmoon = JSONUtils.getAsInt( json,"bloodmoon",-1);
         } else {
             throw new JsonSyntaxException("Expected property <bloodmoon> for " + getId().toString());
         }
@@ -82,7 +80,7 @@ public class BloodmoonSurvivalTrigger implements ICriterionTrigger {
         return this.createInstance(p_230307_1_, entitypredicate$andpredicate, p_230307_2_);
     }
 
-    protected void trigger(ServerPlayerEntity player, Predicate p_235959_2_) {
+    public void trigger(ServerPlayerEntity player, Predicate p_235959_2_) {
         PlayerAdvancements playeradvancements = player.getAdvancements();
         PlayerList playerList = player.server.getPlayerList();
         ServerStatisticsManager statsManager = playerList.getPlayerStats(player);

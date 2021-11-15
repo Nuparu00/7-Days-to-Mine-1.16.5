@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
@@ -68,17 +67,14 @@ public class RecipeWorkbenchShaped extends ShapedRecipe implements IRecipeLocked
 		} else  if (c instanceof WorkbenchContainer) {
 				WorkbenchContainer container = (WorkbenchContainer) (c);
 				CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
-				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
-						"field_75238_b"));
+				player = ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
+						"field_75238_b");
 			} else if (c instanceof PlayerContainer) {
 				PlayerContainer container = (PlayerContainer) (c);
-				player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
-						"field_82862_h"));
+				player = ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
+						"field_82862_h");
 			}
 			if (player != null) {
-				if (stack.getOrCreateTag() == null) {
-					stack.setTag(new CompoundNBT());
-				}
 				stack.getOrCreateTag().putInt("Quality", (int) Math
 						.min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1), 600));
 			}
@@ -100,12 +96,12 @@ public class RecipeWorkbenchShaped extends ShapedRecipe implements IRecipeLocked
 	} else  if (c instanceof WorkbenchContainer) {
 			WorkbenchContainer container = (WorkbenchContainer) (c);
 			CraftingResultSlot slot = (CraftingResultSlot) container.getSlot(0);
-			player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
-					"field_75238_b"));
+			player = ObfuscationReflectionHelper.getPrivateValue(CraftingResultSlot.class, slot,
+					"field_75238_b");
 		} else if (c instanceof PlayerContainer) {
 			PlayerContainer container = (PlayerContainer) (c);
-			player = (PlayerEntity) (ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
-					"field_82862_h"));
+			player = ObfuscationReflectionHelper.getPrivateValue(PlayerContainer.class, container,
+					"field_82862_h");
 		}
 		if (player == null)
 			return false;

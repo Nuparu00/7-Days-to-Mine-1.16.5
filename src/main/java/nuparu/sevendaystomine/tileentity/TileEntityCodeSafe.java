@@ -1,6 +1,7 @@
 package nuparu.sevendaystomine.tileentity;
 
 import java.util.Random;
+import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
@@ -14,12 +15,14 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.ITextComponent;
 
+import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.block.BlockCodeSafe;
 import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModTileEntities;
+import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.item.ItemStethoscope;
+import nuparu.sevendaystomine.util.Utils;
 
 public class TileEntityCodeSafe extends TileEntitySafe {
 
@@ -107,8 +110,14 @@ public class TileEntityCodeSafe extends TileEntitySafe {
 		this.selectedCode = code;
 		boolean prevState = locked;
 		tryToUnlock();
-		if(player != null && prevState == true && !locked) {
-			//ModTriggers.SAFE_UNLOCK.trigger(player);
+		System.out.println(this.superSecretMethod());
+		if(player != null && prevState && !locked) {
+			ModTriggers.SAFE_UNLOCK.trigger(player, new Predicate() {
+				@Override
+				public boolean test(Object o) {
+					return true;
+				}
+			});
 		}
 		setChanged();
 	}
@@ -163,7 +172,7 @@ public class TileEntityCodeSafe extends TileEntitySafe {
 
 	public int testDigit(PlayerEntity player, int guess, int numPos) {
 		int digit = tryToGetDigit(player, numPos);
-		return digit < guess ? -1 : (digit > guess ? 1 : 0);
+		return Integer.compare(digit, guess);
 	}
 
 	@Override
@@ -172,14 +181,10 @@ public class TileEntityCodeSafe extends TileEntitySafe {
 	}
 
 	@Override
-	public ITextComponent getDisplayName() {
-		return null;
-	}
-
-	@Override
-	public net.minecraft.inventory.container.Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_,
-			PlayerEntity p_createMenu_3_) {
-		return null;
+	public net.minecraft.inventory.container.Container createMenu(int windowID, PlayerInventory playerInventory,
+			PlayerEntity playerEntity) {
+		System.out.println(locked);
+		return (this.locked || playerEntity.isCrouching()) ? null : ContainerSmall.createContainerServerSide(windowID, playerInventory, this);
 	}
 
 }

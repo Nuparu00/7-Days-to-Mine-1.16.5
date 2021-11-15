@@ -4,9 +4,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import nuparu.sevendaystomine.entity.BloatedZombieEntity;
 import nuparu.sevendaystomine.entity.MountableBlockEntity;
-import nuparu.sevendaystomine.entity.ShotEntity;
 
 public class MountableBlockRenderer<T extends MountableBlockEntity> extends EntityRenderer<T> {
 

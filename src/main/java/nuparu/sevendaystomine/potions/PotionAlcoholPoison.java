@@ -5,7 +5,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.potion.EffectType;
 import net.minecraft.world.Difficulty;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.util.DamageSources;
 
 public class PotionAlcoholPoison extends PotionBase {

@@ -1,0 +1,7 @@
+{
+  "item" : "minecraft:bone_meal",
+  "material" : "bone",
+  "weight" : 1,
+  "canBeScrapped" : false,
+  "isScrapBit" : true
+}

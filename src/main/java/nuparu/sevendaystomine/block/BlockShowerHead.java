@@ -2,6 +2,7 @@ package nuparu.sevendaystomine.block;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -9,16 +10,20 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import nuparu.sevendaystomine.item.EnumMaterial;
+import nuparu.sevendaystomine.init.ModLootTables;
 
-public class BlockShowerHead extends BlockHorizontalBase implements  IWaterLoggable {
+public class BlockShowerHead extends BlockHorizontalBase implements IWaterLoggable, ISalvageable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	public ResourceLocation salvageLootTable = ModLootTables.SHOWER_HEAD_SALVAGE;
 
 	public VoxelShape NORTH = Block.box(5, 8, 6, 13, 14, 16);
 	public VoxelShape SOUTH = Block.box(5, 8, 0.0F, 13, 14, 10);
@@ -27,13 +32,13 @@ public class BlockShowerHead extends BlockHorizontalBase implements  IWaterLogga
 
 	public BlockShowerHead() {
 		super(AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(16, 2).noOcclusion());
-		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
 			ISelectionContext p_220053_4_) {
-		switch ((Direction) state.getValue(FACING)) {
+		switch (state.getValue(FACING)) {
 		default:
 		case NORTH:
 			return NORTH;
@@ -50,10 +55,10 @@ public class BlockShowerHead extends BlockHorizontalBase implements  IWaterLogga
 	@Override
 	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos posOther,
 			boolean p_220069_6_) {
-		Direction Direction = (Direction) state.getValue(BlockHorizontalBase.FACING);
+		Direction Direction = state.getValue(BlockHorizontalBase.FACING);
 
 		if (!world.getBlockState(pos.relative(Direction.getOpposite())).getMaterial().isSolid()) {
-			this.dropResources(state, world, pos);
+			dropResources(state, world, pos);
 			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 		}
 
@@ -62,7 +67,7 @@ public class BlockShowerHead extends BlockHorizontalBase implements  IWaterLogga
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getClickedFace()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, context.getClickedFace()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
 	}
 
 	@Override
@@ -83,4 +88,30 @@ public class BlockShowerHead extends BlockHorizontalBase implements  IWaterLogga
 	public FluidState getFluidState(BlockState p_204507_1_) {
 		return p_204507_1_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_204507_1_);
 	}
+
+	@Override
+	public ResourceLocation getSalvageLootTable(){
+		return salvageLootTable;
+	}
+
+	@Override
+	public void setSalvageLootTable(ResourceLocation resourceLocation){
+		salvageLootTable = resourceLocation;
+	}
+
+	@Override
+	public void onSalvage(World world, BlockPos pos, BlockState oldState) {
+		world.destroyBlock(pos, false);
+	}
+
+	@Override
+	public SoundEvent getSound() {
+		return SoundEvents.ANVIL_LAND;
+	}
+
+	@Override
+	public float getUpgradeRate(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+		return 10;
+	}
+
 }

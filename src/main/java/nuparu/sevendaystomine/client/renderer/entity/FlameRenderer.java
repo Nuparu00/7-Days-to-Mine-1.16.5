@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.entity.FlameEntity;
-import nuparu.sevendaystomine.entity.RocketEntity;
 
 public class FlameRenderer<T extends FlameEntity> extends EntityRenderer<T> {
 

@@ -8,44 +8,44 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 public interface IVoltage extends IEnergyStorage {
 
-	public EnumDeviceType getDeviceType();
+	EnumDeviceType getDeviceType();
 	
-	public int getMaximalInputs();
+	int getMaximalInputs();
 	
-	public int getMaximalOutputs();
+	int getMaximalOutputs();
 	
-	public List<ElectricConnection> getInputs();
+	List<ElectricConnection> getInputs();
 	
-	public List<ElectricConnection> getOutputs();
+	List<ElectricConnection> getOutputs();
 	
-	public long getOutput();
+	long getOutput();
 	
-	public long getMaxOutput();
+	long getMaxOutput();
 	
-	public long getOutputForConnection(ElectricConnection connection);
+	long getOutputForConnection(ElectricConnection connection);
 	
-	public boolean tryToConnect(ElectricConnection connection);
+	boolean tryToConnect(ElectricConnection connection);
 	
-	public boolean canConnect(ElectricConnection connection);
+	boolean canConnect(ElectricConnection connection);
 
-	public long getRequiredPower();
+	long getRequiredPower();
 	
-	public long getCapacity();
-	public long getVoltageStored();
-	public void storePower(long power);
+	long getCapacity();
+	long getVoltageStored();
+	void storePower(long power);
 	
 	/*
 	 * Returns the power that could fit
 	 */
-	public long tryToSendPower(long power, ElectricConnection connection);
+    long tryToSendPower(long power, ElectricConnection connection);
 	
-	public Vector3d getWireOffset();
+	Vector3d getWireOffset();
 	
 	/*
 	 * If is passive, the block does not require a direct connection to an energy pole to receive power (like lamps)
 	 */
-	public boolean isPassive();
+    boolean isPassive();
 	
-	public boolean disconnect(IVoltage voltage);
-	public BlockPos getPos();
+	boolean disconnect(IVoltage voltage);
+	BlockPos getPos();
 }

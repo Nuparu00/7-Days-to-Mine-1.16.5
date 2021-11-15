@@ -7,12 +7,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.model.entity.BloatedZombieModel;
-import nuparu.sevendaystomine.client.model.entity.CrawlerZombieModel;
-import nuparu.sevendaystomine.client.model.entity.SpiderZombieModel;
 import nuparu.sevendaystomine.client.renderer.layer.RedEyesLayer;
 import nuparu.sevendaystomine.entity.BloatedZombieEntity;
-import nuparu.sevendaystomine.entity.CrawlerZombieEntity;
-import nuparu.sevendaystomine.entity.SpiderZombieEntity;
 
 public class BloatedZombieRenderer<T extends BloatedZombieEntity, M extends BloatedZombieModel<T>>
 		extends MobRenderer<T, M> {

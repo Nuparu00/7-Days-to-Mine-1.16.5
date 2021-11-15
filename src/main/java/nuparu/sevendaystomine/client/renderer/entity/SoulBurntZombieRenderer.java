@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -19,11 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.client.renderer.layer.BurnsLayer;
-import nuparu.sevendaystomine.client.renderer.layer.RedEyesLayer;
 import nuparu.sevendaystomine.client.renderer.layer.SoulBurnsLayer;
-import nuparu.sevendaystomine.entity.BurntZombieEntity;
-import nuparu.sevendaystomine.entity.ReanimatedCorpseEntity;
 import nuparu.sevendaystomine.entity.SoulBurntZombieEntity;
 
 public class SoulBurntZombieRenderer<T extends SoulBurntZombieEntity, M extends BipedModel<T>>
@@ -72,7 +67,7 @@ public class SoulBurntZombieRenderer<T extends SoulBurntZombieEntity, M extends 
 		float f3 = p_229095_3_.getBbHeight() / f;
 		float f4 = 0.0F;
 		p_229095_1_.mulPose(Vector3f.YP.rotationDegrees(-camera.getYRot()));
-		p_229095_1_.translate(0.0D, 0.0D, (double) (-0.3F + (float) ((int) f3) * 0.02F));
+		p_229095_1_.translate(0.0D, 0.0D, -0.3F + (float) ((int) f3) * 0.02F);
 		float f5 = 0.0F;
 		int i = 0;
 		IVertexBuilder ivertexbuilder = p_229095_2_.getBuffer(Atlases.cutoutBlockSheet());

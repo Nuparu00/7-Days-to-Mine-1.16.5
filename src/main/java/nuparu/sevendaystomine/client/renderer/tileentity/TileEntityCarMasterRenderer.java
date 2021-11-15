@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -23,7 +22,6 @@ import nuparu.sevendaystomine.client.model.tileentity.SedanModel;
 import nuparu.sevendaystomine.client.model.tileentity.TileEntityModel;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityCarMaster;
-import nuparu.sevendaystomine.tileentity.TileEntityWindTurbine;
 
 public class TileEntityCarMasterRenderer extends TileEntityRenderer<TileEntityCarMaster> {
 

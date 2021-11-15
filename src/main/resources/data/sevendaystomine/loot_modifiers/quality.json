@@ -1,0 +1,8 @@
+{
+  "type": "sevendaystomine:quality",
+  "conditions": [
+    {
+      "condition": "sevendaystomine:quality_item"
+    }
+  ]
+}

@@ -7,27 +7,16 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.model.entity.AirdropModel;
-import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.entity.AirdropEntity;
-import nuparu.sevendaystomine.entity.LootableCorpseEntity;
-import nuparu.sevendaystomine.entity.ZombieBaseEntity;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Field;
-import java.util.Map;
 
 public class AirdropRenderer<T extends AirdropEntity> extends EntityRenderer<T> {
 	private static final ResourceLocation TEX = new ResourceLocation(SevenDaysToMine.MODID,
@@ -55,8 +44,8 @@ public class AirdropRenderer<T extends AirdropEntity> extends EntityRenderer<T> 
 		if (rendertype != null) {
 			IVertexBuilder ivertexbuilder = buffer.getBuffer(rendertype);
 			int i = getOverlayCoords(entity, this.getWhiteOverlayProgress(entity, partialTicks));
-			this.model.setupAnim(entity,0,0,0,0,0);
-			this.model.renderToBuffer(matrix, ivertexbuilder, p_225623_6_, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
+			model.setupAnim(entity,0,0,0,0,0);
+			model.renderToBuffer(matrix, ivertexbuilder, p_225623_6_, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
 		}
 		matrix.popPose();
 	}
@@ -66,7 +55,7 @@ public class AirdropRenderer<T extends AirdropEntity> extends EntityRenderer<T> 
 		if (p_230496_3_) {
 			return RenderType.itemEntityTranslucentCull(resourcelocation);
 		} else if (p_230496_2_) {
-			return this.model.renderType(resourcelocation);
+			return model.renderType(resourcelocation);
 		} else {
 			return p_230496_4_ ? RenderType.outline(resourcelocation) : null;
 		}
