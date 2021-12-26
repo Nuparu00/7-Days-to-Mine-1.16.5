@@ -20,7 +20,6 @@ public class ModLootModifiers {
 
     public static void registerConditions()
     {
-        System.out.println("registerConditions");
         Registry.register(Registry.LOOT_CONDITION_TYPE, new ResourceLocation(SevenDaysToMine.MODID, "quality_item"), QualityItemCondition.TYPE);
     }
 

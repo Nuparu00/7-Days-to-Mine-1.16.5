@@ -12,6 +12,5 @@ public class ModPaintingTypes {
     public static RegistryObject<PaintingType> EARTH = PAINTING_TYPES.register("earth",()-> new PaintingType(32,16));
     public static RegistryObject<PaintingType> PERIODIC_TABLE = PAINTING_TYPES.register("periodic_table",()-> new PaintingType(48,32));
     public static RegistryObject<PaintingType> UNITED_STATES_MAP = PAINTING_TYPES.register("united_states_map",()-> new PaintingType(48,32));
-    public static RegistryObject<PaintingType> ROMA = PAINTING_TYPES.register("roma",()-> new PaintingType(48,32));
 
 }

@@ -406,7 +406,5 @@ public class CommonConfig {
 				255);
 		roadMinY = server.comment("The min Y of roads").defineInRange("world_gen.roadMinY", 63, 0,
 				255);
-		sandRoadCover = server.comment("Should generate sand cover in sandy biomes over the intercity roads?")
-				.define("world_gen.sandRoadCover", true);
 	}
 }

@@ -9,13 +9,10 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.FancyFoliagePlacer;
-import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.trunkplacer.FancyTrunkPlacer;
-import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -46,7 +43,6 @@ public class ModFeatures {
 	public static ConfiguredFeature<?, ?> cityFeature;
 	public static ConfiguredFeature<?, ?> roadsFeature;
 	public static ConfiguredFeature<?, ?> carsFeature;
-	public static ConfiguredFeature<?, ?> burntTreeFeatureLarge;
 	public static ConfiguredFeature<?, ?> burntTreeFeature;
 
 	public static void finishRegistration(RegistryEvent.Register<Feature<?>> event){
@@ -98,20 +94,7 @@ public class ModFeatures {
 				.decorated(Placement.NOPE.configured(IPlacementConfig.NONE));
 		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(SevenDaysToMine.MODID,"cars"), carsFeature);
 
-		burntTreeFeatureLarge = Feature.TREE.configured((new BaseTreeFeatureConfig.Builder(
-				new SimpleBlockStateProvider(ModBlocks.BURNT_LOG.get().defaultBlockState()),
-				new SimpleBlockStateProvider(Blocks.AIR.defaultBlockState()),
-				new FancyFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(4), 4),
-				new FancyTrunkPlacer(3, 11, 0),
-				new TwoLayerFeature(0, 0, 0, OptionalInt.of(4)))).ignoreVines().heightmap(Heightmap.Type.MOTION_BLOCKING).build()).decorated(Features.Placements.HEIGHTMAP).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(5, 0.25f, 2)));
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(SevenDaysToMine.MODID,"burnt_tree_large"), burntTreeFeatureLarge);
-
-		burntTreeFeature = Feature.TREE.configured((new BaseTreeFeatureConfig.Builder(
-				new SimpleBlockStateProvider(ModBlocks.BURNT_LOG.get().defaultBlockState()),
-				new SimpleBlockStateProvider(Blocks.AIR.defaultBlockState()),
-				new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
-				new StraightTrunkPlacer(4, 2, 0),
-				new TwoLayerFeature(1, 0, 1))).ignoreVines().build()).decorated(Features.Placements.HEIGHTMAP).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(5, 0.25f, 2)));
+		burntTreeFeature = Feature.TREE.configured((new net.minecraft.world.gen.feature.BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.BURNT_LOG.get().defaultBlockState()), new SimpleBlockStateProvider(Blocks.AIR.defaultBlockState()), new FancyFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(4), 4), new FancyTrunkPlacer(3, 11, 0), new TwoLayerFeature(0, 0, 0, OptionalInt.of(4)))).ignoreVines().heightmap(Heightmap.Type.MOTION_BLOCKING).build());
 		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(SevenDaysToMine.MODID,"burnt_tree"), burntTreeFeature);
 
 	}

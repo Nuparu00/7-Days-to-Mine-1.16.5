@@ -25,7 +25,6 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModStructureFeatures;
-import nuparu.sevendaystomine.util.Utils;
 
 import java.util.List;
 
@@ -120,12 +119,7 @@ public class AirplaneStructure extends Structure<NoFeatureConfig> {
      */
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
-        if(Utils.isNearStructure(ModStructureFeatures.CITY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-        if(Utils.isNearStructure(ModStructureFeatures.WINDMILL.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-        if(Utils.isNearStructure(ModStructureFeatures.OBSERVATORY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-        if(Utils.isNearStructure(ModStructureFeatures.HELICOPTER.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-        if(Utils.isNearStructure(ModStructureFeatures.AIRFIELD.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-
+        if(isNearCity(chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
         // Grab height of land. Will stop at first non-air block.
@@ -219,7 +213,7 @@ public class AirplaneStructure extends Structure<NoFeatureConfig> {
             int xOffset = centerPos.getX() - structureCenter.getX();
             int zOffset = centerPos.getZ() - structureCenter.getZ();
             for(StructurePiece structurePiece : this.pieces){
-                structurePiece.move(xOffset, -1, zOffset);
+                structurePiece.move(xOffset, 0, zOffset);
             }
             this.calculateBoundingBox();
         }

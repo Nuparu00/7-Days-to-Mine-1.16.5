@@ -20,7 +20,8 @@ import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,13 +32,11 @@ import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderUtils {
@@ -431,7 +430,6 @@ public class RenderUtils {
         list.add(itextcomponent);
         return list;
     }
-    private static final IReorderingProcessor INDENT = IReorderingProcessor.codepoint(32, Style.EMPTY);
 
     public static void renderNameTag(Vector3d pos, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
         Minecraft minecraft = Minecraft.getInstance();

@@ -128,16 +128,14 @@ public class SevenDaysToMine {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
-        System.out.println("FMLCommonSetupEvent");
+
         event.enqueueWork(() -> {
-            System.out.println("enqueueWork");
             ModGameRules.register();
             ModStructureFeatures.setupStructures();
             ModConfiguredStructures.registerConfiguredStructures();
             ModStructureProcessors.register();
             ModStructurePoolElements.register();
             ModLootModifiers.registerConditions();
-            System.out.println("denqueueWork");
         });
 
         ModTriggers.register();

@@ -23,7 +23,6 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.world.gen.feature.jigsaw.LargeJigsawManager;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
@@ -170,7 +169,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
             //IBlockReader blockReader = chunkGenerator.getBaseColumn(blockpos.getX(), blockpos.getZ());
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
-            LargeJigsawManager.addPieces(
+            JigsawManager.addPieces(
                     dynamicRegistryManager,
                     new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
                             // The path to the starting Template Pool JSON file to read.

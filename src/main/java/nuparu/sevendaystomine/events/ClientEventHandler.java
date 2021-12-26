@@ -296,7 +296,6 @@ public class ClientEventHandler {
 
             mat = entry.material;
             weight = entry.weight;
-            System.out.println("TOOLTIP " + mat);
         }
 
         if (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)) {
