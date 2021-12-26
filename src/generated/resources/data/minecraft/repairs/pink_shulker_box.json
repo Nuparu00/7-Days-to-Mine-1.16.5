@@ -1,0 +1,11 @@
+{
+  "block": "minecraft:pink_shulker_box",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "minecraft:shulker_shell",
+      "count": 1
+    }
+  ]
+}

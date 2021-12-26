@@ -1,0 +1,11 @@
+{
+  "block": "minecraft:smoker",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "sevendaystomine:small_stone",
+      "count": 1
+    }
+  ]
+}
