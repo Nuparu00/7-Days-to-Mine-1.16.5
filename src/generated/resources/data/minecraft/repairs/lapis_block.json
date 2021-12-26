@@ -1,0 +1,11 @@
+{
+  "block": "minecraft:lapis_block",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "minecraft:lapis_lazuli",
+      "count": 1
+    }
+  ]
+}

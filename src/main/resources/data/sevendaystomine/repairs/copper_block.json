@@ -1,0 +1,11 @@
+{
+  "block": "sevendaystomine:copper_block",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "sevendaystomine:copper_ingot",
+      "count": 1
+    }
+  ]
+}

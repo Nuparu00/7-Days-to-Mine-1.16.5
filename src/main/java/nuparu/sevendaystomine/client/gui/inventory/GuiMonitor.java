@@ -1,6 +1,7 @@
 package nuparu.sevendaystomine.client.gui.inventory;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerEntity;
@@ -133,4 +134,11 @@ public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGu
 				&& getComputer().isCompleted();
 	}
 
+	/*
+	 *Please, please never use this!!! This has to be in here so JEI does not render its stuff over the GUI!!!!!
+	 */
+	@Override
+	public Minecraft getMinecraft() {
+		return null;
+	}
 }

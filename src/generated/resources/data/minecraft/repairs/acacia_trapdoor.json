@@ -1,0 +1,11 @@
+{
+  "block": "minecraft:acacia_trapdoor",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "sevendaystomine:plank_wood",
+      "count": 1
+    }
+  ]
+}

@@ -34,6 +34,7 @@ public class ModStructureFeatures {
     public static final RegistryObject<Structure<NoFeatureConfig>> CARGO_SHIP = STRUCTURE_FEATURES.register("cargo_ship", () -> (new CargoShipStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> CARGO_SHIP_SUNKEN = STRUCTURE_FEATURES.register("cargo_ship_sunken", () -> (new CargoShipSunkenStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> AIRFIELD = STRUCTURE_FEATURES.register("airfield", () -> (new AirfieldStructure(NoFeatureConfig.CODEC)));
+    //public static final RegistryObject<Structure<NoFeatureConfig>> VILLAGE = STRUCTURE_FEATURES.register("village", () -> (new VillageStructure(NoFeatureConfig.CODEC)));
 
     /**
      * This is where we set the rarity of your structures and determine if land conforms to it.
@@ -144,6 +145,7 @@ public class ModStructureFeatures {
                         32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1454291511 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
+
     }
 
     /**

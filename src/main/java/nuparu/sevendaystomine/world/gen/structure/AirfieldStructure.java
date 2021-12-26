@@ -123,6 +123,7 @@ public class AirfieldStructure extends Structure<NoFeatureConfig> {
         if(isNear(ModStructureFeatures.CITY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
         if(isNear(ModStructureFeatures.AIRPLANE.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
         if(isNear(ModStructureFeatures.OBSERVATORY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
+        if(isNear(ModStructureFeatures.WINDMILL.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
 
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 

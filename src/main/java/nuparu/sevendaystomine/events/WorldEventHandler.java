@@ -18,8 +18,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.TableLootEntry;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
@@ -35,13 +33,20 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.Features;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.common.world.MobSpawnInfoBuilder;
-import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -272,6 +277,7 @@ public class WorldEventHandler {
 		if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
 			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.MOUNTAIN) && !BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.HILLS)) {
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CITY);
+				//event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_VILLAGE);
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_MILITARY_BASE);
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRPLANE);
 				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_HELICOPTER);
@@ -299,7 +305,8 @@ public class WorldEventHandler {
 
 		if(biomeKey.location().equals(ModBiomes.WASTELAND_FOREST.getId())){
 			//System.out.println("BURNS BURNS BURNS, THE RING OF FIRE");
-			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTreeFeature);
+			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTreeFeatureLarge.decorated(Features.Placements.HEIGHTMAP).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(5, 0.25f, 2))));
+			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTreeFeature.decorated(Features.Placements.HEIGHTMAP).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(5, 0.25f, 2))));
 			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_LANDFILL);
 		}
 
@@ -308,6 +315,19 @@ public class WorldEventHandler {
 			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.cornFeature);
 		}
 
+		if(!event.getCategory().equals(Biome.Category.NETHER) && !event.getCategory().equals(Biome.Category.THEEND)){
+			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_COPPER.get().defaultBlockState(), 10,32,128,3);
+			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_CINNABAR.get().defaultBlockState(), 3,70,256,6);
+			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_LEAD.get().defaultBlockState(), 6,10,80,8);
+			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_POTASSIUM.get().defaultBlockState(), 10,50,128,3);
+			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_TIN.get().defaultBlockState(), 5,5,128,8);
+			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_ZINC.get().defaultBlockState(), 5,5,128,6);
+		}
+
+	}
+
+	void addOreFeature(BiomeGenerationSettingsBuilder settings, RuleTest fillerType, BlockState state, int veinSize, int minHeight, int maxHeight, int amount){
+		settings.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(new OreFeatureConfig(fillerType,state,veinSize)).decorated(Placement.RANGE.configured(new TopSolidRangeConfig(minHeight,0,maxHeight))).squared().count(amount));
 	}
 
 	private static Method GETCODEC_METHOD;
@@ -365,6 +385,7 @@ public class WorldEventHandler {
 			tempMap.putIfAbsent(ModStructureFeatures.CARGO_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.CARGO_SHIP.get()));
 			tempMap.putIfAbsent(ModStructureFeatures.CARGO_SHIP_SUNKEN.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.CARGO_SHIP_SUNKEN.get()));
 			tempMap.putIfAbsent(ModStructureFeatures.AIRFIELD.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.AIRFIELD.get()));
+			//tempMap.putIfAbsent(ModStructureFeatures.VILLAGE.get(), DimensionStructuresSettings.DEFAULTS.get(ModStructureFeatures.VILLAGE.get()));
 			serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
 	}

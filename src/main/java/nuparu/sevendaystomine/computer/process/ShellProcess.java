@@ -336,7 +336,9 @@ public class ShellProcess extends WindowedProcess {
         }
 
         @OnlyIn(Dist.CLIENT)
-        public void run (String[]words){
+        public void run (String[] words){
+            if(words.length == 0) return;
+
             if (words.length == 2 && words[1].equals("cbburner.exe")) {
                 addTextToLog("F");
             } else {

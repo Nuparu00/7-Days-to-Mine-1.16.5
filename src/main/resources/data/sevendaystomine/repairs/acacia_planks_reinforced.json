@@ -1,0 +1,11 @@
+{
+  "block": "sevendaystomine:acacia_planks_reinforced",
+  "repairAmount": 0.2,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "sevendaystomine:plank_wood",
+      "count": 1
+    }
+  ]
+}

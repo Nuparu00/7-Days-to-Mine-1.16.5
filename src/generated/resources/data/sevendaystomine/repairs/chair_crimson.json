@@ -1,0 +1,11 @@
+{
+  "block": "sevendaystomine:chair_crimson",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "sevendaystomine:plank_fungi",
+      "count": 1
+    }
+  ]
+}
