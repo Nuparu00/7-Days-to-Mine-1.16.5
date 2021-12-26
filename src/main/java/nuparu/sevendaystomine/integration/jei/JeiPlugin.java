@@ -53,12 +53,6 @@ import java.util.stream.Collectors;
 @mezz.jei.api.JeiPlugin
 public class JeiPlugin implements IModPlugin {
     public static IGuiHelper guiHelper;
-    public static IRecipeRegistration recipeRegistration;
-
-    public static JeiPlugin instance;
-    public JeiPlugin(){
-        instance = this;
-    }
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -86,12 +80,12 @@ public class JeiPlugin implements IModPlugin {
     @Override
     public void registerRecipes(@Nonnull IRecipeRegistration registry) {
         RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
-        recipeRegistration = registry;
-        JeiPlugin.instance.registerScrapRecipes();
+
         registry.addRecipes(getRecipes(manager, RecipeWorkbenchShaped.class),WorkbenchRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ModRecipeSerializers.GRILL.getA()),new ResourceLocation(SevenDaysToMine.MODID,"cooking_grill"));
         registry.addRecipes(getRecipes(manager, ForgeRecipeShapeless.class),ForgeShapelessRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ForgeRecipeMaterial.class),ForgeMaterialRecipeCategory.ID);
+        registry.addRecipes(getScrapRecipes(),ScrapRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ModRecipeSerializers.COOKING_POT.getA()),PotRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ModRecipeSerializers.BEAKER.getA()),BeakerRecipeCategory.ID);
         registry.addRecipes(getRecipes(manager, ModRecipeSerializers.SEPARATOR.getA()),SeparatorRecipeCategory.ID);
@@ -121,28 +115,19 @@ public class JeiPlugin implements IModPlugin {
         return manager.getRecipes().parallelStream().filter(iRecipe -> clazz.isAssignableFrom(iRecipe.getClass())).collect(Collectors.toList());
     }
 
-    public void registerScrapRecipes(){
-        this.recipeRegistration.addRecipes(getScrapRecipes(),ScrapRecipeCategory.ID);
-    }
-
     /*
     Tries to generate all possibly one-item scrap recipes
      */
     public static List<ScrapRecipeWrapper> getScrapRecipes(){
         ArrayList<ScrapRecipeWrapper> result = new ArrayList<>();
-        for(ScrapDataManager.ScrapEntry scrapEntry: ScrapDataManager.instance.getScraps()){
-            //System.out.println(scrapEntry.name + " " + scrapEntry.material + " " + scrapEntry.item.getRegistryName());
-        }
-
 
         for(EnumMaterial material : EnumMaterial.values()){
             if(ScrapDataManager.instance.hasScrapResult(material)){
                 //ItemStack scrapResult = ScrapDataManager.instance.getScrapResult(material);
                 ScrapDataManager.ScrapEntry scrapResult = ScrapDataManager.instance.getScrapResult(material);
                 for(ScrapDataManager.ScrapEntry entry : ScrapDataManager.instance.getScraps()){
-                    if(entry.item == null || !entry.canBeScrapped) {System.out.println(material + " NOT NULLIS " + entry.name + " " + entry.canBeScrapped + " " + entry.material +  " " + entry.item); continue;}
+                    if(entry.item == null || entry.canBeScrapped) continue;
                     if(entry.material == material) {
-                        System.out.println(material + " " + entry.name);
                         if (entry.weight > scrapResult.weight) {
                             NonNullList<ItemStack> ingredients = NonNullList.create();
                             ingredients.add(new ItemStack(entry.item,1));
@@ -158,10 +143,8 @@ public class JeiPlugin implements IModPlugin {
                             //For some reason the stack sometimes is air, no idea why, maybe wrong item id in some of the scrap files
                             if(ingredients.get(0).isEmpty()) continue;
                             result.add(new ScrapRecipeWrapper(ingredients, new ItemStack(scrapResult.item, (int) Math.floor(entry.weight * inputCount * CommonConfig.scrapCoefficient.get()))));
+
                         }
-                    }
-                    else {
-                        System.out.println(material + " NOT MAT " + entry.name);
                     }
                 }
             }

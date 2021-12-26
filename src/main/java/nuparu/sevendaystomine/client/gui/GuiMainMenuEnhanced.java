@@ -1,17 +1,12 @@
 package nuparu.sevendaystomine.client.gui;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.MainWindow;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import nuparu.sevendaystomine.util.MathUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +31,8 @@ import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
+import net.minecraft.client.renderer.RenderSkybox;
+import net.minecraft.client.renderer.RenderSkyboxCube;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.realms.RealmsBridgeScreen;
@@ -57,8 +54,8 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 @OnlyIn(Dist.CLIENT)
 public class GuiMainMenuEnhanced extends Screen {
 	private static final Logger LOGGER = LogManager.getLogger();
-	/*public static final RenderSkyboxCube CUBE_MAP = new RenderSkyboxCube(
-			new ResourceLocation("textures/gui/title/background/panorama"));*/
+	public static final RenderSkyboxCube CUBE_MAP = new RenderSkyboxCube(
+			new ResourceLocation("textures/gui/title/background/panorama"));
 	private static final ResourceLocation PANORAMA_OVERLAY = new ResourceLocation(
 			"textures/gui/title/background/panorama_overlay.png");
 	private static final ResourceLocation ACCESSIBILITY_TEXTURE = new ResourceLocation(
@@ -74,39 +71,10 @@ public class GuiMainMenuEnhanced extends Screen {
 	private Screen realmsNotificationsScreen;
 	private int copyrightWidth;
 	private int copyrightX;
-	//private final RenderSkybox panorama = new RenderSkybox(CUBE_MAP);
+	private final RenderSkybox panorama = new RenderSkybox(CUBE_MAP);
 	private final boolean fading;
 	private long fadeInStart;
 	private net.minecraftforge.client.gui.NotificationModUpdateScreen modUpdateNotification;
-
-	/*
-	7 Days to Mine part
-	 */
-
-	public static final ResourceLocation BGR_DAY = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/gui/title/background/background_day.png");
-	public static final ResourceLocation BGR_SNOW = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/gui/title/background/background_snow.png");
-	public static final ResourceLocation BGR_BLOODMOON = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/gui/title/background/background_bloodmoon.png");
-	public static final ResourceLocation BGR_NIGHT = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/gui/title/background/background_night.png");
-
-	public static final int MINIMAL_DUST_PARTICLES = 300;
-	public static final int NATURAL_MAXIMUM_DUST_PARTICLES = 256;
-	public List<Dust> dusts = new ArrayList<Dust>();
-	public List<Dust> dustsToAdd = new ArrayList<Dust>();
-	public List<Dust> dustsToRemove = new ArrayList<Dust>();
-	public boolean drawDustMode = true;
-	public boolean drawing = false;
-
-	private int mX = 0;
-	private int mY = 0;
-
-	public static ResourceLocation background = BGR_DAY;
-	public int bgr = 0;
-	private boolean bday = false;
-	private Random random = new Random();
 
 	public GuiMainMenuEnhanced() {
 		this(false);
@@ -116,12 +84,6 @@ public class GuiMainMenuEnhanced extends Screen {
 		super(new TranslationTextComponent("narrator.screen.title"));
 		this.fading = p_i51107_1_;
 		this.minceraftEasterEgg = (double) (new Random()).nextFloat() < 1.0E-4D;
-
-		if (MathUtils.getIntInRange(0, 50) == 0) {
-			background = BGR_NIGHT;
-			bgr = 3;
-		}
-
 	}
 
 	private boolean realmsNotificationsEnabled() {
@@ -133,35 +95,13 @@ public class GuiMainMenuEnhanced extends Screen {
 			this.realmsNotificationsScreen.tick();
 		}
 
-		dusts.addAll(dustsToAdd);
-		dusts.removeAll(dustsToRemove);
-		dustsToRemove.clear();
-		dustsToAdd.clear();
-
-		if ((dusts.size() + dustsToAdd.size()) < NATURAL_MAXIMUM_DUST_PARTICLES) {
-			while ((dusts.size() + dustsToAdd.size()) < Math.min(
-					ThreadLocalRandom.current().nextInt(MINIMAL_DUST_PARTICLES, MINIMAL_DUST_PARTICLES + 20),
-					NATURAL_MAXIMUM_DUST_PARTICLES)) {
-				dustsToAdd.add(summonDust(random, minecraft.getWindow()));
-			}
-		}
-
-		if (drawing && drawDustMode) {
-			for(int i = 0; i < (Screen.hasShiftDown() ? 5 : 1); i++) {
-				Dust dust = summonDust(random, minecraft.getWindow());
-				dust.x = mX;
-				dust.y = mY;
-				dusts.add(dust);
-			}
-		}
-
 	}
-/*
+
 	public static CompletableFuture<Void> preloadResources(TextureManager p_213097_0_, Executor p_213097_1_) {
 		return CompletableFuture.allOf(p_213097_0_.preload(MINECRAFT_LOGO, p_213097_1_),
 				p_213097_0_.preload(MINECRAFT_EDITION, p_213097_1_), p_213097_0_.preload(PANORAMA_OVERLAY, p_213097_1_),
 				CUBE_MAP.preload(p_213097_0_, p_213097_1_));
-	}*/
+	}
 
 	public boolean isPauseScreen() {
 		return false;
@@ -172,27 +112,8 @@ public class GuiMainMenuEnhanced extends Screen {
 	}
 
 	protected void init() {
-		dusts.clear();
-
 		if (this.splash == null) {
 			this.splash = this.minecraft.getSplashManager().getSplash();
-		}
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		int month = calendar.get(2) + 1;
-		int day = calendar.get(5);
-
-		if (month == 12 && day >= 24 && day <= 26) {
-			background = BGR_SNOW;
-			bgr = 1;
-		}
-		else if (month == 10 && day == 31) {
-			background = BGR_BLOODMOON;
-			bgr = 2;
-		}
-		if (month == 7 && day == 3) {
-			bday = true;
 		}
 
 		this.copyrightWidth = this.font.width("Copyright Mojang AB. Do not distribute!");
@@ -308,39 +229,14 @@ public class GuiMainMenuEnhanced extends Screen {
 		realmsbridgescreen.switchToRealms(this);
 	}
 
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-
+	public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
 		if (this.fadeInStart == 0L && this.fading) {
 			this.fadeInStart = Util.getMillis();
 		}
 
 		float f = this.fading ? (float) (Util.getMillis() - this.fadeInStart) / 1000.0F : 1.0F;
-		fill(matrixStack, 0, 0, this.width, this.height, -1);
-
-		List<Dust> dustsClone = new ArrayList<Dust>();
-		dustsClone.addAll(dusts);
-		ListIterator<Dust> it = dustsClone.listIterator();
-		while (it.hasNext()) {
-			Dust dust = it.next();
-			dust.update(mX, mY);
-			if (dust.x - dust.scale > ((minecraft.getWindow().getGuiScaledWidth())) || dust.y - dust.scale > ((minecraft.getWindow().getGuiScaledHeight()))
-					|| dust.x + dust.scale < 0 || dust.y + dust.scale < 0) {
-				dust.opacity -= 0.05f;
-			}
-		}
-
-		this.mX = mouseX;
-		this.mY = mouseY;
-
-		this.renderStaticBgr(this.minecraft,this.minecraft.getWindow(),matrixStack);
-
-		Iterator<Dust> it2 = dusts.iterator();
-		while (it2.hasNext()) {
-			Dust dust = it2.next();
-			dust.draw(matrixStack);
-		}
-
-		// this.panorama.render(partialTicks, MathHelper.clamp(f, 0.0F, 1.0F));
+		fill(p_230430_1_, 0, 0, this.width, this.height, -1);
+		this.panorama.render(p_230430_4_, MathHelper.clamp(f, 0.0F, 1.0F));
 		int i = 274;
 		int j = this.width / 2 - 137;
 		int k = 30;
@@ -349,7 +245,7 @@ public class GuiMainMenuEnhanced extends Screen {
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F,
 				this.fading ? (float) MathHelper.ceil(MathHelper.clamp(f, 0.0F, 1.0F)) : 1.0F);
-		blit(matrixStack, 0, 0, this.width, this.height, 0.0F, 0.0F, 16, 128, 16, 128);
+		blit(p_230430_1_, 0, 0, this.width, this.height, 0.0F, 0.0F, 16, 128, 16, 128);
 		float f1 = this.fading ? MathHelper.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
 		int l = MathHelper.ceil(f1 * 255.0F) << 24;
 		if ((l & -67108864) != 0) {
@@ -357,23 +253,23 @@ public class GuiMainMenuEnhanced extends Screen {
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, f1);
 			/*if (this.minceraftEasterEgg) {
 				this.blitOutlineBlack(j, 30, (p_238660_2_, p_238660_3_) -> {
-					this.blit(matrixStack, p_238660_2_ + 0, p_238660_3_, 0, 0, 99, 44);
-					this.blit(matrixStack, p_238660_2_ + 99, p_238660_3_, 129, 0, 27, 44);
-					this.blit(matrixStack, p_238660_2_ + 99 + 26, p_238660_3_, 126, 0, 3, 44);
-					this.blit(matrixStack, p_238660_2_ + 99 + 26 + 3, p_238660_3_, 99, 0, 26, 44);
-					this.blit(matrixStack, p_238660_2_ + 155, p_238660_3_, 0, 45, 155, 44);
+					this.blit(p_230430_1_, p_238660_2_ + 0, p_238660_3_, 0, 0, 99, 44);
+					this.blit(p_230430_1_, p_238660_2_ + 99, p_238660_3_, 129, 0, 27, 44);
+					this.blit(p_230430_1_, p_238660_2_ + 99 + 26, p_238660_3_, 126, 0, 3, 44);
+					this.blit(p_230430_1_, p_238660_2_ + 99 + 26 + 3, p_238660_3_, 99, 0, 26, 44);
+					this.blit(p_230430_1_, p_238660_2_ + 155, p_238660_3_, 0, 45, 155, 44);
 				});
 			} else {*/
 				this.blitOutlineBlack(j, 15, (p_238657_2_, p_238657_3_) -> {
-					this.blit(matrixStack, p_238657_2_, p_238657_3_, 0, 0, 155, 44);
-					this.blit(matrixStack, p_238657_2_ + 155, p_238657_3_, 0, 45, 155, 44);
+					this.blit(p_230430_1_, p_238657_2_, p_238657_3_, 0, 0, 155, 44);
+					this.blit(p_230430_1_, p_238657_2_ + 155, p_238657_3_, 0, 45, 155, 44);
 				});
 			//}
 
 			this.minecraft.getTextureManager().bind(MINECRAFT_EDITION);
-			blit(matrixStack, j + 88, 67-15, 0.0F, 0.0F, 98, 14, 128, 16);
+			blit(p_230430_1_, j + 88, 67-15, 0.0F, 0.0F, 98, 14, 128, 16);
 			/*
-			 * net.minecraftforge.client.ForgeHooksClient.renderMainMenu(this, matrixStack,
+			 * net.minecraftforge.client.ForgeHooksClient.renderMainMenu(this, p_230430_1_,
 			 * this.font, this.width, this.height, l);
 			 */
 			if (this.splash != null) {
@@ -384,7 +280,7 @@ public class GuiMainMenuEnhanced extends Screen {
 						MathHelper.sin((float) (Util.getMillis() % 1000L) / 1000.0F * ((float) Math.PI * 2F)) * 0.1F);
 				f2 = f2 * 100.0F / (float) (this.font.width(this.splash) + 32);
 				RenderSystem.scalef(f2, f2, f2);
-				drawCenteredString(matrixStack, this.font, this.splash, 0, -8, 16776960 | l);
+				drawCenteredString(p_230430_1_, this.font, this.splash, 0, -8, 16776960 | l);
 				RenderSystem.popMatrix();
 			}
 
@@ -400,18 +296,18 @@ public class GuiMainMenuEnhanced extends Screen {
 				s = s + I18n.get("menu.modded");
 			}
 
-			net.minecraftforge.fml.BrandingControl.forEachLine(true, true, (brdline, brd) -> drawString(matrixStack,
+			net.minecraftforge.fml.BrandingControl.forEachLine(true, true, (brdline, brd) -> drawString(p_230430_1_,
 					this.font, brd, 2, this.height - (10 + brdline * (this.font.lineHeight + 1)), 16777215 | l));
 
 			net.minecraftforge.fml.BrandingControl.forEachAboveCopyrightLine(
-					(brdline, brd) -> drawString(matrixStack, this.font, brd, this.width - font.width(brd),
+					(brdline, brd) -> drawString(p_230430_1_, this.font, brd, this.width - font.width(brd),
 							this.height - (10 + (brdline + 1) * (this.font.lineHeight + 1)), 16777215 | l));
 
-			drawString(matrixStack, this.font, "Copyright Mojang AB. Do not distribute!", this.copyrightX,
+			drawString(p_230430_1_, this.font, "Copyright Mojang AB. Do not distribute!", this.copyrightX,
 					this.height - 10, 16777215 | l);
-			if (mouseX > this.copyrightX && mouseX < this.copyrightX + this.copyrightWidth
-					&& mouseY > this.height - 10 && mouseY < this.height) {
-				fill(matrixStack, this.copyrightX, this.height - 1, this.copyrightX + this.copyrightWidth, this.height,
+			if (p_230430_2_ > this.copyrightX && p_230430_2_ < this.copyrightX + this.copyrightWidth
+					&& p_230430_3_ > this.height - 10 && p_230430_3_ < this.height) {
+				fill(p_230430_1_, this.copyrightX, this.height - 1, this.copyrightX + this.copyrightWidth, this.height,
 						16777215 | l);
 			}
 
@@ -419,40 +315,29 @@ public class GuiMainMenuEnhanced extends Screen {
 				widget.setAlpha(f1);
 			}
 
-			super.render(matrixStack, mouseX, mouseY, partialTicks);
+			super.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
 			if (this.realmsNotificationsEnabled() && f1 >= 1.0F) {
-				this.realmsNotificationsScreen.render(matrixStack, mouseX, mouseY, partialTicks);
+				this.realmsNotificationsScreen.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
 			}
-			modUpdateNotification.render(matrixStack, mouseX, mouseY, partialTicks);
+			modUpdateNotification.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
 
 		}
 	}
 
-	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-		if (drawDustMode && mouseButton == 0) {
-			drawing = true;
-		}
-
-		if (super.mouseClicked(mouseX, mouseY, mouseButton)) {
+	public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
+		if (super.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_)) {
 			return true;
 		} else if (this.realmsNotificationsEnabled()
-				&& this.realmsNotificationsScreen.mouseClicked(mouseX, mouseY, mouseButton)) {
+				&& this.realmsNotificationsScreen.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_)) {
 			return true;
 		} else {
-			if (mouseX > (double) this.copyrightX && mouseX < (double) (this.copyrightX + this.copyrightWidth)
-					&& mouseY > (double) (this.height - 10) && mouseY < (double) this.height) {
+			if (p_231044_1_ > (double) this.copyrightX && p_231044_1_ < (double) (this.copyrightX + this.copyrightWidth)
+					&& p_231044_3_ > (double) (this.height - 10) && p_231044_3_ < (double) this.height) {
 				this.minecraft.setScreen(new WinGameScreen(false, Runnables.doNothing()));
 			}
 
 			return false;
 		}
-	}
-
-	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
-		drawing = false;
-		return super.mouseReleased(mouseX,mouseY,mouseButton);
 	}
 
 	public void removed() {
@@ -517,71 +402,6 @@ public class GuiMainMenuEnhanced extends Screen {
 					this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0F) << 24);
 		}
 
-	}
-
-	public void renderStaticBgr(Minecraft mc, MainWindow sr, MatrixStack stack) {
-
-		stack.pushPose();
-		RenderSystem.disableDepthTest();
-		RenderSystem.enableBlend();
-		RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-		RenderSystem.enableAlphaTest();
-		RenderSystem.color4f(1,1,1,1);
-		mc.getTextureManager().bind(background);
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder worldrenderer = tessellator.getBuilder();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.vertex(0.0D, (double) sr.getGuiScaledHeight(), -90.0D).uv(0.0f, 1.0f).endVertex();
-		worldrenderer.vertex((double) sr.getGuiScaledWidth(), (double) sr.getGuiScaledHeight(), -90.0D)
-				.uv(1.0f, 1.0f).endVertex();
-		worldrenderer.vertex((double) sr.getGuiScaledWidth(), 0.0D, -90.0D).uv(1.0f, 0.0f).endVertex();
-		worldrenderer.vertex(0.0D, 0.0D, -90.0D).uv(0.0f, 0.0f).endVertex();
-		tessellator.end();
-		RenderSystem.enableDepthTest();
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1);
-		RenderSystem.disableBlend();
-		stack.popPose();
-	}
-
-
-	public Dust summonDust(Random rand, MainWindow sr) {
-		float x = rand.nextFloat() * sr.getGuiScaledWidth();
-		float y = MathUtils.getFloatInRange(0f, 0.75f) * sr.getGuiScaledHeight();
-		float motionX = rand.nextFloat() * 0.6f - 0.15f;
-		float motionY = rand.nextFloat()*0.66f;
-		float[] rgb = new float[3];
-		float opacity = MathUtils.getFloatInRange(0.1f, 0.5f);
-
-		if (bday) {
-			rgb[0] = rand.nextFloat();
-			rgb[1] = rand.nextFloat();
-			rgb[2] = rand.nextFloat();
-		} else {
-			rgb[0] = 0.941F;
-			rgb[1] = 0.902F;
-			rgb[2] = 0.549F;
-
-			if (bgr == 1 || bgr == 3) {
-				float c = (rgb[0] + rgb[1] + rgb[2]) / 3;
-				if(bgr == 3) {
-					opacity/=2;
-					c*=0.7f;
-				}
-				rgb[0] = c;
-				rgb[1] = c;
-				rgb[2] = c;
-			}
-			else if(bgr == 2) {
-				rgb[0] = rgb[0]/1.2f;
-				rgb[1] = rgb[1]/3;
-				rgb[2] = rgb[2]/5;
-				opacity/=1.5;
-			}
-
-		}
-
-		return new Dust(x, y, motionX, motionY, MathUtils.getFloatInRange(0.017528f, 0.80f),
-				opacity, rgb, this);
 	}
 
 }

@@ -105,6 +105,7 @@ public class MixinWorldRenderer {
                             matrixStack.translate((double) blockpos1.getX() - d0, (double) blockpos1.getY() - d1,
                                     (double) blockpos1.getZ() - d2);
                             RenderSystem.disableDepthTest();
+
                             if (k3 >= 0) {
                                 minecraft.getMainRenderTarget().bindWrite(true);
                                 MatrixStack.Entry matrixstack$entry1 = matrixStack.last();

@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import nuparu.sevendaystomine.datagen.loot.BaseLootTableProvider;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.datagen.repair.RepairDataProvider;
 
 @Mod.EventBusSubscriber(modid = SevenDaysToMine.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
@@ -17,6 +16,5 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         //generator.addProvider(new Recipes(generator));
         generator.addProvider(new BaseLootTableProvider(generator));
-        generator.addProvider(new RepairDataProvider(generator));
     }
 }

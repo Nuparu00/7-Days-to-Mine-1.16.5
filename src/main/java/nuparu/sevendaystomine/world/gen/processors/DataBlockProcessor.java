@@ -42,23 +42,12 @@ public class DataBlockProcessor extends StructureProcessor {
 
             }*/
             switch (metadata) {
-                case "cobweb": {
-                    if (random.nextInt(4) == 0) {
-                        return new Template.BlockInfo(worldPos, Blocks.COBWEB.defaultBlockState(), null);
-                    }
-                    return new Template.BlockInfo(worldPos, Blocks.AIR.defaultBlockState(), null);
-                }
-
+                case "cobweb":
+                    return new Template.BlockInfo(worldPos, Blocks.COBWEB.defaultBlockState(), null);
                 case "garbage": {
                     CompoundNBT nbt = new CompoundNBT();
                     nbt.putString("LootTable", "sevendaystomine:containers/garbage/garbage");
-                    return new Template.BlockInfo(worldPos, ModBlocks.GARBAGE.get().defaultBlockState().setValue(BlockGarbage.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]), nbt);
-                }
-                case "beaker": {
-                    if (random.nextInt(10) == 0) {
-                        return new Template.BlockInfo(worldPos, ModBlocks.BEAKER.get().defaultBlockState().setValue(BlockCookware.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]), null);
-                    }
-                    return new Template.BlockInfo(worldPos, Blocks.AIR.defaultBlockState(), null);
+                    return new Template.BlockInfo(worldPos, ModBlocks.GARBAGE.get().defaultBlockState(), nbt);
                 }
                 case "backpack": {
                     CompoundNBT nbt = new CompoundNBT();
@@ -94,48 +83,13 @@ public class DataBlockProcessor extends StructureProcessor {
                     CompoundNBT nbt = new CompoundNBT();
                     nbt.putString("LootTable", "sevendaystomine:containers/nest/nest");
                     BlockState state = ModBlocks.CORPSE_00.get().defaultBlockState();
-                    if (random.nextBoolean()) {
+                    if(random.nextBoolean()){
                         state = ModBlocks.CORPSE_01.get().defaultBlockState();
                     }
                     return new Template.BlockInfo(worldPos, state.setValue(BlockCardboardBox.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]), nbt);
                 }
-                case "plagued_nurse": {
+                case "plagued_nurse" : {
                     return null;
-                }
-                case "skeleton": {
-                    BlockState state = Blocks.AIR.defaultBlockState();
-                    if (random.nextInt(5) == 0) {
-                        state = ModBlocks.SKELETON.get().defaultBlockState().setValue(BlockSkeleton.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
-                    } else if (random.nextInt(5) == 0) {
-                        state = ModBlocks.SKELETON_TORSO.get().defaultBlockState().setValue(BlockSkeleton.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
-                    }
-                    return new Template.BlockInfo(worldPos, state, null);
-                }
-                case "trash_can": {
-                    CompoundNBT nbt = new CompoundNBT();
-                    nbt.putString("LootTable", "sevendaystomine:containers/trash_can/trash_can");
-                    return new Template.BlockInfo(worldPos, ModBlocks.TRASH_CAN.get().defaultBlockState().setValue(BlockTrashCan.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]), nbt);
-                }
-                case "street_decoration": {
-                    BlockState state = Blocks.AIR.defaultBlockState();
-                    CompoundNBT nbt = null;
-                    if (random.nextInt(2) == 0) {
-                        int i = random.nextInt(10);
-                        if (i <= 3) {
-                            state = ModBlocks.PAPER.get().defaultBlockState().setValue(BlockPaper.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
-                        } else if (i <= 7) {
-                            nbt = new CompoundNBT();
-                            nbt.putString("LootTable", "sevendaystomine:containers/garbage/garbage");
-                            state = ModBlocks.GARBAGE.get().defaultBlockState().setValue(BlockGarbage.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
-                        } else {
-                            if (random.nextInt(10) <= 6) {
-                                state = ModBlocks.SKELETON.get().defaultBlockState().setValue(BlockSkeleton.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
-                            } else {
-                                state = ModBlocks.SKELETON_TORSO.get().defaultBlockState().setValue(BlockSkeleton.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
-                            }
-                        }
-                    }
-                    return new Template.BlockInfo(worldPos, state, nbt);
                 }
             }
         }
@@ -144,7 +98,7 @@ public class DataBlockProcessor extends StructureProcessor {
             nbt.putString("LootTable", "sevendaystomine:containers/code_safe/code_safe");
             nbt.putBoolean("Locked", true);
             nbt.putBoolean("Init", false);
-            return new Template.BlockInfo(worldPos, ModBlocks.CODE_SAFE.get().defaultBlockState().setValue(BlockCodeSafe.FACING, blockState.getValue(BlockCodeSafePlacer.FACING)).setValue(BlockCodeSafe.WATERLOGGED, blockState.getValue(BlockCodeSafePlacer.WATERLOGGED)), nbt);
+            return new Template.BlockInfo(worldPos, ModBlocks.CODE_SAFE.get().defaultBlockState().setValue(BlockCodeSafe.FACING,blockState.getValue(BlockCodeSafePlacer.FACING)).setValue(BlockCodeSafe.WATERLOGGED,blockState.getValue(BlockCodeSafePlacer.WATERLOGGED)), nbt);
         }
         return structureBlockInfoWorld;
     }

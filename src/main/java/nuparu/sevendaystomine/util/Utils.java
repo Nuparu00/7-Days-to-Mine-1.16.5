@@ -30,13 +30,9 @@ import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 
-import net.minecraft.util.*;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import nuparu.sevendaystomine.entity.MountableBlockEntity;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -65,6 +61,13 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.IDataSerializer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Direction;
+import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.Hand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -1205,21 +1208,4 @@ public class Utils {
 	}
 
 
-	public static boolean isNearStructure(Structure structure, ChunkGenerator p_242782_1_, long p_242782_2_, SharedSeedRandom p_242782_4_, int p_242782_5_, int p_242782_6_) {
-		StructureSeparationSettings structureseparationsettings = p_242782_1_.getSettings().getConfig(structure);
-		if (structureseparationsettings == null) {
-			return false;
-		} else {
-			for(int i = p_242782_5_ - 10; i <= p_242782_5_ + 10; ++i) {
-				for(int j = p_242782_6_ - 10; j <= p_242782_6_ + 10; ++j) {
-					ChunkPos chunkpos = structure.getPotentialFeatureChunk(structureseparationsettings, p_242782_2_, p_242782_4_, i, j);
-					if (i == chunkpos.x && j == chunkpos.z) {
-						return true;
-					}
-				}
-			}
-
-			return false;
-		}
-	}
 }

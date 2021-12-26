@@ -4,11 +4,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -195,11 +193,6 @@ public class TransitProcess extends WindowedProcess {
         // Splits text to fit the page
         //List<IReorderingProcessor> l = RenderComponentsUtil.wrapComponents(new StringTextComponent(s), (int) Math.floor(width - 35), MonitorScreen.mc.font);
 
-        List<IReorderingProcessor> list = RenderComponentsUtil.wrapComponents(new StringTextComponent(s), (int) Math.floor(width), MonitorScreen.mc.font);
-
-        if(list.size() > 0){
-
-        }
 
         List<TextComponent> l = RenderUtils.splitText(new StringTextComponent(s),
                 (int) Math.floor(width - 35), MonitorScreen.mc.font, true, true);
