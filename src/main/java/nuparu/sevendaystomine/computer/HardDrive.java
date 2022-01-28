@@ -13,7 +13,6 @@ import net.minecraftforge.common.util.Constants;
 import nuparu.sevendaystomine.computer.application.Application;
 import nuparu.sevendaystomine.computer.application.ApplicationRegistry;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
-import nuparu.sevendaystomine.tileentity.TileEntityComputer.EnumSystem;
 
 public class HardDrive {
 

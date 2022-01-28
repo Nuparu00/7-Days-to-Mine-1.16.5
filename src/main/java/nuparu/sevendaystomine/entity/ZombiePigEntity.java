@@ -11,6 +11,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModEntities;
 
@@ -51,6 +52,21 @@ public class ZombiePigEntity<T extends ZombiePigEntity> extends ZombieQuadrapedE
 
 	protected SoundEvent getDeathSound() {
 		return SoundEvents.PIG_DEATH;
+	}
+
+	@Override
+	public Vector3d corpseRotation() {
+		return new Vector3d(0,0,90);
+	}
+
+	@Override
+	public Vector3d corpseTranslation() {
+		return new Vector3d(0,0,0);
+	}
+
+	@Override
+	public boolean customCoprseTransform() {
+		return true;
 	}
 
 	public class Factory implements IFactory<ZombiePigEntity> {

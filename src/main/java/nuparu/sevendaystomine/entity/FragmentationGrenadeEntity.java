@@ -11,6 +11,7 @@ import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ItemParticleData;
@@ -21,15 +22,19 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
+import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModEntities;
 import nuparu.sevendaystomine.init.ModItems;
 
 public class FragmentationGrenadeEntity extends ProjectileItemEntity {
 
+
+    public long age = 0;
 
     public FragmentationGrenadeEntity(EntityType<FragmentationGrenadeEntity> fragmentationGrenadeEntityEntityType, World world) {
         super(fragmentationGrenadeEntityEntityType, world);
@@ -37,14 +42,17 @@ public class FragmentationGrenadeEntity extends ProjectileItemEntity {
 
     public FragmentationGrenadeEntity(World p_i50155_2_) {
         super(ModEntities.FRAGMENTATION_GRENADE.get(), p_i50155_2_);
+        setItem(new ItemStack(ModItems.FRAGMENTATION_GRENADE.get()));
     }
 
     public FragmentationGrenadeEntity(World p_i1774_1_, LivingEntity p_i1774_2_) {
         super(ModEntities.FRAGMENTATION_GRENADE.get(), p_i1774_2_, p_i1774_1_);
+        setItem(new ItemStack(ModItems.FRAGMENTATION_GRENADE.get()));
     }
 
     public FragmentationGrenadeEntity(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_) {
         super(ModEntities.FRAGMENTATION_GRENADE.get(), p_i1775_2_, p_i1775_4_, p_i1775_6_, p_i1775_1_);
+        setItem(new ItemStack(ModItems.FRAGMENTATION_GRENADE.get()));
     }
 
 
@@ -55,7 +63,7 @@ public class FragmentationGrenadeEntity extends ProjectileItemEntity {
 
     @OnlyIn(Dist.CLIENT)
     private IParticleData getParticle() {
-        ItemStack itemstack = this.getItemRaw();
+        ItemStack itemstack = new ItemStack(ModItems.FRAGMENTATION_GRENADE.get());
         return itemstack.isEmpty() ? ParticleTypes.ITEM_SNOWBALL : new ItemParticleData(ParticleTypes.ITEM, itemstack);
     }
 
@@ -71,130 +79,52 @@ public class FragmentationGrenadeEntity extends ProjectileItemEntity {
 
     }
 
-    public void tick() {
-        super.tick();
-        RayTraceResult raytraceresult = ProjectileHelper.getHitResult(this, this::canHitEntity);
-        boolean flag = false;
-        if (raytraceresult.getType() == RayTraceResult.Type.BLOCK) {
-            BlockPos blockpos = ((BlockRayTraceResult)raytraceresult).getBlockPos();
-            BlockState blockstate = this.level.getBlockState(blockpos);
-            if (blockstate.is(Blocks.NETHER_PORTAL)) {
-                this.handleInsidePortal(blockpos);
-                flag = true;
-            } else if (blockstate.is(Blocks.END_GATEWAY)) {
-                TileEntity tileentity = this.level.getBlockEntity(blockpos);
-                if (tileentity instanceof EndGatewayTileEntity && EndGatewayTileEntity.canEntityTeleport(this)) {
-                    ((EndGatewayTileEntity)tileentity).teleportEntity(this);
-                }
-
-                flag = true;
-            }
-        }
-
-        if (raytraceresult.getType() != RayTraceResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-            this.onHit(raytraceresult);
-        }
-
-        this.checkInsideBlocks();
-        Vector3d vector3d = this.getDeltaMovement();
-        double d2 = this.getX() + vector3d.x;
-        double d0 = this.getY() + vector3d.y;
-        double d1 = this.getZ() + vector3d.z;
-        this.updateRotation();
-        float f;
-        if (this.isInWater()) {
-            for(int i = 0; i < 4; ++i) {
-                float f1 = 0.25F;
-                this.level.addParticle(ParticleTypes.BUBBLE, d2 - vector3d.x * 0.25D, d0 - vector3d.y * 0.25D, d1 - vector3d.z * 0.25D, vector3d.x, vector3d.y, vector3d.z);
-            }
-
-            f = 0.8F;
-        } else {
-            f = 0.99F;
-        }
-
-        this.setDeltaMovement(vector3d.scale(f));
-        if (!this.isNoGravity()) {
-            Vector3d vector3d1 = this.getDeltaMovement();
-            this.setDeltaMovement(vector3d1.x, vector3d1.y - (double)this.getGravity(), vector3d1.z);
-        }
-
-        this.setPos(d2, d0, d1);
-    }
-
+    @Override
     protected void onHitEntity(EntityRayTraceResult p_213868_1_) {
-    }
-
-    protected void onHit(RayTraceResult rayTraceResult) {
-        if (!this.level.isClientSide) {
-            if(rayTraceResult instanceof BlockRayTraceResult){
-                BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult)rayTraceResult;
-                Vector3d motion = this.getDeltaMovement();
-                //Direction of hit face
-                Direction direction = blockRayTraceResult.getDirection();
-                Vector3i normal = direction.getNormal();
-
-                //Vector3i seems to not have normalize() method for some reason, even though there was one in 1.12.2
-                Vector3d normalD = new Vector3d(normal.getX(),normal.getY(),normal.getZ());
-                //normalD = normalD.normalize();
-
-                Vector3d bounce = new Vector3d(motion.x, motion.y, motion.z);
-                double dot = motion.dot(normalD);
-                normalD.scale(2*dot);
-                bounce.subtract(normalD);
-
-                double motionX = bounce.x/2d;
-                double motionY = bounce.y/2d;
-                double motionZ = bounce.z/2d;
-
-                if (motionX < 0.1) {
-                    motionX = 0;
-                }
-                if (motionY < 0.1) {
-                    motionY= 0;
-                }
-                if (motionZ< 0.1) {
-                    motionZ = 0;
-                }
-
-                this.setDeltaMovement(motionX, motionY, motionZ);
-                this.checkAndResetUpdateChunkPos();
-                this.checkInsideBlocks();
-            }
-            /*this.level.broadcastEntityEvent(this, (byte)3);
-            this.remove();*/
-        }
 
     }
 
-    protected void checkInsideBlocks() {
-        AxisAlignedBB axisalignedbb = this.getBoundingBox();
-        BlockPos blockpos = new BlockPos(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
-        BlockPos blockpos1 = new BlockPos(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-        if (this.level.hasChunksAt(blockpos, blockpos1)) {
-            for(int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
-                for(int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
-                    for(int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
-                        blockpos$mutable.set(i, j, k);
-                        BlockState blockstate = this.level.getBlockState(blockpos$mutable);
+    @Override
+    protected void onHitBlock(BlockRayTraceResult result) {
+        BlockState blockstate = this.level.getBlockState(result.getBlockPos());
+        blockstate.onProjectileHit(this.level, blockstate, result, this);
+        Vector3i normali = result.getDirection().getNormal();
+        Vector3d direction = this.getDeltaMovement();
+        Vector3d normal = new Vector3d(normali.getX(),normali.getY(),normali.getZ());
 
-                        try {
-                            blockstate.entityInside(this.level, blockpos$mutable, this);
-                            this.onInsideBlock(blockstate);
-                        } catch (Throwable throwable) {
-                            CrashReport crashreport = CrashReport.forThrowable(throwable, "Colliding entity with block");
-                            CrashReportCategory crashreportcategory = crashreport.addCategory("Block being collided with");
-                            CrashReportCategory.populateBlockDetails(crashreportcategory, blockpos$mutable, blockstate);
-                            throw new ReportedException(crashreport);
-                        }
-                    }
-                }
-            }
-        }
+        double dot =  direction.normalize().dot(normal);
+        Vector3d res = direction.subtract(normal.multiply(2*dot,2*dot,2*dot));
 
+        this.setDeltaMovement(res.x*direction.length()*0.4f, res.y*direction.length()*0.4f, res.z*direction.length()*0.4f);
     }
+
     public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
+        age = compound.getLong("age");
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putLong("age", age);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        this.age++;
+        if (!level.isClientSide()) {
+            if (this.age >= 80) {
+                this.level.explode(this,getX(),getY(),getZ(),3, Explosion.Mode.BREAK);
+                this.kill();
+                return;
+            }
+        }
     }
 }

@@ -159,6 +159,15 @@ public class AnimationModelRenderers {
 
         register(flame);
 
+        AnimationModelRenderer root = new AnimationModelRenderer(new ResourceLocation(SevenDaysToMine.MODID,"root")) {
+            @Override
+            void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light) {
+
+            }
+        };
+
+        register(leftHand);
+
     }
 
     public static void register(AnimationModelRenderer renderer){

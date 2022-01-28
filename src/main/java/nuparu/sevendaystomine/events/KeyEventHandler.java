@@ -12,9 +12,12 @@ import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import nuparu.sevendaystomine.client.gui.GuiAnimationDebug;
+import nuparu.sevendaystomine.client.gui.computer.GuiMonitor;
+import nuparu.sevendaystomine.entity.CarEntity;
 import nuparu.sevendaystomine.item.ItemAnalogCamera;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.CameraDimensionsMessage;
+import nuparu.sevendaystomine.network.packets.HonkMessage;
 import nuparu.sevendaystomine.proxy.ClientProxy;
 import nuparu.sevendaystomine.util.ReloadHelper;
 
@@ -49,18 +52,19 @@ public class KeyEventHandler {
 			}
 			if(keyBindings[7].isDown()) {
 				Entity riding = player.getVehicle();
-				/*if(riding != null && riding instanceof EntityCar) {
+				if(riding != null && riding instanceof CarEntity) {
 					if(riding.getPassengers().indexOf(player) == 0) {
 						System.out.println("Beep beep");
 						PacketManager.honk.sendToServer(new HonkMessage());
 					}
-				}*/
+				}
 			}
 			if(keyBindings[8].isDown()) {
 				if(mc.screen == null || !(mc.screen instanceof GuiAnimationDebug)){
 					mc.setScreen(new GuiAnimationDebug());
 				}
 			}
+
 		}
 
 		/*

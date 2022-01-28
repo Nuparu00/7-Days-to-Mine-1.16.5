@@ -7,6 +7,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -15,6 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.SlotItemHandler;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModContainers;
+import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.tileentity.TileEntityPrinter;
 
 public class ContainerPrinter extends Container {
@@ -35,6 +37,11 @@ public class ContainerPrinter extends Container {
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
                 return Pair.of(PlayerContainer.BLOCK_ATLAS, NO_INK_SLOT);
             }
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return !stack.isEmpty() && (stack.getItem() == Items.INK_SAC || stack.getItem() == Items.BLACK_DYE);
+            }
+
         });
         addSlot(new SlotItemHandler(tileEntity.getInventory(), 1, 59, 35){
             @OnlyIn(Dist.CLIENT)

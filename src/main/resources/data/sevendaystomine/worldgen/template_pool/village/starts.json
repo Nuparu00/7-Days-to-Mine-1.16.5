@@ -1,0 +1,24 @@
+{
+  "name": "sevendaystomine:village/starts",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 2,
+      "element": {
+        "location": "sevendaystomine:village/streets/crossroad_01",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "sevendaystomine:village/streets/crossroad_t_01",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    }
+  ]
+}

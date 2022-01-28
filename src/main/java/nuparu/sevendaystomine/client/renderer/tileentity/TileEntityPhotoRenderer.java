@@ -2,6 +2,7 @@ package nuparu.sevendaystomine.client.renderer.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -11,6 +12,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.block.BlockPhoto;
+import nuparu.sevendaystomine.client.gui.GuiNote;
 import nuparu.sevendaystomine.client.util.RenderUtils;
 import nuparu.sevendaystomine.client.util.ResourcesHelper;
 import nuparu.sevendaystomine.init.ModBlocks;
@@ -32,7 +34,7 @@ public class TileEntityPhotoRenderer extends TileEntityRenderer<TileEntityPhoto>
 
         World world = te.getLevel();
         boolean flag = world != null;
-        BlockState blockstate = flag ? te.getBlockState() : ModBlocks.CALENDAR.get().defaultBlockState();
+        BlockState blockstate = flag ? te.getBlockState() : ModBlocks.PHOTO.get().defaultBlockState();
         Direction direction = blockstate.hasProperty(BlockPhoto.FACING) ? blockstate.getValue(BlockPhoto.FACING) : Direction.SOUTH;
         Block block = blockstate.getBlock();
 
@@ -54,9 +56,10 @@ public class TileEntityPhotoRenderer extends TileEntityRenderer<TileEntityPhoto>
 
             if (te.image != null && te.image.res != null) {
                 int shape = Integer.compare(te.image.height, te.image.width);
-
-                double w = 16;
-                double h = 16;
+//15728640
+                //15728640
+                float w = 16;
+                float h = 16;
 
                 //Controls the shape of the photo - portrait vs landscape
                 if (shape == -1) {
@@ -80,10 +83,13 @@ public class TileEntityPhotoRenderer extends TileEntityRenderer<TileEntityPhoto>
                 matrixStack.translate(-(w/32d), 0, 0.49);
                 matrixStack.scale(0.0625f, 0.0625f, 0.0625f);
                 RenderSystem.enableDepthTest();
-                RenderUtils.drawTexturedRect(matrixStack,te.image.res,0,0,0,0,w,h,w,h,1,0);
-
+                RenderSystem.enableLighting();
+                TileEntityNoteRenderer.drawTexturedRect(matrixStack, te.image.res,buffer, 0,0,0,0,w,h,w,h,1,0,combinedLight,combinedOverlay);
+                RenderSystem.disableLighting();
                 RenderSystem.disableDepthTest();
                 matrixStack.popPose();
+
+                IVertexBuilder vertexBuilder = null;
             }
         }
     }

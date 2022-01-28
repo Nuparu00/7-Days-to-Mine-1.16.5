@@ -36,6 +36,8 @@ public class ItemRPG extends ItemGun {
 		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_idle"));
 		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rpg_shoot"));
 		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
+		this.setAimAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_aim_idle"));
+		this.setAimShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_aim_idle"));
 	}
 
 	@Override

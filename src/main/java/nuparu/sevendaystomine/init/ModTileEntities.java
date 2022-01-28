@@ -196,4 +196,7 @@ public class ModTileEntities {
 
 	public static final RegistryObject<TileEntityType<TileEntityCarPlacer>> CAR_PLACER = TILE_ENTITIES.register("car_placer",
 			() -> TileEntityType.Builder.of(TileEntityCarPlacer::new, ModBlocks.CAR_PLACER.get()).build(null));
+
+	public static final RegistryObject<TileEntityType<TileEntityNote>> NOTE = TILE_ENTITIES.register("note",
+			() -> TileEntityType.Builder.of(TileEntityNote::new, ModBlocks.NOTE.get()).build(null));
 }

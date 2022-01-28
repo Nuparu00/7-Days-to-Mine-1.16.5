@@ -25,6 +25,7 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModStructureFeatures;
+import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.world.gen.feature.jigsaw.LargeJigsawManager;
 
 import java.util.List;
@@ -121,8 +122,10 @@ public class AirfieldStructure extends Structure<NoFeatureConfig> {
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
         if(isNear(ModStructureFeatures.CITY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
+        if(Utils.isNearStructure(ModStructureFeatures.VILLAGE.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
         if(isNear(ModStructureFeatures.AIRPLANE.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
         if(isNear(ModStructureFeatures.OBSERVATORY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
+        if(isNear(ModStructureFeatures.WINDMILL.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
 
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 

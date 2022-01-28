@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import nuparu.sevendaystomine.block.BlockComputer;
 import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
-import nuparu.sevendaystomine.tileentity.TileEntityComputer.EnumSystem;
+import nuparu.sevendaystomine.computer.EnumSystem;
 
 public class ItemInstallDisc extends Item {
 

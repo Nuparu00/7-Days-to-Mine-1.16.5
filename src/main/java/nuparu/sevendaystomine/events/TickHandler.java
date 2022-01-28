@@ -23,6 +23,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
@@ -181,7 +182,6 @@ public class TickHandler {
             PlayerEntity player = event.player;
             if (player == null || !player.isAlive())
                 return;
-
             World world = player.level;
             if (world == null) return;
 

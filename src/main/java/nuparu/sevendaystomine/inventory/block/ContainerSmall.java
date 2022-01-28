@@ -21,6 +21,7 @@ public class ContainerSmall extends Container {
         super(ModContainers.SMALL.get(), windowID);
         this.world = invPlayer.player.level;
         this.tileEntity = tileEntity;
+        tileEntity.onContainerOpened(invPlayer.player);
 
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 3; ++col) {
@@ -79,5 +80,10 @@ public class ContainerSmall extends Container {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public void removed(PlayerEntity p_75134_1_) {
+        super.removed(p_75134_1_);
+        this.tileEntity.onContainerClosed(p_75134_1_);
     }
 }

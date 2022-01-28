@@ -124,46 +124,46 @@ public class ContainerMinibike extends Container {
                 }
             } else {
                 if (item == ModItems.SMALL_ENGINE.get()) {
-                    if (!this.moveItemStackTo(originalStack, 0, 6, true)) {
+                    if (!this.moveItemStackTo(stack, 0, 6, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);
                 } else if (item == ModItems.MINIBIKE_HANDLES.get()) {
-                    if (!this.moveItemStackTo(originalStack, 0, 6, true)) {
+                    if (!this.moveItemStackTo(stack, 0, 6, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);
                 } else if (item == ModItems.MINIBIKE_SEAT.get()) {
-                    if (!this.moveItemStackTo(originalStack, 0, 6, true)) {
+                    if (!this.moveItemStackTo(stack, 0, 6, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);
                 } else if (item == ModItems.CAR_BATTERY.get()) {
-                    if (!this.moveItemStackTo(originalStack, 0, 6, true)) {
+                    if (!this.moveItemStackTo(stack, 0, 6, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);
                 }
-                if (item == ModBlocks.WHEELS.get().asItem()) {
-                    if (!this.moveItemStackTo(originalStack, 0, 6, true)) {
+                else if (item == ModBlocks.WHEELS.get().asItem()) {
+                    if (!this.moveItemStackTo(stack, 0, 6, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);
                 }
-                if (item == Blocks.CHEST.asItem()) {
-                    if (!this.moveItemStackTo(originalStack, 0, 6, true)) {
+                else if (item == Blocks.CHEST.asItem()) {
+                    if (!this.moveItemStackTo(stack, 0, 6, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);
                 }
 
-                if (index <= 32) {
-                    if (!this.moveItemStackTo(originalStack, 33, 41, true)) {
+                else if (index <= 32) {
+                    if (!this.moveItemStackTo(stack, 33, 41, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);
                 } else if (index <= 41) {
-                    if (!this.moveItemStackTo(originalStack, 6, 32, true)) {
+                    if (!this.moveItemStackTo(stack, 6, 32, true)) {
                         return ItemStack.EMPTY;
                     }
                     slot.onQuickCraft(originalStack, stack);

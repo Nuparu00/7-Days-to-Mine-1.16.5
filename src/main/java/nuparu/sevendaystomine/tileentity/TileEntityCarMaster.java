@@ -2,6 +2,7 @@ package nuparu.sevendaystomine.tileentity;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -15,9 +16,8 @@ import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.state.properties.ChestType;
+import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -28,15 +28,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
+import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModTileEntities;
+import nuparu.sevendaystomine.inventory.block.RowedContainer;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.util.ItemUtils;
+import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.Utils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileEntityCarMaster extends TileEntityCar implements INamedContainerProvider, IInventory, ILootTableProvider {
+public class TileEntityCarMaster extends TileEntityCar implements INamedContainerProvider, ILootTableProvider {
     private static final int INVENTORY_SIZE = 27;
     private static final ITextComponent DEFAULT_NAME = new TranslationTextComponent("container.car");
     protected final LazyOptional<ItemHandlerNameable> inventory = LazyOptional.of(this::createInventory);
@@ -44,6 +47,8 @@ public class TileEntityCarMaster extends TileEntityCar implements INamedContaine
     @Nullable
     protected ResourceLocation lootTable;
     protected long lootTableSeed;
+
+    protected int openCount;
 
 
     public TileEntityCarMaster() {
@@ -174,72 +179,27 @@ public class TileEntityCarMaster extends TileEntityCar implements INamedContaine
     @Nullable
     @Override
     public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return ChestContainer.threeRows(windowId, playerInventory,this);
-    }
-
-    @Override
-    public int getContainerSize() {
-        return this.getInventory().getSlots();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (int i = 0; i < getContainerSize(); i++) {
-            ItemStack stack = this.getInventory().getStackInSlot(i);
-            if (!stack.isEmpty()) return false;
-        }
-        return true;
-    }
-
-    @Override
-    public ItemStack getItem(int slot) {
-        return this.getInventory().getStackInSlot(slot);
-    }
-
-    @Override
-    public ItemStack removeItem(int slot, int amount) {
-        if (slot >= 0 && slot < getContainerSize()) {
-            ItemStack stack = this.getInventory().getStackInSlot(slot);
-            stack.shrink(amount);
-            if (stack.getCount() <= 0) {
-                this.getInventory().setStackInSlot(0, ItemStack.EMPTY);
-                return ItemStack.EMPTY;
-            }
-            return stack;
-        }
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int slot) {
-        if (slot >= 0 && slot < getContainerSize()) {
-            ItemStack stack = this.getInventory().getStackInSlot(slot);
-            this.getInventory().setStackInSlot(0, ItemStack.EMPTY);
-            return stack;
-        }
-		return ItemStack.EMPTY;
-    }
-
-    @Override
-    public void setItem(int slot, ItemStack stack) {
-        this.getInventory().setStackInSlot(slot, stack);
-    }
-
-    @Override
-    public boolean stillValid(PlayerEntity playerEntity) {
-        return isUsableByPlayer(playerEntity);
-    }
-
-    @Override
-    public void clearContent() {
-        for (int i = 0; i < getContainerSize(); i++) {
-            this.getInventory().setStackInSlot(i, ItemStack.EMPTY);
-        }
+        return RowedContainer.createContainerServerSide(windowId, playerInventory,this);
     }
 
 
     @OnlyIn(Dist.CLIENT)
     public double getViewDistance() {
         return 128.0D;
+    }
+
+
+    public void startOpen(PlayerEntity player) {
+        if (this.openCount == 0) {
+            this.level.playSound((PlayerEntity)null, worldPosition.getX()+0.5, worldPosition.getY()+0.5, worldPosition.getZ()+0.5, ModSounds.CAR_OPEN.get(), SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.45f,0.55f), MathUtils.getFloatInRange(0.75f,1.15f));
+        }
+        this.openCount++;
+    }
+
+    public void stopOpen(PlayerEntity player) {
+        this.openCount--;
+        if (this.openCount == 0) {
+            this.level.playSound((PlayerEntity)null, worldPosition.getX()+0.5, worldPosition.getY()+0.5, worldPosition.getZ()+0.5, ModSounds.CAR_CLOSE.get(), SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.45f,0.55f), MathUtils.getFloatInRange(0.75f,1.15f));
+        }
     }
 }

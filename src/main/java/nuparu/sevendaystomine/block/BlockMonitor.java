@@ -24,6 +24,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModItemGroups;
+import nuparu.sevendaystomine.network.PacketManager;
+import nuparu.sevendaystomine.network.packets.OpenGuiClientMessage;
 import nuparu.sevendaystomine.tileentity.TileEntityMonitor;
 
 public class BlockMonitor extends BlockHorizontalBase {
@@ -69,15 +71,16 @@ public class BlockMonitor extends BlockHorizontalBase {
 				return ActionResultType.SUCCESS;
 			} else {
 				//player.openGui(SevenDaysToMine.instance, 8, worldIn, pos.getX(), pos.getY(), pos.getZ());
-				INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
+				/*INamedContainerProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 				if (namedContainerProvider != null) {
 					if (!(player instanceof ServerPlayerEntity))
 						return ActionResultType.FAIL;
 					ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
 					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
-				}
+				}*/
 				if (!worldIn.isClientSide()) {
 					monitorTE.addPlayer(player);
+					PacketManager.sendTo(PacketManager.openGuiClient,new OpenGuiClientMessage(1,pos.getX(),pos.getY(),pos.getZ()),(ServerPlayerEntity)player);
 				}
 				return ActionResultType.SUCCESS;
 			}

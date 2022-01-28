@@ -51,7 +51,7 @@ public class SyncProcessMessage{
 				if (TE != null && TE instanceof TileEntityComputer) {
 					TileEntityComputer computerTE = (TileEntityComputer) TE;
 					if (computerTE.getMonitorTE() != null && computerTE.getMonitorTE().getLookingPlayers().contains(player)) {
-						computerTE.startProcess(nbt,true);
+						//computerTE.startProcess(nbt,true);
 					}
 				}
 

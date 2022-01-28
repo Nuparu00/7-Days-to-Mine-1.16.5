@@ -1,5 +1,8 @@
 package nuparu.sevendaystomine.tileentity;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,9 +16,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.LongNBT;
+import net.minecraft.nbt.*;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -27,17 +28,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
+import nuparu.sevendaystomine.computer.EnumSystem;
 import nuparu.sevendaystomine.computer.HardDrive;
-import nuparu.sevendaystomine.computer.process.BootingProcess;
-import nuparu.sevendaystomine.computer.process.CreateAccountProcess;
-import nuparu.sevendaystomine.computer.process.MacCreateAccountProcess;
-import nuparu.sevendaystomine.computer.process.MacDesktopProcess;
-import nuparu.sevendaystomine.computer.process.ProcessRegistry;
-import nuparu.sevendaystomine.computer.process.TickingProcess;
-import nuparu.sevendaystomine.computer.process.WindowedProcess;
-import nuparu.sevendaystomine.computer.process.WindowsCreateAccountProcess;
-import nuparu.sevendaystomine.computer.process.WindowsDesktopProcess;
-import nuparu.sevendaystomine.computer.process.WindowsLoginProcess;
+import nuparu.sevendaystomine.computer.fix.Memory;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.EnumDeviceType;
 import nuparu.sevendaystomine.electricity.IVoltage;
@@ -49,6 +42,8 @@ import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.SyncTileEntityMessage;
 import nuparu.sevendaystomine.util.ModConstants;
+import nuparu.sevendaystomine.util.Utils;
+import org.apache.commons.io.FileUtils;
 
 public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameable>
 		implements ITickableTileEntity, INetwork, IVoltage {
@@ -64,23 +59,15 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 	private long voltage = 0;
 	private long capacity = 60;
 
-	// processes
-	private ArrayList<TickingProcess> processes = new ArrayList<TickingProcess>();
-	public Thread codeBus = null;
-	// Persistent data
-	private boolean registered = false;
-	private String username = "";
-	private String password = "";
-	private String hint = "";
 
 	// hard drive
-	@Nullable
-	private HardDrive hardDrive;
 
 	private ArrayList<BlockPos> network = new ArrayList<BlockPos>();
+	private Memory memory;
 
 	public TileEntityComputer() {
 		super(ModTileEntities.COMPUTER.get());
+		memory = new Memory();
 	}
 
 	public boolean isOn() {
@@ -100,9 +87,6 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 		return this.state;
 	}
 
-	public HardDrive getHardDrive() {
-		return this.hardDrive;
-	}
 
 	public void installSystem(EnumSystem system) {
 		this.system = system;
@@ -120,160 +104,14 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 
 	public void startComputer() {
 		setState(EnumState.BOOT_SCREEN);
-		processes.clear();
-		startProcess(new BootingProcess());
 	}
 
 	public void stopComputer() {
 		setState(EnumState.OFF);
-		processes.clear();
 		this.markForUpdate();
 	}
 
-	@SuppressWarnings("unchecked")
-	public void startProcess(TickingProcess process) {
-		process.setComputer(this);
 
-		if (level != null && level.isClientSide()) {
-			if (process instanceof WindowedProcess) {
-				int order = 0;
-				for (TickingProcess tp : (ArrayList<TickingProcess>) this.getProcessesList().clone()) {
-					if (tp instanceof WindowedProcess) {
-						order++;
-					}
-				}
-				if (((WindowedProcess) process).getWindowOrder() == -1) {
-					((WindowedProcess) process).setWindowOrder(order);
-				}
-			}
-		}
-		processes.add(process);
-		this.markForUpdate();
-	}
-
-	public void startProcess(CompoundNBT nbt, boolean sync) {
-		if (isCompleted() && isOn()) {
-			ArrayList<TickingProcess> processes2 = getProcessesList();
-
-			if (!nbt.contains(ProcessRegistry.RES_KEY)) {
-				return;
-			}
-
-			boolean flag = false;
-
-			for (TickingProcess process : processes2) {
-				if (nbt.hasUUID("id") && process.getId().equals(nbt.getUUID("id"))) {
-					process.readFromNBT(nbt);
-					process.setComputer(this);
-					flag = true;
-					break;
-				}
-			}
-
-			if (flag) {
-				this.markForUpdate();
-				return;
-			}
-			if (sync) {
-				return;
-			}
-			String res = nbt.getString(ProcessRegistry.RES_KEY);
-			TickingProcess process = ProcessRegistry.INSTANCE.getByRes(new ResourceLocation(res));
-			if (process != null) {
-				process.readFromNBT(nbt);
-				startProcess(process);
-			}
-		}
-
-	}
-
-	public void killProcess(TickingProcess process) {
-		processes.remove(process);
-		this.markForUpdate();
-	}
-
-	public TickingProcess getProcessByUUID(UUID id) {
-		for (TickingProcess process : getProcessesList()) {
-			if (process.getId().equals(id)) {
-				return process;
-			}
-		}
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	public ArrayList<TickingProcess> getProcessesList() {
-		return (ArrayList<TickingProcess>) (processes.clone());
-	}
-
-	public void onBootFinished() {
-		if (hardDrive == null) {
-			hardDrive = new HardDrive(this);
-		}
-		setState(EnumState.LOGIN);
-		if (!isRegistered()) {
-			switch (system) {
-			default:
-				startProcess(new WindowsCreateAccountProcess());
-				break;
-
-			case MAC:
-				startProcess(new MacCreateAccountProcess());
-				break;
-			}
-
-		} else {
-			if (password.isEmpty()) {
-				setState(EnumState.NORMAL);
-				switch (system) {
-				default:
-					startProcess(new WindowsDesktopProcess());
-					break;
-
-				case MAC:
-					startProcess(new MacDesktopProcess());
-					break;
-				}
-			} else {
-				startProcess(new WindowsLoginProcess());
-			}
-		}
-	}
-
-	public void onLogin(WindowsLoginProcess process) {
-		if (verifyPassword(process.password)) {
-			setState(EnumState.NORMAL);
-			switch (system) {
-			default:
-				startProcess(new WindowsDesktopProcess());
-				break;
-
-			case MAC:
-				startProcess(new MacDesktopProcess());
-				break;
-			}
-			killProcess(process);
-		}
-	}
-
-	public void onAccountCreated(CreateAccountProcess process) {
-		setState(EnumState.NORMAL);
-		setRegistered(true);
-		switch (system) {
-		default:
-			startProcess(new WindowsDesktopProcess());
-			break;
-
-		case MAC:
-			startProcess(new MacDesktopProcess());
-			break;
-		}
-
-		this.username = process.username;
-		this.password = process.password;
-		this.hint = process.hint;
-		killProcess(process);
-	}
 
 	@Override
 	public void tick() {
@@ -282,18 +120,18 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 			return;
 		}
 		if (isOn()) {
-			if (!on || !isCompleted() || this.voltage < this.getRequiredPower()) {
+			if (!on /*|| !isCompleted()*|| this.voltage < this.getRequiredPower()*/) {
 				stopComputer();
 				return;
 			}
 			this.voltage -= this.getRequiredPower();
-		} else if (on && isCompleted() && this.voltage > this.getRequiredPower()) {
+		} else if (on /*&& isCompleted() && this.voltage > this.getRequiredPower()*/) {
 			this.startComputer();
 		}
 		if (!level.isClientSide()) {
-			for (TickingProcess process : getProcessesList()) {
+			/*for (TickingProcess process : getProcessesList()) {
 				process.tick();
-			}
+			}*/
 		}
 
 	}
@@ -305,56 +143,35 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 		this.system = EnumSystem.getEnum(compound.getString("system"));
 		this.voltage = compound.getLong("power");
 
-		this.username = compound.getString("username");
-		this.password = compound.getString("password");
-		this.hint = compound.getString("hint");
+
 		this.on = compound.getBoolean("on");
-		this.setRegistered(compound.getBoolean("registered"));
 
-		ListNBT list = compound.getList("processes", Constants.NBT.TAG_COMPOUND);
-
-		ArrayList<TickingProcess> processes2 = getProcessesList();
-
-		processes.clear();
-
-		for (int i = 0; i < list.size(); ++i) {
-			CompoundNBT nbt = list.getCompound(i);
-			if (!nbt.contains(ProcessRegistry.RES_KEY)) {
-				continue;
-			}
-
-			boolean flag = false;
-
-			for (TickingProcess process : processes2) {
-				if (nbt.contains("id") && process.getId().compareTo(nbt.getUUID("id")) == 0) {
-					process.readFromNBT(nbt);
-					startProcess(process);
-					flag = true;
-					break;
-				}
-			}
-
-			if (flag) {
-				continue;
-			}
-
-			String res = nbt.getString(ProcessRegistry.RES_KEY);
-			TickingProcess process = ProcessRegistry.INSTANCE.getByRes(new ResourceLocation(res));
-			if (process != null) {
-				process.readFromNBT(nbt);
-				startProcess(process);
-			}
-		}
-
-		if (compound.contains("drive")) {
-			if (this.hardDrive != null) {
-				this.hardDrive.readFromNBT(compound.getCompound("drive"));
+		/*if (compound.contains("memory")) {
+			if (this.memory != null) {
+				this.memory.readFromNBT(compound.getCompound("memory"));
 			} else {
-				this.hardDrive = new HardDrive(this);
-				this.hardDrive.readFromNBT(compound.getCompound("drive"));
+				this.memory = new Memory();
+				this.memory.readFromNBT(compound.getCompound("memory"));
 			}
 		}
+		*/
 
+		ResourceLocation dimension = null;
+		if(level != null){
+			dimension = level.dimension().location();
+		}
+		else if(compound.contains("level",Constants.NBT.TAG_STRING)){
+			dimension = new ResourceLocation(compound.getString("level"));
+		}
+
+		if(dimension != null) {
+			File file = new File(Utils.getCurrentSaveRootDirectory(),"computers/"+dimension.getNamespace()+"/"+dimension.getPath()+"/"+getPos().getX()+"#"+getPos().getY()+"#"+getPos().getZ()+".nbt");
+
+			if(file.exists()){
+				System.out.println("READ");
+			}
+
+		}
 		network.clear();
 		ListNBT list2 = compound.getList("network", Constants.NBT.TAG_LONG);
 		for (int i = 0; i < list2.size(); ++i) {
@@ -369,23 +186,30 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 	public CompoundNBT save(CompoundNBT compound) {
 		super.save(compound);
 		compound.putString("state", state.getName());
+		compound.putString("level", level.dimension().location().toString());
 		compound.putString("system", system.getName());
 		compound.putLong("power", voltage);
 
-		compound.putString("username", username);
-		compound.putString("password", password);
-		compound.putString("hint", hint);
 		compound.putBoolean("on", on);
 
-		compound.putBoolean("registered", isRegistered());
-		ListNBT list = new ListNBT();
-		for (TickingProcess process : (ArrayList<TickingProcess>) processes.clone()) {
-			list.add(process.save(new CompoundNBT()));
-		}
-		compound.put("processes", list);
+		/*if (memory != null) {
+			compound.put("drive", memory.save(new CompoundNBT()));
+		}*/
 
-		if (hardDrive != null) {
-			compound.put("drive", hardDrive.save(new CompoundNBT()));
+		File file = new File(Utils.getCurrentSaveRootDirectory(),"computers/"+level.dimension().location().getNamespace()+"/"+level.dimension().location().getPath()+"/"+getPos().getX()+"#"+getPos().getY()+"#"+getPos().getZ()+".nbt");
+		System.out.println(file.getAbsolutePath());
+		if (!file.exists()) {
+			new File(Utils.getCurrentSaveRootDirectory(),"computers/"+level.dimension().location().getNamespace()+"/"+level.dimension().location().getPath()).mkdirs();
+			try {
+				file.createNewFile();
+				try {
+					FileUtils.writeStringToFile(file,memory.save(new CompoundNBT()).getAsString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		ListNBT list2 = new ListNBT();
@@ -482,25 +306,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 		this.monitorTE = monitorTE;
 	}
 
-	public boolean isRegistered() {
-		return registered;
-	}
 
-	public void setRegistered(boolean registered) {
-		this.registered = registered;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public String getHint() {
-		return hint;
-	}
-
-	public boolean verifyPassword(String s) {
-		return s.equals(password);
-	}
 
 	public enum EnumState {
 		OFF("off"), BOOT_SCREEN("boot"), STARTING("starting"), SIGNUP("signup"), LOGIN("login"), NORMAL("normal"),
@@ -523,37 +329,6 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 				}
 			}
 			return EnumState.OFF;
-		}
-	}
-
-	public enum EnumSystem {
-		NONE("none", ""), MAC("mac", "Mac OS X"), LINUX("linux", "Linux"), WIN98("win98", "Windows 98"),
-		WINXP("winXp", "Windows XP"), WIN7("win7", "Windows 7"), WIN8("win8", "Windows 8"),
-		WIN10("win10", "Windows 10"), TERMINAL("terminal", "Terminal");
-
-		private String name;
-		private String readable;
-
-		EnumSystem(String name, String readable) {
-			this.name = name;
-			this.readable = readable;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public String getReadeable() {
-			return this.readable;
-		}
-
-		public static EnumSystem getEnum(String value) {
-			for (EnumSystem st : EnumSystem.values()) {
-				if (st.name.equalsIgnoreCase(value)) {
-					return st;
-				}
-			}
-			return EnumSystem.NONE;
 		}
 	}
 
@@ -606,14 +381,6 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 
 	}
 
-	public void createGenericAccount() {
-		if (this.isRegistered())
-			return;
-		setRegistered(true);
-		this.username = "Admin";
-		this.password = "Admin";
-		this.hint = "Admin";
-	}
 
 	@Override
 	public EnumDeviceType getDeviceType() {
@@ -667,7 +434,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 
 	@Override
 	public long getRequiredPower() {
-		return 12;
+		return 4;
 	}
 
 	@Override

@@ -2,13 +2,19 @@ package nuparu.sevendaystomine.item;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.client.model.entity.ChristmasHatModel;
 
 public class ItemChristmasHat extends ArmorItem {
 
@@ -41,4 +47,11 @@ public class ItemChristmasHat extends ArmorItem {
 
 		return model;
 	}*/
+
+	@OnlyIn(Dist.CLIENT)
+	public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack,
+													 EquipmentSlotType armorSlot, A _default) {
+		_default.copyPropertiesTo(ChristmasHatModel.INSTANCE);
+		return (A) ChristmasHatModel.INSTANCE;
+	}
 }

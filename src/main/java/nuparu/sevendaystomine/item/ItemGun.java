@@ -74,10 +74,14 @@ public class ItemGun extends Item implements IQuality, IReloadable {
     private Animation idleAnimation;
     private Animation shootAnimation;
     private Animation reloadAnimation;
+    private Animation aimAnimation;
+    private Animation aimShootAnimation;
 
     private ResourceLocation idleAnimationKey;
     private ResourceLocation shootAnimationKey;
     private ResourceLocation reloadAnimationKey;
+    private ResourceLocation aimAnimationKey;
+    private ResourceLocation aimShootAnimationKey;
 
 
     public ItemGun() {
@@ -727,6 +731,24 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         return this;
     }
 
+    public ResourceLocation getAimAnimationKey() {
+        return aimAnimationKey;
+    }
+
+    public ItemGun setAimAnimationKey(ResourceLocation aimAnimationKey) {
+        this.aimAnimationKey = aimAnimationKey;
+        return this;
+    }
+
+    public ResourceLocation getAimShootAnimationKey() {
+        return aimShootAnimationKey;
+    }
+
+    public ItemGun setAimShootAnimationKey(ResourceLocation aimShootAnimationKey) {
+        this.aimShootAnimationKey = aimShootAnimationKey;
+        return this;
+    }
+
     public Animation getIdleAnimation() {
         if(idleAnimationKey != null && (idleAnimation == null || !Animations.instance.contains(idleAnimation)) ){
             idleAnimation = Animations.instance.get(idleAnimationKey);
@@ -748,6 +770,19 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         return reloadAnimation;
     }
 
+    public Animation getAimAnimation() {
+        if(aimAnimationKey != null  && (aimAnimation == null || !Animations.instance.contains(aimAnimation)) ){
+            aimAnimation = Animations.instance.get(aimAnimationKey);
+        }
+        return aimAnimation;
+    }
+
+    public Animation getAimShootAnimation() {
+        if(aimShootAnimationKey != null  && (aimShootAnimation == null || !Animations.instance.contains(aimShootAnimation)) ){
+            aimShootAnimation = Animations.instance.get(aimShootAnimationKey);
+        }
+        return aimShootAnimation;
+    }
 
     public enum EnumGun {
         PISTOL, SHOTGUN, RIFLE, LAUNCHER, MACHINE, SUBMACHINE

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:generic",
+  "pools": [{
+    "rolls": 9,
+    "entries": [
+      {
+        "type": "item",
+        "weight": 100,
+        "name": "sevendaystomine:note",
+        "functions": [{
+          "function": "set_nbt",
+          "tag": "{data:\"sevendaystomine:notes/fire\"}"
+
+        }]
+      }
+
+    ]
+  }]
+}

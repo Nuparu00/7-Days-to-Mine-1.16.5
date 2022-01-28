@@ -9,7 +9,9 @@ import javax.script.ScriptEngineManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.management.PlayerInteractionManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -17,11 +19,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.computer.application.ApplicationRegistry;
-import nuparu.sevendaystomine.computer.process.ProcessRegistry;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.events.LoudSoundEvent;
@@ -48,7 +50,7 @@ public class CommonProxy {
 
 	public void init() {
 
-		ProcessRegistry.INSTANCE.register();
+		//ProcessRegistry.INSTANCE.register();
 		ApplicationRegistry.INSTANCE.register();
 		DialoguesRegistry.INSTANCE.register();
 	}
@@ -132,11 +134,12 @@ public class CommonProxy {
 	}
 
 	public boolean isHittingBlock(PlayerEntity player) {
-		/*if (player instanceof ServerPlayerEntity) {
-			PlayerInteractionManager manager = ((ServerPlayerEntity) player).interactionManager;
+		//PlayerInteractionManager
+		if (player instanceof ServerPlayerEntity) {
+			PlayerInteractionManager manager = ((ServerPlayerEntity) player).gameMode;
 			return ObfuscationReflectionHelper.getPrivateValue(PlayerInteractionManager.class, manager,
 					"field_73088_d");
-		}*/
+		}
 		return false;
 	}
 

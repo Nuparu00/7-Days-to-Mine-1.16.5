@@ -220,7 +220,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand,
                                 BlockRayTraceResult rayTraceResult) {
         if (player.isCrouching())
-            return ActionResultType.FAIL;
+            return ActionResultType.PASS;
 
         TileEntity te = worldIn.getBlockEntity(pos);
         if (te != null) {
@@ -232,8 +232,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
                     if (!(player instanceof ServerPlayerEntity))
                         return ActionResultType.FAIL;
                     ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-                    NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-                    });
+                    NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(pos));
                 }
             } else if (te instanceof TileEntityCarSlave) {
                 TileEntityCarSlave slave = (TileEntityCarSlave) te;
@@ -245,8 +244,7 @@ public abstract class BlockCar extends BlockHorizontalBase implements ISalvageab
                         if (!(player instanceof ServerPlayerEntity))
                             return ActionResultType.FAIL;
                         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-                        NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-                        });
+                        NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> packetBuffer.writeBlockPos(master.getBlockPos()));
                     }
                 }
             }

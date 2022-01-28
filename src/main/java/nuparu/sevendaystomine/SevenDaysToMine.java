@@ -88,6 +88,7 @@ public class SevenDaysToMine {
         bus.register(ModTileEntities.class);
         bus.register(StartupCommon.class);
 
+        ModAttributes.ATTRIBUTES.register(bus);
         ModSounds.SOUNDS.register(bus);
         ModBlocks.BLOCKS.register(bus);
         ModItems.ITEMS.register(bus);
@@ -128,14 +129,16 @@ public class SevenDaysToMine {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
-
+        System.out.println("FMLCommonSetupEvent");
         event.enqueueWork(() -> {
+            System.out.println("enqueueWork");
             ModGameRules.register();
             ModStructureFeatures.setupStructures();
             ModConfiguredStructures.registerConfiguredStructures();
             ModStructureProcessors.register();
             ModStructurePoolElements.register();
             ModLootModifiers.registerConditions();
+            System.out.println("denqueueWork");
         });
 
         ModTriggers.register();

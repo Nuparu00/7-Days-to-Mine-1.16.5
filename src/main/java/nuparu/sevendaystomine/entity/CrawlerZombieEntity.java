@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModEntities;
 
@@ -28,6 +29,21 @@ public class CrawlerZombieEntity<T extends CrawlerZombieEntity> extends ZombieBi
 		return MonsterEntity.createMonsterAttributes( ).add(Attributes.FOLLOW_RANGE, 56.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.125f).add(Attributes.ATTACK_DAMAGE, 3.0D)
 				.add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 50).build();
+	}
+
+	@Override
+	public Vector3d corpseRotation() {
+		return new Vector3d(90,0,0);
+	}
+
+	@Override
+	public Vector3d corpseTranslation() {
+		return new Vector3d(0,-0.25,0);
+	}
+
+	@Override
+	public boolean customCoprseTransform() {
+		return true;
 	}
 
 	public class Factory implements IFactory<CrawlerZombieEntity> {

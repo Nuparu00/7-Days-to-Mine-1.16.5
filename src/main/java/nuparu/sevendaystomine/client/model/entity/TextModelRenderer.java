@@ -14,19 +14,28 @@ public class TextModelRenderer extends ModelRenderer {
     double yPos;
     double zPos;
 
+    float xRot;
+    float yRot;
+    float zRot;
+
+    float scale = 0.005f;
+
     public TextModelRenderer(int p_i225949_1_, int p_i225949_2_, int p_i225949_3_, int p_i225949_4_) {
         super(p_i225949_1_, p_i225949_2_, p_i225949_3_, p_i225949_4_);
         this.setTexSize(0, 0);
         this.texOffs(0, 0);
     }
 
-    public TextModelRenderer(double xPos, double yPos, double zPos) {
+    public TextModelRenderer(double xPos, double yPos, double zPos,float xRot, float yRot, float zRot) {
         super(0,0,0,0);
         this.setTexSize(0, 0);
         this.texOffs(0, 0);
         this.xPos = xPos;
         this.yPos = yPos;
         this.zPos = zPos;
+        this.xRot = xRot;
+        this.yRot = yRot;
+        this.zRot = zRot;
     }
 
     @Override
@@ -40,11 +49,11 @@ public class TextModelRenderer extends ModelRenderer {
                     modelrenderer.render(p_228309_1_, p_228309_2_, p_228309_3_, p_228309_4_, p_228309_5_, p_228309_6_, p_228309_7_, p_228309_8_);
                 }*/
             matrixStack.translate(0.35,0,0);
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(180));
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(-45));
+            matrixStack.mulPose(Vector3f.XP.rotationDegrees(xRot));
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(yRot));
+            matrixStack.mulPose(Vector3f.XP.rotationDegrees(zRot));
             matrixStack.translate(xPos,yPos,zPos);
-            matrixStack.scale(0.005f,0.005f,0.005f);
+            matrixStack.scale(scale,scale,scale);
             Minecraft minecraft = Minecraft.getInstance();
             minecraft.font.draw(matrixStack, text, 0, 0, 0x000000);
 

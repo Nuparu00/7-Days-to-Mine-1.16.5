@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.resources.I18n;
@@ -31,6 +32,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.client.gui.*;
+import nuparu.sevendaystomine.client.gui.computer.GuiMonitor;
 import nuparu.sevendaystomine.client.sound.MovingSoundMinibikeIdle;
 import nuparu.sevendaystomine.client.sound.PositionedLoudSound;
 import nuparu.sevendaystomine.client.toast.NotificationToast;
@@ -45,6 +47,7 @@ import nuparu.sevendaystomine.item.ItemGuide;
 import nuparu.sevendaystomine.item.ItemNote;
 import nuparu.sevendaystomine.item.ItemRecipeBook;
 import nuparu.sevendaystomine.item.guide.BookDataManager;
+import nuparu.sevendaystomine.tileentity.TileEntityMonitor;
 import nuparu.sevendaystomine.tileentity.TileEntityPhoto;
 import nuparu.sevendaystomine.util.EnumModParticleType;
 import nuparu.sevendaystomine.util.MathUtils;
@@ -110,7 +113,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     void initKeybindings() {
-        keyBindings = new KeyBinding[9];
+        keyBindings = new KeyBinding[10];
         keyBindings[0] = new KeyBinding("key.reload.desc", GLFW.GLFW_KEY_R, "key.sevendaystomine.category");
         keyBindings[1] = new KeyBinding("key.camera.width.increase.desc", GLFW.GLFW_KEY_KP_6,
                 "key.sevendaystomine.category");
@@ -126,6 +129,7 @@ public class ClientProxy extends CommonProxy {
         keyBindings[7] = new KeyBinding("key.honk.desc", GLFW.GLFW_KEY_SPACE, "key.sevendaystomine.category");
 
         keyBindings[8] = new KeyBinding("key.animation_debug.desc", GLFW.GLFW_KEY_SEMICOLON, "key.sevendaystomine.category");
+        keyBindings[9] = new KeyBinding("key.computer.fullscreen.desc", GLFW.GLFW_KEY_F9, "key.sevendaystomine.category");
 
         for (int i = 0; i < keyBindings.length; ++i) {
             ClientRegistry.registerKeyBinding(keyBindings[i]);
@@ -145,6 +149,12 @@ public class ClientProxy extends CommonProxy {
             case 0:
                 mc.setScreen(new GuiCodeSafeLocked(te, new BlockPos(x, y, z)));
                 return;
+            case 1:{
+                if(te instanceof TileEntityMonitor){
+                    mc.setScreen(new GuiMonitor((TileEntityMonitor) te));
+                }
+                return;
+            }
         }
     }
 
@@ -300,8 +310,8 @@ public class ClientProxy extends CommonProxy {
     @Override
     public boolean isHittingBlock(PlayerEntity player) {
         if (player instanceof ClientPlayerEntity) {
-			/*PlayerControllerMP controller = Minecraft.getInstance().playerController;
-			return ObfuscationReflectionHelper.getPrivateValue(PlayerControllerMP.class, controller, "field_78778_j");*/
+            PlayerController controller = Minecraft.getInstance().gameMode;
+			return controller.isDestroying();
         }
         return super.isHittingBlock(player);
     }

@@ -38,8 +38,8 @@ public class ModelMinibike<T extends MinibikeEntity> extends EntityModel<T> {
     private final TextModelRenderer speedMeter;
 
     public ModelMinibike() {
-        fuelMeter = new TextModelRenderer(0.012,-0.10,-0.0001);
-        speedMeter = new TextModelRenderer(0.012,-0.06,-0.0001);
+        fuelMeter = new TextModelRenderer(0.012,-0.10,-0.0001,180,180,-45);
+        speedMeter = new TextModelRenderer(0.012,-0.06,-0.0001,180,180,-45);
 
         texWidth = 64;
         texHeight = 64;

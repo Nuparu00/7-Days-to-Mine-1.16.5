@@ -8,6 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.inventory.block.*;
 import nuparu.sevendaystomine.inventory.entity.ContainerAirdrop;
+import nuparu.sevendaystomine.inventory.entity.ContainerCar;
 import nuparu.sevendaystomine.inventory.entity.ContainerLootableCorpse;
 import nuparu.sevendaystomine.inventory.entity.ContainerMinibike;
 import nuparu.sevendaystomine.inventory.item.ContainerBackpack;
@@ -91,4 +92,10 @@ public class ModContainers {
 
 	public static final RegistryObject<ContainerType<ContainerMinibike>> MINIBIKE = CONTAINERS.register("minibike",
 			() -> IForgeContainerType.create(ContainerMinibike::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<RowedContainer>> ROWED = CONTAINERS.register("rowed",
+			() -> IForgeContainerType.create(RowedContainer::createContainerClientSide));
+
+	public static final RegistryObject<ContainerType<ContainerCar>> CAR = CONTAINERS.register("car",
+			() -> IForgeContainerType.create(ContainerCar::createContainerClientSide));
 }

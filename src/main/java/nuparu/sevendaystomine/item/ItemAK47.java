@@ -29,6 +29,8 @@ public class ItemAK47 extends ItemGun {
 		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_idle"));
 		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_shoot"));
 		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
+		this.setAimAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"ak47_aim_idle"));
+		this.setAimShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"ak47_aim_shoot"));
 	}
 	
 	@Override

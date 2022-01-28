@@ -12,6 +12,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -90,6 +91,21 @@ public class ZombieWolfEntity<T extends ZombieWolfEntity> extends ZombieBipedEnt
 
 	public boolean isInSittingPose() {
 		return false;
+	}
+
+	@Override
+	public Vector3d corpseRotation() {
+		return new Vector3d(0,0,90);
+	}
+
+	@Override
+	public Vector3d corpseTranslation() {
+		return new Vector3d(0,0,0);
+	}
+
+	@Override
+	public boolean customCoprseTransform() {
+		return true;
 	}
 
 	public class Factory implements IFactory<ZombieWolfEntity> {

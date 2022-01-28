@@ -51,8 +51,8 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IWate
 
 	public VoxelShape NORTH = VoxelShapes.or(BOTTOM,TOP,MIDDLE,BACK,RIGHT,LEFT);
 	public VoxelShape SOUTH = VoxelShapes.or(BOTTOM,TOP,MIDDLE,FRONT,RIGHT,LEFT);
-	public VoxelShape EAST = VoxelShapes.or(BOTTOM,TOP,MIDDLE,FRONT,RIGHT,FRONT);
-	public VoxelShape WEST = VoxelShapes.or(BOTTOM,TOP,MIDDLE,FRONT,LEFT,FRONT);
+	public VoxelShape EAST = VoxelShapes.or(BOTTOM,TOP,MIDDLE,BACK,LEFT,FRONT);
+	public VoxelShape WEST = VoxelShapes.or(BOTTOM,TOP,MIDDLE,BACK,RIGHT,FRONT);
 
 
 	public BlockBookshelfEnhanced(AbstractBlock.Properties properties) {

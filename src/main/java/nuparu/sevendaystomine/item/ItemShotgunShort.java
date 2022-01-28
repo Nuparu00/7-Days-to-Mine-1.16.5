@@ -30,6 +30,8 @@ public class ItemShotgunShort extends ItemGun {
 		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"rifle_idle"));
 		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"shotgun_short_shoot"));
 		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
+		this.setAimAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"shotgun_aim_idle"));
+		this.setAimShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"shotgun_short_aim_shoot"));
 	}
 	
 	public Item getReloadItem(ItemStack stack) {

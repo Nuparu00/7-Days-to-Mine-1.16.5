@@ -16,7 +16,7 @@ import nuparu.sevendaystomine.util.PlayerUtils;
 
 public class ItemAntibiotics extends Item{
 	public ItemAntibiotics() {
-		super(new Item.Properties().stacksTo(1).tab(ModItemGroups.TAB_MEDICINE).food(ModFood.ANTIBIOTICS));
+		super(new Item.Properties().stacksTo(16).tab(ModItemGroups.TAB_MEDICINE).food(ModFood.ANTIBIOTICS));
 	}
 
 	@Override

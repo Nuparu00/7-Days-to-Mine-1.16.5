@@ -2,6 +2,7 @@ package nuparu.sevendaystomine.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.item.UseAction;
 import net.minecraft.item.Item;
@@ -11,6 +12,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.entity.FlareEntity;
+import nuparu.sevendaystomine.entity.FragmentationGrenadeEntity;
 
 public class ItemFlare extends Item {
 	
@@ -57,12 +60,14 @@ public class ItemFlare extends Item {
 					0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
 			if (!worldIn.isClientSide()) {
-			/*	ModTriggers.FLARE.trigger((ServerPlayerEntity) player);
-				EntityFlare flare = new EntityFlare(worldIn, player);
-				flare.shoot(player, player.xRot, player.yRot, 0.0F, 0.5f * f, 0.5f);
-				worldIn.addFreshEntity(flare);*/
+				FlareEntity snowballentity = new FlareEntity(worldIn, player);
+				snowballentity.setItem(stack);
+				snowballentity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, f, 1.0F);
+				worldIn.addFreshEntity(snowballentity);
 			}
-			//player.awardStat(Stats.(this));
+			player.awardStat(Stats.ITEM_USED.get(this));
+
+			//player.addStat(StatList.getObjectUseStats(this));
 		}
 	}
 

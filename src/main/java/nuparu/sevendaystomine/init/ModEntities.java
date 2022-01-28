@@ -141,11 +141,24 @@ public class ModEntities {
 			.sized(0.6F, 1.95F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "survivor").toString());
 
+
 	public static final  EntityType<FragmentationGrenadeEntity> FRAGMENTATION_GRENADE_RAW = EntityType.Builder
 			.of((EntityType.IFactory<FragmentationGrenadeEntity>) FragmentationGrenadeEntity::new,
 					EntityClassification.MISC)
-			.sized(0.6F, 1.95F)
+			.sized(0.6F, 0.6F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "fragmentation_grenade").toString());
+
+	public static final  EntityType<ChlorineGrenadeEntity> CHLORINE_GRENADE_RAW = EntityType.Builder
+			.of((EntityType.IFactory<ChlorineGrenadeEntity>) ChlorineGrenadeEntity::new,
+					EntityClassification.MISC)
+			.sized(0.6F, 0.6F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "chlorine_grenade").toString());
+
+	public static final  EntityType<MolotovEntity> MOLOTOV_RAW = EntityType.Builder
+			.of((EntityType.IFactory<MolotovEntity>) MolotovEntity::new,
+					EntityClassification.MISC)
+			.sized(0.6F, 0.6F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "molotov").toString());
 
 	public static final  EntityType<MountableBlockEntity> MOUNTABLE_BLOCK_RAW = EntityType.Builder
 			.of((EntityType.IFactory<MountableBlockEntity>) MountableBlockEntity::new,
@@ -153,7 +166,13 @@ public class ModEntities {
 			.sized(0.01F, 0.01F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "mountable_block").toString());
 
-	
+	public static final  EntityType<FlareEntity> FLARE_RAW = EntityType.Builder
+			.of((EntityType.IFactory<FlareEntity>) FlareEntity::new,
+					EntityClassification.MISC)
+			.sized(0.6F, 0.6F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "flare").toString());
+
+
 	public static final RegistryObject<EntityType<ReanimatedCorpseEntity>> REANIMATED_CORPSE = ENTITIES.register(
 			"reanimated_corpse",
 			() -> REANIMATED_CORPSE_RAW);
@@ -247,8 +266,16 @@ public class ModEntities {
 			() -> EntityType.Builder
 					.of((EntityType.IFactory<MinibikeEntity>) MinibikeEntity::new,
 							EntityClassification.MISC)
-					.sized(0.8F, 0.75F).setTrackingRange(128).setShouldReceiveVelocityUpdates(true).setUpdateInterval(2)
+					.sized(0.8F, 0.75F).setTrackingRange(128).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).updateInterval(1)
 					.build(new ResourceLocation(SevenDaysToMine.MODID, "minibike").toString()));
+
+	public static final RegistryObject<EntityType<CarEntity>> CAR = ENTITIES.register(
+			"car",
+			() -> EntityType.Builder
+					.of((EntityType.IFactory<CarEntity>) CarEntity::new,
+							EntityClassification.MISC)
+					.sized(2F, 1.5F).setTrackingRange(128).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).updateInterval(1)
+					.build(new ResourceLocation(SevenDaysToMine.MODID, "car").toString()));
 
 	public static final RegistryObject<EntityType<AirdropEntity>> AIRDROP = ENTITIES.register(
 			"airdrop",
@@ -269,4 +296,16 @@ public class ModEntities {
 	public static final RegistryObject<EntityType<MountableBlockEntity>> MOUNTABLE_BLOCK = ENTITIES.register(
 			"mountable_block",
 			() -> MOUNTABLE_BLOCK_RAW);
+
+	public static final RegistryObject<EntityType<FlareEntity>> FLARE = ENTITIES.register(
+			"flare",
+			() -> FLARE_RAW);
+
+	public static final RegistryObject<EntityType<ChlorineGrenadeEntity>> CHLORINE_GRENADE = ENTITIES.register(
+			"chlorine_grenade",
+			() -> CHLORINE_GRENADE_RAW);
+
+	public static final RegistryObject<EntityType<MolotovEntity>> MOLOTOV = ENTITIES.register(
+			"molotov",
+			() -> MOLOTOV_RAW);
 }

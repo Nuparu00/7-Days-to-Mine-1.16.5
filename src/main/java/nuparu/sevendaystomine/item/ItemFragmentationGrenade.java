@@ -61,12 +61,10 @@ public class ItemFragmentationGrenade extends Item {
 			if (!worldIn.isClientSide()) {
 				FragmentationGrenadeEntity snowballentity = new FragmentationGrenadeEntity(worldIn, player);
 				snowballentity.setItem(stack);
-				snowballentity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1.5F, 1.0F);
+				snowballentity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, f, 1.0F);
 				worldIn.addFreshEntity(snowballentity);
 			}
 			player.awardStat(Stats.ITEM_USED.get(this));
-
-			//player.addStat(StatList.getObjectUseStats(this));
 		}
 	}
 

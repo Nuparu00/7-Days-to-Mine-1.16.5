@@ -26,7 +26,8 @@ public class ModConfiguredStructures {
     public static StructureFeature<?, ?> CONFIGURED_CRUISER = ModStructureFeatures.CRUISER.get().configured(IFeatureConfig.NONE);
     public static StructureFeature<?, ?> CONFIGURED_CARGO_SHIP = ModStructureFeatures.CARGO_SHIP.get().configured(IFeatureConfig.NONE);
     public static StructureFeature<?, ?> CONFIGURED_CARGO_SHIP_SUNKEN = ModStructureFeatures.CARGO_SHIP_SUNKEN.get().configured(IFeatureConfig.NONE);
-    public static StructureFeature<?, ?> CONFIGURED_AIRPFIELD = ModStructureFeatures.AIRFIELD.get().configured(IFeatureConfig.NONE);
+    public static StructureFeature<?, ?> CONFIGURED_AIRFIELD = ModStructureFeatures.AIRFIELD.get().configured(IFeatureConfig.NONE);
+    public static StructureFeature<?, ?> CONFIGURED_VILLAGE = ModStructureFeatures.VILLAGE.get().configured(IFeatureConfig.NONE);
 
     /**
      * Registers the configured structure which is what gets added to the biomes.
@@ -79,7 +80,11 @@ public class ModConfiguredStructures {
         Registry.register(registry, new ResourceLocation(SevenDaysToMine.MODID, "configured_cargo_ship_sunken"), CONFIGURED_CARGO_SHIP_SUNKEN);
         FlatGenerationSettings.STRUCTURE_FEATURES.put(ModStructureFeatures.CARGO_SHIP_SUNKEN.get(), CONFIGURED_CARGO_SHIP);
 
-        Registry.register(registry, new ResourceLocation(SevenDaysToMine.MODID, "configured_airfield"), CONFIGURED_AIRPFIELD);
-        FlatGenerationSettings.STRUCTURE_FEATURES.put(ModStructureFeatures.AIRFIELD.get(), CONFIGURED_AIRPFIELD);
+        Registry.register(registry, new ResourceLocation(SevenDaysToMine.MODID, "configured_airfield"), CONFIGURED_AIRFIELD);
+        FlatGenerationSettings.STRUCTURE_FEATURES.put(ModStructureFeatures.AIRFIELD.get(), CONFIGURED_AIRFIELD);
+
+        Registry.register(registry, new ResourceLocation(SevenDaysToMine.MODID, "configured_village"), CONFIGURED_VILLAGE);
+        FlatGenerationSettings.STRUCTURE_FEATURES.put(ModStructureFeatures.VILLAGE.get(), CONFIGURED_VILLAGE);
+
     }
 }

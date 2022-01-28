@@ -1,0 +1,33 @@
+{
+	"name": "sevendaystomine:city/starts",
+	"fallback": "sevendaystomine:city/city_limit",
+	"elements": [
+		{
+			"weight": 6,
+			"element": {
+				"location": "sevendaystomine:city/streets/crossroad_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		},
+		{
+			"weight": 3,
+			"element": {
+				"location": "sevendaystomine:city/streets/roundabout_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		},
+		{
+			"weight": 3,
+			"element": {
+				"location": "sevendaystomine:city/streets/crossroad_t_01",
+				"processors": "sevendaystomine:mossify",
+				"projection": "rigid",
+				"element_type": "sevendaystomine:mod_single_pool_element"
+			}
+		}
+	]
+}

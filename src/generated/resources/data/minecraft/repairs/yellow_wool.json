@@ -1,0 +1,11 @@
+{
+  "block": "minecraft:yellow_wool",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "minecraft:string",
+      "count": 1
+    }
+  ]
+}

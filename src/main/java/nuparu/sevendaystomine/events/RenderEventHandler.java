@@ -32,6 +32,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import nuparu.sevendaystomine.client.animation.Animation;
 import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
@@ -98,22 +99,26 @@ public class RenderEventHandler {
             if (scoping) {
                 return;
             }
-            if(shotAnimationTimer > System.currentTimeMillis()){
-                if(!Animations.override && Animations.currentAnimation != mainGun.getShootAnimation()){
-                    Animations.currentAnimation = mainGun.getShootAnimation();
-                    if(Animations.currentAnimation != null){
+
+            Animation idleAnimation = (mc.options.keyAttack.isDown() && mainGun.getFOVFactor(main) != 1) ? mainGun.getAimAnimation() : mainGun.getIdleAnimation();
+            Animation shootAnimation = (mc.options.keyAttack.isDown() && mainGun.getFOVFactor(main) != 1) ? mainGun.getAimShootAnimation() : mainGun.getShootAnimation();
+
+                if (shotAnimationTimer > System.currentTimeMillis()) {
+                    if (!Animations.override && Animations.currentAnimation != shootAnimation) {
+                        Animations.currentAnimation = shootAnimation;
+                        if (Animations.currentAnimation != null) {
+                            Animations.currentAnimation.unpause();
+                            Animations.currentAnimation.setRepeat(false);
+                        }
+                    }
+                } else if (idleAnimation != null && shootAnimation != null && !Animations.override && Animations.currentAnimation != idleAnimation && (Animations.currentAnimation != shootAnimation || !Animations.currentAnimation.isRunning())) {
+                    Animations.currentAnimation = idleAnimation;
+                    if (Animations.currentAnimation != null) {
                         Animations.currentAnimation.unpause();
-                        Animations.currentAnimation.setRepeat(false);
+                        Animations.currentAnimation.setRepeat(true);
                     }
                 }
-            }
-            else if(mainGun.getIdleAnimation() != null && mainGun.getShootAnimation() != null && !Animations.override && Animations.currentAnimation != mainGun.getIdleAnimation() && (Animations.currentAnimation != mainGun.getShootAnimation() || !Animations.currentAnimation.isRunning())){
-                Animations.currentAnimation = mainGun.getIdleAnimation();
-                if(Animations.currentAnimation != null){
-                    Animations.currentAnimation.unpause();
-                    Animations.currentAnimation.setRepeat(true);
-                }
-            }
+
             if(Animations.offset != null) {
                 event.getMatrixStack().translate(Animations.offset.x, Animations.offset.y, Animations.offset.z);
             }

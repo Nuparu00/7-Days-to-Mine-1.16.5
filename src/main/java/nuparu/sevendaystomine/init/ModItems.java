@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.item.*;
-import nuparu.sevendaystomine.tileentity.TileEntityComputer.EnumSystem;
+import nuparu.sevendaystomine.computer.EnumSystem;
 
 public class ModItems {
 
@@ -341,7 +341,7 @@ public class ModItems {
 
 	public static final RegistryObject<Item> CHLORINE_GRENADE = ITEMS.register("chlorine_grenade", () -> new ItemChlorineGrenade());
 	public static final RegistryObject<Item> FRAGMENTATION_GRENADE = ITEMS.register("fragmentation_grenade", () -> new ItemFragmentationGrenade());
-	public static final RegistryObject<Item> MOLOTOV = ITEMS.register("molotov", () -> new ItemMolotov(new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> MOLOTOV = ITEMS.register("molotov", () -> new ItemMolotov());
 
 	public static final RegistryObject<Item> RIOT_SHIELD = ITEMS.register("riot_shield", () -> new ItemRiotShield());
 	public static final RegistryObject<Item> CRUDE_BOW = ITEMS.register("crude_bow", () -> new ItemQualityBow(new Item.Properties().durability(384).tab(ItemGroup.TAB_COMBAT), 1.45, 1f));

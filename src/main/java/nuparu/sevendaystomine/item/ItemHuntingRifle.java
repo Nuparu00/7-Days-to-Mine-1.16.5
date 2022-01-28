@@ -29,6 +29,8 @@ public class ItemHuntingRifle extends ItemGun {
 		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"hunting_rifle_idle"));
 		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"hunting_rifle_shoot"));
 		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
+		this.setAimAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"hunting_rifle_aim_idle"));
+		this.setAimShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"hunting_rifle_aim_shoot"));
 	}
 
 	@Override

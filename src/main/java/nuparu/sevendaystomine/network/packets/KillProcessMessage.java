@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
-import nuparu.sevendaystomine.computer.process.TickingProcess;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
 
 public class KillProcessMessage{
@@ -52,10 +51,10 @@ public class KillProcessMessage{
 				if (TE != null && TE instanceof TileEntityComputer) {
 					TileEntityComputer computerTE = (TileEntityComputer) TE;
 					if (computerTE.getMonitorTE() != null && computerTE.getMonitorTE().getLookingPlayers().contains(player)) {
-						TickingProcess process = computerTE.getProcessByUUID(id);
+						/*TickingProcess process = computerTE.getProcessByUUID(id);
 						if (process != null) {
 							computerTE.killProcess(process);
-						}
+						}*/
 					}
 				}
 

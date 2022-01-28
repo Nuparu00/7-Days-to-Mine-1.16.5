@@ -4,17 +4,21 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerSmall;
 import nuparu.sevendaystomine.inventory.itemhandler.ItemHandlerNameable;
+import nuparu.sevendaystomine.util.MathUtils;
 
 public class TileEntityDresser extends TileEntityItemHandler<ItemHandlerNameable>{
 
 	private static final int INVENTORY_SIZE = 9;
 	private static final ITextComponent DEFAULT_NAME = new TranslationTextComponent("container.dresser");
+	protected int openCount;
 	
 	public TileEntityDresser() {
 		super(ModTileEntities.DRESSER.get());
@@ -28,12 +32,18 @@ public class TileEntityDresser extends TileEntityItemHandler<ItemHandlerNameable
 
 	@Override
 	public void onContainerOpened(PlayerEntity player) {
-		
+		if (this.openCount == 0) {
+			this.level.playSound((PlayerEntity)null, worldPosition.getX()+0.5, worldPosition.getY()+0.5, worldPosition.getZ()+0.5, ModSounds.DRAWER_OPEN.get(), SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.45f,0.55f), MathUtils.getFloatInRange(0.75f,1.15f));
+		}
+		this.openCount++;
 	}
 
 	@Override
 	public void onContainerClosed(PlayerEntity player) {
-		
+		this.openCount--;
+		if (this.openCount == 0) {
+			this.level.playSound((PlayerEntity)null, worldPosition.getX()+0.5, worldPosition.getY()+0.5, worldPosition.getZ()+0.5, ModSounds.DRAWER_CLOSE.get(), SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.45f,0.55f), MathUtils.getFloatInRange(0.75f,1.15f));
+		}
 	}
 
 	@Override

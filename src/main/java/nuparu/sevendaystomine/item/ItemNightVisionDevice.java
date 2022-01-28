@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effects;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -14,7 +16,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.client.model.entity.NightVisionDeviceModel;
 
 public class ItemNightVisionDevice extends ArmorItem {
 
@@ -48,11 +53,19 @@ public class ItemNightVisionDevice extends ArmorItem {
 		return model;
 	}
 */
+
+	@OnlyIn(Dist.CLIENT)
+	public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack,
+													 EquipmentSlotType armorSlot, A _default) {
+		_default.copyPropertiesTo(NightVisionDeviceModel.INSTANCE);
+		return (A) NightVisionDeviceModel.INSTANCE;
+	}
+/*
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
 		EffectInstance effect_new = new EffectInstance(Effects.NIGHT_VISION, 240, 1, false, false);
 		effect_new.setCurativeItems(new ArrayList<ItemStack>());
 		player.addEffect(effect_new);
-	}
+	}*/
 
 }

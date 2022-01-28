@@ -82,13 +82,23 @@ public class LootableCorpseRenderer<T extends LootableCorpseEntity> extends Enti
 		float new_y = (original.getBbWidth() / 4f);
 		float new_z = (float) ((original.getBbHeight() / 2f) * Math.sin((entityYaw + 90) * Math.PI / 180));
 
-		float rotX = -1;
-		float rotY = 0;
-		float rotZ = entityYaw;
+		float rotX = -90;
+		float rotY = entityYaw;
+		float rotZ = 0;
+//entityYaw
 
 		if (original instanceof ZombieBaseEntity) {
 			ZombieBaseEntity zombie = ((ZombieBaseEntity) original);
+
 			if (zombie.customCoprseTransform()) {
+				Vector3d rot = zombie.corpseRotation();
+				rotX+=rot.x;
+				rotY+=rot.y;
+				rotZ+=rot.z;
+
+				new_y += zombie.corpseTranslation().y;
+			}
+			/*if (zombie.customCoprseTransform()) {
 				Vector3d rot = zombie.corpseRotation();
 				rotX += (float) rot.x;
 				rotY += (float) rot.y;
@@ -97,7 +107,7 @@ public class LootableCorpseRenderer<T extends LootableCorpseEntity> extends Enti
 				new_x = (float) (pos.x * Math.cos((entityYaw + 90) * Math.PI / 180));
 				new_y += pos.y;
 				new_z = (float) (pos.z * Math.sin((entityYaw + 90) * Math.PI / 180));
-			}
+			}*/
 		}
 		matrix.pushPose();
 		//RenderSystem.rotatef(entityYaw, 0, -1, 0);
@@ -105,11 +115,13 @@ public class LootableCorpseRenderer<T extends LootableCorpseEntity> extends Enti
 
 		//RenderSystem.rotatef(90, rotX, rotY, rotZ);
        // System.out.println(new_x + " " + new_y + " " + new_z);
-		matrix.mulPose(Vector3f.YP.rotationDegrees(90*rotY));
 		matrix.translate(-new_x, new_y, new_z);
-		matrix.mulPose(Vector3f.XP.rotationDegrees(90*rotX));
+		matrix.mulPose(Vector3f.YP.rotationDegrees(rotY));
+		matrix.pushPose();
 		matrix.mulPose(Vector3f.ZP.rotationDegrees(rotZ));
+		matrix.mulPose(Vector3f.XP.rotationDegrees(rotX));
 		render.render(original, entityYaw, partialTicks, matrix,buffer,p_225623_6_);
+		matrix.popPose();
 		//RenderSystem.rotatef(-90, rotX, rotY, rotZ);
 		matrix.popPose();
 	}

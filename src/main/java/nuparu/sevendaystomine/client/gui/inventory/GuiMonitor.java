@@ -1,6 +1,7 @@
 package nuparu.sevendaystomine.client.gui.inventory;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,7 +9,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.client.gui.monitor.MonitorScreen;
 import nuparu.sevendaystomine.inventory.block.ContainerMonitor;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
 import nuparu.sevendaystomine.tileentity.TileEntityMonitor;
@@ -16,7 +16,7 @@ import nuparu.sevendaystomine.tileentity.TileEntityMonitor;
 @OnlyIn(Dist.CLIENT)
 public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGuiEventListener {
 
-	private MonitorScreen screen = new MonitorScreen(this);
+	//private MonitorScreen screen = new MonitorScreen(this);
 	private ContainerMonitor container;
 	private TileEntityMonitor monitorTE;
 	public PlayerEntity player;
@@ -31,11 +31,11 @@ public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGu
 	@Override
 	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		super.render(matrix,mouseX,mouseY,partialTicks);
-		screen.mouseX = mouseX;
-		screen.mouseY = mouseY;
+		//screen.mouseX = mouseX;
+		//screen.mouseY = mouseY;
 
 
-		screen.render(matrix,partialTicks);
+		//screen.render(matrix,partialTicks);
 		/*
 		if (TileEntityCamera.TEST != null) {
 			RenderUtils.renderView(Minecraft.getInstance(), TileEntityCamera.TEST.getCameraView(player));
@@ -61,7 +61,7 @@ public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGu
 	@Override
 	public void tick() {
 		super.tick();
-		screen.update();
+		//screen.update();
 	}
 
 	@Override
@@ -71,24 +71,24 @@ public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGu
 
 	@Override
 	public void init() {
-		screen.setScale(minecraft.getWindow());
+		//screen.setScale(minecraft.getWindow());
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		screen.mouseClicked(mouseX, mouseY, mouseButton);
+		//screen.mouseClicked(mouseX, mouseY, mouseButton);
 		return true;
 	}
 
 	public boolean charTyped(char typedChar, int keyCode){
-		screen.keyTyped(typedChar, keyCode);
+		//screen.keyTyped(typedChar, keyCode);
 		return true;
 	}
 
 	@Override
 	public boolean keyPressed(int keyCode, int p_231046_2_, int p_231046_3_) {
-		screen.keyPressed(keyCode,p_231046_2_,p_231046_3_);
+		//screen.keyPressed(keyCode,p_231046_2_,p_231046_3_);
 		if (keyCode == 256 && this.shouldCloseOnEsc()) {
 			this.onClose();
 			return true;
@@ -105,18 +105,18 @@ public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGu
 
 	@Override
 	public boolean keyReleased(int keyCode, int p_223281_2_, int p_223281_3_){
-		screen.keyReleased(keyCode,p_223281_2_,p_223281_3_);
+		//screen.keyReleased(keyCode,p_223281_2_,p_223281_3_);
 		return super.keyReleased(keyCode,p_223281_2_,p_223281_3_);
 	}
 
 	protected void mouseReleased(int mouseX, int mouseY, int state) {
 		super.mouseReleased(mouseX, mouseY, state);
-		screen.mouseReleased(mouseX, mouseY, state);
+		//screen.mouseReleased(mouseX, mouseY, state);
 	}
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int clickedMouseButton, double deltaX, double deltaY) {
-		screen.mouseClickMove(mouseX, mouseY, clickedMouseButton,deltaX,deltaY);
+		//screen.mouseClickMove(mouseX, mouseY, clickedMouseButton,deltaX,deltaY);
 		return true;
 	}
 
@@ -133,4 +133,11 @@ public class GuiMonitor extends ContainerScreen<ContainerMonitor> implements IGu
 				&& getComputer().isCompleted();
 	}
 
+	/*
+	 *Please, please never use this!!! This has to be in here so JEI does not render its stuff over the GUI!!!!!
+	 */
+	@Override
+	public Minecraft getMinecraft() {
+		return null;
+	}
 }

@@ -31,7 +31,7 @@ public class ItemRecipeBook extends ItemGuide {
 	
 	public static final ArrayList<String> RECIPES = new ArrayList<String>();
 	
-	private String recipe;
+	protected String recipe;
 
 	public ItemRecipeBook(ResourceLocation data, String recipe, Item.Properties properties) {
 		super(data,properties);

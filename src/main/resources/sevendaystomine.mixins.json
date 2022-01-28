@@ -18,7 +18,9 @@
     "MixinPlayerRenderer",
     "MixinWorldRenderer",
     "MixinClientPlayNetHandler",
-    "MixinJigsawPiece"
+    "MixinJigsawPiece",
+    "MixinMinecraft",
+    "MixinGameRenderer"
   ],
   "client":[
   ],

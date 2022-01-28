@@ -1,21 +1,12 @@
 package nuparu.sevendaystomine.item;
 
-import com.google.common.collect.Sets;
-import com.google.common.collect.ImmutableMap.Builder;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.*;
@@ -30,6 +21,7 @@ import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.block.IUpgradeable;
 import nuparu.sevendaystomine.block.repair.BreakData;
 import nuparu.sevendaystomine.block.repair.RepairDataManager;
+import nuparu.sevendaystomine.block.repair.RepairEntry;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.init.ModSounds;
@@ -117,27 +109,30 @@ public class ItemStoneAxe extends ItemQualityAxe implements IUpgrader {
 		if (iChunkData != null && iChunkData.hasBreakData(pos)) {
 			BreakData breakData = iChunkData.getBreakData(pos);
 			float damage = breakData.getState();
-			NonNullList<RepairDataManager.RepairEntry> repairs = RepairDataManager.instance.getEntries(block);
+			NonNullList<RepairEntry> repairs = RepairDataManager.instance.getEntries(block);
 
-			if(!worldIn.isClientSide()) {
+			if (!worldIn.isClientSide()) {
 				if (repairs.isEmpty()) {
-					playerIn.sendMessage(new TranslationTextComponent("repair.none",block.getName()),Util.NIL_UUID);
+					playerIn.sendMessage(new TranslationTextComponent("repair.none", block.getName()), Util.NIL_UUID);
 				}
-				for (RepairDataManager.RepairEntry entry : repairs) {
+				for (RepairEntry entry : repairs) {
 					if (entry.getRepairLimit() >= 1 || ((1 - damage) + (entry.getRepairAmount() * effect) <= entry.getRepairLimit())) {
-						boolean flag = true;
-						for (ItemStack stack : entry.getItems()) {
-							if (!Utils.hasItemStack(playerIn, stack)) {
-								flag = !flag;
-								playerIn.sendMessage(new TranslationTextComponent("repair.missing.count",stack.getDisplayName(),block.getName(), stack.getCount()),Util.NIL_UUID);
-								break;
+						if (!playerIn.isCreative()) {
+							boolean flag = true;
+							for (ItemStack stack : entry.getItems()) {
+								if (!Utils.hasItemStack(playerIn, stack)) {
+									flag = !flag;
+									playerIn.sendMessage(new TranslationTextComponent("repair.missing.count", stack.getDisplayName(), block.getName(), stack.getCount()), Util.NIL_UUID);
+									break;
+								}
 							}
-						}
 
-						if (!flag) continue;
+							if (!flag) continue;
 
-						for (ItemStack stack : entry.getItems()) {
-							Utils.removeItemStack(playerIn.inventory, stack);
+
+							for (ItemStack stack : entry.getItems()) {
+								Utils.removeItemStack(playerIn.inventory, stack);
+							}
 						}
 
 						playerIn.swing(hand);
@@ -146,6 +141,12 @@ public class ItemStoneAxe extends ItemQualityAxe implements IUpgrader {
 						}
 
 						iChunkData.addBreakData(pos, (float) -(entry.getRepairAmount() * effect));
+
+						SoundType soundType = block.getSoundType(state, worldIn, pos, null);
+						if (soundType != null) {
+							worldIn.playSound(null, pos, soundType.getFallSound(), SoundCategory.NEUTRAL,
+									(soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+						}
 						break;
 					}
 				}
@@ -219,7 +220,7 @@ public class ItemStoneAxe extends ItemQualityAxe implements IUpgrader {
 		for (ItemStack itemStack : itemStacks) {
 			if (!hasItemStack(player, block, itemStack)) {
 				if (!player.level.isClientSide() && !player.isCreative() && !player.isSpectator()) {
-					player.sendMessage(new TranslationTextComponent("upgrade.missing",itemStack.getItem().getName(itemStack).toString(),block.getName().toString()), Util.NIL_UUID);
+					player.sendMessage(new TranslationTextComponent("upgrade.missing",itemStack.getItem().getName(itemStack),block.getName()), Util.NIL_UUID);
 				}
 				return false;
 			}

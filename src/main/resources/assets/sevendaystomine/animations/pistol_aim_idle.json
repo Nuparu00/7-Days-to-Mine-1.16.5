@@ -1,0 +1,161 @@
+{
+  "models": [{
+    "points": [{
+      "position": {
+        "x": -0.27,
+        "y": -0.55,
+        "z": -0.825
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "visible": true,
+      "time": 0
+    }
+    ],
+    "children": [{
+      "points": [{
+        "position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "visible": true,
+        "time": 0
+      },
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 90.0,
+            "z": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "visible": true,
+          "time": 150
+        }
+      ],
+      "children": [{
+        "points": [{
+          "position": {
+            "x": -0.5,
+            "y": 0.8,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "visible": true,
+          "time": 0
+        },
+          {
+            "position": {
+              "x": -0.5,
+              "y": 0.8,
+              "z": 0.0
+            },
+            "rotation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "visible": true,
+            "time": 150
+          }
+        ],
+        "children": [],
+        "renderer": "sevendaystomine:right_gun"
+      }],
+      "renderer": "sevendaystomine:right_hand"
+    }
+    ,
+      {
+        "points": [{
+          "position": {
+            "x": 0.05,
+            "y": -0.075,
+            "z": 0.14
+          },
+          "rotation": {
+            "x": 45.0,
+            "y": 90.0,
+            "z": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "visible": true,
+          "time": 0
+        },
+          {
+            "position": {
+              "x": 0.05,
+              "y": -0.075,
+              "z": 0.14
+            },
+            "rotation": {
+              "x": 45.0,
+              "y": 90.0,
+              "z": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            },
+            "visible": true,
+            "time": 150
+          }
+        ],
+        "children": [],
+        "renderer": "sevendaystomine:left_hand"
+      }
+    ],
+    "renderer": "sevendaystomine:root"
+  }
+  ],
+  "name": "sevendaystomine:pistol_aim_idle",
+  "speed": 1.0,
+  "duration": 150,
+  "running": false,
+  "repeat": false
+}

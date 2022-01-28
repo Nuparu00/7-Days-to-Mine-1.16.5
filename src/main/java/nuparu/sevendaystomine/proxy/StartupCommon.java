@@ -35,6 +35,7 @@ public class StartupCommon {
 		  GlobalEntityTypeAttributes.put(ModEntities.ZOMBIE_PIG.get(), ZombiePigEntity.createAttributes());
 		  GlobalEntityTypeAttributes.put(ModEntities.SURVIVOR.get(), SurvivorEntity.createAttributes());
 		  GlobalEntityTypeAttributes.put(ModEntities.MINIBIKE.get(), MinibikeEntity.createAttributes());
+		  GlobalEntityTypeAttributes.put(ModEntities.CAR.get(), CarEntity.createAttributes());
 
 
 		  event.enqueueWork(() -> {

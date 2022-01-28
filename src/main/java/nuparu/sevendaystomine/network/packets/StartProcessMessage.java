@@ -51,7 +51,7 @@ public class StartProcessMessage{
 				if (TE != null && TE instanceof TileEntityComputer) {
 					TileEntityComputer computerTE = (TileEntityComputer) TE;
 					if (computerTE.getMonitorTE() != null && computerTE.getMonitorTE().getLookingPlayers().contains(player)) {
-						computerTE.startProcess(nbt,false);
+						//computerTE.startProcess(nbt,false);
 					}
 				}
 			});

@@ -24,6 +24,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -31,11 +33,18 @@ import nuparu.sevendaystomine.tileentity.TileEntityGarbage;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
 public class BlockGarbage extends BlockHorizontalBase implements IWaterLoggable {
+	private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 15, 15);
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public BlockGarbage(AbstractBlock.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_,
+							   ISelectionContext p_220053_4_) {
+		return SHAPE;
 	}
 
 	@Override

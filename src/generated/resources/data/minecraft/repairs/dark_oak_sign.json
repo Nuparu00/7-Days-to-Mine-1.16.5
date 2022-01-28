@@ -1,0 +1,11 @@
+{
+  "block": "minecraft:dark_oak_sign",
+  "repairAmount": 0.1,
+  "repairLimit": 1.0,
+  "items": [
+    {
+      "item": "sevendaystomine:plank_wood",
+      "count": 1
+    }
+  ]
+}

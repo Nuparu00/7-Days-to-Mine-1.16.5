@@ -7,14 +7,18 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.BackgroundMusicSelector;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
@@ -34,6 +38,7 @@ import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -44,6 +49,8 @@ import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.client.gui.GuiMainMenuEnhanced;
 import nuparu.sevendaystomine.client.gui.GuiPlayerUI;
+import nuparu.sevendaystomine.client.sound.MovingSoundChainsawCut;
+import nuparu.sevendaystomine.client.sound.MovingSoundChainsawIdle;
 import nuparu.sevendaystomine.config.ClientConfig;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
@@ -51,6 +58,7 @@ import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.entity.MinibikeEntity;
 import nuparu.sevendaystomine.init.ModBiomes;
 import nuparu.sevendaystomine.init.ModItems;
+import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.item.*;
 import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.PlayerUtils;
@@ -60,6 +68,16 @@ import java.util.HashMap;
 
 @Mod.EventBusSubscriber(modid = SevenDaysToMine.MODID, value = Dist.CLIENT)
 public class ClientEventHandler {
+
+    //public static final BackgroundMusicSelector MENU_DEFAULT = new BackgroundMusicSelector(ModSounds.MENU_DEFAULT.get(), 20, 600, true);
+    //public static final BackgroundMusicSelector MENU_REVERSE = new BackgroundMusicSelector(ModSounds.MENU_REVERSE.get(), 20, 600, true);
+    public static long nextChainsawCutSound = 0L;
+    protected static long nextChainsawIdleSound = 0L;
+    protected static long lastTimeHittingBlock = 0L;
+
+    public static long getLastTimeHittingBlock() {
+        return lastTimeHittingBlock;
+    }
 
     public static boolean takingPhoto;
     public static HashMap<BlockPos, CompoundNBT> cachedChunks = new HashMap<BlockPos, CompoundNBT>();
@@ -77,7 +95,7 @@ public class ClientEventHandler {
         Minecraft mc = Minecraft.getInstance();
         if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
             // if (mc.options.thirdPersonView == 0) {
-            if (Utils.getCrosshairSpread(mc.player) != -1) {
+            if (Utils.getCrosshairSpread(mc.player) != -1 && (!mc.options.keyAttack.isDown() || Utils.isAnyScoped(mc.player))) {
                 event.setCanceled(true);
             }
             // }
@@ -139,13 +157,17 @@ public class ClientEventHandler {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onGuiOpen(GuiOpenEvent e) {
-        if (e.getGui() instanceof MainMenuScreen && !(e.getGui() instanceof GuiMainMenuEnhanced)) {
+        if (ClientConfig.customMenu.get() && e.getGui() instanceof MainMenuScreen && !(e.getGui() instanceof GuiMainMenuEnhanced)) {
             e.setGui(new GuiMainMenuEnhanced());
         }
     }
 
     @SubscribeEvent
     public static void onPlaySoundEvent(PlaySoundEvent event) {
+        /*System.out.println(event.getSound().getLocation());
+        if(event.getResultSound().getLocation().equals(SoundEvents.MUSIC_MENU.getLocation()) && (Minecraft.getInstance().screen instanceof GuiMainMenuEnhanced)){
+            event.setResultSound(GuiMainMenuEnhanced.MENU_DEFAULT);
+        }*/
     }
 
     @SubscribeEvent
@@ -389,4 +411,34 @@ public class ClientEventHandler {
         }
     }
 
+    @SubscribeEvent
+    public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
+        LivingEntity livingEntity = event.getEntityLiving();
+        World world = livingEntity.level;
+
+        if (livingEntity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) livingEntity;
+            ItemStack activeStack = player.getItemInHand(Hand.MAIN_HAND);
+            CompoundNBT nbt = activeStack.getTag();
+            if (activeStack.isEmpty() || (activeStack.getItem() != ModItems.CHAINSAW.get()
+                    && activeStack.getItem() != ModItems.AUGER.get()))
+                return;
+            if (nbt != null && nbt.contains("FuelMax") && nbt.getInt("FuelMax") > 0) {
+                if (SevenDaysToMine.proxy.isHittingBlock(player)) {
+                    lastTimeHittingBlock = System.currentTimeMillis();
+                }
+
+                if (System.currentTimeMillis() > nextChainsawIdleSound) {
+                    Minecraft.getInstance().getSoundManager().play(new MovingSoundChainsawIdle(player));
+                    nextChainsawIdleSound = System.currentTimeMillis() + 3000L;
+                }
+                if (System.currentTimeMillis() > nextChainsawCutSound
+                        && System.currentTimeMillis() - getLastTimeHittingBlock() <= 500) {
+                    Minecraft.getInstance().getSoundManager().play(new MovingSoundChainsawCut(player));
+                    nextChainsawCutSound = System.currentTimeMillis() + 1600L;
+                }
+            }
+        }
+
+    }
 }

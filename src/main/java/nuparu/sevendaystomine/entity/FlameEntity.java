@@ -50,6 +50,7 @@ public class FlameEntity extends ProjectileEntity {
     private boolean explosive;
     private boolean sparking;
     private boolean turret;
+    private double gravity = 0.015F;
     private int life;
     private double baseDamage = 2.0D;
     private int knockback;
@@ -162,6 +163,7 @@ public class FlameEntity extends ProjectileEntity {
                         this.getY() - motion.y * 0.25D, this.getZ() - motion.z * 0.25D, motion.x, motion.y,
                         motion.z);
             }
+            kill();
 
         } /*else {
             for (int i = 0; i < 10; ++i) {
@@ -257,7 +259,7 @@ public class FlameEntity extends ProjectileEntity {
             this.setDeltaMovement(vector3d.scale(f2));
             if (!this.isNoGravity() && !flag) {
                 Vector3d vector3d4 = this.getDeltaMovement();
-                this.setDeltaMovement(vector3d4.x, vector3d4.y - (double) 0.015F, vector3d4.z);
+                this.setDeltaMovement(vector3d4.x, vector3d4.y - gravity, vector3d4.z);
             }
 
             this.setPos(d5, d1, d2);
@@ -433,7 +435,9 @@ public class FlameEntity extends ProjectileEntity {
         if(property != null){
             fire = fire.setValue(property,true);
         }
-        level.setBlockAndUpdate(pos.relative(rayTraceResult.getDirection()), fire);
+        if(level.getBlockState(pos.relative(rayTraceResult.getDirection())).getMaterial().isReplaceable()) {
+            level.setBlockAndUpdate(pos.relative(rayTraceResult.getDirection()), fire);
+        }
 
     }
 
@@ -469,6 +473,7 @@ public class FlameEntity extends ProjectileEntity {
 
         nbt.putBoolean("inGround", this.inGround);
         nbt.putDouble("damage", this.baseDamage);
+        nbt.putDouble("gravity", this.gravity);
         nbt.putByte("PierceLevel", this.getPierceLevel());
         nbt.putBoolean("explosive", this.explosive);
         nbt.putBoolean("sparking", this.sparking);
@@ -483,6 +488,7 @@ public class FlameEntity extends ProjectileEntity {
             this.baseDamage = nbt.getDouble("damage");
         }
 
+        this.gravity = nbt.getDouble("gravity");
         this.setPierceLevel(nbt.getByte("PierceLevel"));
 
         this.explosive = nbt.getBoolean("explosive");
@@ -595,5 +601,13 @@ public class FlameEntity extends ProjectileEntity {
 
     public void setDamage(double damageIn) {
         this.baseDamage = damageIn;
+    }
+
+    public double getGravity() {
+        return this.gravity;
+    }
+
+    public void setGravity(double gravity) {
+        this.gravity = gravity;
     }
 }

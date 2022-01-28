@@ -15,8 +15,7 @@ import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiLootableCorpse extends ContainerScreen<ContainerLootableCorpse> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(SevenDaysToMine.MODID,
-			"textures/gui/container/container_small.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/dispenser.png");
 	ContainerLootableCorpse container;
 
 	public GuiLootableCorpse(ContainerLootableCorpse container, PlayerInventory playerInventory, ITextComponent title) {
@@ -43,7 +42,8 @@ public class GuiLootableCorpse extends ContainerScreen<ContainerLootableCorpse> 
 	@Override
 	protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
 		// draw the label for the top of the screen
-		this.font.draw(matrixStack, this.title, 58, 6, Color.darkGray.getRGB()); /// this.font.draw
+		int marginHorizontal = (this.width - this.imageWidth) / 2;
+		this.font.draw(matrixStack, this.title, (176/2f)-this.font.width(this.title)/2, 6, Color.darkGray.getRGB()); /// this.font.draw
 
 		// draw the label for the player inventory slots
 		this.font.draw(matrixStack, this.inventory.getDisplayName(), /// this.font.draw

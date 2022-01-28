@@ -540,6 +540,9 @@ public class ModBlocks {
 	public static final RegistryObject<Block> PHOTO = BLOCKS.register("photo",
 			() -> new BlockPhoto(AbstractBlock.Properties.of(Material.WOOL)));
 
+	public static final RegistryObject<Block> NOTE = BLOCKS.register("note",
+			() -> new BlockNote(AbstractBlock.Properties.of(Material.WOOL)));
+
 	public static final RegistryObject<Block> SCREEN_PROJECTOR = BLOCKS.register("screen_projector",
 			() -> new BlockScreenProjector(AbstractBlock.Properties.of(Material.METAL).noOcclusion()));
 

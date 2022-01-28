@@ -15,7 +15,7 @@ public class MixinBiomeGenerationSettingsBuilder {
         Object thys = this;
         System.out.println("KUK " + p_242516_1_.feature.getRegistryName());
         String featureName = p_242516_1_.feature.getRegistryName().toString();
-        if(featureName.equals("minecraft:village") || featureName.equals("minecraft:pillager_outpost")) {
+        if(featureName.equals("minecraft:village") || featureName.equals("minecraft:pillager_outpost") || featureName.equals("minecraft:mansion")) {
             cir.setReturnValue((BiomeGenerationSettings.Builder) thys);
         }
     }

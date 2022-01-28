@@ -1,0 +1,52 @@
+{
+  "title" : "Subject: Fire",
+  "desc" : "Fire!",
+  "pages": [{
+    "res": "sevendaystomine:textures/gui/books/note_torn.png",
+    "texts": [
+      {
+        "x": 10,
+        "y": 10,
+        "z": 0,
+        "text": "Subject: Fire",
+        "unlocalized": true,
+        "centered": false,
+        "color": "000000",
+        "scale": 0.75
+      },
+      {
+        "x": 10,
+        "y": 25,
+        "z": 0,
+        "text": "Dear Sir/Madam",
+        "unlocalized": true,
+        "centered": false,
+        "color": "000000",
+        "width" : 110,
+        "scale": 0.75
+      },
+      {
+        "x": 10,
+        "y": 35,
+        "z": 0,
+        "text": "Fire! Fire! Help me! 123 Cavendon Road. Looking forward to hearing from you",
+        "unlocalized": true,
+        "centered": false,
+        "color": "000000",
+        "width" : 110,
+        "scale": 0.75
+      },
+      {
+        "x": 10,
+        "y": 60,
+        "z": 0,
+        "text": "Yours truly, Maurice Moss.",
+        "unlocalized": true,
+        "centered": false,
+        "color": "000000",
+        "width" : 60,
+        "scale": 0.75
+      }
+    ]
+  }]
+}

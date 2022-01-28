@@ -1,5 +1,6 @@
 package nuparu.sevendaystomine.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -22,10 +23,12 @@ import nuparu.sevendaystomine.tileentity.TileEntityComputer;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 import nuparu.sevendaystomine.util.MathUtils;
 
-public class ItemScrewdriver extends ItemQuality {
+import java.util.HashSet;
+
+public class ItemScrewdriver extends ItemQualityTool {
 
 	public ItemScrewdriver() {
-		super(new Item.Properties().stacksTo(1).tab(ItemGroup.TAB_TOOLS));
+		super(1,1,ModItemTier.SCREWDRIVER,new HashSet<Block>(), new Item.Properties().stacksTo(1));
 	}
 
 	@Override

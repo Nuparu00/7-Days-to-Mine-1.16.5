@@ -16,7 +16,7 @@ import nuparu.sevendaystomine.tileentity.TileEntitySolarPanel;
 
 public class BlockSolarPanel extends BlockHorizontalBase {
 
-	private final VoxelShape SHAPE = Block.box(0.0F, 0F, 0F, 16F, 14, 16F);
+	private final VoxelShape SHAPE = Block.box(1, 0F, 1, 15F, 14, 15F);
 
 	public BlockSolarPanel(AbstractBlock.Properties properties) {
 		super(properties);

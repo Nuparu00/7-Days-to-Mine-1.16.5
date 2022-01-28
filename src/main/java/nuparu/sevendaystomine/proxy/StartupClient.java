@@ -57,6 +57,8 @@ public class StartupClient {
         ScreenManager.register(ModContainers.WORKBENCH_UNCRAFTING.get(), GuiWorkbenchUncrafting::new);
         ScreenManager.register(ModContainers.MINIBIKE.get(), GuiMinibike::new);
         //ScreenManager.register(ModContainers.CODE_SAFE_LOCKED.get(), GuiCodeSafeLocked::new);
+        ScreenManager.register(ModContainers.ROWED.get(), RowedScreen::new);
+        ScreenManager.register(ModContainers.CAR.get(), GuiCar::new);
 
 
         RenderTypeLookup.setRenderLayer(ModBlocks.BANEBERRY_PLANT.get(), RenderType.translucent());
@@ -111,6 +113,10 @@ public class StartupClient {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.MOUNTABLE_BLOCK.get(), MountableBlockRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.AIRDROP.get(), AirdropRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.MINIBIKE.get(), MinibikeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FLARE.get(), FlareRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.CHLORINE_GRENADE.get(), ChlorineGrenadeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.MOLOTOV.get(), MolotovRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.CAR.get(), CarRenderer::new);
 
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SOLAR_PANEL.get(), TileEntitySolarPanelRenderer::new);
@@ -127,6 +133,7 @@ public class StartupClient {
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.BIG_SIGN_MASTER.get(), TileEntityBigSignRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.PRINTER.get(), TileEntityPrinterRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.PHOTO.get(), TileEntityPhotoRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.NOTE.get(), TileEntityNoteRenderer::new);
 
 
         ItemModelsProperties.register(ModItems.CRUDE_BOW.get(),new ResourceLocation("pull"), (stack, world, entity) -> {

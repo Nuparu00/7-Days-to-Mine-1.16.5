@@ -44,7 +44,7 @@ public class FeatureCars<T extends IFeatureConfig> extends Feature<T> {
                         BlockState state = world.getBlockState(blockPos);
 
                        if(state.getBlock() == ModBlocks.ASPHALT.get()){
-                           if ((i > 3 && i < 13) && (j > 3 && j < 13) && random.nextInt(300) == 0) {
+                           if ((i > 3 && i < 13) && (j > 3 && j < 13) && random.nextInt(200) == 0) {
                                Cars.placeRandomCar(world,blockPos.above(), Utils.HORIZONTALS[random.nextInt(4)],random);
                            }
                        }

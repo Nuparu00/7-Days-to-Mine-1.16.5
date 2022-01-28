@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -131,26 +132,35 @@ public class ScrapDataManager extends JsonReloadListener {
     public CompoundNBT save(CompoundNBT nbt){
         ListNBT list = new ListNBT();
         for(ScrapEntry entry : scraps){
-            list.add(entry.save(new CompoundNBT()));
+            CompoundNBT compoundNBT = entry.save(new CompoundNBT());
+            if(compoundNBT != null) {
+                list.add(compoundNBT);
+            }
         }
+        System.out.println("SYZE " + list.size());
         nbt.put("list",list);
         return nbt;
     }
 
     public void load(CompoundNBT nbt){
+        scraps.clear();
+        scrapBitsMap.clear();
         if(nbt.contains("list",Constants.NBT.TAG_LIST)){
-            scraps.clear();
-            scrapBitsMap.clear();
             ListNBT list = nbt.getList("list",Constants.NBT.TAG_COMPOUND);
+            System.out.println("LOOOOD " + list.size());
             for(INBT inbt : list){
                 CompoundNBT compoundNBT = (CompoundNBT)inbt;
                 ScrapEntry scrapEntry = ScrapEntry.of(compoundNBT);
-                scraps.add(scrapEntry);
-                if(scrapEntry.isScrapBit){
-                    scrapBitsMap.put(scrapEntry.material,scrapEntry);
+                System.out.println("LOOOO " + (scrapEntry == null));
+                if(scrapEntry != null) {
+                    scraps.add(scrapEntry);
+                    if (scrapEntry.isScrapBit) {
+                        scrapBitsMap.put(scrapEntry.material, scrapEntry);
+                    }
                 }
             }
         }
+        System.out.println("AFTER " + scraps.size() + " " + this.getEntry(Items.IRON_INGOT));
     }
 
     public static class ScrapEntry {
@@ -174,9 +184,13 @@ public class ScrapDataManager extends JsonReloadListener {
         }
 
         public CompoundNBT save(CompoundNBT nbt){
+            if(material == null) {
+                System.out.println("ERR " + this.name.toString());
+                return null;
+            }
             nbt.putString("name",name.toString());
             nbt.putString("item",item.getRegistryName().toString());
-            nbt.putString("material", material.name());
+            nbt.putString("material", material.getRegistryName());
             nbt.putInt("weight", weight);
             nbt.putBoolean("canBeScrapped", canBeScrapped);
             nbt.putBoolean("isScrapBit", isScrapBit);

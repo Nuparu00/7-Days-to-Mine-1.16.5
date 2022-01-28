@@ -158,7 +158,7 @@ public class TileEntityEnergyPole extends TileEntity implements ITickableTileEnt
 
 	@Override
 	public long getMaxOutput() {
-		return 100;
+		return 128;
 	}
 
 	@Override

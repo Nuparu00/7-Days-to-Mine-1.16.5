@@ -236,6 +236,21 @@ public class SpiderZombieEntity<T extends SpiderZombieEntity> extends ZombieBipe
 	}
 
 	@Override
+	public Vector3d corpseRotation() {
+		return new Vector3d(0,0,90);
+	}
+
+	@Override
+	public Vector3d corpseTranslation() {
+		return new Vector3d(0,0,0);
+	}
+
+	@Override
+	public boolean customCoprseTransform() {
+		return true;
+	}
+
+	@Override
 	protected int calculateFallDamage(float p_225508_1_, float p_225508_2_) {
 		return super.calculateFallDamage(p_225508_1_, p_225508_2_/2);
 	}
@@ -309,4 +324,5 @@ public class SpiderZombieEntity<T extends SpiderZombieEntity> extends ZombieBipe
 			return new SpiderZombieEntity(type, world);
 		}
 	}
+
 }

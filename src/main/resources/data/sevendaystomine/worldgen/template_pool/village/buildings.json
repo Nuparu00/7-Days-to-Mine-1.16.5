@@ -1,0 +1,131 @@
+{
+  "name": "sevendaystomine:village/buildings",
+  "fallback": "minecraft:empty",
+  "elements": [{
+    "weight": 3,
+    "element": {
+      "location": "sevendaystomine:city/buildings/book_store",
+      "processors": "sevendaystomine:default",
+      "projection": "rigid",
+      "element_type": "sevendaystomine:mod_single_pool_element"
+    }
+  },
+    {
+      "weight": 8,
+      "element": {
+        "location": "sevendaystomine:city/buildings/brick_house_damaged",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "location": "sevendaystomine:city/buildings/brick_house_damaged_inverted",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "sevendaystomine:city/buildings/fire_station",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "sevendaystomine:city/buildings/menu_house",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "sevendaystomine:city/buildings/water_tower",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "location": "sevendaystomine:city/buildings/gray_house",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 7,
+      "element": {
+        "location": "sevendaystomine:city/buildings/overgrown_house",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "sevendaystomine:city/buildings/supermarket",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "sevendaystomine:city/buildings/car_repair",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "sevendaystomine:city/buildings/cemetery",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "sevendaystomine:city/buildings/gas_station",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "sevendaystomine:city/buildings/parking_lot",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "sevendaystomine:city/buildings/church",
+        "processors": "sevendaystomine:default",
+        "projection": "rigid",
+        "element_type": "sevendaystomine:mod_single_pool_element"
+      }
+    }
+  ]
+}

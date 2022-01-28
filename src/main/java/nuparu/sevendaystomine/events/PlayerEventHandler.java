@@ -5,8 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CauldronBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerEntity.SleepResult;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -34,10 +34,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -53,13 +53,12 @@ import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
-import nuparu.sevendaystomine.client.sound.MovingSoundChainsawCut;
-import nuparu.sevendaystomine.client.sound.MovingSoundChainsawIdle;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.IVoltage;
+import nuparu.sevendaystomine.init.ModAttributes;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.ItemBackpack;
 import nuparu.sevendaystomine.item.ItemQuality;
@@ -77,14 +76,8 @@ public class PlayerEventHandler {
 
     public static final Method m_addSlotToContainer = ObfuscationReflectionHelper.findMethod(Container.class, "func_75146_a",
             Slot.class);
-    public static long nextChainsawCutSound = 0L;
-    protected static long nextChainsawIdleSound = 0L;
-    protected static long lastTimeHittingBlock = 0L;
-    public Field f_allInventories;
 
-    public static long getLastTimeHittingBlock() {
-        return lastTimeHittingBlock;
-    }
+    public Field f_allInventories;
 
     @SubscribeEvent
     public void onBlockPlaced(PlayerInteractEvent.RightClickBlock event) {
@@ -399,36 +392,9 @@ public class PlayerEventHandler {
         }
     }
 
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-        LivingEntity livingEntity = event.getEntityLiving();
-        World world = livingEntity.level;
-        if (!world.isClientSide())
-            return;
-        if (livingEntity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) livingEntity;
-            ItemStack activeStack = player.getItemInHand(Hand.MAIN_HAND);
-            CompoundNBT nbt = activeStack.getTag();
-            if (activeStack.isEmpty() || (activeStack.getItem() != ModItems.CHAINSAW.get()
-                    && activeStack.getItem() != ModItems.AUGER.get()))
-                return;
-            if (nbt != null && nbt.contains("FuelMax") && nbt.getInt("FuelMax") > 0) {
-                if (SevenDaysToMine.proxy.isHittingBlock(player)) {
-                    lastTimeHittingBlock = System.currentTimeMillis();
-                }
 
-                if (System.currentTimeMillis() > nextChainsawIdleSound) {
-                    Minecraft.getInstance().getSoundManager().play(new MovingSoundChainsawIdle(player));
-                    nextChainsawIdleSound = System.currentTimeMillis() + 3000L;
-                }
-                if (System.currentTimeMillis() > nextChainsawCutSound
-                        && System.currentTimeMillis() - getLastTimeHittingBlock() <= 500) {
-                    Minecraft.getInstance().getSoundManager().play(new MovingSoundChainsawCut(player));
-                    nextChainsawCutSound = System.currentTimeMillis() + 1600L;
-                }
-            }
-        }
-
-    }
+    /*@SubscribeEvent
+    public void onAttributeCreation(EntityAttributeCreationEvent event) {
+        event.put(EntityType.PLAYER, MobEntity.createMobAttributes().add(ModAttributes.THIRST.get(),1000).build());
+    }*/
 }

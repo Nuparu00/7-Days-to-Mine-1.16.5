@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
-import nuparu.sevendaystomine.computer.process.WindowsDesktopProcess.IconPosUpdate;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
 
 public class SyncIconMessage {
@@ -47,7 +46,7 @@ public class SyncIconMessage {
 				BlockPos pos = msg.pos;
 				CompoundNBT nbt = msg.nbt;
 
-				IconPosUpdate update = new IconPosUpdate();
+				/*IconPosUpdate update = new IconPosUpdate();
 				update.readFromNBT(nbt);
 
 				TileEntity TE = world.getBlockEntity(pos);
@@ -58,7 +57,7 @@ public class SyncIconMessage {
 							&& computerTE.getMonitorTE().getLookingPlayers().contains(player)) {
 						computerTE.getHardDrive().setIconPostion(update.x, update.y, update.app);
 					}
-				}
+				}*/
 			});
 		}
 	}

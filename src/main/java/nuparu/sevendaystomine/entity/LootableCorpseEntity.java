@@ -20,8 +20,10 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -301,5 +303,13 @@ public class LootableCorpseEntity extends Entity implements INamedContainerProvi
 	@Override
 	public Container createMenu(int windowiD, PlayerInventory playerInventory, PlayerEntity playerEntity) {
 		return ContainerLootableCorpse.createContainerServerSide(windowiD,playerInventory,this);
+	}
+
+	@Override
+	public ITextComponent getDisplayName() {
+		if (this.getOriginal() != null){
+			return getOriginal().getDisplayName();
+		}
+		return super.getDisplayName();
 	}
 }

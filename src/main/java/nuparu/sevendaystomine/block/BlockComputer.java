@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.item.ItemLinkTool;
 import nuparu.sevendaystomine.tileentity.TileEntityComputer;
-import nuparu.sevendaystomine.tileentity.TileEntityComputer.EnumSystem;
+import nuparu.sevendaystomine.computer.EnumSystem;
 import nuparu.sevendaystomine.tileentity.TileEntityItemHandler;
 
 public class BlockComputer extends BlockHorizontalBase {

@@ -70,5 +70,30 @@ public class ModSounds {
 			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "magnum.shot")));
 	public static final RegistryObject<SoundEvent> M4_SHOT = SOUNDS.register("m4.shot",
 			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "m4.shot")));
-
+	public static final RegistryObject<SoundEvent> MENU_DEFAULT = SOUNDS.register("main_menu_00",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "main_menu_00")));
+	public static final RegistryObject<SoundEvent> MENU_REVERSE = SOUNDS.register("main_menu_01",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "main_menu_01")));
+	public static final RegistryObject<SoundEvent> CAR_OPEN = SOUNDS.register("car.open",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "car.open")));
+	public static final RegistryObject<SoundEvent> CAR_CLOSE = SOUNDS.register("car.close",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "car.close")));
+	public static final RegistryObject<SoundEvent> GARBAGE_OPEN = SOUNDS.register("garbage.open",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "garbage.open")));
+	public static final RegistryObject<SoundEvent> DRAWER_OPEN = SOUNDS.register("drawer.open",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "drawer.open")));
+	public static final RegistryObject<SoundEvent> DRAWER_CLOSE= SOUNDS.register("drawer.close",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "drawer.close")));
+	public static final RegistryObject<SoundEvent> FILE_CABINET_OPEN = SOUNDS.register("file_cabinet.open",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "file_cabinet.open")));
+	public static final RegistryObject<SoundEvent> FILE_CABINET_CLOSE= SOUNDS.register("file_cabinet.close",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "file_cabinet.close")));
+	public static final RegistryObject<SoundEvent> CABINET_OPEN = SOUNDS.register("cabinet.open",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "cabinet.open")));
+	public static final RegistryObject<SoundEvent> CABINET_CLOSE= SOUNDS.register("cabinet.close",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "cabinet.close")));
+	public static final RegistryObject<SoundEvent> FRIDGE_OPEN = SOUNDS.register("fridge.open",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "fridge.open")));
+	public static final RegistryObject<SoundEvent> FRIDGE_CLOSE= SOUNDS.register("fridge.close",
+			() -> new SoundEvent(new ResourceLocation(SevenDaysToMine.MODID, "fridge.close")));
 }

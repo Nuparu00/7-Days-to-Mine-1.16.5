@@ -27,8 +27,8 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiNote extends Screen implements IGuiEventListener {
-	final int xSize = 131;
-	final int ySize = 165;
+	public static final int xSize = 131;
+	public static final int ySize = 165;
 	int pageIndex = 0;
 	BookData data;
 

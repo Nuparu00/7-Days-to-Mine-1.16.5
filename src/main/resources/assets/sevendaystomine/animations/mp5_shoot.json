@@ -227,7 +227,7 @@
       "renderer": "sevendaystomine:left_hand"
     }
   ],
-  "name": "sevendaystomine:hunting_rifle_shoot",
+  "name": "sevendaystomine:mp5_shoot",
   "speed": 1.0,
   "duration": 200,
   "running": false,

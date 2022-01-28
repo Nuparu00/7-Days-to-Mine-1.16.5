@@ -25,7 +25,7 @@ import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.inventory.block.ContainerMonitor;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.SyncTileEntityMessage;
-import nuparu.sevendaystomine.tileentity.TileEntityComputer.EnumSystem;
+import nuparu.sevendaystomine.computer.EnumSystem;
 import nuparu.sevendaystomine.util.ModConstants;
 
 import javax.annotation.Nullable;
@@ -396,7 +396,7 @@ public class TileEntityMonitor extends TileEntity implements ITickableTileEntity
 
     @Override
     public long getRequiredPower() {
-        return 6;
+        return 4;
     }
 
     @Override

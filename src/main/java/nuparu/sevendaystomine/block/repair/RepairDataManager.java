@@ -29,7 +29,7 @@ public class RepairDataManager extends JsonReloadListener {
 
     public static RepairDataManager instance = new RepairDataManager();
 
-    private List<RepairDataManager.RepairEntry> repairs = new ArrayList<RepairDataManager.RepairEntry>();
+    private List<RepairEntry> repairs = new ArrayList<RepairEntry>();
 
     public RepairDataManager() {
         super(GSON, "repairs");
@@ -74,7 +74,7 @@ public class RepairDataManager extends JsonReloadListener {
                     repairAmount = jo.get("repairLimit").getAsDouble();
                 }
 
-                RepairDataManager.RepairEntry scrapEntry = new RepairDataManager.RepairEntry(key, block, stacks, repairAmount, repairLimit);
+                RepairEntry scrapEntry = new RepairEntry(key, block, stacks, repairAmount, repairLimit);
                 repairs.add(scrapEntry);
             } catch (NullPointerException | CommandSyntaxException e) {
                 SevenDaysToMine.LOGGER.error("An error occurred while trying to load repair (" + key.toString() + ") :" + e.getMessage());
@@ -84,7 +84,7 @@ public class RepairDataManager extends JsonReloadListener {
     }
 
     public boolean hasEntry(ResourceLocation resourceLocation) {
-        for (RepairDataManager.RepairEntry entry : repairs) {
+        for (RepairEntry entry : repairs) {
             if (entry.block.equals(resourceLocation)) {
                 return true;
             }
@@ -92,8 +92,8 @@ public class RepairDataManager extends JsonReloadListener {
         return false;
     }
 
-    public RepairDataManager.RepairEntry getEntry(ResourceLocation resourceLocation) {
-        for (RepairDataManager.RepairEntry entry : repairs) {
+    public RepairEntry getEntry(ResourceLocation resourceLocation) {
+        for (RepairEntry entry : repairs) {
             if (entry.block.equals(resourceLocation)) {
                 return entry;
             }
@@ -101,9 +101,9 @@ public class RepairDataManager extends JsonReloadListener {
         return null;
     }
 
-    public NonNullList<RepairDataManager.RepairEntry> getEntries(ResourceLocation resourceLocation) {
-        NonNullList<RepairDataManager.RepairEntry> entries = NonNullList.create();
-        for (RepairDataManager.RepairEntry entry : repairs) {
+    public NonNullList<RepairEntry> getEntries(ResourceLocation resourceLocation) {
+        NonNullList<RepairEntry> entries = NonNullList.create();
+        for (RepairEntry entry : repairs) {
             if (entry.block.equals(resourceLocation)) {
                 entries.add(entry);
             }
@@ -115,11 +115,11 @@ public class RepairDataManager extends JsonReloadListener {
         return hasEntry(block.getRegistryName());
     }
 
-    public RepairDataManager.RepairEntry getEntry(Block block) {
+    public RepairEntry getEntry(Block block) {
         return getEntry(block.getRegistryName());
     }
 
-    public NonNullList<RepairDataManager.RepairEntry> getEntries(Block block) {
+    public NonNullList<RepairEntry> getEntries(Block block) {
         return getEntries(block.getRegistryName());
     }
 
@@ -127,21 +127,21 @@ public class RepairDataManager extends JsonReloadListener {
         return hasEntry(state.getBlock());
     }
 
-    public RepairDataManager.RepairEntry getEntry(BlockState state) {
+    public RepairEntry getEntry(BlockState state) {
         return getEntry(state.getBlock());
     }
 
-    public NonNullList<RepairDataManager.RepairEntry> getEntries(BlockState state) {
+    public NonNullList<RepairEntry> getEntries(BlockState state) {
         return getEntries(state.getBlock());
     }
 
-    public List<RepairDataManager.RepairEntry> getRepairs() {
+    public List<RepairEntry> getRepairs() {
         return new ArrayList<>(this.repairs);
     }
 
     public CompoundNBT save(CompoundNBT nbt) {
         ListNBT list = new ListNBT();
-        for (RepairDataManager.RepairEntry entry : repairs) {
+        for (RepairEntry entry : repairs) {
             list.add(entry.save(new CompoundNBT()));
         }
         nbt.put("list", list);
@@ -154,79 +154,9 @@ public class RepairDataManager extends JsonReloadListener {
             ListNBT list = nbt.getList("list", Constants.NBT.TAG_COMPOUND);
             for (INBT inbt : list) {
                 CompoundNBT compoundNBT = (CompoundNBT) inbt;
-                RepairDataManager.RepairEntry scrapEntry = RepairDataManager.RepairEntry.of(compoundNBT);
+                RepairEntry scrapEntry = RepairEntry.of(compoundNBT);
                 repairs.add(scrapEntry);
             }
         }
     }
-
-    public static class RepairEntry {
-        public final ResourceLocation name;
-        public final ResourceLocation block;
-        protected final NonNullList<ItemStack> items;
-        protected final double repairAmount;
-        protected final double repairLimit;
-
-        public RepairEntry(ResourceLocation name, ResourceLocation block, NonNullList<ItemStack> items) {
-            this(name, block, items, 0.1, 1);
-        }
-
-        public RepairEntry(ResourceLocation name, ResourceLocation block, NonNullList<ItemStack> items, double repairAmount, double repairLimit) {
-            this.name = name;
-            this.block = block;
-            this.items = items;
-            this.repairAmount = repairAmount;
-            this.repairLimit = repairLimit;
-        }
-
-        public static RepairDataManager.RepairEntry of(CompoundNBT nbt) {
-            if (!nbt.contains("name", Constants.NBT.TAG_STRING)) return null;
-            if (!nbt.contains("block", Constants.NBT.TAG_STRING)) return null;
-            if (!nbt.contains("items", Constants.NBT.TAG_LIST)) return null;
-            if (!nbt.contains("repairAmount", Constants.NBT.TAG_DOUBLE)) return null;
-            if (!nbt.contains("repairLimit", Constants.NBT.TAG_DOUBLE)) return null;
-
-
-            ListNBT list = nbt.getList("items", Constants.NBT.TAG_COMPOUND);
-            NonNullList<ItemStack> stacks = NonNullList.create();
-
-            for (INBT inbt : list) {
-                if (inbt instanceof CompoundNBT) {
-                    CompoundNBT tag = (CompoundNBT) inbt;
-                    ItemStack stack = ItemStack.of(tag);
-                    if (stack != null) {
-                        stacks.add(stack);
-                    }
-                }
-            }
-
-            return new RepairDataManager.RepairEntry(new ResourceLocation(nbt.getString("name")), new ResourceLocation(nbt.getString("block")), stacks, nbt.getDouble("repairAmount"), nbt.getDouble("repairLimit"));
-        }
-
-        public CompoundNBT save(CompoundNBT nbt) {
-            nbt.putString("name", name.toString());
-            nbt.putString("block", block.toString());
-            nbt.putDouble("repairAmount", repairAmount);
-            nbt.putDouble("repairLimit", repairLimit);
-            ListNBT list = new ListNBT();
-            for (ItemStack stack : items) {
-                list.add(stack.save(new CompoundNBT()));
-            }
-            nbt.put("items", list);
-            return nbt;
-        }
-
-        public NonNullList<ItemStack> getItems() {
-            return items;
-        }
-
-        public double getRepairAmount() {
-            return repairAmount;
-        }
-
-        public double getRepairLimit() {
-            return repairLimit;
-        }
-    }
-
 }

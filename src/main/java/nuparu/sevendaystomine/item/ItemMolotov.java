@@ -3,18 +3,22 @@ package nuparu.sevendaystomine.item;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
+import nuparu.sevendaystomine.entity.FragmentationGrenadeEntity;
+import nuparu.sevendaystomine.entity.MolotovEntity;
 
 public class ItemMolotov extends Item {
 
-	public ItemMolotov(Properties properties) {
-		super(properties);
+	public ItemMolotov() {
+		super(new Item.Properties().stacksTo(1).tab(ItemGroup.TAB_COMBAT));
 	}
 
 	@Override
@@ -56,11 +60,12 @@ public class ItemMolotov extends Item {
 					0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
 			if (!worldIn.isClientSide()) {
-				/*EntityMolotov grenade = new EntityMolotov(worldIn, player);
-				grenade.shoot(player, player.xRot, player.yRot, 0.0F, 1.5f*f , 0.5f);
-				worldIn.addFreshEntity(grenade);*/
+				MolotovEntity snowballentity = new MolotovEntity(worldIn, player);
+				snowballentity.setItem(stack);
+				snowballentity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, f, 1.0F);
+				worldIn.addFreshEntity(snowballentity);
 			}
-
+			player.awardStat(Stats.ITEM_USED.get(this));
 		}
 	}
 

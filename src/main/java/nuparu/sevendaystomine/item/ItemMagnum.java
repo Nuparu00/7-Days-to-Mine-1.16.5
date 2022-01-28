@@ -30,6 +30,8 @@ public class ItemMagnum extends ItemGun {
 		this.setIdleAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_idle"));
 		this.setShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"magnum_shoot"));
 		this.setReloadAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"pistol_reload"));
+		this.setAimAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"magnum_aim_idle"));
+		this.setAimShootAnimationKey(new ResourceLocation(SevenDaysToMine.MODID,"magnum_aim_shoot"));
 	}
 
 	public Item getReloadItem(ItemStack stack) {
