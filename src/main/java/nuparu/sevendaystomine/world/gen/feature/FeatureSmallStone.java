@@ -13,6 +13,7 @@ import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import nuparu.sevendaystomine.block.BlockCar;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.util.MathUtils;
@@ -43,7 +44,7 @@ public class FeatureSmallStone<T extends IFeatureConfig> extends Feature<T> {
 
                 BlockPos below = pos2.below();
                 BlockState belowState = world.getBlockState(below);
-                if (!belowState.isFaceSturdy(world, below, Direction.UP)) continue;
+                if (!belowState.isFaceSturdy(world, below, Direction.UP) || belowState.getBlock() instanceof BlockCar) continue;
                 world.setBlock(pos2, getRandomRock(random), 4);
                 x++;
             }

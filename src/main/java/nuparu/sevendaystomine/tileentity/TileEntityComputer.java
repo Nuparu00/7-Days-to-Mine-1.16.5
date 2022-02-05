@@ -168,7 +168,7 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 			File file = new File(Utils.getCurrentSaveRootDirectory(),"computers/"+dimension.getNamespace()+"/"+dimension.getPath()+"/"+getPos().getX()+"#"+getPos().getY()+"#"+getPos().getZ()+".nbt");
 
 			if(file.exists()){
-				System.out.println("READ");
+
 			}
 
 		}
@@ -197,7 +197,6 @@ public class TileEntityComputer extends TileEntityItemHandler<ItemHandlerNameabl
 		}*/
 
 		File file = new File(Utils.getCurrentSaveRootDirectory(),"computers/"+level.dimension().location().getNamespace()+"/"+level.dimension().location().getPath()+"/"+getPos().getX()+"#"+getPos().getY()+"#"+getPos().getZ()+".nbt");
-		System.out.println(file.getAbsolutePath());
 		if (!file.exists()) {
 			new File(Utils.getCurrentSaveRootDirectory(),"computers/"+level.dimension().location().getNamespace()+"/"+level.dimension().location().getPath()).mkdirs();
 			try {

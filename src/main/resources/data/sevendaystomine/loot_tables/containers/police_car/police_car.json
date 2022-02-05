@@ -91,6 +91,19 @@
 					},
 					{
 						"function": "sevendaystomine:random_ammo"
+					},
+					{
+						"function": "set_damage",
+						"damage": {
+							"min": 0.5,
+							"max": 1
+						},
+						"conditions": [
+							{
+								"condition": "random_chance",
+								"chance": 0.5
+							}
+						]
 					}
 				]
 			},
@@ -123,6 +136,19 @@
 					},
 					{
 						"function": "sevendaystomine:random_ammo"
+					},
+					{
+						"function": "set_damage",
+						"damage": {
+							"min": 0.5,
+							"max": 1
+						},
+						"conditions": [
+							{
+								"condition": "random_chance",
+								"chance": 0.5
+							}
+						]
 					}
 				]
 			},
@@ -139,6 +165,19 @@
 					},
 					{
 						"function": "sevendaystomine:random_ammo"
+					},
+					{
+						"function": "set_damage",
+						"damage": {
+							"min": 0.5,
+							"max": 1
+						},
+						"conditions": [
+							{
+								"condition": "random_chance",
+								"chance": 0.5
+							}
+						]
 					}
 				]
 			},
@@ -155,6 +194,19 @@
 					},
 					{
 						"function": "sevendaystomine:random_ammo"
+					},
+					{
+						"function": "set_damage",
+						"damage": {
+							"min": 0.5,
+							"max": 1
+						},
+						"conditions": [
+							{
+								"condition": "random_chance",
+								"chance": 0.5
+							}
+						]
 					}
 				]
 			},

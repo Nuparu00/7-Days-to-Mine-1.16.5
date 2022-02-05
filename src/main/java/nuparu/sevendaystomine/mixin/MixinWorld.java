@@ -22,7 +22,8 @@ public abstract class MixinWorld {
 	@Inject(method = "Lnet/minecraft/world/World;setBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;II)Z", at = @At("RETURN"), remap = ModConstants.REMAP)
 	public void setBlock(BlockPos pos, BlockState state, int p_241211_3_, int p_241211_4_,
 			CallbackInfoReturnable<Boolean> cir) {
-		if (!isClientSide()) {
+		//System.out.println(p_241211_3_ + " " + p_241211_4_);
+		if (!isClientSide() && p_241211_3_ != 20) {
 			Chunk chunk = this.getChunkAt(pos);
 			if (chunk != null) {
 				IChunkData data = CapabilityHelper.getChunkData(chunk);

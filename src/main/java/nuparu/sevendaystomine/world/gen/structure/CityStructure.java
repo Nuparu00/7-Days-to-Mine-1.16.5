@@ -120,7 +120,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
-        System.out.println("isFeatureChunk");
+
         // Grab height of land. Will stop at first non-air block.
         int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
@@ -134,7 +134,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
 
         // Now we test to make sure our structure is not spawning on water or other fluids.
         // You can do height check instead too to make it spawn at high elevations.
-        return topBlock.getFluidState().isEmpty(); //landHeight > 100;
+        return topBlock.getFluidState().isEmpty() && landHeight > 64; //landHeight > 100;
     }
 
     /**
@@ -147,7 +147,7 @@ public class CityStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
-            System.out.println("generatePieces");
+
             // Turns the chunk coordinates into actual coordinates we can use
             int x = chunkX * 16;
             int z = chunkZ * 16;
@@ -198,7 +198,6 @@ public class CityStructure extends Structure<NoFeatureConfig> {
                     true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
 
-            SevenDaysToMine.LOGGER.warn("CITY GENERARATED AT " + centerPos.toString());
             // **THE FOLLOWING TWO LINES ARE OPTIONAL**
             //
             // Right here, you can do interesting stuff with the pieces in this.pieces such as offset the
@@ -233,13 +232,6 @@ public class CityStructure extends Structure<NoFeatureConfig> {
 
             // Sets the bounds of the structure once you are finished.
             this.calculateBoundingBox();
-
-            // I use to debug and quickly find out if the structure is spawning or not and where it is.
-            // This is returning the coordinates of the center starting piece.
-            SevenDaysToMine.LOGGER.log(Level.DEBUG, "Rundown House at " +
-                    this.pieces.get(0).getBoundingBox().x0 + " " +
-                    this.pieces.get(0).getBoundingBox().y0 + " " +
-                    this.pieces.get(0).getBoundingBox().z0);
         }
 
     }

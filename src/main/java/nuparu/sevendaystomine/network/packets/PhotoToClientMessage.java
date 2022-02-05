@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.client.util.ResourcesHelper;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.util.photo.PhotoCatcherClient;
 
 public class PhotoToClientMessage{
@@ -54,7 +54,7 @@ public class PhotoToClientMessage{
 
 			ctx.get().enqueueWork(() -> {
 				ctx.get().setPacketHandled(true);
-				if (!CommonConfig.allowPhotos.get()) return;
+				if (!ServerConfig.allowPhotos.get()) return;
 				File file = PhotoCatcherClient.addBytesToMap(msg.bytes, msg.parts, msg.index,
 						msg.name);
 

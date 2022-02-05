@@ -23,6 +23,7 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.init.ModStructureFeatures;
+import nuparu.sevendaystomine.util.Utils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -119,7 +120,8 @@ public class CargoShipSunkenStructure extends Structure<NoFeatureConfig> {
      */
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
-        if(isNearCruiser(chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
+        if(Utils.isNearStructure(ModStructureFeatures.CARGO_SHIP.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ,15)) return false;
+
         Iterator var11 = biomeSource.getBiomesWithin(chunkX * 16 + 9, chunkGenerator.getSeaLevel(), chunkZ * 16 + 9, 16).iterator();
 
         Biome biome1;

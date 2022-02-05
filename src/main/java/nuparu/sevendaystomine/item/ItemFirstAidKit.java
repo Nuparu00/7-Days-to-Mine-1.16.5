@@ -45,7 +45,8 @@ public class ItemFirstAidKit extends Item {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entityLiving;
 			int dur = this.getUseDuration(stack) - timeLeft;
-			if (dur >= this.getUseDuration(stack) * 0.15f) {
+			System.out.println(dur);
+			if (dur >= 20) {
 				if (!player.isCreative()) {
 					stack.shrink(1);
 					if (stack.isEmpty()) {

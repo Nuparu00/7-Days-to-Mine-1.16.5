@@ -24,7 +24,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.computer.application.ApplicationRegistry;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.events.LoudSoundEvent;
 import nuparu.sevendaystomine.events.TickHandler;
@@ -57,7 +57,7 @@ public class CommonProxy {
 
 	public void postInit() {
 
-		if (CommonConfig.removeVanillaZommbies.get()) {
+		if (ServerConfig.removeVanillaZommbies.get()) {
 		}
 
 	}

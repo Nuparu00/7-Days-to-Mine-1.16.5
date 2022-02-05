@@ -16,11 +16,11 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.util.ItemUtils;
 import nuparu.sevendaystomine.util.Utils;
-import nuparu.sevendaystomine.config.CommonConfig;
 
 public class RecipesScraps implements ICraftingRecipe {
 
@@ -67,7 +67,7 @@ public class RecipesScraps implements ICraftingRecipe {
 		if (weight == 0)
 			return false;
 		resultItem = new ItemStack(ItemUtils.INSTANCE.getScrapResult(mat),
-				(int) Math.floor(weight * CommonConfig.scrapCoefficient.get()));
+				(int) Math.floor(weight * ServerConfig.scrapCoefficient.get()));
 		if (!this.resultItem.isEmpty()) {
 
 			return true;

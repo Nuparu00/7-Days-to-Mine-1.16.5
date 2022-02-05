@@ -4,6 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -15,6 +16,16 @@ public class ItemBandage extends Item {
 
 	public ItemBandage() {
 		super(new Item.Properties().stacksTo(8).tab(ModItemGroups.TAB_MEDICINE));
+	}
+
+	@Override
+	public int getUseDuration(ItemStack itemStack) {
+		return 82000;
+	}
+
+	@Override
+	public UseAction getUseAnimation(ItemStack itemStack) {
+		return UseAction.BOW;
 	}
 
 	@Override
@@ -31,7 +42,7 @@ public class ItemBandage extends Item {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entityLiving;
 			int dur = this.getUseDuration(stack) - timeLeft;
-			if (dur <= this.getUseDuration(stack) * 0.1f) {
+			if (dur >= 20) {
 				if (!player.isCreative()) {
 					stack.shrink(1);
 					if (stack.isEmpty()) {

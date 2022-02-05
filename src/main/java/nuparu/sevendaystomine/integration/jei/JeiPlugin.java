@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.gui.inventory.*;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.crafting.IRecipeLocked;
 import nuparu.sevendaystomine.crafting.chemistry.ChemistryRecipeShapeless;
 import nuparu.sevendaystomine.crafting.forge.ForgeRecipeMaterial;
@@ -140,29 +140,29 @@ public class JeiPlugin implements IModPlugin {
                 //ItemStack scrapResult = ScrapDataManager.instance.getScrapResult(material);
                 ScrapDataManager.ScrapEntry scrapResult = ScrapDataManager.instance.getScrapResult(material);
                 for(ScrapDataManager.ScrapEntry entry : ScrapDataManager.instance.getScraps()){
-                    if(entry.item == null || !entry.canBeScrapped) {System.out.println(material + " NOT NULLIS " + entry.name + " " + entry.canBeScrapped + " " + entry.material +  " " + entry.item); continue;}
+                    if(entry.item == null || !entry.canBeScrapped)
+                        continue;
                     if(entry.material == material) {
-                        System.out.println(material + " " + entry.name);
                         if (entry.weight > scrapResult.weight) {
                             NonNullList<ItemStack> ingredients = NonNullList.create();
                             ingredients.add(new ItemStack(entry.item,1));
                             //For some reason the stack sometimes is air, no idea why, maybe wrong item id in some of the scrap files
                             if(ingredients.get(0).isEmpty()) continue;
-                            result.add(new ScrapRecipeWrapper(ingredients, new ItemStack(scrapResult.item, (int) Math.floor(entry.weight * CommonConfig.scrapCoefficient.get()))));
+                            result.add(new ScrapRecipeWrapper(ingredients, new ItemStack(scrapResult.item, (int) Math.floor(entry.weight * ServerConfig.scrapCoefficient.get()))));
                         }
                         else{
-                            int inputCount = (int)Math.ceil(1d/(entry.weight * CommonConfig.scrapCoefficient.get()));
+                            int inputCount = (int)Math.ceil(1d/(entry.weight * ServerConfig.scrapCoefficient.get()));
                             if(inputCount < 1) continue;
                             NonNullList<ItemStack> ingredients = NonNullList.create();
                             ingredients.add(new ItemStack(entry.item,inputCount));
                             //For some reason the stack sometimes is air, no idea why, maybe wrong item id in some of the scrap files
                             if(ingredients.get(0).isEmpty()) continue;
-                            result.add(new ScrapRecipeWrapper(ingredients, new ItemStack(scrapResult.item, (int) Math.floor(entry.weight * inputCount * CommonConfig.scrapCoefficient.get()))));
+                            result.add(new ScrapRecipeWrapper(ingredients, new ItemStack(scrapResult.item, (int) Math.floor(entry.weight * inputCount * ServerConfig.scrapCoefficient.get()))));
                         }
                     }
-                    else {
+                    /*else {
                         System.out.println(material + " NOT MAT " + entry.name);
-                    }
+                    }*/
                 }
             }
         }

@@ -103,7 +103,8 @@
     "death.attack.blade.player": "%1$s has been shredded while fighting %2$s.",
     "death.attack.blade": "%1$s has been shredded.",
 
-
+    "death.attack.fungal_infection.player": "%1$s died due to fungal infection while fighting %2$s.",
+    "death.attack.fungal_infection": "%1$s died due to fungal infection.",
 
     "_comment": "Chat Messages",
 
@@ -179,6 +180,7 @@
     "effect.sevendaystomine.mercury_poison": "Mercury Poisoning",
     "effect.sevendaystomine.chlorine_poison": "Chlorine Poisoning",
     "effect.sevendaystomine.splinted_leg": "Splinted Leg",
+    "effect.sevendaystomine.fungal_infection": "Fungal Infection",
 
     "enchantment.level.11": "XI",
     "enchantment.level.12": "XII",
@@ -573,6 +575,8 @@
     "item.sevendaystomine.reality_wand": "Reality Wand",
     "item.sevendaystomine.mp3_player": "Audio Player",
     "item.sevendaystomine.auger": "Auger",
+    "item.sevendaystomine.netherite_auger": "Netherite Auger",
+    "item.sevendaystomine.netherite_chainsaw": "Netherite Chainsaw",
     "item.sevendaystomine.screwdriver": "Screwdriver",
     "item.sevendaystomine.ram": "RAM",
     "item.sevendaystomine.gpu": "Graphics Processing Unit",
@@ -784,6 +788,7 @@
     "item.sevendaystomine.zombie_policeman_spawn_egg": "Zombie Policeman Spawn Egg",
     "item.sevendaystomine.zombie_wolf_spawn_egg": "Zombie Wolf Spawn Egg",
     "item.sevendaystomine.zombie_pig_spawn_egg": "Zombie Pig Spawn Egg",
+    "item.sevendaystomine.twisted_zombie_spawn_egg": "Twisted Zombie Spawn Egg",
     "item.sevendaystomine.note": "Note",
     "item.sevendaystomine.mercury_bucket": "Mercury Bucket",
     "item.sevendaystomine.gasoline_bucket": "Gasoline Bucket",
@@ -1139,6 +1144,7 @@
     "block.sevendaystomine.printer": "Printer",
     "block.sevendaystomine.light_gray_concrete_cracked" : "Cracked Light Gray Concrete",
     "block.sevendaystomine.cyan_terracotta_cracked" : "Cracked Cyan Terracotta",
+    "block.sevendaystomine.warped_stone_bricks": "Warped Stone Bricks",
 
     "_comment": "Sound Subtitles",
 
@@ -1305,6 +1311,9 @@
     "entity.sevendaystomine.zombie_miner": "Zombie Miner",
     "entity.sevendaystomine.feral_zombie": "Feral Zombie",
     "entity.sevendaystomine.car": "Car",
+    "entity.sevendaystomine.twisted_zombie": "Twisted Zombie",
+    "entity.sevendaystomine.soldier_zombie": "Zombie Soldier",
+    "entity.sevendaystomine.miner_zombie": "Miner Zombie",
 
     "_comment": "Fluids",
     "fluid.sevendaystomine.gasoline": "Gasoline",

@@ -795,6 +795,9 @@ public class ModBlocks {
 	public static final RegistryObject<Block> CYAN_TERRACOTTA_CRACKED = BLOCKS.register("cyan_terracotta_cracked",
 			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.CYAN_TERRACOTTA)));
 
+	public static final RegistryObject<Block> WARPED_STONE_BRICKS = BLOCKS.register("warped_stone_bricks",
+			() -> new BlockBase(AbstractBlock.Properties.copy(Blocks.STONE_BRICKS)));
+
 	public static ToIntFunction<BlockState> litBlockEmission(int p_235420_0_) {
 		return (p_235421_1_) -> p_235421_1_.getValue(BlockStateProperties.LIT) ? p_235420_0_ : 0;
 	}

@@ -13,8 +13,10 @@ public class ConfigHelper {
 
     private static final ForgeConfigSpec.Builder commonBuilder = new ForgeConfigSpec.Builder();
     private static final ForgeConfigSpec.Builder clientBuilder = new ForgeConfigSpec.Builder();
+    private static final ForgeConfigSpec.Builder serverBuilder = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec commonConfig;
     public static final ForgeConfigSpec clientConfig;
+    public static final ForgeConfigSpec serverConfig;
 
     static {
         CommonConfig.init(commonBuilder);
@@ -23,6 +25,10 @@ public class ConfigHelper {
 
         ClientConfig.init(clientBuilder);
         clientConfig = clientBuilder.build();
+
+
+        ServerConfig.init(serverBuilder);
+        serverConfig = serverBuilder.build();
     }
 
     public static void loadConfig(ForgeConfigSpec config, String path) {

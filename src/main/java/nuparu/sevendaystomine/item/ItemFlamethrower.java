@@ -8,9 +8,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.FlameEntity;
 import nuparu.sevendaystomine.init.ModSounds;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.ApplyRecoilMessage;
@@ -88,7 +88,7 @@ public class ItemFlamethrower extends ItemGun {
 		int ammo = nbt.getInt("Ammo");
 		boolean flag = playerIn.isCreative();
 		if (ammo > 0 || flag) {
-			float velocity = getSpeed() * (1f + ((float) getQuality(itemstack) / (float) CommonConfig.maxQuality.get()));
+			float velocity = getSpeed() * (1f + ((float) getQuality(itemstack) / (float) ServerConfig.maxQuality.get()));
 			for (int i = 0; i < getProjectiles(); i++) {
 				FlameEntity shot = new FlameEntity(playerIn,worldIn);
 				float spread = ((float) getSpread(playerIn, handIn) / (playerIn.isCrouching() ? 1.5f : 1f));

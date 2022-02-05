@@ -30,8 +30,8 @@ import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.client.animation.Animation;
 import nuparu.sevendaystomine.client.animation.Animations;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.entity.ShotEntity;
 import nuparu.sevendaystomine.network.PacketManager;
@@ -213,7 +213,7 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         CompoundNBT nbt = stack.getOrCreateTag();
         if (EnumQualityState.isQualitySystemOn() && nbt != null) {
             if (nbt.contains("Quality")) {
-                return getFullDamage() * ((float) nbt.getInt("Quality") / (float) CommonConfig.maxQuality.get());
+                return getFullDamage() * ((float) nbt.getInt("Quality") / (float) ServerConfig.maxQuality.get());
             }
         }
         return getFullDamage();
@@ -246,8 +246,8 @@ public class ItemGun extends Item implements IQuality, IReloadable {
     public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
         if (this.getQuality(itemstack) <= 0) {
             setQuality(itemstack,
-                    (int) Math.min(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()),
-                            CommonConfig.maxQuality.get()));
+                    (int) Math.min(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()),
+                            ServerConfig.maxQuality.get()));
         }
         initNBT(itemstack);
     }
@@ -324,8 +324,8 @@ public class ItemGun extends Item implements IQuality, IReloadable {
             if (player != null) {
                 setQuality(stack,
                         (int) Math.min(
-                                Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1),
-                                CommonConfig.maxQuality.get()));
+                                Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1),
+                                ServerConfig.maxQuality.get()));
                 stack.getOrCreateTag().putInt("Capacity", getMaxAmmo());
                 stack.getOrCreateTag().putInt("Ammo", 0);
                 stack.getOrCreateTag().putInt("ReloadTime", 90000);
@@ -427,7 +427,7 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         if ((ammo > 0 || flag) && (!(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.JAMMING.get(), itemstack) > 0)
                 || world.random.nextInt(20) != 0)) {
 
-            float velocity = getSpeed() * (1f + ((float) getQuality(itemstack) / (float) CommonConfig.maxQuality.get()));
+            float velocity = getSpeed() * (1f + ((float) getQuality(itemstack) / (float) ServerConfig.maxQuality.get()));
             boolean explosive = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.EXPLOSIVE.get(), itemstack) != 0;
             boolean sparking = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SPARKING.get(), itemstack) != 0;
             if (sparking && explosive && (player instanceof ServerPlayerEntity)
@@ -448,7 +448,6 @@ public class ItemGun extends Item implements IQuality, IReloadable {
                 shot.setSparking(sparking);
                 if (!world.isClientSide()) {
                     shot.setDamage(getFinalDamage(itemstack));
-                    System.out.println(getFinalDamage(itemstack));
                     world.addFreshEntity(shot);
                 }
             }
@@ -499,7 +498,7 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         ItemStack stack = player.getItemInHand(hand);
         int quality = getQuality(stack);
         double spread_local = spread * mult
-                * (2d - (EnumQualityState.isQualitySystemOn() ? (double) quality / (CommonConfig.maxQuality.get()) : 1));
+                * (2d - (EnumQualityState.isQualitySystemOn() ? (double) quality / (ServerConfig.maxQuality.get()) : 1));
         return ((spread_local * (Math.abs(player.getDeltaMovement().x) + Math.abs(player.getDeltaMovement().y)
                 + Math.abs(player.getDeltaMovement().z)))
                 * (1 - (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.MARKSMAN.get(), stack)
@@ -519,7 +518,7 @@ public class ItemGun extends Item implements IQuality, IReloadable {
         int quality = getQuality(stack);
 
         return (spread * mult
-                * (1.2d - (EnumQualityState.isQualitySystemOn() ? (double) quality / (CommonConfig.maxQuality.get() + 1) : 1)
+                * (1.2d - (EnumQualityState.isQualitySystemOn() ? (double) quality / (ServerConfig.maxQuality.get() + 1) : 1)
                 * 0.9))
                 * (1 - (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.MARKSMAN.get(), stack)
                 - EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SHAKING.get(), stack)) * 0.2);

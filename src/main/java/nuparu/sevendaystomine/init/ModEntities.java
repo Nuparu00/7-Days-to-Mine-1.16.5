@@ -2,6 +2,7 @@ package nuparu.sevendaystomine.init;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -92,12 +93,12 @@ public class ModEntities {
 					EntityClassification.MONSTER)
 			.sized(0.6F, 1.95F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "infected_survivor").toString());
-	
+
 	public static final  EntityType<FeralZombieEntity> FERAL_ZOMBIE_RAW = EntityType.Builder
 			.of((EntityType.IFactory<FeralZombieEntity>) FeralZombieEntity::new,
 					EntityClassification.MONSTER)
 			.sized(0.6F, 1.95F)
-			.build(new ResourceLocation(SevenDaysToMine.MODID, "feral_zombie_entity").toString());
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "feral_zombie").toString());
 	
 	public static final  EntityType<ZombiePolicemanEntity> ZOMBIE_POLICEMAN_RAW = EntityType.Builder
 			.of((EntityType.IFactory<ZombiePolicemanEntity>) ZombiePolicemanEntity::new,
@@ -114,7 +115,7 @@ public class ModEntities {
 	public static final  EntityType<ZombiePigEntity> ZOMBIE_PIG_RAW = EntityType.Builder
 			.of((EntityType.IFactory<ZombiePigEntity>) ZombiePigEntity::new,
 					EntityClassification.MONSTER)
-			.sized(0.6F, 0.85F)
+			.sized(0.9F, 0.9F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "zombie_pig").toString());
 
 	public static final  EntityType<ShotEntity> SHOT_RAW = EntityType.Builder
@@ -171,6 +172,18 @@ public class ModEntities {
 					EntityClassification.MISC)
 			.sized(0.6F, 0.6F)
 			.build(new ResourceLocation(SevenDaysToMine.MODID, "flare").toString());
+
+	public static final  EntityType<TwistedZombieEntity> TWISTED_ZOMBIE_RAW = EntityType.Builder
+			.of((EntityType.IFactory<TwistedZombieEntity>) TwistedZombieEntity::new,
+					EntityClassification.MONSTER)
+			.sized(0.6F, 1.95F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "twisted_zombie").toString());
+
+	public static final  EntityType<VomitEntity> VOMIT_RAW = EntityType.Builder
+			.of((EntityType.IFactory<VomitEntity>) VomitEntity::new,
+					EntityClassification.MISC)
+			.sized(0.6F, 0.6F)
+			.build(new ResourceLocation(SevenDaysToMine.MODID, "vomit").toString());
 
 
 	public static final RegistryObject<EntityType<ReanimatedCorpseEntity>> REANIMATED_CORPSE = ENTITIES.register(
@@ -308,4 +321,12 @@ public class ModEntities {
 	public static final RegistryObject<EntityType<MolotovEntity>> MOLOTOV = ENTITIES.register(
 			"molotov",
 			() -> MOLOTOV_RAW);
+
+	public static final RegistryObject<EntityType<TwistedZombieEntity>> TWISTED_ZOMBIE = ENTITIES.register(
+			"twisted_zombie",
+			() -> TWISTED_ZOMBIE_RAW);
+
+	public static final RegistryObject<EntityType<VomitEntity>> VOMIT = ENTITIES.register(
+			"vomit",
+			() -> VOMIT_RAW);
 }

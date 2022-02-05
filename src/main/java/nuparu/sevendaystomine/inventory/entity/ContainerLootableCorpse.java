@@ -27,17 +27,17 @@ public class ContainerLootableCorpse extends Container {
 
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 3; ++col) {
-                addSlot(new SlotItemHandler(inventory, col + row * 3, 8 + (col+3) * 18, 18 + row * 18));
+                addSlot(new SlotItemHandler(inventory, col + row * 3, 8 + (col+3) * 18, 17 + row * 18));
             }
         }
 
         for (int k = 0; k < 9; ++k) {
-            addSlot(new Slot(invPlayer, k, 8 + k * 18, 144));
+            addSlot(new Slot(invPlayer, k, 8 + k * 18, 142));
         }
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                addSlot(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 86 + i * 18));
+                addSlot(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
     }

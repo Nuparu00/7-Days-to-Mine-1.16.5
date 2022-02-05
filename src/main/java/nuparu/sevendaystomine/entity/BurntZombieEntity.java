@@ -62,7 +62,7 @@ public class BurntZombieEntity<T extends BurntZombieEntity> extends ZombieBipedE
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 54.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.ATTACK_DAMAGE, 3.0D)
-				.add(Attributes.ARMOR, 0.5D).add(Attributes.MAX_HEALTH, 115).build();
+				.add(Attributes.ARMOR, 0.5D).add(Attributes.MAX_HEALTH, 65).build();
 	}
 
 	@Override

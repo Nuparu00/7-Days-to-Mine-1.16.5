@@ -71,6 +71,31 @@ public class DataBlockProcessor extends StructureProcessor {
                     }
                     break;
                 }
+                case "cooking_pot": {
+                    if (random.nextInt(6) == 0) {
+                        state = ModBlocks.COOKING_POT.get().defaultBlockState().setValue(BlockGarbage.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
+                    }
+                    break;
+                }
+                case "cooking_grill": {
+                    if (random.nextInt(6) == 0) {
+                        state = ModBlocks.COOKING_GRILL.get().defaultBlockState().setValue(BlockGarbage.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
+                    }
+                    break;
+                }
+                case "cookware": {
+                    if (random.nextInt(2) == 0) {
+                        if (random.nextInt(6) == 0) {
+                            state = ModBlocks.COOKING_POT.get().defaultBlockState().setValue(BlockGarbage.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
+                        }
+                    }
+                    else {
+                        if (random.nextInt(6) == 0) {
+                            state = ModBlocks.COOKING_GRILL.get().defaultBlockState().setValue(BlockGarbage.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);
+                        }
+                    }
+                    break;
+                }
                 case "backpack": {
                     nbt.putString("LootTable", "sevendaystomine:containers/backpack/backpack");
                     state = ModBlocks.BACKPACK_NORMAL.get().defaultBlockState().setValue(BlockGarbage.FACING, Utils.HORIZONTALS[random.nextInt(Utils.HORIZONTALS.length)]);

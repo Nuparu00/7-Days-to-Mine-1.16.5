@@ -9,8 +9,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
+import nuparu.sevendaystomine.events.ClientEventHandler;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModSounds;
+import nuparu.sevendaystomine.item.ItemAuger;
+import nuparu.sevendaystomine.item.ItemChainsaw;
 
 @OnlyIn(Dist.CLIENT)
 public class MovingSoundChainsawIdle extends TickableSound {
@@ -29,11 +32,12 @@ public class MovingSoundChainsawIdle extends TickableSound {
 	public void tick() {
 		ItemStack stack = this.player.getItemInHand(Hand.MAIN_HAND);
 		CompoundNBT nbt = stack.getTag();
-		if (!this.player.isAlive() || stack.isEmpty() || (stack.getItem() != ModItems.CHAINSAW.get() && stack.getItem() != ModItems.AUGER.get())) {
+		if (!this.player.isAlive() || stack.isEmpty() || (!(stack.getItem() instanceof ItemChainsaw) && !(stack.getItem() instanceof ItemAuger))) {
 			this.stop();
 		}
 
-		if (nbt == null || !nbt.contains("FuelMax",Constants.NBT.TAG_INT) || nbt.getInt("FuelMax") == 0) {
+		if (nbt == null || !nbt.contains("FuelCurrent",Constants.NBT.TAG_INT) || nbt.getInt("FuelCurrent") == 0) {
+			this.stop();
 			return;
 		}
 

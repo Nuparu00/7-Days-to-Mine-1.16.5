@@ -13,11 +13,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModEntities;
 import nuparu.sevendaystomine.init.ModItems;
+import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.item.ItemQuality;
 
 public class FrozenLumberjackEntity<T extends FrozenLumberjackEntity> extends ZombieBipedEntity {
@@ -32,13 +34,13 @@ public class FrozenLumberjackEntity<T extends FrozenLumberjackEntity> extends Zo
 
 	@Override
 	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 15;
+		return 20;
 	}
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.15F).add(Attributes.ATTACK_DAMAGE, 6.0D)
-				.add(Attributes.ARMOR, 2.0D).add(Attributes.MAX_HEALTH, 115).build();
+				.add(Attributes.ARMOR, 2.0D).add(Attributes.MAX_HEALTH, 80).build();
 	}
 
 	@Override
@@ -55,6 +57,11 @@ public class FrozenLumberjackEntity<T extends FrozenLumberjackEntity> extends Zo
 		if (random.nextInt(4) != 0)
 			return;
 		this.setItemSlot(EquipmentSlotType.MAINHAND, ItemQuality.setQualityForStack(new ItemStack(ModItems.IRON_AXE.get()), 1));
+	}
+
+	@Override
+	protected ResourceLocation getDefaultLootTable() {
+		return ModLootTables.ZOMBIE_LUMBERJACK;
 	}
 
 	public class Factory implements IFactory<FrozenLumberjackEntity> {

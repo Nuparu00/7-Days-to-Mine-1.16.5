@@ -8,6 +8,7 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.entity.*;
 import nuparu.sevendaystomine.entity.human.SurvivorEntity;
 import nuparu.sevendaystomine.init.ModBiomes;
@@ -36,6 +37,7 @@ public class StartupCommon {
 		  GlobalEntityTypeAttributes.put(ModEntities.SURVIVOR.get(), SurvivorEntity.createAttributes());
 		  GlobalEntityTypeAttributes.put(ModEntities.MINIBIKE.get(), MinibikeEntity.createAttributes());
 		  GlobalEntityTypeAttributes.put(ModEntities.CAR.get(), CarEntity.createAttributes());
+		  GlobalEntityTypeAttributes.put(ModEntities.TWISTED_ZOMBIE.get(), TwistedZombieEntity.createAttributes());
 
 
 		  event.enqueueWork(() -> {
@@ -56,10 +58,12 @@ public class StartupCommon {
 			  EntitySpawnPlacementRegistry.register(ModEntities.ZOMBIE_WOLF.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.ZOMBIE_PIG.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ZombieBaseEntity::checkMonsterSpawnRules);
 			  EntitySpawnPlacementRegistry.register(ModEntities.BURNT_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BurntZombieEntity::checkMonsterSpawnRules);
-});
+			  EntitySpawnPlacementRegistry.register(ModEntities.TWISTED_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, TwistedZombieEntity::checkMonsterSpawnRules);
+			  EntitySpawnPlacementRegistry.register(ModEntities.FERAL_ZOMBIE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FeralZombieEntity::checkMonsterSpawnRules);
+		  });
 
-		  BiomeManager.addBiome(BiomeManager.BiomeType.WARM,new BiomeManager.BiomeEntry(ModBiomes.createKey(ModBiomes.WASTELAND_PLAINS),3));
-		  BiomeManager.addBiome(BiomeManager.BiomeType.WARM,new BiomeManager.BiomeEntry(ModBiomes.createKey(ModBiomes.WASTELAND_FOREST),6));
+		  BiomeManager.addBiome(BiomeManager.BiomeType.WARM,new BiomeManager.BiomeEntry(ModBiomes.createKey(ModBiomes.WASTELAND_PLAINS), CommonConfig.wastelandWeight.get()));
+		  BiomeManager.addBiome(BiomeManager.BiomeType.WARM,new BiomeManager.BiomeEntry(ModBiomes.createKey(ModBiomes.WASTELAND_FOREST),CommonConfig.wastelandForestWeight.get()));
 	  }
 
 }

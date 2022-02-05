@@ -6,7 +6,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.FirstPersonRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -58,6 +60,119 @@ public class RenderEventHandler {
     private boolean scoping = false;
     private ItemGun gun = null;
 
+    public static void renderArmWithItem(Minecraft minecraft, AbstractClientPlayerEntity player, float p_228405_2_, float p_228405_3_, Hand hand, float p_228405_5_, ItemStack p_228405_6_, float p_228405_7_, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light) {
+        boolean flag = hand == Hand.MAIN_HAND;
+        HandSide handside = flag ? player.getMainArm() : player.getMainArm().getOpposite();
+        matrixStack.pushPose();
+        if (!p_228405_6_.isEmpty()) {
+            boolean flag3 = handside == HandSide.RIGHT;
+
+            minecraft.getItemInHandRenderer().renderItem(player, p_228405_6_, flag3 ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND, !flag3, matrixStack, buffer, light);
+        }
+
+        matrixStack.popPose();
+    }
+
+    public static void renderConnection(ElectricConnection connection, World world, Matrix4f matrix, IRenderTypeBuffer.Impl buffer, boolean hightlight, boolean reversed) {
+        renderConnection(connection.getRenderFrom(world), connection.getRenderTo(world), world, matrix, buffer, hightlight, reversed);
+    }
+
+    public static void renderConnection(Vector3d start, Vector3d end, World world, Matrix4f matrix, IRenderTypeBuffer.Impl buffer, boolean hightlight, boolean reversed) {
+        int distance = (int) Math.ceil(start.distanceToSqr(end));
+        for (int i = 0; i <= 64; i++) {
+            IVertexBuilder builder = buffer.getBuffer(RenderType.lines());
+            Vector3d pointA = getLinePos(start, end, distance, i, 64, world);
+            Vector3d pointB = getLinePos(start, end, distance, i + 1, 64, world);
+            long secs = System.currentTimeMillis() / 50;
+            int u = (int) (secs % 64);
+
+            float alpha = 1f;
+
+            int reversedIndex = reversed ? i : 64 - i;
+            int powerIndex = u / 2;
+
+
+            if (hightlight && (reversedIndex - powerIndex) % 8 == 0) {
+                alpha = 5;
+            }
+
+            builder.vertex(matrix, (float) pointA.x, (float) pointA.y, (float) pointA.z).color(0.1f * alpha, 0.1f * alpha, 0.1f * alpha, 1f).endVertex();
+            builder.vertex(matrix, (float) pointB.x, (float) pointB.y, (float) pointB.z).color(0.1f * alpha, 0.1f * alpha, 0.1f * alpha, 1f).endVertex();
+            buffer.endBatch(RenderType.lines());
+        }
+
+    }
+
+    public static Vector3d getLinePos(Vector3d start, Vector3d end, int dst, int index, int res, World world) {
+        Vector3d vec = MathUtils.lerp(start, end, (float) index / res);
+        double deltaY = Math.sin(((float) index / res) * Math.PI);
+        double distanceSqrt = Math.sqrt(dst);
+        if (distanceSqrt < ModConstants.MAXIMAL_LENGTH) {
+            deltaY /= (Math.abs(distanceSqrt - ModConstants.MAXIMAL_LENGTH) / 2d);
+        }
+        BlockPos pos = new BlockPos(vec.x, vec.y - deltaY, vec.z);
+        BlockState state = world.getBlockState(pos);
+        if (state.isFaceSturdy(world, pos, Direction.UP)) {
+            deltaY = vec.y - pos.above().getY() - 0.00625d;
+        }
+        return vec.subtract(0, deltaY, 0);
+    }
+
+    public static void renderConnectionToHand(Vector3d start, PlayerEntity player, World world, MatrixStack matrixStack, IRenderTypeBuffer.Impl buffer, float partialTicks, boolean hightlight, boolean reversed) {
+
+        Minecraft mc = Minecraft.getInstance();
+
+        int i = player.getMainArm() == HandSide.RIGHT ? 1 : -1;
+        ItemStack itemstack = player.getMainHandItem();
+
+        float f = player.getAttackAnim(partialTicks);
+        float f1 = MathHelper.sin(MathHelper.sqrt(f) * (float) Math.PI);
+        float f2 = MathHelper.lerp(partialTicks, player.yBodyRotO, player.yBodyRot) * ((float) Math.PI / 180F);
+        double d0 = MathHelper.sin(f2);
+        double d1 = MathHelper.cos(f2);
+        double d2 = (double) i * 0.35D;
+        double d3 = 0.8D;
+        double d4;
+        double d5;
+        double d6;
+        float f3;
+        if ((mc.getEntityRenderDispatcher().options == null || mc.getEntityRenderDispatcher().options.getCameraType().isFirstPerson()) && player == Minecraft.getInstance().player) {
+            double d7 = mc.getEntityRenderDispatcher().options.fov;
+            d7 = d7 / 100.0D;
+            Vector3d vector3d = new Vector3d((double) i * -0.36D * d7, -0.045D * d7, 0.4D);
+            vector3d = vector3d.xRot(-MathHelper.lerp(partialTicks, player.xRotO, player.xRot) * ((float) Math.PI / 180F));
+            vector3d = vector3d.yRot(-MathHelper.lerp(partialTicks, player.yRotO, player.yRot) * ((float) Math.PI / 180F));
+            vector3d = vector3d.yRot(f1 * 0.5F);
+            vector3d = vector3d.xRot(-f1 * 0.7F);
+            d4 = MathHelper.lerp(partialTicks, player.xo, player.getX()) + vector3d.x;
+            d5 = MathHelper.lerp(partialTicks, player.yo, player.getY()) + vector3d.y;
+            d6 = MathHelper.lerp(partialTicks, player.zo, player.getZ()) + vector3d.z;
+            f3 = player.getEyeHeight();
+        } else {
+            d4 = MathHelper.lerp(partialTicks, player.xo, player.getX()) - d1 * d2 - d0 * 0.8D;
+            d5 = player.yo + (double) player.getEyeHeight() + (player.getY() - player.yo) * (double) partialTicks - 0.45D;
+            d6 = MathHelper.lerp(partialTicks, player.zo, player.getZ()) - d0 * d2 + d1 * 0.8D;
+            f3 = player.isCrouching() ? -0.1875F : 0.0F;
+        }
+/*
+        double d9 = start.x;
+        double d10 = start.y;
+        double d8 = start.z;
+        float f4 = (float)(d4 - d9);
+        float f5 = (float)(d5 - d10) + f3;
+        float f6 = (float)(d6 - d8);
+        Matrix4f matrix4f1 = matrixStack.last().pose();
+        int j = 16;
+
+        for(int k = 0; k < 16; ++k) {
+            stringVertex(f4, f5, f6, ivertexbuilder1, matrix4f1, fraction(k, 16));
+            stringVertex(f4, f5, f6, ivertexbuilder1, matrix4f1, fraction(k + 1, 16));
+        }*/
+
+        renderConnection(start, new Vector3d(d4, d5 + f3, d6), world, matrixStack.last().pose(), buffer, hightlight, reversed);
+
+    }
+
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderHandEvent(RenderHandEvent event) {
         if (!ClientConfig.customGunHands.get())
@@ -77,22 +192,32 @@ public class RenderEventHandler {
         }
 
 
-
         if (mainItem instanceof ItemGun || secItem instanceof ItemGun) {
             /*if (mc.options.getCameraType() == PointOfView.FIRST_PERSON && !mc.options.hideGui
                     && !player.isSpectator()) {*/
             event.setCanceled(true);
+            ItemGun mainGun;
 
-            ItemGun mainGun = (ItemGun)mainItem;
+            if (mainItem instanceof ItemGun) {
+                mainGun = (ItemGun) mainItem;
+                if ((!sec.isEmpty() && !(secItem instanceof ItemGun))) {
+                    return;
+                }
+            }
+            else {
+                mainGun = (ItemGun) secItem;
+                if ((!main.isEmpty() && !(mainItem instanceof ItemGun))) {
+                    return;
+                }
+            }
 
-            if(event.getHand() == Hand.OFF_HAND){
+            if (event.getHand() == Hand.OFF_HAND) {
                 return;
             }
 
-            if(mainGun.getScoped() && mainGun.getFOVFactor(main) != 1 && mc.options.keyAttack.isDown()){
+            if (mainGun.getScoped() && mainGun.getFOVFactor(main) != 1 && mc.options.keyAttack.isDown()) {
                 scoping = true;
-            }
-            else{
+            } else {
                 scoping = false;
             }
 
@@ -103,23 +228,23 @@ public class RenderEventHandler {
             Animation idleAnimation = (mc.options.keyAttack.isDown() && mainGun.getFOVFactor(main) != 1) ? mainGun.getAimAnimation() : mainGun.getIdleAnimation();
             Animation shootAnimation = (mc.options.keyAttack.isDown() && mainGun.getFOVFactor(main) != 1) ? mainGun.getAimShootAnimation() : mainGun.getShootAnimation();
 
-                if (shotAnimationTimer > System.currentTimeMillis()) {
-                    if (!Animations.override && Animations.currentAnimation != shootAnimation) {
-                        Animations.currentAnimation = shootAnimation;
-                        if (Animations.currentAnimation != null) {
-                            Animations.currentAnimation.unpause();
-                            Animations.currentAnimation.setRepeat(false);
-                        }
-                    }
-                } else if (idleAnimation != null && shootAnimation != null && !Animations.override && Animations.currentAnimation != idleAnimation && (Animations.currentAnimation != shootAnimation || !Animations.currentAnimation.isRunning())) {
-                    Animations.currentAnimation = idleAnimation;
+            if (shotAnimationTimer > System.currentTimeMillis()) {
+                if (!Animations.override && Animations.currentAnimation != shootAnimation) {
+                    Animations.currentAnimation = shootAnimation;
                     if (Animations.currentAnimation != null) {
                         Animations.currentAnimation.unpause();
-                        Animations.currentAnimation.setRepeat(true);
+                        Animations.currentAnimation.setRepeat(false);
                     }
                 }
+            } else if (idleAnimation != null && shootAnimation != null && !Animations.override && Animations.currentAnimation != idleAnimation && (Animations.currentAnimation != shootAnimation || !Animations.currentAnimation.isRunning())) {
+                Animations.currentAnimation = idleAnimation;
+                if (Animations.currentAnimation != null) {
+                    Animations.currentAnimation.unpause();
+                    Animations.currentAnimation.setRepeat(true);
+                }
+            }
 
-            if(Animations.offset != null) {
+            if (Animations.offset != null) {
                 event.getMatrixStack().translate(Animations.offset.x, Animations.offset.y, Animations.offset.z);
             }
 
@@ -129,11 +254,16 @@ public class RenderEventHandler {
 
 
             RenderEventHandler.renderArmWithItem(mc, player, 0, 0, Hand.MAIN_HAND, 0, player.getMainHandItem(), 0, event.getMatrixStack(), mc.renderBuffers().bufferSource(), mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()));
-            */this.renderHandsWithItems(mc, event.getPartialTicks(), event.getMatrixStack(), mc.renderBuffers().bufferSource(), player, mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()), event.getHand());
+            */
+            this.renderHandsWithItems(mc, event.getPartialTicks(), event.getMatrixStack(), mc.renderBuffers().bufferSource(), player, mc.getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTicks()), event.getHand());
 
             //}
         }
     }
+
+    /*
+    HAND END
+     */
 
     public void renderHandsWithItems(Minecraft minecraft, float p_228396_1_, MatrixStack matrixStack, IRenderTypeBuffer.Impl impl, ClientPlayerEntity player, int light, Hand hand) {
         float f = player.getAttackAnim(p_228396_1_);
@@ -143,7 +273,7 @@ public class RenderEventHandler {
         float f4 = MathHelper.lerp(p_228396_1_, player.yBobO, player.yBob);
         matrixStack.mulPose(Vector3f.XP.rotationDegrees((player.getViewXRot(p_228396_1_) - f3) * 0.1F));
         matrixStack.mulPose(Vector3f.YP.rotationDegrees((player.getViewYRot(p_228396_1_) - f4) * 0.1F));
-         if (hand == Hand.MAIN_HAND) {
+        if (hand == Hand.MAIN_HAND) {
             //Right hand and item
             //float oMainHandHeight = ObfuscationReflectionHelper.getPrivateValue(FirstPersonRenderer.class, minecraft.getItemInHandRenderer(), "field_187470_g");
             //float mainHandHeight = ObfuscationReflectionHelper.getPrivateValue(FirstPersonRenderer.class, minecraft.getItemInHandRenderer(), "field_187469_f");
@@ -155,7 +285,7 @@ public class RenderEventHandler {
             //float f2 = 1.0F - MathHelper.lerp(p_228396_1_, oMainHandHeight, mainHandHeight);
 
             //this.renderArmWithItem(minecraft, player, p_228396_1_, f1, Hand.MAIN_HAND, 0, mainHandItem, 0, matrixStack, impl, light);
-             this.renderPlayerArm(minecraft, matrixStack, impl, light, 0f, 0f, HandSide.RIGHT,player, mainHandItem, p_228396_1_, f1);
+            this.renderPlayerArm(minecraft, matrixStack, impl, light, 0f, 0f, HandSide.RIGHT, player, mainHandItem, p_228396_1_, f1);
         } else {
             //Left hand and item
             //float oOffHandHeight = ObfuscationReflectionHelper.getPrivateValue(FirstPersonRenderer.class, minecraft.getItemInHandRenderer(), "field_187472_i");
@@ -173,9 +303,8 @@ public class RenderEventHandler {
         impl.endBatch();
     }
 
-    private void renderPlayerArm(Minecraft minecraft, MatrixStack matrix, IRenderTypeBuffer buffer, int light, float verticalRot, float horizontalRot, HandSide p_228401_6_, AbstractClientPlayerEntity player, ItemStack stack, float ff1 ,float ff2) {
+    private void renderPlayerArm(Minecraft minecraft, MatrixStack matrix, IRenderTypeBuffer buffer, int light, float verticalRot, float horizontalRot, HandSide p_228401_6_, AbstractClientPlayerEntity player, ItemStack stack, float ff1, float ff2) {
         matrix.pushPose();
-
 
 
         boolean flag = p_228401_6_ != HandSide.LEFT;
@@ -189,8 +318,8 @@ public class RenderEventHandler {
         matrix.mulPose(Vector3f.YP.rotationDegrees(f * 45.0F));
         matrix.mulPose(Vector3f.YP.rotationDegrees(f * 45.0F));
         matrix.mulPose(Vector3f.ZP.rotationDegrees(-90.0F));
-        float f5 = MathHelper.sin(horizontalRot * horizontalRot * (float)Math.PI);
-        float f6 = MathHelper.sin(f1 * (float)Math.PI);
+        float f5 = MathHelper.sin(horizontalRot * horizontalRot * (float) Math.PI);
+        float f6 = MathHelper.sin(f1 * (float) Math.PI);
         matrix.mulPose(Vector3f.YP.rotationDegrees(f * f6 * 70.0F));
         matrix.mulPose(Vector3f.ZP.rotationDegrees(f * f5 * -20.0F));
         AbstractClientPlayerEntity abstractclientplayer = minecraft.player;
@@ -211,57 +340,16 @@ public class RenderEventHandler {
         } else {
             //playerrenderer.renderLeftHand(matrix, buffer, light, abstractclientplayer);
         }*/
-        if(Animations.currentAnimation != null){
-            Animations.currentAnimation.render(matrix,buffer,light);
+        if (Animations.currentAnimation != null) {
+            Animations.currentAnimation.render(matrix, buffer, light);
         }
         matrix.popPose();
-    }
-
-    public static void renderArmWithItem(Minecraft minecraft, AbstractClientPlayerEntity player, float p_228405_2_, float p_228405_3_, Hand hand, float p_228405_5_, ItemStack p_228405_6_, float p_228405_7_, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light) {
-        boolean flag = hand == Hand.MAIN_HAND;
-        HandSide handside = flag ? player.getMainArm() : player.getMainArm().getOpposite();
-        matrixStack.pushPose();
-        if (!p_228405_6_.isEmpty()) {
-            boolean flag3 = handside == HandSide.RIGHT;
-
-            minecraft.getItemInHandRenderer().renderItem(player, p_228405_6_, flag3 ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND, !flag3, matrixStack, buffer, light);
-        }
-
-        matrixStack.popPose();
     }
 
     private void applyItemArmTransform(MatrixStack p_228406_1_, HandSide p_228406_2_, float p_228406_3_) {
         int i = p_228406_2_ == HandSide.RIGHT ? 1 : -1;
         p_228406_1_.translate((float) i * 0.56F, -0.52F + p_228406_3_ * -0.6F, -0.72F);
     }
-
-
-    private enum EnumHandPos {
-
-        NONE(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO),
-        PISTOL_ONE(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO),
-        PISTOL_DUAL(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO),
-        LONG_ONE(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO);
-
-        Vector3d rightHandRotation;
-        Vector3d leftHandRotation;
-        Vector3d rightHandPosition;
-        Vector3d leftHandPosition;
-
-        EnumHandPos(Vector3d rightHandRotation,
-                    Vector3d leftHandRotation,
-                    Vector3d rightHandPosition,
-                    Vector3d leftHandPosition) {
-            this.rightHandRotation = rightHandRotation;
-            this.leftHandRotation = leftHandRotation;
-            this.rightHandPosition = rightHandPosition;
-            this.leftHandPosition = leftHandPosition;
-        }
-    }
-
-    /*
-    HAND END
-     */
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderPowerLines(RenderWorldLastEvent event) {
@@ -290,7 +378,7 @@ public class RenderEventHandler {
             List<ElectricConnection> outputs = voltage.getOutputs();
             if (outputs != null) {
                 for (ElectricConnection connection : outputs) {
-                    renderConnection(connection, world, matrix,buffer,hightlight,true);
+                    renderConnection(connection, world, matrix, buffer, hightlight, true);
                 }
             }
 
@@ -298,7 +386,7 @@ public class RenderEventHandler {
             if (inputs != null) {
                 for (ElectricConnection connection : inputs) {
                     if (!mc.level.isLoaded(connection.getFrom())) {
-                        renderConnection(connection, world, matrix,buffer,hightlight,true);
+                        renderConnection(connection, world, matrix, buffer, hightlight, true);
                     }
                 }
             }
@@ -328,52 +416,6 @@ public class RenderEventHandler {
 
     }
 
-    public static void renderConnection(ElectricConnection connection, World world, Matrix4f matrix,IRenderTypeBuffer.Impl buffer, boolean hightlight, boolean reversed) {
-        renderConnection(connection.getRenderFrom(world),connection.getRenderTo(world),world,matrix,buffer,hightlight,reversed);
-    }
-
-    public static void renderConnection(Vector3d start, Vector3d end, World world, Matrix4f matrix,IRenderTypeBuffer.Impl buffer, boolean hightlight, boolean reversed) {
-        int distance = (int) Math.ceil(start.distanceToSqr(end));
-        for (int i = 0; i <= 64; i++) {
-            IVertexBuilder builder = buffer.getBuffer(RenderType.lines());
-            Vector3d pointA = getLinePos(start,end,distance,i,64,world);
-            Vector3d pointB = getLinePos(start,end,distance,i+1,64,world);
-            long secs = System.currentTimeMillis()/50;
-            int u = (int) (secs % 64);
-
-            float alpha = 1f;
-
-            int reversedIndex = reversed ? i : 64-i;
-            int powerIndex = u/2;
-
-
-
-            if(hightlight && (reversedIndex-powerIndex)%8 == 0){
-                alpha = 5;
-            }
-
-            builder.vertex(matrix, (float)pointA.x, (float)pointA.y, (float)pointA.z).color(0.1f*alpha, 0.1f*alpha, 0.1f*alpha, 1f).endVertex();
-            builder.vertex(matrix, (float)pointB.x, (float)pointB.y, (float)pointB.z).color(0.1f*alpha, 0.1f*alpha, 0.1f*alpha, 1f).endVertex();
-            buffer.endBatch(RenderType.lines());
-        }
-
-    }
-
-    public static Vector3d getLinePos(Vector3d start, Vector3d end, int dst, int index, int res, World world){
-        Vector3d vec = MathUtils.lerp(start, end, (float) index / res);
-        double deltaY = Math.sin(((float) index / res) * Math.PI);
-        double distanceSqrt = Math.sqrt(dst);
-        if (distanceSqrt < ModConstants.MAXIMAL_LENGTH) {
-            deltaY /= (Math.abs(distanceSqrt - ModConstants.MAXIMAL_LENGTH) / 2d);
-        }
-        BlockPos pos = new BlockPos(vec.x, vec.y - deltaY, vec.z);
-        BlockState state = world.getBlockState(pos);
-        if (state.isFaceSturdy(world,pos, Direction.UP)) {
-            deltaY = vec.y - pos.above().getY() - 0.00625d;
-        }
-        return vec.subtract(0,deltaY,0);
-    }
-
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderPowerLineToEntityItems(RenderWorldLastEvent event) {
         Minecraft mc = Minecraft.getInstance();
@@ -393,43 +435,43 @@ public class RenderEventHandler {
         matrixStack.translate(-camera.x, -camera.y, -camera.z);
         Matrix4f matrix = matrixStack.last().pose();
 
-        for (ItemEntity entity : world.getLoadedEntitiesOfClass(ItemEntity.class,new AxisAlignedBB(player.blockPosition()).inflate(16))) {
-                ItemStack stack = entity.getItem();
-                if (stack.isEmpty())
+        for (ItemEntity entity : world.getLoadedEntitiesOfClass(ItemEntity.class, new AxisAlignedBB(player.blockPosition()).inflate(16))) {
+            ItemStack stack = entity.getItem();
+            if (stack.isEmpty())
+                continue;
+            if (stack.getItem() instanceof ItemWire) {
+                CompoundNBT nbt = stack.getOrCreateTag();
+                if (nbt == null)
                     continue;
-                if (stack.getItem() instanceof ItemWire) {
-                    CompoundNBT nbt = stack.getOrCreateTag();
-                    if (nbt == null)
-                        continue;
-                    if (nbt.contains("from", Constants.NBT.TAG_LONG)) {
-                        BlockPos from = BlockPos.of(nbt.getLong("from"));
+                if (nbt.contains("from", Constants.NBT.TAG_LONG)) {
+                    BlockPos from = BlockPos.of(nbt.getLong("from"));
 
-                        double entityX = entity.xOld
-                                + (entity.getX() - entity.xOld) * (double) event.getPartialTicks();
-                        double entityY = entity.yOld
-                                + (entity.getY() - entity.yOld) * (double) event.getPartialTicks();
-                        double entityZ = entity.zOld
-                                + (entity.getZ() - entity.zOld) * (double) event.getPartialTicks();
+                    double entityX = entity.xOld
+                            + (entity.getX() - entity.xOld) * (double) event.getPartialTicks();
+                    double entityY = entity.yOld
+                            + (entity.getY() - entity.yOld) * (double) event.getPartialTicks();
+                    double entityZ = entity.zOld
+                            + (entity.getZ() - entity.zOld) * (double) event.getPartialTicks();
 
 
-                        renderConnection(new Vector3d(from.getX() + 0.5d, from.getY() + 0.5d, from.getZ() + 0.5d),
-                                new Vector3d(entityX, entityY + entity.getBbHeight(), entityZ), world, matrix,buffer,hightlight,true);
+                    renderConnection(new Vector3d(from.getX() + 0.5d, from.getY() + 0.5d, from.getZ() + 0.5d),
+                            new Vector3d(entityX, entityY + entity.getBbHeight(), entityZ), world, matrix, buffer, hightlight, true);
 
 
-                    } else if (nbt.contains("to", Constants.NBT.TAG_LONG)) {
-                        BlockPos to = BlockPos.of(nbt.getLong("to"));
-                        double entityX = entity.xOld
-                                + (entity.getX() - entity.xOld) * (double) event.getPartialTicks();
-                        double entityY = entity.yOld
-                                + (entity.getY() - entity.yOld) * (double) event.getPartialTicks();
-                        double entityZ = entity.zOld
-                                + (entity.getZ() - entity.zOld) * (double) event.getPartialTicks();
+                } else if (nbt.contains("to", Constants.NBT.TAG_LONG)) {
+                    BlockPos to = BlockPos.of(nbt.getLong("to"));
+                    double entityX = entity.xOld
+                            + (entity.getX() - entity.xOld) * (double) event.getPartialTicks();
+                    double entityY = entity.yOld
+                            + (entity.getY() - entity.yOld) * (double) event.getPartialTicks();
+                    double entityZ = entity.zOld
+                            + (entity.getZ() - entity.zOld) * (double) event.getPartialTicks();
 
-                        renderConnection(new Vector3d(to.getX() + 0.5d, to.getY() + 0.5d, to.getZ() + 0.5d),
-                                new Vector3d(entityX, entityY + entity.getBbHeight(), entityZ), world, matrix,buffer,hightlight,false);
+                    renderConnection(new Vector3d(to.getX() + 0.5d, to.getY() + 0.5d, to.getZ() + 0.5d),
+                            new Vector3d(entityX, entityY + entity.getBbHeight(), entityZ), world, matrix, buffer, hightlight, false);
 
 
-                    }
+                }
             }
         }
 
@@ -466,16 +508,16 @@ public class RenderEventHandler {
 
         if (mainItem instanceof ItemWire) {
             CompoundNBT nbt = mainStack.getOrCreateTag();
-                if (nbt.contains("to", Constants.NBT.TAG_LONG)) {
-                    BlockPos to = BlockPos.of(nbt.getLong("to"));
-                    renderConnectionToHand(new Vector3d(to.getX() + 0.5d, to.getY() + 0.5d, to.getZ() + 0.5d),
-                            player, world, matrixStack,buffer, event.getPartialTicks(), true,false);
+            if (nbt.contains("to", Constants.NBT.TAG_LONG)) {
+                BlockPos to = BlockPos.of(nbt.getLong("to"));
+                renderConnectionToHand(new Vector3d(to.getX() + 0.5d, to.getY() + 0.5d, to.getZ() + 0.5d),
+                        player, world, matrixStack, buffer, event.getPartialTicks(), true, false);
 
-                } else if (nbt.contains("from", Constants.NBT.TAG_LONG)) {
-                    BlockPos from = BlockPos.of(nbt.getLong("from"));
-                    renderConnectionToHand(new Vector3d(from.getX() + 0.5d, from.getY() + 0.5d, from.getZ() + 0.5d),
-                            player, world, matrixStack,buffer, event.getPartialTicks(), true,true);
-                }
+            } else if (nbt.contains("from", Constants.NBT.TAG_LONG)) {
+                BlockPos from = BlockPos.of(nbt.getLong("from"));
+                renderConnectionToHand(new Vector3d(from.getX() + 0.5d, from.getY() + 0.5d, from.getZ() + 0.5d),
+                        player, world, matrixStack, buffer, event.getPartialTicks(), true, true);
+            }
 
         }
 
@@ -483,59 +525,27 @@ public class RenderEventHandler {
     }
 
 
-    public static void renderConnectionToHand(Vector3d start, PlayerEntity player, World world, MatrixStack matrixStack,IRenderTypeBuffer.Impl buffer, float partialTicks, boolean hightlight, boolean reversed) {
+    private enum EnumHandPos {
 
-        Minecraft mc = Minecraft.getInstance();
+        NONE(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO),
+        PISTOL_ONE(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO),
+        PISTOL_DUAL(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO),
+        LONG_ONE(Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO, Vector3d.ZERO);
 
-        int i = player.getMainArm() == HandSide.RIGHT ? 1 : -1;
-        ItemStack itemstack = player.getMainHandItem();
+        Vector3d rightHandRotation;
+        Vector3d leftHandRotation;
+        Vector3d rightHandPosition;
+        Vector3d leftHandPosition;
 
-        float f = player.getAttackAnim(partialTicks);
-        float f1 = MathHelper.sin(MathHelper.sqrt(f) * (float)Math.PI);
-        float f2 = MathHelper.lerp(partialTicks, player.yBodyRotO, player.yBodyRot) * ((float)Math.PI / 180F);
-        double d0 = MathHelper.sin(f2);
-        double d1 = MathHelper.cos(f2);
-        double d2 = (double)i * 0.35D;
-        double d3 = 0.8D;
-        double d4;
-        double d5;
-        double d6;
-        float f3;
-        if ((mc.getEntityRenderDispatcher().options == null || mc.getEntityRenderDispatcher().options.getCameraType().isFirstPerson()) && player == Minecraft.getInstance().player) {
-            double d7 = mc.getEntityRenderDispatcher().options.fov;
-            d7 = d7 / 100.0D;
-            Vector3d vector3d = new Vector3d((double)i * -0.36D * d7, -0.045D * d7, 0.4D);
-            vector3d = vector3d.xRot(-MathHelper.lerp(partialTicks, player.xRotO, player.xRot) * ((float)Math.PI / 180F));
-            vector3d = vector3d.yRot(-MathHelper.lerp(partialTicks, player.yRotO, player.yRot) * ((float)Math.PI / 180F));
-            vector3d = vector3d.yRot(f1 * 0.5F);
-            vector3d = vector3d.xRot(-f1 * 0.7F);
-            d4 = MathHelper.lerp(partialTicks, player.xo, player.getX()) + vector3d.x;
-            d5 = MathHelper.lerp(partialTicks, player.yo, player.getY()) + vector3d.y;
-            d6 = MathHelper.lerp(partialTicks, player.zo, player.getZ()) + vector3d.z;
-            f3 = player.getEyeHeight();
-        } else {
-            d4 = MathHelper.lerp(partialTicks, player.xo, player.getX()) - d1 * d2 - d0 * 0.8D;
-            d5 = player.yo + (double)player.getEyeHeight() + (player.getY() - player.yo) * (double)partialTicks - 0.45D;
-            d6 = MathHelper.lerp(partialTicks, player.zo, player.getZ()) - d0 * d2 + d1 * 0.8D;
-            f3 = player.isCrouching() ? -0.1875F : 0.0F;
+        EnumHandPos(Vector3d rightHandRotation,
+                    Vector3d leftHandRotation,
+                    Vector3d rightHandPosition,
+                    Vector3d leftHandPosition) {
+            this.rightHandRotation = rightHandRotation;
+            this.leftHandRotation = leftHandRotation;
+            this.rightHandPosition = rightHandPosition;
+            this.leftHandPosition = leftHandPosition;
         }
-/*
-        double d9 = start.x;
-        double d10 = start.y;
-        double d8 = start.z;
-        float f4 = (float)(d4 - d9);
-        float f5 = (float)(d5 - d10) + f3;
-        float f6 = (float)(d6 - d8);
-        Matrix4f matrix4f1 = matrixStack.last().pose();
-        int j = 16;
-
-        for(int k = 0; k < 16; ++k) {
-            stringVertex(f4, f5, f6, ivertexbuilder1, matrix4f1, fraction(k, 16));
-            stringVertex(f4, f5, f6, ivertexbuilder1, matrix4f1, fraction(k + 1, 16));
-        }*/
-
-        renderConnection(start,new Vector3d(d4,d5+f3,d6),world,matrixStack.last().pose(),buffer,hightlight,reversed);
-
     }
 
 }

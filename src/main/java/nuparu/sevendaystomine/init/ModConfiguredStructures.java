@@ -28,6 +28,7 @@ public class ModConfiguredStructures {
     public static StructureFeature<?, ?> CONFIGURED_CARGO_SHIP_SUNKEN = ModStructureFeatures.CARGO_SHIP_SUNKEN.get().configured(IFeatureConfig.NONE);
     public static StructureFeature<?, ?> CONFIGURED_AIRFIELD = ModStructureFeatures.AIRFIELD.get().configured(IFeatureConfig.NONE);
     public static StructureFeature<?, ?> CONFIGURED_VILLAGE = ModStructureFeatures.VILLAGE.get().configured(IFeatureConfig.NONE);
+    public static StructureFeature<?, ?> CONFIGURED_NETHER_RESEARCH_STATION= ModStructureFeatures.NETHER_RESEARCH_STATION.get().configured(IFeatureConfig.NONE);
 
     /**
      * Registers the configured structure which is what gets added to the biomes.
@@ -85,6 +86,9 @@ public class ModConfiguredStructures {
 
         Registry.register(registry, new ResourceLocation(SevenDaysToMine.MODID, "configured_village"), CONFIGURED_VILLAGE);
         FlatGenerationSettings.STRUCTURE_FEATURES.put(ModStructureFeatures.VILLAGE.get(), CONFIGURED_VILLAGE);
+
+        Registry.register(registry, new ResourceLocation(SevenDaysToMine.MODID, "nether_research_station"), CONFIGURED_NETHER_RESEARCH_STATION);
+        FlatGenerationSettings.STRUCTURE_FEATURES.put(ModStructureFeatures.NETHER_RESEARCH_STATION.get(), CONFIGURED_NETHER_RESEARCH_STATION);
 
     }
 }

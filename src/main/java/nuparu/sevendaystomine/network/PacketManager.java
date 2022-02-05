@@ -200,6 +200,12 @@ public class PacketManager {
 			.serverAcceptedVersions(PROTOCOL_VERSION::equals)
 			.networkProtocolVersion(() -> PROTOCOL_VERSION)
 			.simpleChannel();
+	public static SimpleChannel spawnBlood = NetworkRegistry.ChannelBuilder
+			.named(new ResourceLocation(SevenDaysToMine.MODID, "spawn_blood"))
+			.clientAcceptedVersions(PROTOCOL_VERSION::equals)
+			.serverAcceptedVersions(PROTOCOL_VERSION::equals)
+			.networkProtocolVersion(() -> PROTOCOL_VERSION)
+			.simpleChannel();
 
 	private static int discriminator = 0;
 
@@ -237,7 +243,8 @@ public class PacketManager {
 		 PacketManager.startProcess.registerMessage(PacketManager.discriminator++, StartProcessMessage.class, StartProcessMessage::encode, StartProcessMessage::decode, StartProcessMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
 		 PacketManager.turretShot.registerMessage(PacketManager.discriminator++, TurretShotMessage.class, TurretShotMessage::encode, TurretShotMessage::decode, TurretShotMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 		 PacketManager.syncScrapsData.registerMessage(PacketManager.discriminator++, SyncScrapsMessage.class, SyncScrapsMessage::encode, SyncScrapsMessage::decode, SyncScrapsMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-		PacketManager.synEntityRot.registerMessage(PacketManager.discriminator++, SyncEntityRotMesage.class, SyncEntityRotMesage::encode, SyncEntityRotMesage::decode, SyncEntityRotMesage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		 PacketManager.synEntityRot.registerMessage(PacketManager.discriminator++, SyncEntityRotMesage.class, SyncEntityRotMesage::encode, SyncEntityRotMesage::decode, SyncEntityRotMesage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		 PacketManager.spawnBlood.registerMessage(PacketManager.discriminator++, SpawnBloodMessage.class, SpawnBloodMessage::encode, SpawnBloodMessage::decode, SpawnBloodMessage.Handler::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 
 	}
 	

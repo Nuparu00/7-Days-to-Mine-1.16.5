@@ -1,5 +1,6 @@
 package nuparu.sevendaystomine.events;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -19,15 +20,18 @@ import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.server.ChunkHolder;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
+import nuparu.sevendaystomine.capability.IChunkData;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
 import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.AirdropEntity;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModGameRules;
@@ -42,6 +46,9 @@ import nuparu.sevendaystomine.world.horde.HordeSavedData;
 import nuparu.sevendaystomine.world.horde.ZombieWolfHorde;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class TickHandler {
 
@@ -73,7 +80,7 @@ public class TickHandler {
             return;
         }
 
-        if (CommonConfig.thirstSystem.get()) {
+        if (ServerConfig.thirstSystem.get()) {
             if (extendedPlayer.getDrinkCounter() >= 20) {
                 extendedPlayer.setDrinkCounter(0);
                 extendedPlayer.addThirst(35);
@@ -102,19 +109,19 @@ public class TickHandler {
             }
         }
 
-        if (CommonConfig.staminaSystem.get()) {
+        if (ServerConfig.staminaSystem.get()) {
             if (player.isSprinting()) {
-                if (CommonConfig.staminaSystem.get() && extendedPlayer.getStamina() > 0) {
+                if (ServerConfig.staminaSystem.get() && extendedPlayer.getStamina() > 0) {
                     if (world.random.nextInt(3) == 0) {
                         extendedPlayer.consumeStamina(2);
                     }
 
-                    if (CommonConfig.thirstSystem.get() && world.random.nextInt(35) == 0) {
+                    if (ServerConfig.thirstSystem.get() && world.random.nextInt(35) == 0) {
                         extendedPlayer.consumeThirst(1);
                     }
                 }
 
-            } else if ((extendedPlayer.getThirst() >= 100 || !CommonConfig.thirstSystem.get())
+            } else if ((extendedPlayer.getThirst() >= 100 || !ServerConfig.thirstSystem.get())
                     && world.random.nextInt(8) == 0
                     && player.walkDist - player.walkDistO <= 0.05) {
                 extendedPlayer.addStamina(1);
@@ -138,17 +145,33 @@ public class TickHandler {
         //BreakSavedData.get(world).update(world);
 
         //System.out.println(NBTUtil.writeBlockState(Blocks.BRICK_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)).toString());
-        if (world.dimension() != server.overworld().dimension() || world.isClientSide() || CommonConfig.airdropFrequency.get() <= 0
-                || event.phase != TickEvent.Phase.START)
+
+        if(event.phase != TickEvent.Phase.START) return;
+
+        List<ChunkHolder> list = Lists.newArrayList(world.getChunkSource().chunkMap.getChunks());
+        Collections.shuffle(list);
+        list.forEach((p_241099_7_) -> {
+            Optional<Chunk> optional = p_241099_7_.getTickingChunkFuture().getNow(ChunkHolder.UNLOADED_LEVEL_CHUNK).left();
+            if (optional.isPresent()) {
+                Chunk chunk = optional.get();
+                IChunkData chunkData = CapabilityHelper.getChunkData(chunk);
+                if (chunkData != null) {
+                    chunkData.update(world);
+                }
+            }
+        });
+
+        if (world.dimension() != server.overworld().dimension() || world.isClientSide() || ServerConfig.airdropFrequency.get() <= 0)
             return;
         if (server == null || server.getPlayerList().getPlayerCount() == 0)
             return;
+
 
         long time = world.getDayTime() % 24000;
         MiscSavedData miscData = MiscSavedData.getOrCreate(world);
 
         if (time >= 6000 && miscData.getLastAirdrop() != Utils.getDay(world)
-                && Utils.getDay(world) % CommonConfig.airdropFrequency.get() == 0) {
+                && Utils.getDay(world) % ServerConfig.airdropFrequency.get() == 0) {
             miscData.setLastAirdrop(Utils.getDay(world));
             BlockPos pos = Utils.getAirdropPos(world);
 
@@ -158,7 +181,7 @@ public class TickHandler {
             LootTable loottable = server.getLootTables().get(ModLootTables.AIRDROP);
             LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(pos));
 
-            ItemUtils.fill(loottable,e.getInventory(), lootcontext$builder.create(LootParameterSets.CHEST));
+            ItemUtils.fill(loottable, e.getInventory(), lootcontext$builder.create(LootParameterSets.CHEST));
 
             world.addFreshEntity(e);
             //Move the airdrop to the actual position
@@ -194,42 +217,42 @@ public class TickHandler {
                 ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
                 long time = world.getDayTime() % 24000;
                 int day = Utils.getDay(world);
-				if (!world.isClientSide() && world.getDifficulty() != Difficulty.PEACEFUL) {
-					if (Utils.isBloodmoon(world) && time > 13000 && time < 23000) {
+                if (!world.isClientSide() && world.getDifficulty() != Difficulty.PEACEFUL) {
+                    if (Utils.isBloodmoon(world) && time > 13000 && time < 23000) {
 
-						if (iep.getBloodmoon() != day) {
-							BlockPos pos = playerMP.blockPosition();
-							BloodmoonHorde horde = new BloodmoonHorde(pos, (ServerWorld) world, playerMP);
-							horde.addTarget(playerMP);
-							horde.start();
-							iep.setBloodmoon(day);
+                        if (iep.getBloodmoon() != day) {
+                            BlockPos pos = playerMP.blockPosition();
+                            BloodmoonHorde horde = new BloodmoonHorde(pos, (ServerWorld) world, playerMP);
+                            horde.addTarget(playerMP);
+                            horde.start();
+                            iep.setBloodmoon(day);
 
-							world.playSound(null, pos, ModSounds.HORDE.get(), SoundCategory.HOSTILE,
-									world.random.nextFloat() * 0.1f + 0.95f, world.random.nextFloat() * 0.1f + 0.95f);
-						}
+                            world.playSound(null, pos, ModSounds.HORDE.get(), SoundCategory.HOSTILE,
+                                    world.random.nextFloat() * 0.1f + 0.95f, world.random.nextFloat() * 0.1f + 0.95f);
+                        }
 
-					} else if (time > 1000 && time < 1060 && iep.getWolfHorde() != day && Utils.isWolfHorde(world)) {
+                    } else if (time > 1000 && time < 1060 && iep.getWolfHorde() != day && Utils.isWolfHorde(world)) {
 
-						ZombieWolfHorde horde = new ZombieWolfHorde(player.blockPosition(), (ServerWorld)world, player);
-						horde.addTarget(playerMP);
-						horde.start();
-						iep.setWolfHorde(day);
-					} else if (day != 1 && !iep.hasHorde(world)) {
+                        ZombieWolfHorde horde = new ZombieWolfHorde(player.blockPosition(), (ServerWorld) world, player);
+                        horde.addTarget(playerMP);
+                        horde.start();
+                        iep.setWolfHorde(day);
+                    } else if (day != 1 && !iep.hasHorde(world)) {
 						/*CitySavedData csd = CitySavedData.get(world);
 						CityData city = csd.getClosestCity(player.blockPosition(), 100);*/
 
-						if (world.random.nextDouble() < CommonConfig.genericHordeChance.get()
-								/* (city == null ? 1 : (1 + ((10 * city.getZombieLevel() / 1024f))))*/) {
-							GenericHorde horde = new GenericHorde(player.blockPosition(), (ServerWorld)world, player);
+                        if (world.random.nextDouble() < CommonConfig.genericHordeChance.get()
+                            /* (city == null ? 1 : (1 + ((10 * city.getZombieLevel() / 1024f))))*/) {
+                            GenericHorde horde = new GenericHorde(player.blockPosition(), (ServerWorld) world, player);
 							/*if (city != null && city.getZombieLevel() > 0) {
 								city.setZombieLevel(city.getZombieLevel() - (horde.waves * horde.getZombiesInWave()));
 							}*/
-							horde.addTarget(playerMP);
-							horde.start();
-							iep.setHorde(day);
-						}
-					}
-				}
+                            horde.addTarget(playerMP);
+                            horde.start();
+                            iep.setHorde(day);
+                        }
+                    }
+                }
                 if (Utils.isBloodmoon(day - 1) && time < 1000 && iep.getLastBloodmoonSurvivalCheck() < day) {
                     ModTriggers.BLOODMOON_SURVIVAL.trigger(playerMP, o -> true);
                     iep.setLastBloodmoonSurvivalCheck(day);

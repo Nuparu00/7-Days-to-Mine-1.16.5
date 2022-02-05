@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.ItemRecipeBook;
@@ -71,7 +71,7 @@ public class RecipeLockedShaped extends ShapedRecipe implements IRecipeLocked{
 			}
 			if (player != null) {
 				stack.getOrCreateTag().putInt("Quality", (int) Math
-						.min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1), 600));
+						.min(Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1), 600));
 			}
 		}
 		return stack;
@@ -98,7 +98,7 @@ public class RecipeLockedShaped extends ShapedRecipe implements IRecipeLocked{
 			return false;
 
 		IExtendedPlayer iep = CapabilityHelper.getExtendedPlayer(player);
-		return (!CommonConfig.recipeBooksRequired.get() || iep.hasRecipe(recipe)) && super.matches(inv, worldIn);
+		return (!ServerConfig.recipeBooksRequired.get() || iep.hasRecipe(recipe)) && super.matches(inv, worldIn);
 
 	}
 

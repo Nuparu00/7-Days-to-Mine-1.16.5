@@ -23,6 +23,8 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.init.ModStructureFeatures;
+import nuparu.sevendaystomine.util.Utils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -118,6 +120,10 @@ public class YachtStructure extends Structure<NoFeatureConfig> {
      */
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
+        if(Utils.isNearStructure(ModStructureFeatures.CARGO_SHIP_SUNKEN.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ,8)) return false;
+        if(Utils.isNearStructure(ModStructureFeatures.CARGO_SHIP.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ,8)) return false;
+        if(Utils.isNearStructure(ModStructureFeatures.CRUISER.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ,8)) return false;
+
         Iterator var11 = biomeSource.getBiomesWithin(chunkX * 16 + 9, chunkGenerator.getSeaLevel(), chunkZ * 16 + 9, 16).iterator();
 
         Biome biome1;

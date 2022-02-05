@@ -33,12 +33,13 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import nuparu.sevendaystomine.client.animation.Animations;
 import nuparu.sevendaystomine.client.gui.*;
 import nuparu.sevendaystomine.client.gui.computer.GuiMonitor;
+import nuparu.sevendaystomine.client.renderer.itemstack.RiotShieldRenderer;
 import nuparu.sevendaystomine.client.sound.MovingSoundMinibikeIdle;
 import nuparu.sevendaystomine.client.sound.PositionedLoudSound;
 import nuparu.sevendaystomine.client.toast.NotificationToast;
 import nuparu.sevendaystomine.client.util.MP3Helper;
 import nuparu.sevendaystomine.config.ClientConfig;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.MinibikeEntity;
 import nuparu.sevendaystomine.entity.human.EntityHuman;
 import nuparu.sevendaystomine.events.*;
@@ -62,6 +63,12 @@ public class ClientProxy extends CommonProxy {
     private static final Map<BlockPos, ISound> mapSoundPositions = Maps.<BlockPos, ISound>newHashMap();
     public static KeyBinding[] keyBindings;
     private Field f_skinMap;
+
+    private static RiotShieldRenderer riotShieldRenderer = new RiotShieldRenderer();
+
+    public static RiotShieldRenderer getRiotShieldRenderer(){
+        return riotShieldRenderer;
+    }
 
     @Override
     public void preInit() {
@@ -214,7 +221,7 @@ public class ClientProxy extends CommonProxy {
          * { CameraHelper.INSTANCE.saveScreenshot(mc.displayWidth, mc.displayHeight,
          * mc.getFramebuffer(), mc.player); }
          */
-        if (CommonConfig.allowPhotos.get()) {
+        if (ServerConfig.allowPhotos.get()) {
             ClientEventHandler.takingPhoto = true;
         }
     }
@@ -346,8 +353,8 @@ public class ClientProxy extends CommonProxy {
     public int getQualityForCurrentPlayer() {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player == null) return 0;
-        return (int) MathUtils.clamp(player.totalExperience / CommonConfig.xpPerQuality.get(), 1,
-                CommonConfig.maxQuality.get());
+        return (int) MathUtils.clamp(player.totalExperience / ServerConfig.xpPerQuality.get(), 1,
+                ServerConfig.maxQuality.get());
     }
 
     @Override

@@ -22,5 +22,6 @@ public class Potions {
 	public static final RegistryObject<Effect> MERCURY_POISON = EFFECTS.register("mercury_poison", () ->  new PotionMercuryPoisoning(EffectType.HARMFUL, 1930808));
 	public static final RegistryObject<Effect> CHLORINE_POISON = EFFECTS.register("chlorine_poison", () ->  new PotionChlorinePoisoning(EffectType.HARMFUL, 1930808));
 	public static final RegistryObject<Effect> SPLINTED_LEG = EFFECTS.register("splinted_leg", () ->  new PotionSplintedLeg(EffectType.HARMFUL, 0xaaaaaa));
+	public static final RegistryObject<Effect> FUNGAL_INFECTION = EFFECTS.register("fungal_infection", () ->  new PotionFungalInfection(EffectType.HARMFUL, 0x11bbaa));
 
 }

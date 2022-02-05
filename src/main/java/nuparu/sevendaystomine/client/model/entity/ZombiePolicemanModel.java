@@ -83,6 +83,7 @@ public class ZombiePolicemanModel<T extends ZombiePolicemanEntity> extends Ageab
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch) {
+		this.crouching = true;
 		boolean flag = entity.getFallFlyingTicks() > 4;
 		boolean flag1 = entity.isVisuallySwimming();
 		this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);

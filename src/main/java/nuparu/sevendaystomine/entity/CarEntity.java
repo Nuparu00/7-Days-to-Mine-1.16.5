@@ -29,8 +29,8 @@ import net.minecraftforge.common.util.Constants;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.BlockBush;
 import nuparu.sevendaystomine.capability.ExtendedInventory;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.electricity.IBattery;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModEntities;
@@ -321,7 +321,7 @@ public class CarEntity extends VehicleEntity {
         }
 
         if (!this.isNoGravity()) {
-            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.8, 0));
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.1, 0));
         }
 
         this.move(MoverType.SELF, this.getDeltaMovement());
@@ -470,7 +470,7 @@ public class CarEntity extends VehicleEntity {
 
     @Override
     public double getAcceleration(){
-        return (1 + (double) this.getCalculatedQuality() / CommonConfig.maxQuality.get()) * 0.05;
+        return (1 + (double) this.getCalculatedQuality() / ServerConfig.maxQuality.get()) * 0.05;
     }
 
     @Override

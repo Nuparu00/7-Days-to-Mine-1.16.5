@@ -15,7 +15,6 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.item.crafting.ShapelessRecipe;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
@@ -25,7 +24,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 import nuparu.sevendaystomine.item.ItemRecipeBook;
 
@@ -66,7 +65,7 @@ public class RecipeLockedShapeless extends ShapelessRecipe implements IRecipeLoc
             return false;
 
         IExtendedPlayer iep = CapabilityHelper.getExtendedPlayer(player);
-        return (!CommonConfig.recipeBooksRequired.get() || iep.hasRecipe(recipe)) && super.matches(inv, worldIn);
+        return (!ServerConfig.recipeBooksRequired.get() || iep.hasRecipe(recipe)) && super.matches(inv, worldIn);
 
     }
 
@@ -100,7 +99,7 @@ public class RecipeLockedShapeless extends ShapelessRecipe implements IRecipeLoc
             }
             if (player != null) {
                 stack.getOrCreateTag().putInt("Quality", (int) Math
-                        .min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1), 600));
+                        .min(Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1), 600));
             }
         }
         return stack;

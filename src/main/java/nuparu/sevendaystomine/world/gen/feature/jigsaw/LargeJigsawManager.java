@@ -23,6 +23,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import nuparu.sevendaystomine.config.CommonConfig;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,7 +57,7 @@ public class LargeJigsawManager {
         abstractvillagepiece.move(0, k - l, 0);
         p_242837_6_.add(abstractvillagepiece);
         if (p_242837_1_.maxDepth() > 0) {
-            AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)(i - 128), (double)(k - 128), (double)(j - 128), (double)(i + 128 + 1), (double)(k + 128 + 1), (double)(j + 128 + 1));
+            AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)(i - CommonConfig.largeStructureMaxSize.get()), (double)(k - 128), (double)(j - CommonConfig.largeStructureMaxSize.get()), (double)(i + CommonConfig.largeStructureMaxSize.get() + 1), (double)(k + 128 + 1), (double)(j + CommonConfig.largeStructureMaxSize.get() + 1));
             LargeJigsawManager.Assembler LargeJigsawManager$assembler = new LargeJigsawManager.Assembler(mutableregistry, p_242837_1_.maxDepth(), p_242837_2_, p_242837_3_, p_242837_4_, p_242837_6_, p_242837_7_);
             LargeJigsawManager$assembler.placing.addLast(new LargeJigsawManager.Entry(abstractvillagepiece, new MutableObject(VoxelShapes.join(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB.of(mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + 80, 0));
 

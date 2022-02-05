@@ -28,8 +28,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 
 public class ItemQualityPickaxe extends PickaxeItem implements IQuality, IToolLength{
 
@@ -95,8 +95,8 @@ public class ItemQualityPickaxe extends PickaxeItem implements IQuality, IToolLe
 	@Override
 	public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
 		setQuality(itemstack,
-				(int) Math.min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1),
-						CommonConfig.maxQuality.get()));
+				(int) Math.min(Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1),
+						ServerConfig.maxQuality.get()));
 	}
 
 	@Override
@@ -166,7 +166,7 @@ public class ItemQualityPickaxe extends PickaxeItem implements IQuality, IToolLe
 	}
 
 	public double getAttackDamageModified(ItemStack stack) {
-		return this.getAttackDamage() * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return this.getAttackDamage() * (0.5 + 1.5 *  ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	public double getAttackSpeedModified(ItemStack stack) {
@@ -178,7 +178,7 @@ public class ItemQualityPickaxe extends PickaxeItem implements IQuality, IToolLe
 				speed+=modifier.getAmount();
 			}
 		}
-		return speed * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return speed * (0.5 + 1.5 *  ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	@Override

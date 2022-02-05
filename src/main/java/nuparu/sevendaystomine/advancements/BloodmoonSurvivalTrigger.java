@@ -20,7 +20,7 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 
 import java.util.List;
 import java.util.Map;
@@ -99,7 +99,7 @@ public class BloodmoonSurvivalTrigger implements ICriterionTrigger {
 
             for(Listener listener : set) {
                 Instance t = (Instance) listener.getTriggerInstance();
-                if(CommonConfig.bloodmoonFrequency.get() > 0 && survived >= t.bloodmoon){
+                if(ServerConfig.bloodmoonFrequency.get() > 0 && survived >= t.bloodmoon){
                     return;
                 }
                 if (t.getPlayerPredicate().matches(lootcontext) && p_235959_2_.test(t)) {

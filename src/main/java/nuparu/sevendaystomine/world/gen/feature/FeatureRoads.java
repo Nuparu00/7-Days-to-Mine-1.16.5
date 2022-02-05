@@ -39,6 +39,8 @@ public class FeatureRoads<T extends IFeatureConfig> extends Feature<T> {
     }
 
     public boolean place(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, T config) {
+        if(!CommonConfig.generateRoads.get()) return false;
+
         int ci = (pos.getX() >> 4) << 4;
         int ck = (pos.getZ() >> 4) << 4;
         RegistryKey<World> dimensionType = world.getLevel().dimension();

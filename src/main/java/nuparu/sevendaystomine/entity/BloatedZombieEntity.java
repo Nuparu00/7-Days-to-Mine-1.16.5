@@ -38,7 +38,7 @@ public class BloatedZombieEntity<T extends BloatedZombieEntity> extends ZombieBi
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.15F).add(Attributes.ATTACK_DAMAGE, 7.0D)
-				.add(Attributes.ARMOR, 3.0D).add(Attributes.MAX_HEALTH, 100).build();
+				.add(Attributes.ARMOR, 3.0D).add(Attributes.MAX_HEALTH, 60).build();
 	}
 
 	@Override

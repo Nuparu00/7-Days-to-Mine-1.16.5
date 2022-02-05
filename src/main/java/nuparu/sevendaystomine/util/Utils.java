@@ -37,6 +37,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.MountableBlockEntity;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -767,7 +768,7 @@ public class Utils {
 	}
 
 	public static boolean isBloodmoon(World world) {
-		return CommonConfig.bloodmoonFrequency.get() > 0 && Utils.getDay(world) % CommonConfig.bloodmoonFrequency.get() == 0;
+		return ServerConfig.bloodmoonFrequency.get() > 0 && Utils.getDay(world) % ServerConfig.bloodmoonFrequency.get() == 0;
 	}
 
 	public static boolean isBloodmoonProper(World world) {
@@ -775,7 +776,7 @@ public class Utils {
 	}
 
 	public static boolean isBloodmoon(int day) {
-		return CommonConfig.bloodmoonFrequency.get() > 0 && day % CommonConfig.bloodmoonFrequency.get() == 0;
+		return ServerConfig.bloodmoonFrequency.get() > 0 && day % ServerConfig.bloodmoonFrequency.get() == 0;
 	}
 
 	public static boolean isWolfHorde(World world) {

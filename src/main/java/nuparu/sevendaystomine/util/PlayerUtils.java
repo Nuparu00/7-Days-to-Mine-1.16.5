@@ -3,8 +3,8 @@ package nuparu.sevendaystomine.util;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraftforge.common.util.Constants;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.EnumQuality;
 import nuparu.sevendaystomine.item.IQuality;
@@ -13,14 +13,14 @@ import nuparu.sevendaystomine.item.ItemQuality;
 public class PlayerUtils {
 	
 	public static int getInfectionStageStart(int stage) {
-		if(stage >= CommonConfig.infectionStagesDuration.get().size()) return Integer.MIN_VALUE;
+		if(stage >= ServerConfig.infectionStagesDuration.get().size()) return Integer.MIN_VALUE;
 		
 		int start = 0;
 		
 		if(stage == 0) return start;
 		
 		for(int i = 0; i < stage; i++) {
-			start+=CommonConfig.infectionStagesDuration.get().get(i);
+			start+= ServerConfig.infectionStagesDuration.get().get(i);
 		}
 		return start;
 	}
@@ -29,7 +29,7 @@ public class PlayerUtils {
 	// from IExtendedPlayer
 	public static int getCurrentInectionStageRemainingTime(int time) {
 		int stage = getInfectionStage(time);
-		if(stage >= CommonConfig.infectionStagesDuration.get().size()) return 24000;
+		if(stage >= ServerConfig.infectionStagesDuration.get().size()) return 24000;
 	
 		int nextStageStart = getInfectionStageStart(stage+1);
 		return nextStageStart-time;
@@ -50,11 +50,11 @@ public class PlayerUtils {
 			}
 			
 		}
-		return CommonConfig.infectionStagesDuration.get().size()-1;
+		return ServerConfig.infectionStagesDuration.get().size()-1;
 	}
 	
 	public static int getNumberOfstages() {
-		return CommonConfig.infectionStagesDuration.get().size();
+		return ServerConfig.infectionStagesDuration.get().size();
 	}
 
 	/*
@@ -78,11 +78,11 @@ public class PlayerUtils {
 		return EnumQuality.getFromQuality(quality);
 	}
 	public static boolean isQualityItem(ItemStack stack){
-		return stack.getItem() instanceof IQuality || (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getTag() != null && stack.getTag().contains("Quality", Constants.NBT.TAG_INT));
+		return stack.getItem() instanceof IQuality || (ServerConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getTag() != null && stack.getTag().contains("Quality", Constants.NBT.TAG_INT));
 	}
 
 	public static boolean isVanillaQualityItem(ItemStack stack){
-		return !(stack.getItem() instanceof IQuality) && (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getTag() != null && stack.getTag().contains("Quality", Constants.NBT.TAG_INT));
+		return !(stack.getItem() instanceof IQuality) && (ServerConfig.qualitySystem.get() == EnumQualityState.ALL && stack.getTag() != null && stack.getTag().contains("Quality", Constants.NBT.TAG_INT));
 	}
 
 	public static boolean isVanillaItemSuitableForQuality(Object object){

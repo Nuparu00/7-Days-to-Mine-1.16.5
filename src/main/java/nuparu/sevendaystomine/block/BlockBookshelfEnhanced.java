@@ -109,7 +109,6 @@ public class BlockBookshelfEnhanced extends BlockHorizontalBase implements IWate
 
 	@Override
 	public void onRemove(BlockState state, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-		System.out.println(state.getBlock().getRegistryName() + " "  + newState.getBlock().getRegistryName());
 		if (state.getBlock() != newState.getBlock()) {
 			TileEntity tileentity = world.getBlockEntity(blockPos);
 			if (tileentity instanceof TileEntityItemHandler) {

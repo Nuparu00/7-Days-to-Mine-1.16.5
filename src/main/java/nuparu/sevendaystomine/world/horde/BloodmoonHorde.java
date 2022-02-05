@@ -10,7 +10,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.server.ServerBossInfo;
 import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.ZombieBaseEntity;
 import nuparu.sevendaystomine.util.Utils;
 
@@ -48,7 +48,7 @@ public class BloodmoonHorde extends Horde{
                     Math.min(5, (int) Math.floor(Utils.getDay(world) / CommonConfig.bloodmoonFrequency) - 1)));
         }
 */
-        this.waves = CommonConfig.bloodmoonHordeWaves.get();
+        this.waves = ServerConfig.bloodmoonHordeWaves.get();
     }
 
     public BloodmoonHorde(BlockPos center, ServerWorld world, PlayerEntity player) {
@@ -75,7 +75,7 @@ public class BloodmoonHorde extends Horde{
             entries.add(new HordeEntry(new ResourceLocation(SevenDaysToMine.MODID, "feral_zombie"),
                     Math.min(5, (int) Math.floor(Utils.getDay(world) / CommonConfig.bloodmoonFrequency) - 1)));
         }*/
-        this.waves = CommonConfig.bloodmoonHordeWaves.get();
+        this.waves = ServerConfig.bloodmoonHordeWaves.get();
     }
 
     public void addTarget(ServerPlayerEntity player) {
@@ -156,17 +156,17 @@ public class BloodmoonHorde extends Horde{
     }
 
     public int getZombiesInWave() {
-        if (CommonConfig.bloodmoonFrequency.get() <= 0)
-            return CommonConfig.bloodmoonHordeZombiesPerWaveMax.get();
-        return (int) MathHelper.clampedLerp(CommonConfig.bloodmoonHordeZombiesPerWaveMin.get(),
-                CommonConfig.bloodmoonHordeZombiesPerWaveMax.get(),
-                ((int) (Math.floor(Utils.getDay(world) / CommonConfig.bloodmoonFrequency.get())) - 1) / 5);
+        if (ServerConfig.bloodmoonFrequency.get() <= 0)
+            return ServerConfig.bloodmoonHordeZombiesPerWaveMax.get();
+        return (int) MathHelper.clampedLerp(ServerConfig.bloodmoonHordeZombiesPerWaveMin.get(),
+                ServerConfig.bloodmoonHordeZombiesPerWaveMax.get(),
+                ((int) (Math.floor(Utils.getDay(world) / ServerConfig.bloodmoonFrequency.get())) - 1) / 5);
     }
 
     public BlockPos getSpawnOrigin() {
         double angle = 2.0 * Math.PI * world.random.nextDouble();
-        double dist = CommonConfig.hordeMinDistance.get()
-                + world.random.nextDouble() * (CommonConfig.hordeMaxDistance.get() - CommonConfig.hordeMinDistance.get());
+        double dist = ServerConfig.hordeMinDistance.get()
+                + world.random.nextDouble() * (ServerConfig.hordeMaxDistance.get() - ServerConfig.hordeMinDistance.get());
         double x = center.getX() + dist * Math.cos(angle);
         double z = center.getZ() + dist * Math.sin(angle);
 

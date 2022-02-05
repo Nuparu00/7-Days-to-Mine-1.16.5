@@ -11,10 +11,12 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModEntities;
+import nuparu.sevendaystomine.init.ModLootTables;
 
 public class ZombieSoldierEntity<T extends ZombieSoldierEntity> extends ZombieBipedEntity {
 
@@ -28,13 +30,13 @@ public class ZombieSoldierEntity<T extends ZombieSoldierEntity> extends ZombieBi
 
 	@Override
 	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 15;
+		return 22;
 	}
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.15F).add(Attributes.ATTACK_DAMAGE, 5.0D)
-				.add(Attributes.ARMOR, 1.0D).add(Attributes.MAX_HEALTH, 90).build();
+				.add(Attributes.ARMOR, 1.0D).add(Attributes.MAX_HEALTH, 60).build();
 	}
 
 	@Override
@@ -46,6 +48,12 @@ public class ZombieSoldierEntity<T extends ZombieSoldierEntity> extends ZombieBi
 
 		return p_213386_4_;
 	}
+
+	@Override
+	protected ResourceLocation getDefaultLootTable() {
+		return ModLootTables.ZOMBIE_SOLDIER;
+	}
+
 
 	public class Factory implements IFactory<ZombieSoldierEntity> {
 		@Override

@@ -25,9 +25,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.advancements.ModTriggers;
 import nuparu.sevendaystomine.block.ISalvageable;
-import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.init.ModLootTables;
-import nuparu.sevendaystomine.util.ItemUtils;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.util.MathUtils;
 
 public class ItemWrench extends ItemUpgrader {
@@ -53,7 +51,7 @@ public class ItemWrench extends ItemUpgrader {
 			worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), salvageable.getSound(),
 					SoundCategory.BLOCKS, MathUtils.getFloatInRange(0.5f, 0.75f), MathUtils.getFloatInRange(0.9f, 1f));
 			itemstack.getOrCreateTag().putFloat("Percent",
-					itemstack.getOrCreateTag().getFloat("Percent") - effect*salvageable.getUpgradeRate(worldIn, pos, state, playerIn)*(1+((float)4*this.getQuality(itemstack)/ CommonConfig.maxQuality.get())) / 30f);
+					itemstack.getOrCreateTag().getFloat("Percent") - effect*salvageable.getUpgradeRate(worldIn, pos, state, playerIn)*(1+((float)4*this.getQuality(itemstack)/ ServerConfig.maxQuality.get())) / 30f);
 			playerIn.swing(hand);
 			if (itemstack.getOrCreateTag().getFloat("Percent") <= -1F) {
 				if (playerIn instanceof ServerPlayerEntity) {

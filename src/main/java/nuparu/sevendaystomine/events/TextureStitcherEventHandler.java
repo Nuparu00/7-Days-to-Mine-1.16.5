@@ -61,6 +61,7 @@ public class TextureStitcherEventHandler {
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/sleepingbag/yellow"));
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/sleepingbag/orange"));
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/backpack"));
+		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "entity/riot_shield"));
 
 		event.addSprite(new ResourceLocation(SevenDaysToMine.MODID, "blocks/ink_still"));
 	  }

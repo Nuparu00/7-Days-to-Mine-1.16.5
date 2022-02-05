@@ -27,17 +27,17 @@
 		"gui": {
 			"translation": [-1.05, -2.25, 0],
 			"rotation": [270, 48, 90],
-			"scale": [0.225, 0.225, 0.225]
+			"scale": [0.125, 0.125, 0.125]
 		},
 		"fixed": {
 			"translation": [0, 0, 0],
 			"rotation": [270, 300, 270],
-			"scale": [1, 1, 1]
+			"scale": [0.2, 0.2, 0.2]
 		},
 		"ground": {
 			"translation": [0, 0.1, 0],
 			"rotation": [0, 0, 0],
-			"scale": [0.35, 0.35, 0.35]
+			"scale": [0.15, 0.15, 0.15]
 		}
 
 	}

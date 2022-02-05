@@ -11,7 +11,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.block.BlockCalendar;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.tileentity.TileEntityCalendar;
 import nuparu.sevendaystomine.util.Utils;
@@ -38,9 +38,9 @@ public class TileEntityCalendarRenderer extends TileEntityRenderer<TileEntityCal
 
             String text = "?";
 
-            if (CommonConfig.bloodmoonFrequency.get() > 0 && CommonConfig.bloodmoonFrequency.get() <= 999) {
-                int mod = Utils.getDay(world) % CommonConfig.bloodmoonFrequency.get();
-                int i = mod == 0 ? 0 : CommonConfig.bloodmoonFrequency.get() - (mod);
+            if (ServerConfig.bloodmoonFrequency.get() > 0 && ServerConfig.bloodmoonFrequency.get() <= 999) {
+                int mod = Utils.getDay(world) % ServerConfig.bloodmoonFrequency.get();
+                int i = mod == 0 ? 0 : ServerConfig.bloodmoonFrequency.get() - (mod);
                 text = i + "";
             }
 

@@ -8,9 +8,9 @@ public enum EnumQualityState {
 
 
     public static boolean isQualitySystemOn(){
-        return CommonConfig.qualitySystem.get() != EnumQualityState.OFF;
+        return ServerConfig.qualitySystem.get() != EnumQualityState.OFF;
     }
     public static boolean isVanillaOn(){
-        return CommonConfig.qualitySystem.get() == EnumQualityState.ALL;
+        return ServerConfig.qualitySystem.get() == EnumQualityState.ALL;
     }
 }

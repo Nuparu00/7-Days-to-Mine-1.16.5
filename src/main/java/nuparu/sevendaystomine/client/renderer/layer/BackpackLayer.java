@@ -21,7 +21,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.client.model.entity.BackpackModel;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.util.PlayerInventorySyncHelper;
 import nuparu.sevendaystomine.util.item.ItemCache;
@@ -38,7 +38,7 @@ public class BackpackLayer extends LayerRenderer<AbstractClientPlayerEntity, Pla
 
     public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int p_225628_3_, AbstractClientPlayerEntity player, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
 
-        if (CommonConfig.renderPlayerInventory.get()) {
+        if (ServerConfig.renderPlayerInventory.get()) {
             if (PlayerInventorySyncHelper.itemsCache != null
                     && PlayerInventorySyncHelper.itemsCache.containsKey(player.getName().getString())) {
                 ItemCache cache = PlayerInventorySyncHelper.itemsCache.get(player.getName().getString());

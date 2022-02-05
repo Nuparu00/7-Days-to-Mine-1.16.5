@@ -6,6 +6,7 @@ import java.nio.IntBuffer;
 import java.util.List;
 import java.util.UUID;
 
+import nuparu.sevendaystomine.config.ServerConfig;
 import org.apache.commons.io.FileUtils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -18,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.ItemAnalogCamera;
 import nuparu.sevendaystomine.network.PacketManager;
@@ -32,7 +32,7 @@ public class CameraHelper {
 	public static final CameraHelper INSTANCE = new CameraHelper();
 
 	public void saveScreenshot(int width, int height, Framebuffer buffer, PlayerEntity playerIn) {
-		if (CommonConfig.allowPhotos.get()) {
+		if (ServerConfig.allowPhotos.get()) {
 			saveScreenshot(null, width, height, buffer);
 		}
 	}

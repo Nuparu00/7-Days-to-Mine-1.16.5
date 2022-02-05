@@ -29,7 +29,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModItemGroups;
 import nuparu.sevendaystomine.inventory.item.ContainerCamera;
 import nuparu.sevendaystomine.inventory.item.ItemNamedContainerProvider;
@@ -72,7 +72,7 @@ public class ItemAnalogCamera extends Item {
 							worldIn.random.nextFloat() * 0.2f + 0.9f, worldIn.random.nextFloat() * 0.2f + 1.9f);
 					return;
 				}
-				if (CommonConfig.allowPhotos.get()) {
+				if (ServerConfig.allowPhotos.get()) {
 					if (!worldIn.isClientSide()) {
 						PacketManager.sendTo(PacketManager.schedulePhoto, new SchedulePhotoMessage(), (ServerPlayerEntity) player);
 					}

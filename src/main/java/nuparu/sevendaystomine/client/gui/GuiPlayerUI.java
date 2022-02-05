@@ -1,5 +1,6 @@
 package nuparu.sevendaystomine.client.gui;
 
+import nuparu.sevendaystomine.config.ServerConfig;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -22,7 +23,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.item.ItemGun;
 import nuparu.sevendaystomine.potions.Potions;
 import nuparu.sevendaystomine.config.ClientConfig;
@@ -74,14 +74,14 @@ public class GuiPlayerUI {
 			if (!player.isCreative() && !player.isSpectator() && !mc.options.hideGui) {
 				IExtendedPlayer extendedPlayer = CapabilityHelper.getExtendedPlayer(player);
 				if (extendedPlayer != null) {
-					if (CommonConfig.thirstSystem.get()) {
+					if (ServerConfig.thirstSystem.get()) {
 						mc.gui.blit(matrix, x + 1, y - 9, 0, player.hasEffect(Potions.DYSENTERY.get()) ? 29 : 8,
 								(int) Math.floor(extendedPlayer.getThirst()
 										/ (10f * (extendedPlayer.getMaximumThirst() / 780f))),
 								6);
 						mc.gui.blit(matrix, x, y - 10, 0, 0, 81, 8);
 					}
-					if (CommonConfig.staminaSystem.get()) {
+					if (ServerConfig.staminaSystem.get()) {
 						mc.gui.blit(matrix, x + 1, y, 0, 15, (int) Math.floor(
 								extendedPlayer.getStamina() / (10f * (extendedPlayer.getMaximumStamina() / 780f))), 6);
 						mc.gui.blit(matrix, x, y - 1, 0, 0, 81, 8);

@@ -1,0 +1,124 @@
+{
+    "type": "minecraft:generic",
+    "pools": [
+        {
+            "rolls": {
+                "min": 0,
+                "max": 4
+            },
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 5,
+                    "name": "minecraft:paper",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 6
+                            }
+                        }
+                    ]
+                },{
+                    "type": "item",
+                    "weight": 20,
+                    "name": "minecraft:paper",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 6
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_name",
+                            "name": "Ration Stamp"
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 15,
+                    "name": "minecraft:rotten_flesh",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "sevendaystomine:rifle_bullet"
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "sevendaystomine:magnum_bullet"
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "sevendaystomine:shotgun_shell"
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "sevendaystomine:smg_bullet"
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "sevendaystomine:pistol_bullet",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 15,
+                    "name": "minecraft:feather",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 5
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "empty",
+                    "weight": 100
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "sevendaystomine:cent",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 6
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

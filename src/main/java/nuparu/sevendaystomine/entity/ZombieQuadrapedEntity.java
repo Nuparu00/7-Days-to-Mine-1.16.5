@@ -12,9 +12,11 @@ import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.LootTable;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.ai.GoalBreakBlocks;
 import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.util.ItemUtils;
@@ -37,54 +39,59 @@ public abstract class ZombieQuadrapedEntity<T extends ZombieQuadrapedEntity> ext
 		this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
 		this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillagerEntity.class, false));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
-		this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, TurtleEntity.class, 10, true, false,
-				TurtleEntity.BABY_ON_LAND_SELECTOR));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
+		if (ServerConfig.zombiesAttackAnimals.get()) {
+			this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillagerEntity.class, false));
+			this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
+			this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, TurtleEntity.class, 10, true, false,
+					TurtleEntity.BABY_ON_LAND_SELECTOR));
+			this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
+		}
 	}
 
 	@Override
 	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 15;
+		return 10;
 	}
 
 	@Override
 	protected void tickDeath() {
 		super.tickDeath();
-		// if (ModConfig.mobs.zombieCorpses) {
-		++this.deathTime;
+		if (ServerConfig.zombieCorpses.get()) {
+			++this.deathTime;
 
-		if (this.deathTime == 20) {
+			if (this.deathTime == 20) {
 
-			remove(false);
-			LootableCorpseEntity lootable = new LootableCorpseEntity(level);
-			lootable.setOriginal(this);
-			lootable.setPos(getX(), getY(), getZ());
-			dead = true;
-			System.out.println("XX " + this.getClass());
-			if (!this.level.isClientSide()) {
-				System.out.println("XX");
-				LootTable loottable = this.level.getServer().getLootTables().get(ModLootTables.ZOMBIE_GENERIC);
-				LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.level)).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(this.blockPosition()));
-				if (this.lastHurtByPlayer != null) {
-					lootcontext$builder.withLuck(lastHurtByPlayer.getLuck()).withParameter(LootParameters.THIS_ENTITY, lastHurtByPlayer);
+				remove(false);
+				LootableCorpseEntity lootable = new LootableCorpseEntity(level);
+				lootable.setOriginal(this);
+				lootable.setPos(getX(), getY(), getZ());
+				dead = true;
+				if (!this.level.isClientSide()) {
+					LootTable loottable = this.level.getServer().getLootTables().get(getDefaultLootTable());
+					LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) this.level)).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(this.blockPosition()));
+					if (this.lastHurtByPlayer != null) {
+						lootcontext$builder.withLuck(lastHurtByPlayer.getLuck()).withParameter(LootParameters.THIS_ENTITY, lastHurtByPlayer);
+					}
+					ItemUtils.fill(loottable, lootable.getInventory(), lootcontext$builder.create(LootParameterSets.CHEST));
+					level.addFreshEntity(lootable);
 				}
-				ItemUtils.fill(loottable,lootable.getInventory(), lootcontext$builder.create(LootParameterSets.CHEST));
-				level.addFreshEntity(lootable);
-			}
 
-			for (int i = 0; i < 20; ++i) {
-				double d0 = this.random.nextGaussian() * 0.02D;
-				double d1 = this.random.nextGaussian() * 0.02D;
-				double d2 = this.random.nextGaussian() * 0.02D;
-				this.level.addParticle(ParticleTypes.POOF, this.getRandomX(1.0D), this.getRandomY(),
-						this.getRandomZ(1.0D), d0, d1, d2);
+				for (int i = 0; i < 20; ++i) {
+					double d0 = this.random.nextGaussian() * 0.02D;
+					double d1 = this.random.nextGaussian() * 0.02D;
+					double d2 = this.random.nextGaussian() * 0.02D;
+					this.level.addParticle(ParticleTypes.POOF, this.getRandomX(1.0D), this.getRandomY(),
+							this.getRandomZ(1.0D), d0, d1, d2);
+				}
 			}
 		}
 		/*
 		 * } else { super.tickDeath(); }
 		 */
+	}
+	@Override
+	protected ResourceLocation getDefaultLootTable() {
+		return ModLootTables.ZOMBIE_ANIMAL;
 	}
 
 }

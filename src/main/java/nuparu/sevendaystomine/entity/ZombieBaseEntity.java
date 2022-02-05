@@ -3,12 +3,15 @@ package nuparu.sevendaystomine.entity;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -16,6 +19,7 @@ import net.minecraft.potion.EffectUtils;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -26,6 +30,8 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
+import nuparu.sevendaystomine.init.ModEntities;
+import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.util.Utils;
 import nuparu.sevendaystomine.world.horde.Horde;
 import nuparu.sevendaystomine.world.horde.HordeSavedData;
@@ -72,7 +78,7 @@ public class ZombieBaseEntity extends MonsterEntity {
     public static AttributeModifierMap createAttributes() {
         return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.175F).add(Attributes.ATTACK_DAMAGE, 4.0D)
-                .add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 60).build();
+                .add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 45).build();
     }
 
     public static boolean isDarkEnoughToSpawn(IServerWorld p_223323_0_, BlockPos p_223323_1_, Random p_223323_2_) {
@@ -270,5 +276,30 @@ public class ZombieBaseEntity extends MonsterEntity {
         if (horde != null) {
             horde.onPlayerStopTacking(player, this);
         }
+    }
+
+    @Override
+    public void killed(ServerWorld world, LivingEntity livingEntity) {
+        super.killed(world, livingEntity);
+        if(livingEntity instanceof PigEntity){
+            ZombiePigEntity zombieentity = ((PigEntity)livingEntity).convertTo(ModEntities.ZOMBIE_PIG.get(), true);
+            if (zombieentity != null) {
+                net.minecraftforge.event.ForgeEventFactory.onLivingConvert(livingEntity, zombieentity);
+            }
+        }
+
+        if(livingEntity instanceof WolfEntity){
+            ZombieWolfEntity zombieentity = ((WolfEntity)livingEntity).convertTo(ModEntities.ZOMBIE_WOLF.get(), true);
+            if (zombieentity != null) {
+                net.minecraftforge.event.ForgeEventFactory.onLivingConvert(livingEntity, zombieentity);
+            }
+        }
+    }
+
+
+
+    @Override
+    protected ResourceLocation getDefaultLootTable() {
+        return ModLootTables.ZOMBIE_GENERIC;
     }
 }

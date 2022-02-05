@@ -9,15 +9,10 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -26,36 +21,23 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.block.BlockBush;
 import nuparu.sevendaystomine.capability.ExtendedInventory;
-import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.electricity.IBattery;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModEntities;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.inventory.entity.ContainerMinibike;
-import nuparu.sevendaystomine.item.EnumQuality;
 import nuparu.sevendaystomine.util.*;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class MinibikeEntity extends VehicleEntity {
 
@@ -292,7 +274,7 @@ public class MinibikeEntity extends VehicleEntity {
         }
 
         if (!this.isNoGravity()) {
-            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.8, 0));
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.1, 0));
         }
 
         this.move(MoverType.SELF, this.getDeltaMovement());
@@ -406,7 +388,7 @@ public class MinibikeEntity extends VehicleEntity {
 
     @Override
     public double getAcceleration(){
-        return (1 + (double) this.getCalculatedQuality() / CommonConfig.maxQuality.get()) * 0.05;
+        return (1 + (double) this.getCalculatedQuality() / ServerConfig.maxQuality.get()) * 0.05;
     }
 
     @Override

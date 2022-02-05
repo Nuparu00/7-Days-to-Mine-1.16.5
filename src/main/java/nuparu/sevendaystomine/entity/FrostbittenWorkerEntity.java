@@ -38,7 +38,7 @@ public class FrostbittenWorkerEntity<T extends FrostbittenWorkerEntity> extends 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.15F).add(Attributes.ATTACK_DAMAGE, 4.5D)
-				.add(Attributes.ARMOR, 1.0D).add(Attributes.MAX_HEALTH, 90).build();
+				.add(Attributes.ARMOR, 1.0D).add(Attributes.MAX_HEALTH, 70).build();
 	}
 
 	@Override

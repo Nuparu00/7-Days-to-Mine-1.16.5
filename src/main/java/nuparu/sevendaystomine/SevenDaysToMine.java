@@ -26,6 +26,7 @@ import nuparu.sevendaystomine.capability.ChunkDataProvider;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
 import nuparu.sevendaystomine.capability.ExtendedPlayerProvider;
 import nuparu.sevendaystomine.command.*;
+import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.ConfigHelper;
 import nuparu.sevendaystomine.crafting.RecipeManager;
 import nuparu.sevendaystomine.events.*;
@@ -35,7 +36,6 @@ import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.potions.Potions;
 import nuparu.sevendaystomine.proxy.ClientProxy;
 import nuparu.sevendaystomine.proxy.CommonProxy;
-import nuparu.sevendaystomine.proxy.StartupClient;
 import nuparu.sevendaystomine.proxy.StartupCommon;
 import nuparu.sevendaystomine.util.VanillaManager;
 import nuparu.sevendaystomine.world.gen.city.CityBuildings;
@@ -71,6 +71,7 @@ public class SevenDaysToMine {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHelper.commonConfig);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHelper.clientConfig);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ConfigHelper.serverConfig);
         /*ConfigHelper.loadConfig(ConfigHelper.commonConfig,
                 FMLPaths.CONFIGDIR.get().resolve("sevendaystomine-common.toml").toString());
 
@@ -97,6 +98,7 @@ public class SevenDaysToMine {
         ModDataSerializers.SERIALIZERS.register(bus);
         ModRecipeSerializers.SERIALIZERS.register(bus);
         ModLootModifiers.LOOT_MODIFIERS.register(bus);
+        ModParticleTypes.PARTICLE_TYPES.register(bus);
 
         ModFluids.FLUIDS.register(bus);
         //ModRecipes.RECIPES.register(bus);
@@ -188,45 +190,6 @@ public class SevenDaysToMine {
     }
 
 
-    public static List<String> recipesToRemove = new ArrayList<String>();
-
-    static{
-        recipesToRemove.add("minecraft:oak_planks");
-        recipesToRemove.add("minecraft:birch_planks");
-        recipesToRemove.add("minecraft:spruce_planks");
-        recipesToRemove.add("minecraft:jungle_planks");
-        recipesToRemove.add("minecraft:dark_oak_planks");
-        recipesToRemove.add("minecraft:acacia_planks");
-        recipesToRemove.add("minecraft:crimson_planks");
-        recipesToRemove.add("minecraft:warped_planks");
-        recipesToRemove.add("minecraft:furnace");
-        recipesToRemove.add("minecraft:wooden_sword");
-        recipesToRemove.add("minecraft:wooden_spade");
-        recipesToRemove.add("minecraft:wooden_pickaxe");
-        recipesToRemove.add("minecraft:wooden_axe");
-        recipesToRemove.add("minecraft:wooden_hoe");
-        recipesToRemove.add("minecraft:stone_sword");
-        recipesToRemove.add("minecraft:stone_spade");
-        recipesToRemove.add("minecraft:stone_pickaxe");
-        recipesToRemove.add("minecraft:stone_axe");
-        recipesToRemove.add("minecraft:stone_hoe");
-        recipesToRemove.add("minecraft:iron_sword");
-        recipesToRemove.add("minecraft:gold_sword");
-        recipesToRemove.add("minecraft:diamond_sword");
-        recipesToRemove.add("minecraft:diamond_shovel");
-        recipesToRemove.add("minecraft:diamond_pickaxe");
-        recipesToRemove.add("minecraft:diamond_axe");
-        recipesToRemove.add("minecraft:diamond_hoe");
-        recipesToRemove.add("minecraft:diamond_helmet");
-        recipesToRemove.add("minecraft:diamond_chestplate");
-        recipesToRemove.add("minecraft:diamond_leggings");
-        recipesToRemove.add("minecraft:diamond_boots");
-        recipesToRemove.add("minecraft:iron_ingot");
-        recipesToRemove.add("minecraft:iron_ingot_from_blasting");
-        recipesToRemove.add("minecraft:gold_ingot");
-        recipesToRemove.add("minecraft:gold_ingot_from_blasting");
-    }
-
     @SubscribeEvent
     public void onServerStarted(FMLServerStartedEvent event) {
             Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> recipes = event.getServer().getRecipeManager().recipes;
@@ -239,7 +202,7 @@ public class SevenDaysToMine {
                         ResourceLocation location = recipe.getKey();
                         IRecipe<?> value = recipe.getValue();
 
-                        if(!recipesToRemove.contains(location.toString())){
+                        if(!CommonConfig.disabledRecipes.get().contains(location.toString())){
                             newMap.put(location,value);
                         }
                     }
@@ -261,6 +224,7 @@ public class SevenDaysToMine {
         CommandSetBreakData.register(commandDispatcher);
         CommandPlacePrefab.register(commandDispatcher);
         CommandGiveNote.register(commandDispatcher);
+        CommandInfect.register(commandDispatcher);
     }
 
 }

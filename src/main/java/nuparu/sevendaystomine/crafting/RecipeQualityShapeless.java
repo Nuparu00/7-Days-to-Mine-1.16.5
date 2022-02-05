@@ -21,7 +21,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModRecipeSerializers;
 
 public class RecipeQualityShapeless extends ShapelessRecipe {
@@ -51,7 +51,7 @@ public class RecipeQualityShapeless extends ShapelessRecipe {
 			}
 			if (player != null) {
 				stack.getOrCreateTag().putInt("Quality", (int) Math
-						.min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1), 600));
+						.min(Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1), 600));
 
 			}
 		}

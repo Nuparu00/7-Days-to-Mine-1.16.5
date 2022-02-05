@@ -14,7 +14,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.electricity.network.INetwork;
 import nuparu.sevendaystomine.entity.EntityCameraView;
 import nuparu.sevendaystomine.init.ModTileEntities;
@@ -126,7 +126,7 @@ public class TileEntityCamera extends TileEntity implements ITickableTileEntity,
 	}
 
 	public EntityCameraView getCameraView(PlayerEntity player) {
-		if (on && cameraView != null && CommonConfig.allowCameras.get()) {
+		if (on && cameraView != null && ServerConfig.allowCameras.get()) {
 			viewers.add(player);
 			cameraView.yRotO = cameraView.yRot;
 			cameraView.yRot = cameraView.initRotation + getHeadRotation() * cameraView.direction;

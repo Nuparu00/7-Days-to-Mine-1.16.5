@@ -32,7 +32,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nuparu.sevendaystomine.block.BlockTurretBase;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModEntities;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.BulletImpactMessage;
@@ -398,7 +398,7 @@ public class ShotEntity extends ProjectileEntity {
         this.resetPiercedEntities();
 
 
-        if (CommonConfig.bulletsBreakBlocks.get() && !level.isClientSide()) {
+        if (ServerConfig.bulletsBreakBlocks.get() && !level.isClientSide()) {
             if (state.getMaterial() == Material.GLASS) {
                 this.level.destroyBlock(pos, false);
             } else if (!Utils.damageBlock((ServerWorld) level, pos,

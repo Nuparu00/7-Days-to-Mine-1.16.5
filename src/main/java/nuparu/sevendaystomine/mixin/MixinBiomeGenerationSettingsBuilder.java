@@ -13,7 +13,6 @@ public class MixinBiomeGenerationSettingsBuilder {
     @Inject(method = "Lnet/minecraft/world/biome/BiomeGenerationSettings$Builder;addStructureStart(Lnet/minecraft/world/gen/feature/StructureFeature;)Lnet/minecraft/world/biome/BiomeGenerationSettings$Builder;", at = @At("HEAD"), cancellable = true, remap = ModConstants.REMAP)
     private  void addStructureStart(StructureFeature<?, ?> p_242516_1_, CallbackInfoReturnable<BiomeGenerationSettings.Builder> cir) {
         Object thys = this;
-        System.out.println("KUK " + p_242516_1_.feature.getRegistryName());
         String featureName = p_242516_1_.feature.getRegistryName().toString();
         if(featureName.equals("minecraft:village") || featureName.equals("minecraft:pillager_outpost") || featureName.equals("minecraft:mansion")) {
             cir.setReturnValue((BiomeGenerationSettings.Builder) thys);

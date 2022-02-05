@@ -16,7 +16,7 @@ public class PotionMercuryPoisoning extends PotionBase {
 		if (entity.level.getDifficulty() == Difficulty.PEACEFUL)
 			return;
 		if (entity.level.random.nextInt(10) == 0) {
-			entity.hurt(DamageSources.alcoholPoison, 1);
+			entity.hurt(DamageSources.mercuryPoison, 1);
 
 		}
 	}

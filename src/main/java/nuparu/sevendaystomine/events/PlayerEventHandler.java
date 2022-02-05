@@ -5,8 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CauldronBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerEntity.SleepResult;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -34,7 +32,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -55,10 +52,10 @@ import nuparu.sevendaystomine.capability.IExtendedPlayer;
 import nuparu.sevendaystomine.capability.IItemHandlerExtended;
 import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.electricity.ElectricConnection;
 import nuparu.sevendaystomine.electricity.IVoltage;
-import nuparu.sevendaystomine.init.ModAttributes;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.item.ItemBackpack;
 import nuparu.sevendaystomine.item.ItemQuality;
@@ -132,7 +129,7 @@ public class PlayerEventHandler {
         if (!(event.getEntity() instanceof PlayerEntity)) {
             return;
         }
-        if (!CommonConfig.backpackSlot.get())
+        if (!ServerConfig.backpackSlot.get())
             return;
         final PlayerEntity player = (PlayerEntity) event.getEntity();
 
@@ -282,9 +279,9 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public void onPlayerBreakSpeed(PlayerEvent.BreakSpeed event) {
         float speed = (float) (event.getOriginalSpeed()
-                / (CommonConfig.immersiveBlockBreaking.get() && (event.getState().getMaterial() != Material.DECORATION
+                / (ServerConfig.immersiveBlockBreaking.get() && (event.getState().getMaterial() != Material.DECORATION
                 && event.getState().getMaterial() != Material.WEB)
-                ? CommonConfig.immersiveBlockBreakingModifier.get()
+                ? ServerConfig.immersiveBlockBreakingModifier.get()
                 : 1f));
         if (EnumQualityState.isQualitySystemOn()) {
             ItemStack stack = event.getPlayer().getMainHandItem();

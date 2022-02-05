@@ -12,7 +12,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.server.ServerWorld;
 import nuparu.sevendaystomine.block.repair.BreakData;
 import nuparu.sevendaystomine.block.repair.BreakHelper;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModGameRules;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.BreakSyncMessage;
@@ -78,14 +78,15 @@ public class ChunkData implements IChunkData {
 	public void update(ServerWorld world) {
 		int decayRate = world.getGameRules().getInt(ModGameRules.damageDecayRate);
 		if (decayRate <= 0) {
-			decayRate = CommonConfig.damageDecayRate.get();
+			decayRate = ServerConfig.damageDecayRate.get();
 		}
 		if (decayRate <= 0) {
 			return;
 		}
 		if (Math.abs(world.getGameTime() - lastUpdate) <= decayRate)
 			return;
-		
+
+
 		boolean dirty = false;
 		
 		@SuppressWarnings("unchecked")

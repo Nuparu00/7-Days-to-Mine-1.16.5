@@ -12,10 +12,12 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModEntities;
+import nuparu.sevendaystomine.init.ModLootTables;
 
 public class FeralZombieEntity<T extends FeralZombieEntity> extends ZombieBipedEntity {
 
@@ -29,13 +31,13 @@ public class FeralZombieEntity<T extends FeralZombieEntity> extends ZombieBipedE
 
 	@Override
 	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 15;
+		return 30;
 	}
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_DAMAGE, 8.0D)
-				.add(Attributes.ARMOR, 20.0D).add(Attributes.MAX_HEALTH, 250).build();
+				.add(Attributes.ARMOR, 20.0D).add(Attributes.MAX_HEALTH, 150).build();
 	}
 
 	@Override
@@ -53,8 +55,12 @@ public class FeralZombieEntity<T extends FeralZombieEntity> extends ZombieBipedE
     {
 		return super.hurt(source, this.isOnFire() ? amount*4.25f : amount/3);
     }
-	
-	
+
+	@Override
+	protected ResourceLocation getDefaultLootTable() {
+		return ModLootTables.ZOMBIE_FERAL;
+	}
+
 	public class Factory implements IFactory<FeralZombieEntity> {
 		@Override
 		public FeralZombieEntity create(EntityType<FeralZombieEntity> type, World world) {

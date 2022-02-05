@@ -20,7 +20,6 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
@@ -30,14 +29,14 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkHooks;
 import nuparu.sevendaystomine.capability.ExtendedInventory;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModEntities;
 import nuparu.sevendaystomine.inventory.entity.ContainerLootableCorpse;
 import nuparu.sevendaystomine.item.ItemFuelTool;
+import nuparu.sevendaystomine.network.PacketManager;
+import nuparu.sevendaystomine.network.packets.SpawnBloodMessage;
 import nuparu.sevendaystomine.util.Utils;
-import nuparu.sevendaystomine.util.EnumModParticleType;
 import nuparu.sevendaystomine.util.MathUtils;
-import nuparu.sevendaystomine.SevenDaysToMine;
 
 public class LootableCorpseEntity extends Entity implements INamedContainerProvider {
 
@@ -170,7 +169,7 @@ public class LootableCorpseEntity extends Entity implements INamedContainerProvi
 		this.age++;
 		if (!level.isClientSide()) {
 			// ModConfig.world.corpseLifespan
-			if (this.age >= CommonConfig.corpseLifespan.get()) {
+			if (this.age >= ServerConfig.corpseLifespan.get()) {
 				this.kill();
 				return;
 			}
@@ -216,7 +215,7 @@ public class LootableCorpseEntity extends Entity implements INamedContainerProvi
 		if (this.level.isClientSide()) {
 			level.playLocalSound(this.getX(), this.getY(), this.getZ(),
 					SoundEvents.GENERIC_HURT, SoundCategory.HOSTILE, 1.0F, 1.0F, false);
-			for (int i = 0; i < (int) Math
+			/*for (int i = 0; i < (int) Math
 					.round(MathUtils.getDoubleInRange(1, 5) * SevenDaysToMine.proxy.getParticleLevel()); i++) {
 				double x = this.getX() + MathUtils.getDoubleInRange(-1, 1) * this.getBbWidth();
 				double y = this.getY() + MathUtils.getDoubleInRange(0, 1) * this.getBbHeight();
@@ -224,6 +223,11 @@ public class LootableCorpseEntity extends Entity implements INamedContainerProvi
 				SevenDaysToMine.proxy.addParticle(this.level, EnumModParticleType.BLOOD, x, y, z,
 						MathUtils.getDoubleInRange(-1d, 1d) / 7d, MathUtils.getDoubleInRange(-0.5d, 1d) / 7d,
 						MathUtils.getDoubleInRange(-1d, 1d) / 7d);
+			}*/
+		}
+		else {
+			for (int i = 0; i < MathUtils.getIntInRange(level.random, 20, 35); i++) {
+				PacketManager.sendToTrackingEntity(PacketManager.spawnBlood, new SpawnBloodMessage(position().x, getY() + getBbHeight() * MathUtils.getFloatInRange(0.4f, 0.75f), position().z, MathUtils.getFloatInRange(-0.1f, 0.1f), MathUtils.getFloatInRange(0.1f, 0.22f), MathUtils.getFloatInRange(-0.1f, 0.1f)), () -> this);
 			}
 		}
 		if (source.getDirectEntity() instanceof ServerPlayerEntity) {

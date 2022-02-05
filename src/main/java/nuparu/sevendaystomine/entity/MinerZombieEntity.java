@@ -13,11 +13,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.init.ModEntities;
 import nuparu.sevendaystomine.init.ModItems;
+import nuparu.sevendaystomine.init.ModLootTables;
 import nuparu.sevendaystomine.item.ItemQuality;
 
 public class MinerZombieEntity<T extends MinerZombieEntity> extends ZombieBipedEntity {
@@ -32,13 +34,13 @@ public class MinerZombieEntity<T extends MinerZombieEntity> extends ZombieBipedE
 
 	@Override
 	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 15;
+		return 20;
 	}
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 54.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.185F).add(Attributes.ATTACK_DAMAGE, 3.0D)
-				.add(Attributes.ARMOR, 0.5D).add(Attributes.MAX_HEALTH, 115).build();
+				.add(Attributes.ARMOR, 0.5D).add(Attributes.MAX_HEALTH, 80).build();
 	}
 
 	@Override
@@ -56,6 +58,12 @@ public class MinerZombieEntity<T extends MinerZombieEntity> extends ZombieBipedE
 			return;
 		this.setItemSlot(EquipmentSlotType.MAINHAND, ItemQuality.setQualityForStack(new ItemStack(random.nextBoolean() ? ModItems.IRON_AXE.get() : ModItems.SLEDGEHAMMER.get() ), 1));
 	}
+
+	@Override
+	protected ResourceLocation getDefaultLootTable() {
+		return ModLootTables.ZOMBIE_MINER;
+	}
+
 
 	public class Factory implements IFactory<MinerZombieEntity> {
 		@Override

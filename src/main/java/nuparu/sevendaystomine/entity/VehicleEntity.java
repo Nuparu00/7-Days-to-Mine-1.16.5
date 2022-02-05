@@ -1,19 +1,11 @@
 package nuparu.sevendaystomine.entity;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -21,10 +13,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
@@ -37,24 +26,17 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkHooks;
-import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.block.BlockBush;
 import nuparu.sevendaystomine.capability.ExtendedInventory;
 import nuparu.sevendaystomine.capability.ExtendedInventoryProvider;
-import nuparu.sevendaystomine.config.CommonConfig;
-import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.electricity.IBattery;
-import nuparu.sevendaystomine.init.ModBlocks;
-import nuparu.sevendaystomine.init.ModEntities;
 import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.inventory.entity.ContainerMinibike;
 import nuparu.sevendaystomine.item.EnumQuality;
 import nuparu.sevendaystomine.util.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public abstract class VehicleEntity extends LivingEntity implements INamedContainerProvider {
@@ -395,11 +377,11 @@ public abstract class VehicleEntity extends LivingEntity implements INamedContai
     }
 
     public boolean canBeDriven() {
-        return true /*this.canBeSteered() && this.isComplete() && getCharged()*/;
+        return this.canBeSteered() && this.isComplete() && getCharged();
     }
 
     public double getAcceleration(){
-        return (1 + (double) this.getCalculatedQuality() / CommonConfig.maxQuality.get()) * 0.05;
+        return (1 + (double) this.getCalculatedQuality() / ServerConfig.maxQuality.get()) * 0.05;
     }
 
     @Override
@@ -409,7 +391,7 @@ public abstract class VehicleEntity extends LivingEntity implements INamedContai
         double strafe = vec.x;
         double forward = vec.y;
         double vertical = vec.z;
-        if (this.getControllingPassenger() != null /* && canBeDriven() && this.getFuel() > 0*/) {
+        if (this.getControllingPassenger() != null && canBeDriven() && this.getFuel() > 0) {
             LivingEntity entitylivingbase = (LivingEntity) this.getControllingPassenger();
             strafe = entitylivingbase.xxa;
             forward = entitylivingbase.zza;
@@ -444,7 +426,7 @@ public abstract class VehicleEntity extends LivingEntity implements INamedContai
                     ItemStack engine = inv.getStackInSlot(4);
                     if (engine != null && engine.hasTag()) {
                         int quality = engine.getTag().getInt("Quality");
-                        this.setFuel(getFuel() - (1.5f - (quality / CommonConfig.maxQuality.get())));
+                        this.setFuel(getFuel() - (1.5f - (quality / ServerConfig.maxQuality.get())));
                     }
 
                     ItemStack battery = inv.getStackInSlot(3);

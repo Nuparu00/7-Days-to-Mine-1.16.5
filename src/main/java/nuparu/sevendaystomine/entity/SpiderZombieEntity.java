@@ -44,13 +44,13 @@ public class SpiderZombieEntity<T extends SpiderZombieEntity> extends ZombieBipe
 
 	@Override
 	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 15;
+		return 20;
 	}
 
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 40.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.22F).add(Attributes.ATTACK_DAMAGE, 3.0D)
-				.add(Attributes.ARMOR, 0D).add(Attributes.MAX_HEALTH, 55).build();
+				.add(Attributes.ARMOR, 0D).add(Attributes.MAX_HEALTH, 45).build();
 	}
 
 	protected PathNavigator createNavigation(World p_175447_1_) {

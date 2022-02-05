@@ -7,8 +7,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.BackgroundMusicSelector;
-import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.entity.Entity;
@@ -18,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
@@ -52,13 +49,13 @@ import nuparu.sevendaystomine.client.gui.GuiPlayerUI;
 import nuparu.sevendaystomine.client.sound.MovingSoundChainsawCut;
 import nuparu.sevendaystomine.client.sound.MovingSoundChainsawIdle;
 import nuparu.sevendaystomine.config.ClientConfig;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.entity.MinibikeEntity;
+import nuparu.sevendaystomine.entity.VehicleEntity;
 import nuparu.sevendaystomine.init.ModBiomes;
 import nuparu.sevendaystomine.init.ModItems;
-import nuparu.sevendaystomine.init.ModSounds;
 import nuparu.sevendaystomine.item.*;
 import nuparu.sevendaystomine.util.MathUtils;
 import nuparu.sevendaystomine.util.PlayerUtils;
@@ -104,47 +101,55 @@ public class ClientEventHandler {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onRenderGameOverlayEvent(RenderGameOverlayEvent.Pre event) {
-        if (event.isCancelable() && event.getType() == ElementType.ALL) {
+        if (event.isCancelable()) {
             Minecraft mc = Minecraft.getInstance();
             PlayerEntity player = mc.player;
             if (player == null)
                 return;
-            ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
-            if (!stack.isEmpty() && stack.getItem() == ModItems.ANALOG_CAMERA.get()) {
-                if (player.getUseItemRemainingTicks() > 0 || takingPhoto) {
+
+            if (event.getType() == ElementType.ALL) {
+                ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+                if (!stack.isEmpty() && stack.getItem() == ModItems.ANALOG_CAMERA.get()) {
+                    if (player.getUseItemRemainingTicks() > 0 || takingPhoto) {
+                        event.setCanceled(true);
+                    }
+                    if (takingPhoto)
+                        return;
+
+                    double dW = 1 - ItemAnalogCamera.getWidth(stack, player);
+                    double dH = 1 - ItemAnalogCamera.getHeight(stack, player);
+
+                    MainWindow res = event.getWindow();
+
+                    int xMin = (int) (0 + res.getGuiScaledWidth() * dW / 2);
+                    int yMin = (int) (0 + res.getGuiScaledHeight() * dH / 2);
+                    int xMax = (int) (res.getGuiScaledWidth() - 32 - res.getGuiScaledWidth() * dW / 2);
+                    int yMax = (int) (res.getGuiScaledHeight() - 32 - res.getGuiScaledHeight() * dH / 2);
+
+                    MatrixStack matrixStack = event.getMatrixStack();
+
+                    matrixStack.pushPose();
+                    RenderSystem.enableBlend();
+                    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
+                            GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                    mc.getTextureManager().bind(GuiPlayerUI.UI_TEX);
+                    mc.gui.blit(matrixStack, xMin, yMin, 0, 39, 32, 32);
+                    mc.gui.blit(matrixStack, xMax, yMin, 34, 39, 32, 32);
+
+                    mc.gui.blit(matrixStack, xMin, yMax, 0, 72, 32, 32);
+                    mc.gui.blit(matrixStack, xMax, yMax, 34, 72, 32, 32);
+
+                    mc.font.draw(matrixStack, ItemAnalogCamera.getZoom(stack, player) + "x", xMin + 5,
+                            yMax + 25 - mc.font.lineHeight, 0xffffff);
+                    RenderSystem.disableBlend();
+                    matrixStack.popPose();
+
+                }
+            }
+            else if (event.getType() == ElementType.HEALTHMOUNT) {
+                if(player.getVehicle() != null && player.getVehicle() instanceof VehicleEntity){
                     event.setCanceled(true);
                 }
-                if (takingPhoto)
-                    return;
-
-                double dW = 1 - ItemAnalogCamera.getWidth(stack, player);
-                double dH = 1 - ItemAnalogCamera.getHeight(stack, player);
-
-                MainWindow res = event.getWindow();
-
-                int xMin = (int) (0 + res.getGuiScaledWidth() * dW / 2);
-                int yMin = (int) (0 + res.getGuiScaledHeight() * dH / 2);
-                int xMax = (int) (res.getGuiScaledWidth() - 32 - res.getGuiScaledWidth() * dW / 2);
-                int yMax = (int) (res.getGuiScaledHeight() - 32 - res.getGuiScaledHeight() * dH / 2);
-
-                MatrixStack matrixStack = event.getMatrixStack();
-
-                matrixStack.pushPose();
-                RenderSystem.enableBlend();
-                RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                mc.getTextureManager().bind(GuiPlayerUI.UI_TEX);
-                mc.gui.blit(matrixStack, xMin, yMin, 0, 39, 32, 32);
-                mc.gui.blit(matrixStack, xMax, yMin, 34, 39, 32, 32);
-
-                mc.gui.blit(matrixStack, xMin, yMax, 0, 72, 32, 32);
-                mc.gui.blit(matrixStack, xMax, yMax, 34, 72, 32, 32);
-
-                mc.font.draw(matrixStack, ItemAnalogCamera.getZoom(stack, player) + "x", xMin + 5,
-                        yMax + 25 - mc.font.lineHeight, 0xffffff);
-                RenderSystem.disableBlend();
-                matrixStack.popPose();
-
             }
         }
     }
@@ -320,7 +325,7 @@ public class ClientEventHandler {
             weight = entry.weight;
         }
 
-        if (CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)) {
+        if (ServerConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)) {
             int quality = ItemQuality.getQualityFromStack(stack);
             EnumQuality tier = PlayerUtils.getQualityTierFromInt(quality);
             TranslationTextComponent qualityTitle = new TranslationTextComponent(
@@ -420,10 +425,10 @@ public class ClientEventHandler {
             PlayerEntity player = (PlayerEntity) livingEntity;
             ItemStack activeStack = player.getItemInHand(Hand.MAIN_HAND);
             CompoundNBT nbt = activeStack.getTag();
-            if (activeStack.isEmpty() || (activeStack.getItem() != ModItems.CHAINSAW.get()
-                    && activeStack.getItem() != ModItems.AUGER.get()))
+            if (activeStack.isEmpty() || (!(activeStack.getItem() instanceof ItemChainsaw)
+                    && !(activeStack.getItem() instanceof ItemAuger)))
                 return;
-            if (nbt != null && nbt.contains("FuelMax") && nbt.getInt("FuelMax") > 0) {
+            if (nbt != null && nbt.contains("FuelCurrent") && nbt.getInt("FuelCurrent") > 0) {
                 if (SevenDaysToMine.proxy.isHittingBlock(player)) {
                     lastTimeHittingBlock = System.currentTimeMillis();
                 }
@@ -441,4 +446,5 @@ public class ClientEventHandler {
         }
 
     }
+
 }

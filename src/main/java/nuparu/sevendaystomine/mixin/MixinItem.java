@@ -10,8 +10,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.item.EnumQuality;
 import nuparu.sevendaystomine.item.ItemQuality;
 import nuparu.sevendaystomine.util.ModConstants;
@@ -41,14 +41,14 @@ public abstract class MixinItem {
     @Inject(method = "Lnet/minecraft/item/Item;onCraftedBy(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At("HEAD"), remap = ModConstants.REMAP)
     public void onCraftedBy(ItemStack stack, World world, PlayerEntity player, CallbackInfo ci) {
         if (PlayerUtils.isVanillaItemSuitableForQuality((Object)this) && ItemQuality.getQualityFromStack(stack) <= 0) {
-            ItemQuality.setQualityForStack(stack, (int) Math.min(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()),
-                            CommonConfig.maxQuality.get()));
+            ItemQuality.setQualityForStack(stack, (int) Math.min(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()),
+                            ServerConfig.maxQuality.get()));
         }
     }
 
     @Inject(method = "Lnet/minecraft/item/Item;getName(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/util/text/ITextComponent;", at = @At("HEAD"), cancellable = true, remap = ModConstants.REMAP)
     public void getName(ItemStack stack, CallbackInfoReturnable<ITextComponent> cir) {
-        if(PlayerUtils.isVanillaQualityItem(stack) && CommonConfig.qualitySystem.get() == EnumQualityState.ALL){
+        if(PlayerUtils.isVanillaQualityItem(stack) && ServerConfig.qualitySystem.get() == EnumQualityState.ALL){
             TranslationTextComponent textComponent = new TranslationTextComponent(getDescriptionId(stack));
             EnumQuality quality = PlayerUtils.getQualityTierFromStack(stack);
             textComponent.setStyle(textComponent.getStyle().withColor(quality.getColor()));

@@ -13,6 +13,8 @@ import nuparu.sevendaystomine.events.ClientEventHandler;
 import nuparu.sevendaystomine.events.PlayerEventHandler;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.init.ModSounds;
+import nuparu.sevendaystomine.item.ItemAuger;
+import nuparu.sevendaystomine.item.ItemChainsaw;
 
 @OnlyIn(Dist.CLIENT)
 public class MovingSoundChainsawCut extends TickableSound {
@@ -31,11 +33,13 @@ public class MovingSoundChainsawCut extends TickableSound {
 	public void tick() {
 		ItemStack stack = this.player.getItemInHand(Hand.MAIN_HAND);
 		CompoundNBT nbt = stack.getTag();
-		if (!this.player.isAlive() || System.currentTimeMillis()- ClientEventHandler.getLastTimeHittingBlock() > 500 || stack.isEmpty() || (stack.getItem() != ModItems.CHAINSAW.get() && stack.getItem() != ModItems.AUGER.get())) {
+		if (!this.player.isAlive() || System.currentTimeMillis()- ClientEventHandler.getLastTimeHittingBlock() > 500 || stack.isEmpty() || (!(stack.getItem() instanceof ItemChainsaw) && !(stack.getItem() instanceof ItemAuger))) {
 			this.stop();
 			ClientEventHandler.nextChainsawCutSound = System.currentTimeMillis();
 		}
-		if (nbt == null || !nbt.contains("FuelMax",Constants.NBT.TAG_INT) || nbt.getInt("FuelMax") == 0) {
+		if (nbt == null || !nbt.contains("FuelCurrent",Constants.NBT.TAG_INT) || nbt.getInt("FuelCurrent") == 0) {
+			this.stop();
+			ClientEventHandler.nextChainsawCutSound = System.currentTimeMillis();
 			return;
 		}
 

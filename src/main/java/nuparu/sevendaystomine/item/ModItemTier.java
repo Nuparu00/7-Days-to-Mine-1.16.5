@@ -9,43 +9,47 @@ import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModItems;
 
 public enum ModItemTier implements IItemTier {
-	SCREWDRIVER(0, 150, 0.5f, 12, 1, () -> {
+	SCREWDRIVER(0, 150, 0.5f, 2.75f, 1, () -> {
 		return Ingredient.of(Items.IRON_INGOT);
 	}),
-	SMALL_TOOLS(0, 300, 0.5f, 20, 2, () -> {
+	SMALL_TOOLS(0, 250, 0.5f, 2.5f, 2, () -> {
 		return Ingredient.of(Items.IRON_INGOT);
-	}),STONE_TOOLS(1, 100, 3.5f, 5, 2, () -> {
+	}),STONE_TOOLS(1, 131, 3.5f, 2f, 2, () -> {
 		return Ingredient.of(ModItems.SMALL_STONE.get());
-	}), BONE_TOOLS(1, 100, 2f, 6, 2, () -> {
+	}), BONE_TOOLS(1, 120, 2f, 2.5f, 2, () -> {
 		return Ingredient.of(Items.BONE);
-	}), CRUDE_TOOLS(1, 60, 2f, 8, 2, () -> {
+	}), CRUDE_TOOLS(1, 60, 2f, 2.5f, 2, () -> {
 		return Ingredient.of(ModItems.PLANK_WOOD.get());
-	}), WOODEN_TOOLS(1, 180, 2f, 14, 2, () -> {
+	}), WOODEN_TOOLS(1, 60, 2f, 3f, 2, () -> {
 		return Ingredient.of(ModItems.PLANK_WOOD.get());
-	}), WOODEN_REINFORCED_TOOLS(1, 200, 2f, 18, 2, () -> {
+	}), WOODEN_REINFORCED_TOOLS(100, 200, 4.5f, 2.5f, 2, () -> {
 		return Ingredient.of(ModItems.PLANK_WOOD.get());
-	}), BARBED_TOOLS(1, 220, 2f, 22, 2, () -> {
+	}), BARBED_TOOLS(1, 180, 2f, 5f, 2, () -> {
 		return Ingredient.of(ModBlocks.RAZOR_WIRE.get());
-	}), SPIKED_TOOLS(1, 250, 2f, 26, 2, () -> {
+	}), SPIKED_TOOLS(1, 240, 2f, 7f, 2, () -> {
 		return Ingredient.of(ModItems.IRON_PIPE.get());
-	}), COPPER_TOOLS(0, 100, 5.2f, 17, 2, () -> {
+	}), COPPER_TOOLS(0, 150, 5.2f, 3.75f, 2, () -> {
 		return Ingredient.of(ModItems.INGOT_COPPER.get());
-	}), SCRAP_TOOLS(0, 125, 4f, 18, 2, () -> {
+	}), SCRAP_TOOLS(0, 100, 4f, 4.6666f, 2, () -> {
 		return Ingredient.of(ModItems.IRON_SCRAP.get());
-	}), BRONZE_TOOLS(1, 250, 6f, 20, 2, () -> {
+	}), BRONZE_TOOLS(1, 180, 6f, 5.3333f, 2, () -> {
 		return Ingredient.of(ModItems.INGOT_BRONZE.get());
-	}), IRON_TOOLS(2, 300, 8.2f, 24, 2, () -> {
+	}), IRON_TOOLS(2, 250, 8.2f, 6f, 2, () -> {
 		return Ingredient.of(Items.IRON_INGOT);
-	}), STEEL_TOOLS(3, 40, 11f, 28, 2, () -> {
+	}), STEEL_TOOLS(3, 500, 11f, 7f, 2, () -> {
 		return Ingredient.of(ModItems.INGOT_STEEL.get());
-	}), ARMY_TOOLS(1, 350, 2f, 26, 2, () -> {
+	}), ARMY_TOOLS(1, 400, 2f, 7f, 2, () -> {
 		return Ingredient.of(ModItems.INGOT_STEEL.get());
-	}), MACHETE( 1, 200, 2f, 28, 2, () -> {
+	}), MACHETE( 1, 250, 2f, 7.3f, 2, () -> {
 		return Ingredient.of(ModItems.INGOT_STEEL.get());
-	}), SLEDGEHAMMER(1, 40, 11f, 30, 2, () -> {
+	}), SLEDGEHAMMER(1, 200, 11f, 7f, 2, () -> {
 		return Ingredient.of(ModItems.INGOT_STEEL.get());
-	}), AUGER(4, 1200, 26F, 24, 0, () -> {
+	}), AUGER(4, 1000, 18F, 6f, 0, () -> {
 		return Ingredient.of(ModItems.GEAR.get());
+	}), NETHERITE_AUGER(5, 800, 32F, 8f, 0, () -> {
+		return Ingredient.of(ModItems.GEAR.get());
+	}), DIAMOND_KNIFE(1, 380, 2f, 10f, 2, () -> {
+		return Ingredient.of(Items.DIAMOND);
 	});
 
 	private final int harvestLevel;

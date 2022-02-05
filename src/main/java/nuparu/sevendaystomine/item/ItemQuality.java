@@ -21,8 +21,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.util.MathUtils;
 
 public class ItemQuality extends Item implements IQuality {
@@ -105,15 +105,15 @@ public class ItemQuality extends Item implements IQuality {
 
 	public static ItemStack setQualityForPlayer(ItemStack stack, PlayerEntity player) {
 		CompoundNBT nbt = stack.getOrCreateTag();
-		nbt.putInt("Quality", (int) MathUtils.clamp(player.totalExperience / CommonConfig.xpPerQuality.get(), 1,
-				CommonConfig.maxQuality.get()));
+		nbt.putInt("Quality", (int) MathUtils.clamp(player.totalExperience / ServerConfig.xpPerQuality.get(), 1,
+				ServerConfig.maxQuality.get()));
 
 		return stack;
 	}
 
 	public static int getQualityForPlayer(PlayerEntity player) {
-		return (int) MathUtils.clamp(player.totalExperience / CommonConfig.xpPerQuality.get(), 1,
-				CommonConfig.maxQuality.get());
+		return (int) MathUtils.clamp(player.totalExperience / ServerConfig.xpPerQuality.get(), 1,
+				ServerConfig.maxQuality.get());
 	}
 
 	public static ItemStack setQualityForStack(ItemStack stack, int quality) {
@@ -166,8 +166,8 @@ public class ItemQuality extends Item implements IQuality {
 	public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
 		if (this.getQuality(itemstack) <= 0) {
 			setQuality(itemstack,
-					(int) Math.min(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()),
-							CommonConfig.maxQuality.get()));
+					(int) Math.min(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()),
+							ServerConfig.maxQuality.get()));
 		}
 	}
 

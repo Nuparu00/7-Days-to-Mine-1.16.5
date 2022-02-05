@@ -179,7 +179,7 @@ public class AirfieldStructure extends Structure<NoFeatureConfig> {
             int z = chunkZ * 16;
 
             BlockPos centerPos = new BlockPos(x, 0, z);
-          LargeJigsawManager.addPieces(
+            LargeJigsawManager.addPieces(
                     dynamicRegistryManager,
                     new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
                             // The path to the starting Template Pool JSON file to read.

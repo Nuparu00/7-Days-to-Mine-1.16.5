@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.electricity.IBattery;
 import nuparu.sevendaystomine.init.ModItemGroups;
 
@@ -69,7 +69,7 @@ public class ItemBattery extends ItemQuality implements IBattery{
 
 	@Override
 	public long getCapacity(ItemStack stack, @Nullable World world) {
-		return (long) (BASE_VOLTAGE*(1+(double)(ItemQuality.getQualityFromStack(stack)/CommonConfig.maxQuality.get())));
+		return (long) (BASE_VOLTAGE*(1+(double)(ItemQuality.getQualityFromStack(stack)/ ServerConfig.maxQuality.get())));
 	}
 
 	@Override

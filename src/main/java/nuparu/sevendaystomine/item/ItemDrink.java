@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.IExtendedPlayer;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.potions.Potions;
 
 public class ItemDrink extends Item {
@@ -30,10 +30,10 @@ public class ItemDrink extends Item {
 			return result;
 		PlayerEntity player = (PlayerEntity) living;
 		IExtendedPlayer extendedPlayer = CapabilityHelper.getExtendedPlayer(player);
-		if (CommonConfig.thirstSystem.get()) {
+		if (ServerConfig.thirstSystem.get()) {
 			extendedPlayer.addThirst(thirst);
 		}
-		if (CommonConfig.staminaSystem.get()) {
+		if (ServerConfig.staminaSystem.get()) {
 			extendedPlayer.addStamina(stamina);
 		}
 

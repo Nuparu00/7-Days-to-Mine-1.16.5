@@ -10,9 +10,9 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.RocketEntity;
 import nuparu.sevendaystomine.init.ModSounds;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.init.ModEnchantments;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.network.PacketManager;
@@ -99,7 +99,7 @@ public class ItemRPG extends ItemGun {
 		int ammo = nbt.getInt("Ammo");
 		boolean flag = playerIn.isCreative();
 		if (ammo > 0 || flag) {
-			float velocity = getSpeed() * (1f+((float)getQuality(itemstack) / (float)CommonConfig.maxQuality.get()));
+			float velocity = getSpeed() * (1f+((float)getQuality(itemstack) / (float) ServerConfig.maxQuality.get()));
 			boolean sparking = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SPARKING.get(), itemstack) != 0;
 			for (int i = 0; i <  getProjectiles()*(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.MULTISHOT.get(), itemstack)+1); i++) {
 			/*	EntityRocket shot = new EntityRocket(worldIn, playerIn, velocity, ((float) getSpread(playerIn, handIn) / (playerIn.isCrouching() ? 1.5f : 1f)));

@@ -11,6 +11,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.world.gen.structure.*;
 
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class ModStructureFeatures {
     public static final RegistryObject<Structure<NoFeatureConfig>> CARGO_SHIP_SUNKEN = STRUCTURE_FEATURES.register("cargo_ship_sunken", () -> (new CargoShipSunkenStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> AIRFIELD = STRUCTURE_FEATURES.register("airfield", () -> (new AirfieldStructure(NoFeatureConfig.CODEC)));
     public static final RegistryObject<Structure<NoFeatureConfig>> VILLAGE = STRUCTURE_FEATURES.register("village", () -> (new VillageStructure(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> NETHER_RESEARCH_STATION = STRUCTURE_FEATURES.register("nether_research_station", () -> (new NetherResearchStationStructure(NoFeatureConfig.CODEC)));
 
     /**
      * This is where we set the rarity of your structures and determine if land conforms to it.
@@ -43,16 +45,16 @@ public class ModStructureFeatures {
     public static void setupStructures() {
         setupMapSpacingAndLand(
                 VILLAGE.get(), /* The instance of the structure */
-                new StructureSeparationSettings(30 /* average distance apart in chunks between spawn attempts */,
-                        28 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(CommonConfig.villageAvgDistance.get() /* average distance apart in chunks between spawn attempts */,
+                        CommonConfig.villageMinDistance.get() /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         894579234 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
 
 
         setupMapSpacingAndLand(
                 CITY.get(), /* The instance of the structure */
-                new StructureSeparationSettings(40 /* average distance apart in chunks between spawn attempts */,
-                        30 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(CommonConfig.cityAvgDistance.get() /* average distance apart in chunks between spawn attempts */,
+                        CommonConfig.cityMinDistance.get() /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1189998819 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
 
@@ -151,6 +153,13 @@ public class ModStructureFeatures {
                 AIRFIELD.get(), /* The instance of the structure */
                 new StructureSeparationSettings(76 /* average distance apart in chunks between spawn attempts */,
                         32 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        1454291511 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                true);
+
+        setupMapSpacingAndLand(
+                NETHER_RESEARCH_STATION.get(), /* The instance of the structure */
+                new StructureSeparationSettings(40 /* average distance apart in chunks between spawn attempts */,
+                        20 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1454291511 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 true);
 

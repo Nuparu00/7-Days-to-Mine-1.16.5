@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import nuparu.sevendaystomine.SevenDaysToMine;
 import nuparu.sevendaystomine.capability.CapabilityHelper;
 import nuparu.sevendaystomine.capability.ExtendedInventory;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.network.PacketManager;
 import nuparu.sevendaystomine.network.packets.SyncInventoryMessage;
 import nuparu.sevendaystomine.util.item.InventoryCache;
@@ -32,7 +32,7 @@ public class PlayerInventorySyncHelper {
 		@SubscribeEvent
 		public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 			if (!event.getEntityLiving().level.isClientSide()) {
-				if (CommonConfig.renderPlayerInventory.get()) {
+				if (ServerConfig.renderPlayerInventory.get()) {
 					if (event.getEntityLiving() instanceof PlayerEntity) {
 						PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 						ItemStack[] inventory = new ItemStack[player.inventory.items.size()];
@@ -89,7 +89,7 @@ public class PlayerInventorySyncHelper {
 		@SubscribeEvent
 		public static void onEntityJoin(EntityJoinWorldEvent event) {
 			if (!event.getEntity().level.isClientSide()) {
-				if (CommonConfig.renderPlayerInventory.get()) {
+				if (ServerConfig.renderPlayerInventory.get()) {
 					if (event.getEntity() instanceof PlayerEntity) {
 						PlayerEntity player = (PlayerEntity) event.getEntity();
 
@@ -148,7 +148,7 @@ public class PlayerInventorySyncHelper {
 		@SubscribeEvent
 		public static void onPlayerStartedTracking(PlayerEvent.StartTracking event) {
 			if (!event.getEntity().level.isClientSide()) {
-				if (CommonConfig.renderPlayerInventory.get()) {
+				if (ServerConfig.renderPlayerInventory.get()) {
 					if (event.getEntity() instanceof PlayerEntity && event.getTarget() instanceof PlayerEntity) {
 						PlayerEntity player = (PlayerEntity) event.getTarget();
 						PlayerEntity trackingPlayer = (PlayerEntity) event.getEntity();

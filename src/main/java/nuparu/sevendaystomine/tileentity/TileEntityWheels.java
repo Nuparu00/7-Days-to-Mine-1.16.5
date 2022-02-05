@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModBlocks;
 import nuparu.sevendaystomine.init.ModTileEntities;
 import nuparu.sevendaystomine.item.ItemQuality;
@@ -48,7 +48,7 @@ public class TileEntityWheels extends TileEntity {
 
 	public ItemStack generateItemStack() {
 		ItemStack is = new ItemStack(ModBlocks.WHEELS.get());
-		this.stack = ItemQuality.setQualityForStack(is, MathUtils.getIntInRange(1, CommonConfig.maxQuality.get()));
+		this.stack = ItemQuality.setQualityForStack(is, MathUtils.getIntInRange(1, ServerConfig.maxQuality.get()));
 		return is;
 	}
 

@@ -1,6 +1,23 @@
 package nuparu.sevendaystomine.item;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import nuparu.sevendaystomine.entity.CarEntity;
 import nuparu.sevendaystomine.init.ModItemGroups;
 
 public class ItemCarChassis extends Item {
@@ -8,75 +25,83 @@ public class ItemCarChassis extends Item {
 	public ItemCarChassis() {
 		super(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS));
 	}
-/*
-	@Override
-	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack itemstack = playerIn.getItemInHand(handIn);
-		float f = 1.0F;
-		float f1 = playerIn.prevRotationPitch + (playerIn.xRot - playerIn.prevRotationPitch) * 1.0F;
-		float f2 = playerIn.prevRotationYaw + (playerIn.yRot - playerIn.prevRotationYaw) * 1.0F;
-		double d0 = playerIn.xOld + (playerIn.getX() - playerIn.xOld) * 1.0D;
-		double d1 = playerIn.yOld + (playerIn.getY() - playerIn.yOld) * 1.0D + (double) playerIn.getEyeHeight();
-		double d2 = playerIn.zOld + (playerIn.getZ() - playerIn.zOld) * 1.0D;
-		Vector3d vec3d = new Vector3d(d0, d1, d2);
-		float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-		float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-		float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-		float f6 = MathHelper.sin(-f1 * 0.017453292F);
-		float f7 = f4 * f5;
-		float f8 = f3 * f5;
-		double d3 = 5.0D;
-		Vector3d vec3d1 = vec3d.addVector((double) f7 * 5.0D, (double) f6 * 5.0D, (double) f8 * 5.0D);
-		RayTraceResult raytraceresult = worldIn.rayTraceBlocks(vec3d, vec3d1, true);
-
-		if (raytraceresult == null) {
-			return new ActionResult<ItemStack>(ActionResult.PASS, itemstack);
+	public ActionResultType useOn(ItemUseContext p_195939_1_) {
+		World world = p_195939_1_.getLevel();
+		if (!(world instanceof ServerWorld)) {
+			return ActionResultType.SUCCESS;
 		} else {
-			Vector3d vec3d2 = playerIn.getLook(1.0F);
-			boolean flag = false;
-			List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, playerIn.getBoundingBox()
-					.expand(vec3d2.x * 5.0D, vec3d2.y * 5.0D, vec3d2.z * 5.0D).grow(1.0D));
+			ItemStack itemstack = p_195939_1_.getItemInHand();
+			BlockPos blockpos = p_195939_1_.getClickedPos();
+			Direction direction = p_195939_1_.getClickedFace();
+			BlockState blockstate = world.getBlockState(blockpos);
 
-			for (int i = 0; i < list.size(); ++i) {
-				Entity entity = list.get(i);
-
-				if (entity.canBeCollidedWith()) {
-					AxisAlignedBB axisalignedbb = entity.getBoundingBox()
-							.grow((double) entity.getCollisionBorderSize());
-
-					if (axisalignedbb.contains(vec3d)) {
-						flag = true;
-					}
-				}
+			BlockPos blockpos1;
+			if (blockstate.getCollisionShape(world, blockpos).isEmpty()) {
+				blockpos1 = blockpos;
+			} else {
+				blockpos1 = blockpos.relative(direction);
 			}
 
-			if (flag) {
-				return new ActionResult<ItemStack>(ActionResult.PASS, itemstack);
-			} else if (raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
-				return new ActionResult<ItemStack>(ActionResult.PASS, itemstack);
-			} else {
-				Block block = worldIn.getBlockState(raytraceresult.getBlockPos()).getBlock();
-				boolean flag1 = block == Blocks.WATER || block == Blocks.FLOWING_WATER;
+            /*EntityType<?> entitytype = ModEntities.MINIBIKE.get();
+            if (entitytype.spawn((ServerWorld)world, itemstack, p_195939_1_.getPlayer(), blockpos1, SpawnReason.SPAWN_EGG, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
+                itemstack.shrink(1);
+            }*/
 
-				EntityCar minibike = new EntityCar(worldIn, raytraceresult.hitVec.x,
-						flag1 ? raytraceresult.hitVec.y - 0.12D : raytraceresult.hitVec.y, raytraceresult.hitVec.z);
-				minibike.yRot = playerIn.yRot;
+			CarEntity carEntity = new CarEntity(world);
+			carEntity.setPos(blockpos1.getX(), blockpos1.getY(), blockpos1.getZ());
 
-				if (!worldIn.getCollisionBoxes(minibike, minibike.getBoundingBox().grow(-0.1D)).isEmpty()) {
-					return new ActionResult<ItemStack>(ActionResult.FAIL, itemstack);
-				} else {
-					if (!worldIn.isClientSide()) {
-						worldIn.addFreshEntity(minibike);
-					}
+			world.addFreshEntity(carEntity);
+			carEntity.yRot = p_195939_1_.getPlayer().yRot;
+			carEntity.yRotO = p_195939_1_.getPlayer().yRot;
+			carEntity.yBodyRot = p_195939_1_.getPlayer().yRot;
+			carEntity.yBodyRotO = p_195939_1_.getPlayer().yRot;
+			carEntity.yHeadRot = p_195939_1_.getPlayer().yRot;
+			carEntity.yHeadRotO = p_195939_1_.getPlayer().yRot;
 
-					if (!playerIn.capabilities.isCreativeMode) {
-						itemstack.shrink(1);
-					}
+			return ActionResultType.CONSUME;
+		}
+	}
 
-					playerIn.addStat(StatList.getObjectUseStats(this));
-					return new ActionResult<ItemStack>(ActionResult.SUCCESS, itemstack);
+	public ActionResult<ItemStack> use(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
+		ItemStack itemstack = p_77659_2_.getItemInHand(p_77659_3_);
+		RayTraceResult raytraceresult = getPlayerPOVHitResult(p_77659_1_, p_77659_2_, RayTraceContext.FluidMode.SOURCE_ONLY);
+		if (raytraceresult.getType() != RayTraceResult.Type.BLOCK) {
+			return ActionResult.pass(itemstack);
+		} else if (!(p_77659_1_ instanceof ServerWorld)) {
+			return ActionResult.success(itemstack);
+		} else {
+			BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) raytraceresult;
+			BlockPos blockpos = blockraytraceresult.getBlockPos();
+			if (!(p_77659_1_.getBlockState(blockpos).getBlock() instanceof FlowingFluidBlock)) {
+				return ActionResult.pass(itemstack);
+			} else if (p_77659_1_.mayInteract(p_77659_2_, blockpos) && p_77659_2_.mayUseItemAt(blockpos, blockraytraceresult.getDirection(), itemstack)) {
+                /*EntityType<?> entitytype = ModEntities.MINIBIKE.get();
+                if (entitytype.spawn((ServerWorld) p_77659_1_, itemstack, p_77659_2_, blockpos, SpawnReason.SPAWN_EGG, false, false) == null) {
+                    return ActionResult.pass(itemstack);
+                } else {*/
+
+				CarEntity carEntity = new CarEntity(p_77659_1_);
+				carEntity.setPos(blockpos.getX(), blockpos.getY(), blockpos.getZ());
+
+
+				p_77659_1_.addFreshEntity(carEntity);
+				carEntity.yRot = p_77659_2_.yRot;
+				carEntity.yRotO = p_77659_2_.yRot;
+				carEntity.yBodyRot = p_77659_2_.yRot;
+				carEntity.yBodyRotO = p_77659_2_.yRot;
+				carEntity.yHeadRot = p_77659_2_.yRot;
+				carEntity.yHeadRotO = p_77659_2_.yRot;
+
+				if (!p_77659_2_.abilities.instabuild) {
+					itemstack.shrink(1);
 				}
+
+				p_77659_2_.awardStat(Stats.ITEM_USED.get(this));
+				return ActionResult.consume(itemstack);
+				//}
+			} else {
+				return ActionResult.fail(itemstack);
 			}
 		}
-	}*/
+	}
 }

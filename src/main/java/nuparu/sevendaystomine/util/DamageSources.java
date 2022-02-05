@@ -20,6 +20,8 @@ public class DamageSources {
 			.bypassArmor();
 	public static DamageSource chlorinePoison = new DamageSource("chlorine_poisoning").setScalesWithDifficulty()
 			.bypassMagic().bypassArmor();
+	public static DamageSource fungalInfection = new DamageSource("fungal_infection").setScalesWithDifficulty().bypassMagic()
+			.bypassArmor();
 
 	public static EntityDamageShot causeShotDamage(Entity source, Entity transmitter) {
 		return new EntityDamageShot("shot.entity", transmitter, source);

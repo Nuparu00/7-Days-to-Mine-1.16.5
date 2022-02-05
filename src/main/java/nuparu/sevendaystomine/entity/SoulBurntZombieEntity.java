@@ -39,7 +39,7 @@ public class SoulBurntZombieEntity<T extends SoulBurntZombieEntity> extends Zomb
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 54.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.2F).add(Attributes.ATTACK_DAMAGE, 3.5D)
-				.add(Attributes.ARMOR, 0.3D).add(Attributes.MAX_HEALTH, 120).build();
+				.add(Attributes.ARMOR, 0.3D).add(Attributes.MAX_HEALTH, 75).build();
 	}
 
 	@Override

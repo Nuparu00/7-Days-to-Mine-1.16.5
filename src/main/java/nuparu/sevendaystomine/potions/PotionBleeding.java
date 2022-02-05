@@ -1,43 +1,36 @@
 package nuparu.sevendaystomine.potions;
 
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectType;
-import net.minecraft.world.Difficulty;
-import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.network.PacketManager;
+import nuparu.sevendaystomine.network.packets.SpawnBloodMessage;
 import nuparu.sevendaystomine.util.DamageSources;
-import nuparu.sevendaystomine.util.EnumModParticleType;
 import nuparu.sevendaystomine.util.MathUtils;
 
 public class PotionBleeding extends PotionBase {
 
-	public PotionBleeding(EffectType type, int color) {
-		super(type, color);
-	}
+    public PotionBleeding(EffectType type, int color) {
+        super(type, color);
+    }
 
-	@Override
-	public void applyEffectTick(LivingEntity entity, int p_76394_2_) {
-		if (entity.level.random.nextInt(12) == 0) {
-			entity.hurt(DamageSources.bleeding, 1);
-		}
-		if (entity.level.isClientSide() && entity.level.getDifficulty() != Difficulty.PEACEFUL) {
-			if (entity.level.random.nextInt(5) == 0) {
+    @Override
+    public void applyEffectTick(LivingEntity entity, int p_76394_2_) {
+        if (!entity.level.isClientSide() && (entity instanceof MobEntity || entity instanceof PlayerEntity)) {
+            if (entity.level.random.nextInt(12) == 0) {
+                entity.hurt(DamageSources.bleeding, 1);
+                for (int i = 0; i < MathUtils.getIntInRange(entity.level.random, 20, 35); i++) {
+                    PacketManager.sendToTrackingEntity(PacketManager.spawnBlood, new SpawnBloodMessage(entity.getX(0.5), entity.getY() + entity.getBbHeight() * MathUtils.getFloatInRange(0.4f, 0.75f), entity.getZ(0.5), MathUtils.getFloatInRange(-0.1f, 0.1f), MathUtils.getFloatInRange(0.1f, 0.22f), MathUtils.getFloatInRange(-0.1f, 0.1f)), () -> entity);
+                }
+            }
+        }
+    }
 
-				for (int i = 0; i < (int) Math
-						.round(MathUtils.getDoubleInRange(1, 5) * SevenDaysToMine.proxy.getParticleLevel()); i++) {
-					double x = entity.getX() + MathUtils.getDoubleInRange(-1, 1) * entity.getBbWidth();
-					double y = entity.getY() + MathUtils.getDoubleInRange(0, 1) * entity.getBbHeight();
-					double z = entity.getZ() + MathUtils.getDoubleInRange(-1, 1) * entity.getBbWidth();
-					SevenDaysToMine.proxy.addParticle(entity.level, EnumModParticleType.BLOOD, x, y, z,
-							MathUtils.getDoubleInRange(-1d, 1d) / 7d, MathUtils.getDoubleInRange(-0.5d, 1d) / 7d,
-							MathUtils.getDoubleInRange(-1d, 1d) / 7d);
-				}
-			}
-		}
-
-	}
-
-	@Override
-	public boolean isDurationEffectTick(int p_76397_1_, int p_76397_2_) {
-		return true;
-	}
+    @Override
+    public boolean isDurationEffectTick(int p_76397_1_, int p_76397_2_) {
+        return true;
+    }
 }

@@ -9,7 +9,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.entity.ZombieBaseEntity;
 import nuparu.sevendaystomine.init.ModGameRules;
 import nuparu.sevendaystomine.util.Utils;
@@ -54,7 +54,7 @@ public abstract class Horde {
 
     public void start() {
         --waves;
-        waveTimer = CommonConfig.hordeWaveDelay.get();
+        waveTimer = ServerConfig.hordeWaveDelay.get();
     }
 
     public void update() {

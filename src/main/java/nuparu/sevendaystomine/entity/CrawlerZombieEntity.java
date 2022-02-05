@@ -19,16 +19,16 @@ public class CrawlerZombieEntity<T extends CrawlerZombieEntity> extends ZombieBi
 	public CrawlerZombieEntity(World world) {
 		this(ModEntities.CRAWLER_ZOMBIE.get(), world);
 	}
-
-	@Override
-	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 10;
-	}
 	
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes( ).add(Attributes.FOLLOW_RANGE, 56.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.125f).add(Attributes.ATTACK_DAMAGE, 3.0D)
-				.add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 50).build();
+				.add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 35).build();
+	}
+
+	@Override
+	protected int getExperienceReward(PlayerEntity p_70693_1_) {
+		return 8;
 	}
 
 	@Override

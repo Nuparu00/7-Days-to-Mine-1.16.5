@@ -14,8 +14,8 @@ public class RenderStates extends RenderState {
 			"zombie_policeman_glow_transparency", () -> {
 				RenderSystem.enableBlend();
 				RenderSystem.enableAlphaTest();
-				RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-						GlStateManager.DestFactor.DST_ALPHA, GlStateManager.SourceFactor.ONE_MINUS_SRC_ALPHA,
+				RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA_SATURATE,
+						GlStateManager.DestFactor.ONE_MINUS_DST_COLOR, GlStateManager.SourceFactor.SRC_ALPHA,
 						GlStateManager.DestFactor.DST_ALPHA);
 			}, () -> {
 				RenderSystem.disableBlend();

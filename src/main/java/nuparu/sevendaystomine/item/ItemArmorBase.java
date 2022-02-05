@@ -30,8 +30,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 
 public class ItemArmorBase extends ArmorItem implements IQuality {
 	public static final UUID[] ARMOR_MODIFIERS = new UUID[] { UUID.fromString("ed70b160-0ade-11eb-adc1-0242ac120002"),
@@ -153,11 +153,11 @@ public class ItemArmorBase extends ArmorItem implements IQuality {
 	}
 
 	public double getDamageReduction(ItemStack stack) {
-		return this.getDefense() * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return this.getDefense() * (1 + ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	public double getToughness(ItemStack stack) {
-		return this.getToughness() * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return this.getToughness() * (1 + ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	@Override
@@ -186,8 +186,8 @@ public class ItemArmorBase extends ArmorItem implements IQuality {
 	@Override
 	public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
 		setQuality(itemstack,
-				(int) Math.min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1),
-						CommonConfig.maxQuality.get()));
+				(int) Math.min(Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1),
+						ServerConfig.maxQuality.get()));
 	}
 
 	@Override

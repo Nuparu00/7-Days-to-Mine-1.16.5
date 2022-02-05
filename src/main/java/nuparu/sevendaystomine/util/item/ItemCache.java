@@ -38,6 +38,9 @@ public class ItemCache implements Serializable {
 						}
 
 						if (item instanceof ItemQualityTool) {
+							if (item instanceof ItemScrewdriver) {
+								continue;
+							}
 							if (((ItemQualityTool) item).length == EnumLength.SHORT) {
 								if (shortItem_R.isEmpty()) {
 									shortItem_R = stack;
@@ -51,19 +54,19 @@ public class ItemCache implements Serializable {
 							}
 							continue;
 						}
-						if (item instanceof ToolItem || item instanceof SwordItem || item instanceof HoeItem
+						else if (item instanceof ToolItem || item instanceof SwordItem || item instanceof HoeItem
 								|| item instanceof BowItem) {
-							if (longItem.isEmpty()) {
-								longItem = stack;
-							}
-							continue;
-						}
-						if (item instanceof ItemQualitySword) {
-							if (((ItemQualitySword) item).length == EnumLength.SHORT) {
-								if (shortItem_R.isEmpty()) {
-									shortItem_R = stack;
-								} else if (shortItem_L.isEmpty()) {
-									shortItem_L = stack;
+							if (item instanceof ItemQualitySword) {
+								if (((ItemQualitySword) item).length == EnumLength.SHORT) {
+									if (shortItem_R.isEmpty()) {
+										shortItem_R = stack;
+									} else if (shortItem_L.isEmpty()) {
+										shortItem_L = stack;
+									}
+									continue;
+								}
+								else if (longItem.isEmpty()) {
+									longItem = stack;
 								}
 								continue;
 							}
@@ -72,7 +75,7 @@ public class ItemCache implements Serializable {
 							}
 							continue;
 						}
-						if (item instanceof ItemGun) {
+						else if (item instanceof ItemGun) {
 
 							if (((ItemGun) item).getLength() == EnumLength.LONG) {
 								if (longItem.isEmpty()) {
@@ -80,14 +83,6 @@ public class ItemCache implements Serializable {
 								}
 								continue;
 							}
-							if (shortItem_R.isEmpty()) {
-								shortItem_R = stack;
-							} else if (shortItem_L.isEmpty()) {
-								shortItem_L = stack;
-							}
-							continue;
-						}
-						if (item instanceof ItemScrewdriver) {
 							if (shortItem_R.isEmpty()) {
 								shortItem_R = stack;
 							} else if (shortItem_L.isEmpty()) {

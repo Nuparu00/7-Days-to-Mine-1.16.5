@@ -113,6 +113,7 @@ public class WorldEventHandler {
 		BlockState state = event.getState();
 		Block block = state.getBlock();
 
+		if(event.getPlayer() != null && event.getPlayer().isCreative()) return;
 		if (block instanceof IUpgradeable && ((IUpgradeable) block).getPrev(world, pos, state) != null
 				&& ((IUpgradeable) block).getPrev(world, pos, state).getBlock() != Blocks.AIR) {
 			IUpgradeable upgradeable = (IUpgradeable) state.getBlock();
@@ -244,11 +245,18 @@ public class WorldEventHandler {
 			if (Biomes.SOUL_SAND_VALLEY == biomeKey) {
 				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.SOUL_BURNT_ZOMBIE.get(), CommonConfig.spawnWeightSoulBurntZombie.get(), CommonConfig.spawnMinSoulBurntZombie.get(), CommonConfig.spawnMaxSoulBurntZombie.get()));
 			}
-			else{
+			else if (Biomes.WARPED_FOREST == biomeKey) {
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_NETHER_RESEARCH_STATION);
+				//monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.SOUL_BURNT_ZOMBIE.get(), CommonConfig.spawnWeightSoulBurntZombie.get(), CommonConfig.spawnMinSoulBurntZombie.get(), CommonConfig.spawnMaxSoulBurntZombie.get()));
+			}
+			else if (Biomes.CRIMSON_FOREST == biomeKey) {
+
+			}
+			else {
 				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.BURNT_ZOMBIE.get(), CommonConfig.spawnWeightBurntZombie.get(), CommonConfig.spawnMinBurntZombie.get(), CommonConfig.spawnMaxBurntZombie.get()));
 			}
 		}
-		else {
+		else if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.END)) {
 			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.REANIMATED_CORPSE.get(), CommonConfig.spawnWeightReanimatedCorpse.get(), CommonConfig.spawnMinReanimatedCorpse.get(), CommonConfig.spawnMaxReanimatedCorpse.get()));
 			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.PLAGUED_NURSE.get(), CommonConfig.spawnWeightPlaguedNurse.get(), CommonConfig.spawnMinPlaguedNurse.get(), CommonConfig.spawnMaxPlaguedNurse.get()));
 
@@ -258,70 +266,72 @@ public class WorldEventHandler {
 			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.INFECTED_SURVIVOR.get(), CommonConfig.spawnWeightInfectedSurvivor.get(), CommonConfig.spawnMinInfectedSurvivor.get(), CommonConfig.spawnMaxInfectedSurvivor.get()));
 			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.ZOMBIE_WOLF.get(), CommonConfig.spawnWeightZombieWolf.get(), CommonConfig.spawnMinZombieWolf.get(), CommonConfig.spawnMaxZombieWolf.get()));
 			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.ZOMBIE_PIG.get(), CommonConfig.spawnWeightZombiePig.get(), CommonConfig.spawnMinZombiePig.get(), CommonConfig.spawnMaxZombiePig.get()));
+			monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.FERAL_ZOMBIE.get(), CommonConfig.spawnWeightFeralZombie.get(), CommonConfig.spawnMinFeralZombie.get(), CommonConfig.spawnMaxFeralZombie.get()));
 
 			if (BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SNOWY) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.COLD)) {
 				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.FROZEN_LUMBERJACK.get(), CommonConfig.spawnWeightFrozenLumberjack.get(), CommonConfig.spawnMinFrozenLumberjack.get(), CommonConfig.spawnMaxFrozenLumberjack.get()));
 				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.FRIGID_HUNTER.get(), CommonConfig.spawnWeightFrigidHunter.get(), CommonConfig.spawnMinFrigidHunter.get(), CommonConfig.spawnMaxFrigidHunter.get()));
 				monsterSpawner.add(new MobSpawnInfo.Spawners(ModEntities.FROSTBITTEN_WORKER.get(), CommonConfig.spawnWeightFrostbittenWorker.get(), CommonConfig.spawnMinFrostbittenWorker.get(), CommonConfig.spawnMaxFrostbittenWorker.get()));
 			}
-		}
-		//World generation part
-		event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.largeRockFeature);
-		event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.smallStoneFeature);
-		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.berryBushFeature);
-		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_PILLAGER_OUTPOST_RUINED);
-		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_WINDMILL);
-		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_RUINS);
-		event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_OBSERVATORY);
 
-		if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
-			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.MOUNTAIN) && !BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.HILLS)) {
-				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CITY);
-				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_VILLAGE);
-				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_MILITARY_BASE);
-				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRPLANE);
-				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_HELICOPTER);
+			//World generation part
+			event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.largeRockFeature);
+			event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.smallStoneFeature);
+			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.berryBushFeature);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_PILLAGER_OUTPOST_RUINED);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_WINDMILL);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_RUINS);
+			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_OBSERVATORY);
+
+			if (!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
+				if (!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.MOUNTAIN) && !BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.HILLS)) {
+					event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CITY);
+					event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_VILLAGE);
+					event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_MILITARY_BASE);
+					event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRPLANE);
+					event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_HELICOPTER);
+					if (!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY)) {
+						event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRFIELD);
+					}
+				}
 				if (!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY)) {
-					event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_AIRFIELD);
+					event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.stickFeature);
 				}
 			}
-			if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY)) {
-				event.getGeneration().getFeatures(GenerationStage.Decoration.SURFACE_STRUCTURES).add(() -> ModFeatures.stickFeature);
+
+			if (!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.RIVER)) {
+				event.getGeneration().getFeatures(GenerationStage.Decoration.RAW_GENERATION).add(() -> ModFeatures.roadsFeature);
+				event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> ModFeatures.carsFeature);
 			}
-		}
 
-		if(!BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.RIVER)) {
-			event.getGeneration().getFeatures(GenerationStage.Decoration.RAW_GENERATION).add(() -> ModFeatures.roadsFeature);
-			event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> ModFeatures.carsFeature);
-		}
+			if (BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_YACHT);
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_SUNKEN_YACHT);
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CRUISER);
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CARGO_SHIP);
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CARGO_SHIP_SUNKEN);
+			}
 
-		if(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.WATER)) {
-			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_YACHT);
-			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_SUNKEN_YACHT);
-			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CRUISER);
-			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CARGO_SHIP);
-			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_CARGO_SHIP_SUNKEN);
-		}
-
-		if(biomeKey.location().equals(ModBiomes.WASTELAND_FOREST.getId())){
-			//System.out.println("BURNS BURNS BURNS, THE RING OF FIRE");
-			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTrees);
-			//event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTreeFeature.decorated(Features.Placements.HEIGHTMAP).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(5, 0.25f, 2))));
-			event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_LANDFILL);
-		}
+			if (biomeKey.location().equals(ModBiomes.WASTELAND_FOREST.getId())) {
+				//System.out.println("BURNS BURNS BURNS, THE RING OF FIRE");
+				event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTrees);
+				//event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.burntTreeFeature.decorated(Features.Placements.HEIGHTMAP).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(5, 0.25f, 2))));
+				event.getGeneration().getStructures().add(() -> ModConfiguredStructures.CONFIGURED_LANDFILL);
+			}
 
 
-		if(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.PLAINS) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SAVANNA)) {
-			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.cornFeature);
-		}
+			if (BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.PLAINS) || BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SAVANNA)) {
+				event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ModFeatures.cornFeature);
+			}
 
-		if(!event.getCategory().equals(Biome.Category.NETHER) && !event.getCategory().equals(Biome.Category.THEEND)){
-			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_COPPER.get().defaultBlockState(), 10,32,128,3);
-			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_CINNABAR.get().defaultBlockState(), 3,70,256,6);
-			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_LEAD.get().defaultBlockState(), 6,10,80,8);
-			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_POTASSIUM.get().defaultBlockState(), 10,50,128,3);
-			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_TIN.get().defaultBlockState(), 5,5,128,8);
-			addOreFeature(event.getGeneration(),OreFeatureConfig.FillerBlockType.NATURAL_STONE,ModBlocks.ORE_ZINC.get().defaultBlockState(), 5,5,128,6);
+			if (!event.getCategory().equals(Biome.Category.NETHER) && !event.getCategory().equals(Biome.Category.THEEND)) {
+				addOreFeature(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.ORE_COPPER.get().defaultBlockState(), CommonConfig.copperVeinSize.get(), CommonConfig.copperMinY.get(), CommonConfig.copperMaxY.get(), CommonConfig.copperCount.get());
+				addOreFeature(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.ORE_CINNABAR.get().defaultBlockState(), CommonConfig.cinnabarVeinSize.get(), CommonConfig.cinnabarMinY.get(), CommonConfig.cinnabarMaxY.get(), CommonConfig.cinnabarCount.get());
+				addOreFeature(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.ORE_LEAD.get().defaultBlockState(), CommonConfig.leadVeinSize.get(), CommonConfig.leadMinY.get(), CommonConfig.leadMaxY.get(), CommonConfig.leadCount.get());
+				addOreFeature(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.ORE_POTASSIUM.get().defaultBlockState(), CommonConfig.potassiumVeinSize.get(), CommonConfig.potassiumMinY.get(), CommonConfig.potassiumCount.get(), CommonConfig.potassiumCount.get());
+				addOreFeature(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.ORE_TIN.get().defaultBlockState(), CommonConfig.tinVeinSize.get(), CommonConfig.tinMinY.get(), CommonConfig.tinMaxY.get(), CommonConfig.tinCount.get());
+				addOreFeature(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.ORE_ZINC.get().defaultBlockState(), CommonConfig.zincVeinSize.get(), CommonConfig.zincMinY.get(), CommonConfig.zincMaxY.get(), CommonConfig.zincCount.get());
+			}
 		}
 
 	}

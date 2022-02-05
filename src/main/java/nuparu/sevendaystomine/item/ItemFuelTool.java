@@ -26,16 +26,23 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.init.ModItems;
 import nuparu.sevendaystomine.util.Utils;
 
 public class ItemFuelTool extends ItemQualityTool implements IReloadable {
 
 	public SoundEvent refillSound;
+	//Units of fuel per canister
+	public int reloadAmount = 5;
 
 	public ItemFuelTool(float attackDamageIn, float attackSpeedIn, IItemTier materialIn, Set<Block> effectiveBlocksIn, Item.Properties properties) {
 		super(attackDamageIn, attackSpeedIn, materialIn, effectiveBlocksIn,properties);
+	}
+
+	public ItemFuelTool setReloadAmount(int amount){
+		this.reloadAmount = amount;
+		return this;
 	}
 
 
@@ -66,9 +73,9 @@ public class ItemFuelTool extends ItemQualityTool implements IReloadable {
 
 			stack.getOrCreateTag().putBoolean("Reloading", false);
 			int toReload = getCapacity(stack,player) - getAmmo(stack,player);
-			int reload = Math.min((int)Math.floor(toReload/5), Utils.getItemCount(player.inventory, bullet.getItem()));
+			int reload = Math.min((int)Math.floor(toReload/reloadAmount), Utils.getItemCount(player.inventory, bullet.getItem()));
 
-			setAmmo(stack, player, getAmmo(stack, player) + reload * 5);
+			setAmmo(stack, player, getAmmo(stack, player) + reload * reloadAmount);
 			Utils.clearMatchingItems(player.inventory, bullet.getItem(), reload);
 		}
 	}
@@ -142,8 +149,8 @@ public class ItemFuelTool extends ItemQualityTool implements IReloadable {
 			ItemStack stack = new ItemStack(this, 1);
 			if (player != null) {
 				setQuality(stack,
-						(int) Math.min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1),
-								CommonConfig.maxQuality.get()));
+						(int) Math.min(Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1),
+								ServerConfig.maxQuality.get()));
 				CompoundNBT nbt = stack.getOrCreateTag();
 				nbt.putInt("FuelMax", 1000);
 				nbt.putInt("FuelCurrent", 0);

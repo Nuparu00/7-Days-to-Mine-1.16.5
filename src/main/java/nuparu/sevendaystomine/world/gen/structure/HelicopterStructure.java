@@ -29,23 +29,49 @@ import nuparu.sevendaystomine.util.Utils;
 import java.util.List;
 
 public class HelicopterStructure extends Structure<NoFeatureConfig> {
+    /**
+     * || ONLY WORKS IN FORGE 34.1.12+ ||
+     * <p>
+     * This method allows us to have mobs that spawn naturally over time in our structure.
+     * No other mobs will spawn in the structure of the same entity classification.
+     * The reason you want to match the classifications is so that your structure's mob
+     * will contribute to that classification's cap. Otherwise, it may cause a runaway
+     * spawning of the mob that will never stop.
+     * <p>
+     * NOTE: getDefaultSpawnList is for monsters only and getDefaultCreatureSpawnList is
+     * for creatures only. If you want to add entities of another classification,
+     * use the StructureSpawnListGatherEvent to add water_creatures, water_ambient,
+     * ambient, or misc mobs. Use that event to add/remove mobs from structures
+     * that are not your own.
+     * <p>
+     * NOTE 2: getSpecialEnemies and getSpecialAnimals are the vanilla methods that Forge does
+     * not hook up. Do not use those methods or else the mobs won't spawn. You would
+     * have to manually implement spawning for them. Stick with Forge's Default form
+     * as it is easier to use that.
+     */
+    private static final List<MobSpawnInfo.Spawners> STRUCTURE_MONSTERS = ImmutableList.of(
+    );
+    private static final List<MobSpawnInfo.Spawners> STRUCTURE_CREATURES = ImmutableList.of(
+    );
+
+
     public HelicopterStructure(Codec<NoFeatureConfig> codec) {
         super(codec);
     }
+
     /**
      * This is how the worldgen code knows what to call when it
      * is time to create the pieces of the structure for generation.
      */
     @Override
-    public  IStartFactory<NoFeatureConfig> getStartFactory() {
+    public IStartFactory<NoFeatureConfig> getStartFactory() {
         return HelicopterStructure.Start::new;
     }
 
-
     /**
-     *        : WARNING!!! DO NOT FORGET THIS METHOD!!!! :
+     * : WARNING!!! DO NOT FORGET THIS METHOD!!!! :
      * If you do not override step method, your structure WILL crash the biome as it is being parsed!
-     *
+     * <p>
      * Generation stage for when to generate the structure. there are 10 stages you can pick from!
      * This surface structure stage places the structure before plants and ores are generated.
      */
@@ -54,36 +80,11 @@ public class HelicopterStructure extends Structure<NoFeatureConfig> {
         return GenerationStage.Decoration.SURFACE_STRUCTURES;
     }
 
-
-    /**
-     * || ONLY WORKS IN FORGE 34.1.12+ ||
-     *
-     * This method allows us to have mobs that spawn naturally over time in our structure.
-     * No other mobs will spawn in the structure of the same entity classification.
-     * The reason you want to match the classifications is so that your structure's mob
-     * will contribute to that classification's cap. Otherwise, it may cause a runaway
-     * spawning of the mob that will never stop.
-     *
-     * NOTE: getDefaultSpawnList is for monsters only and getDefaultCreatureSpawnList is
-     *       for creatures only. If you want to add entities of another classification,
-     *       use the StructureSpawnListGatherEvent to add water_creatures, water_ambient,
-     *       ambient, or misc mobs. Use that event to add/remove mobs from structures
-     *       that are not your own.
-     *
-     * NOTE 2: getSpecialEnemies and getSpecialAnimals are the vanilla methods that Forge does
-     *         not hook up. Do not use those methods or else the mobs won't spawn. You would
-     *         have to manually implement spawning for them. Stick with Forge's Default form
-     *         as it is easier to use that.
-     */
-    private static final List<MobSpawnInfo.Spawners> STRUCTURE_MONSTERS = ImmutableList.of(
-    );
     @Override
     public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {
         return STRUCTURE_MONSTERS;
     }
 
-    private static final List<MobSpawnInfo.Spawners> STRUCTURE_CREATURES = ImmutableList.of(
-    );
     @Override
     public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {
         return STRUCTURE_CREATURES;
@@ -119,10 +120,10 @@ public class HelicopterStructure extends Structure<NoFeatureConfig> {
      */
     @Override
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
-        if(Utils.isNearStructure(ModStructureFeatures.VILLAGE.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-        if(Utils.isNearStructure(ModStructureFeatures.CITY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-        if(Utils.isNearStructure(ModStructureFeatures.AIRPLANE.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
-        if(Utils.isNearStructure(ModStructureFeatures.OBSERVATORY.get(),chunkGenerator,seed,chunkRandom,chunkX,chunkZ)) return false;
+        if (Utils.isNearStructure(ModStructureFeatures.VILLAGE.get(), chunkGenerator, seed, chunkRandom, chunkX, chunkZ)) return false;
+        if (Utils.isNearStructure(ModStructureFeatures.CITY.get(), chunkGenerator, seed, chunkRandom, chunkX, chunkZ)) return false;
+        if (Utils.isNearStructure(ModStructureFeatures.AIRPLANE.get(), chunkGenerator, seed, chunkRandom, chunkX, chunkZ)) return false;
+        if (Utils.isNearStructure(ModStructureFeatures.OBSERVATORY.get(), chunkGenerator, seed, chunkRandom, chunkX, chunkZ)) return false;
 
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
@@ -158,7 +159,7 @@ public class HelicopterStructure extends Structure<NoFeatureConfig> {
             int z = chunkZ * 16;
 
             BlockPos centerPos = new BlockPos(x, 0, z);
-          JigsawManager.addPieces(
+            JigsawManager.addPieces(
                     dynamicRegistryManager,
                     new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
                             // The path to the starting Template Pool JSON file to read.
@@ -198,7 +199,7 @@ public class HelicopterStructure extends Structure<NoFeatureConfig> {
             Vector3i structureCenter = this.pieces.get(0).getBoundingBox().getCenter();
             int xOffset = centerPos.getX() - structureCenter.getX();
             int zOffset = centerPos.getZ() - structureCenter.getZ();
-            for(StructurePiece structurePiece : this.pieces){
+            for (StructurePiece structurePiece : this.pieces) {
                 structurePiece.move(xOffset, -1, zOffset);
             }
             this.calculateBoundingBox();

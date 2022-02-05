@@ -12,7 +12,7 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.IItemHandler;
 import nuparu.sevendaystomine.SevenDaysToMine;
-import nuparu.sevendaystomine.config.CommonConfig;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.crafting.scrap.ScrapDataManager;
 import nuparu.sevendaystomine.item.EnumMaterial;
 import nuparu.sevendaystomine.item.EnumQuality;
@@ -110,7 +110,7 @@ public class ItemUtils {
 	public static double getAttackDamageModifiedTool(ItemStack stack) {
 		if(!(stack.getItem() instanceof ToolItem)) return 0;
 		ToolItem tool = (ToolItem)stack.getItem();
-		return tool.getAttackDamage() * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return tool.getAttackDamage() * (0.5 + 1.5 * ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	public static double getAttackSpeedModifiedTool(ItemStack stack) {
@@ -126,13 +126,13 @@ public class ItemUtils {
 			}
 		}
 
-		return speed * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return speed * (0.5 + 1.5 * ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	public static double getAttackDamageModifiedSword(ItemStack stack) {
 		if(!(stack.getItem() instanceof SwordItem)) return 0;
 		SwordItem tool = (SwordItem)stack.getItem();
-		return tool.getDamage() * (1f + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return tool.getDamage() * (0.5 + 1.5 * ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	public static double getAttackSpeedModifiedSword(ItemStack stack) {
@@ -146,19 +146,19 @@ public class ItemUtils {
 				speed+=modifier.getAmount();
 			}
 		}
-		return speed * (1 + ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return speed * (0.5 + 1.5 * ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	public static double getDamageReduction(ItemStack stack) {
 		if(!(stack.getItem() instanceof ArmorItem)) return 0;
 		ArmorItem armor = (ArmorItem)stack.getItem();
-		return armor.getDefense() * (((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return armor.getDefense() * (((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	public static double getToughness(ItemStack stack) {
 		if(!(stack.getItem() instanceof ArmorItem)) return 0;
 		ArmorItem armor = (ArmorItem)stack.getItem();
-		return armor.getToughness() * (((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()));
+		return armor.getToughness() * (((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()));
 	}
 
 	//Returns whether given item is SUITABLE for quality, not whether it actually has a value

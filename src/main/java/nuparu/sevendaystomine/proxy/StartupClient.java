@@ -117,6 +117,8 @@ public class StartupClient {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.CHLORINE_GRENADE.get(), ChlorineGrenadeRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.MOLOTOV.get(), MolotovRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.CAR.get(), CarRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.TWISTED_ZOMBIE.get(), TwistedZombieRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.VOMIT.get(), VomitRenderer::new);
 
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SOLAR_PANEL.get(), TileEntitySolarPanelRenderer::new);
@@ -158,6 +160,10 @@ public class StartupClient {
 
         event.enqueueWork(() -> Atlases.addWoodType(SevenDaysToMine.STREET_WOOD_TYPE));
         event.enqueueWork(StartupClient::addLayerRenderers);
+
+        ItemModelsProperties.register(ModItems.RIOT_SHIELD.get(),new ResourceLocation("blocking"), (p_239421_0_, p_239421_1_, p_239421_2_) -> {
+            return p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == p_239421_0_ ? 1.0F : 0.0F;
+        });
     }
 
     public static void addLayerRenderers(){

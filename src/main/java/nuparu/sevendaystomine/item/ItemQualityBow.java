@@ -30,8 +30,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.util.MathUtils;
 
 public class ItemQualityBow extends BowItem implements IQuality {
@@ -68,7 +68,7 @@ public class ItemQualityBow extends BowItem implements IQuality {
 	                   ArrowItem arrowitem = (ArrowItem)(itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
 	                   AbstractArrowEntity abstractarrowentity = arrowitem.createArrow(world, itemstack, playerentity);
 	                   abstractarrowentity = customArrow(abstractarrowentity);
-	                   abstractarrowentity.shootFromRotation(playerentity, playerentity.xRot, playerentity.yRot, 0.0F, (float) (f * 3.0F * (1f + MathUtils.bias(EnumQualityState.isQualitySystemOn() ? ((float) getQuality(stack) / (float) CommonConfig.maxQuality.get()) : 1, 0.4))), 1.0F);
+	                   abstractarrowentity.shootFromRotation(playerentity, playerentity.xRot, playerentity.yRot, 0.0F, (float) (f * 3.0F * (1f + MathUtils.bias(EnumQualityState.isQualitySystemOn() ? ((float) getQuality(stack) / (float) ServerConfig.maxQuality.get()) : 1, 0.4))), 1.0F);
 	                   if (f == 1.0F) {
 	                      abstractarrowentity.setCritArrow(true);
 	                   }
@@ -138,8 +138,8 @@ public class ItemQualityBow extends BowItem implements IQuality {
 	@Override
 	public void onCraftedBy(ItemStack itemstack, World world, PlayerEntity player) {
 		setQuality(itemstack,
-				(int) Math.min(Math.max(Math.floor(player.totalExperience / CommonConfig.xpPerQuality.get()), 1),
-						CommonConfig.maxQuality.get()));
+				(int) Math.min(Math.max(Math.floor(player.totalExperience / ServerConfig.xpPerQuality.get()), 1),
+						ServerConfig.maxQuality.get()));
 	}
 
 	@Override

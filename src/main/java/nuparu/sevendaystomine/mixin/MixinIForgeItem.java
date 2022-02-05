@@ -9,8 +9,8 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.extensions.IForgeItem;
-import nuparu.sevendaystomine.config.CommonConfig;
 import nuparu.sevendaystomine.config.EnumQualityState;
+import nuparu.sevendaystomine.config.ServerConfig;
 import nuparu.sevendaystomine.item.ItemArmorBase;
 import nuparu.sevendaystomine.item.ItemQuality;
 import nuparu.sevendaystomine.util.ItemUtils;
@@ -27,7 +27,7 @@ public interface MixinIForgeItem {
      */
     @Overwrite(remap = false)
     default int getRGBDurabilityForDisplay(ItemStack stack){
-        if(CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
+        if(ServerConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
             switch (PlayerUtils.getQualityTierFromStack(stack)) {
                 case FLAWLESS:
                    return 0xA300A3;
@@ -54,7 +54,7 @@ public interface MixinIForgeItem {
     default Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack)
     {
         IForgeItem thys = ((IForgeItem) this);
-        if(stack != null && CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
+        if(stack != null && ServerConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
             Multimap<Attribute, AttributeModifier> multimap = HashMultimap.<Attribute, AttributeModifier>create();
             if (thys instanceof ArmorItem){
                 ArmorItem armor = (ArmorItem)thys;
@@ -108,7 +108,7 @@ public interface MixinIForgeItem {
     {
         Item item = ((IForgeItem) this).getItem();
         int damage = item.getMaxDamage();
-        if(PlayerUtils.isVanillaItemSuitableForQuality(this) && CommonConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
+        if(PlayerUtils.isVanillaItemSuitableForQuality(this) && ServerConfig.qualitySystem.get() == EnumQualityState.ALL && PlayerUtils.isVanillaQualityItem(stack)){
             if (stack.getTag() != null) {
                 damage += ItemQuality.getQualityFromStack(stack);
             }

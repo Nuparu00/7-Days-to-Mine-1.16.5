@@ -7,6 +7,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import nuparu.sevendaystomine.SevenDaysToMine;
+import nuparu.sevendaystomine.entity.TwistedZombieEntity;
 import nuparu.sevendaystomine.item.*;
 import nuparu.sevendaystomine.computer.EnumSystem;
 
@@ -33,17 +34,18 @@ public class ModItems {
 	public static final RegistryObject<Item> COFFEE_BEANS = ITEMS.register("coffee_beans", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth", () -> new Item(new Item.Properties().tab(ModItemGroups.TAB_MATERIALS)));
 	public static final RegistryObject<Item> STONE_AXE = ITEMS.register("stone_axe", () -> new ItemStoneAxe(ModItemTier.STONE_TOOLS, 0, -2, new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> STONE_SHOVEL = ITEMS.register("stone_shovel", () -> new ItemQualitySpade(ModItemTier.STONE_TOOLS, -1f, 8f, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> STONE_SHOVEL = ITEMS.register("stone_shovel", () -> new ItemQualitySpade(ModItemTier.STONE_TOOLS, -3f, 8f, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> BONE_SHIV = ITEMS.register("bone_shiv", () -> new ItemQualitySword(ModItemTier.BONE_TOOLS, 0, 8f, new Item.Properties().stacksTo(1), EnumLength.SHORT));
 	public static final RegistryObject<Item> CRUDE_CLUB = ITEMS.register("crude_club", () -> new ItemQualitySword(ModItemTier.CRUDE_TOOLS, 0, -3.14f, new Item.Properties().stacksTo(1), EnumLength.LONG));
 	public static final RegistryObject<Item> WOODEN_CLUB = ITEMS.register("wooden_club", () -> new ItemQualitySword(ModItemTier.WOODEN_TOOLS, 0, -3.14f, new Item.Properties().stacksTo(1), EnumLength.LONG));
 	public static final RegistryObject<Item> IRON_REINFORCED_CLUB = ITEMS.register("iron_reinforced_club", () -> new ItemQualitySword(ModItemTier.WOODEN_REINFORCED_TOOLS, 0, -3.2f, new Item.Properties().stacksTo(1), EnumLength.LONG));
 	public static final RegistryObject<Item> BARBED_CLUB = ITEMS.register("barbed_club", () -> new ItemQualitySword(ModItemTier.BARBED_TOOLS, 0, -3.22f, new Item.Properties().stacksTo(1), EnumLength.LONG));
 	public static final RegistryObject<Item> SPIKED_CLUB = ITEMS.register("spiked_club", () -> new ItemQualitySword(ModItemTier.SPIKED_TOOLS, 0, -3.22f, new Item.Properties().stacksTo(1), EnumLength.LONG));
-	public static final RegistryObject<Item> CLAWHAMMER = ITEMS.register("clawhammer", () -> new ItemClawhammer(ModItemTier.IRON_TOOLS, 0, 1, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> CLAWHAMMER = ITEMS.register("clawhammer", () -> new ItemClawhammer(ModItemTier.IRON_TOOLS, 0, -3.2f, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", () -> new ItemWrench(ModItemTier.IRON_TOOLS));
-	public static final RegistryObject<Item> KITCHEN_KNIFE = ITEMS.register("kitchen_knife", () -> new ItemQualitySword(ModItemTier.IRON_TOOLS, 0, 8f, new Item.Properties().stacksTo(1), EnumLength.SHORT));
-	public static final RegistryObject<Item> ARMY_KNIFE = ITEMS.register("army_knife", () -> new ItemQualitySword(ModItemTier.ARMY_TOOLS, 0, 8f, new Item.Properties().stacksTo(1), EnumLength.SHORT));
+	public static final RegistryObject<Item> KITCHEN_KNIFE = ITEMS.register("kitchen_knife", () -> new ItemQualitySword(ModItemTier.IRON_TOOLS, 0, -2.8f, new Item.Properties().stacksTo(1), EnumLength.SHORT));
+	public static final RegistryObject<Item> ARMY_KNIFE = ITEMS.register("army_knife", () -> new ItemQualitySword(ModItemTier.ARMY_TOOLS, 0, -2.8f, new Item.Properties().stacksTo(1), EnumLength.SHORT));
+	//public static final RegistryObject<Item> DIAMOND_KNIFE = ITEMS.register("diamond_knife", () -> new ItemQualitySword(ModItemTier.DIAMOND_KNIFE, 0, -2.8f, new Item.Properties().stacksTo(1), EnumLength.SHORT));
 	public static final RegistryObject<Item> MACHETE = ITEMS.register("machete", () -> new ItemQualitySword(ModItemTier.MACHETE, 0, 8f, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver", () -> new ItemScrewdriver());
 	public static final RegistryObject<Item> PISTOL = ITEMS.register("pistol", () -> new ItemPistol());
@@ -143,8 +145,10 @@ public class ModItems {
 			
 			*/
 
-	public static final RegistryObject<Item> AUGER = ITEMS.register("auger", () -> new ItemAuger(20, 20, ModItemTier.AUGER));
-	public static final RegistryObject<Item> CHAINSAW = ITEMS.register("chainsaw", () -> new ItemChainsaw(20, 20, ModItemTier.AUGER));
+	public static final RegistryObject<Item> AUGER = ITEMS.register("auger", () -> new ItemAuger(4, 12, ModItemTier.AUGER));
+	public static final RegistryObject<Item> NETHERITE_AUGER = ITEMS.register("netherite_auger", () -> new ItemAuger(6, 20, ModItemTier.NETHERITE_AUGER).setReloadAmount(2));
+	public static final RegistryObject<Item> CHAINSAW = ITEMS.register("chainsaw", () -> new ItemChainsaw(5, 12, ModItemTier.AUGER));
+	public static final RegistryObject<Item> NETHERITE_CHAINSAW = ITEMS.register("netherite_chainsaw", () -> new ItemChainsaw(7, 20, ModItemTier.NETHERITE_AUGER).setReloadAmount(2));
 	public static final RegistryObject<Item> COPPER_PICKAXE = ITEMS.register("copper_pickaxe", () -> new ItemQualityPickaxe(ModItemTier.COPPER_TOOLS, 0, -2.8f, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> BRONZE_PICKAXE = ITEMS.register("bronze_pickaxe", () -> new ItemQualityPickaxe(ModItemTier.BRONZE_TOOLS, 0, -2.8f, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> IRON_PICKAXE = ITEMS.register("iron_pickaxe", () -> new ItemQualityPickaxe(ModItemTier.IRON_TOOLS, 0, -2.8f, new Item.Properties().stacksTo(1)));
@@ -371,6 +375,7 @@ public class ModItems {
 	public static final RegistryObject<Item> ZOMBIE_POLICEMAN_SPAWN_EGG = ITEMS.register("zombie_policeman_spawn_egg", () -> new SpawnEggItem(ModEntities.ZOMBIE_POLICEMAN_RAW, 0x342A44, 0x4F593B, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> ZOMBIE_WOLF_SPAWN_EGG = ITEMS.register("zombie_wolf_spawn_egg", () -> new SpawnEggItem(ModEntities.ZOMBIE_WOLF_RAW, 0x827E7E, 0x851919, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 	public static final RegistryObject<Item> ZOMBIE_PIG_SPAWN_EGG = ITEMS.register("zombie_pig_spawn_egg", () -> new SpawnEggItem(ModEntities.ZOMBIE_PIG_RAW, 0xD39294, 0x852122, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
+	public static final RegistryObject<Item> TWISTED_ZOMBIE_SPAWN_EGG = ITEMS.register("twisted_zombie_spawn_egg", () -> new SpawnEggItem(ModEntities.TWISTED_ZOMBIE_RAW, 0x11ccbb, 0x555555, (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
 
 
 	public static final RegistryObject<Item> SLEEPING_BAG_BLACK = ITEMS.register("sleeping_bag_black",

@@ -36,13 +36,13 @@ public class ZombieWolfEntity<T extends ZombieWolfEntity> extends ZombieBipedEnt
 
 	@Override
 	protected int getExperienceReward(PlayerEntity p_70693_1_) {
-		return 10;
+		return 18;
 	}
 	
 	public static AttributeModifierMap createAttributes() {
 		return MonsterEntity.createMonsterAttributes( ).add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.25000001192092896d).add(Attributes.ATTACK_DAMAGE, 4.0D)
-				.add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 65).build();
+				.add(Attributes.ARMOR, 0.0D).add(Attributes.MAX_HEALTH, 50).build();
 	}
 
 	@OnlyIn(Dist.CLIENT)
